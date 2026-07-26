@@ -3,29 +3,22 @@ import json
 import secrets
 import threading
 
+import requests
 from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel
-from huggingface_hub import hf_hub_download
-from llama_cpp import Llama
 import uvicorn
 
 # ---------- CONFIG ----------
-# Small quantized model that can run on free CPU hosting.
-# Swap REPO_ID / FILENAME for a different GGUF model if you want.
-REPO_ID = "Qwen/Qwen2.5-0.5B-Instruct-GGUF"
-FILENAME = "qwen2.5-0.5b-instruct-q4_k_m.gguf"
+# Free Hugging Face model served via HF's free Inference API.
+# This token is YOURS (free HF account) - users never see it, they only get your jagx- keys.
+HF_TOKEN = os.environ.get("HF_TOKEN", "")
+HF_MODEL_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-1.5B-Instruct"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
 
-# ---------- APP + MODEL ----------
 app = FastAPI(title="JagX AI 2.0")
 lock = threading.Lock()
-
-print("Downloading model (first boot only, cached after)...")
-model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
-llm = Llama(model_path=model_path, n_ctx=2048, n_threads=2)
-print("Model loaded.")
 
 
 # ---------- KEY STORAGE ----------
@@ -82,17 +75,28 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     if not is_valid_key(x_api_key):
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
 
-    output = llm.create_chat_completion(
-        messages=[
-            {"role": "system", "content": "You are JagX AI, a helpful assistant."},
-            {"role": "user", "content": req.message},
-        ],
-        max_tokens=req.max_tokens,
-    )
-    reply = output["choices"][0]["message"]["content"]
+    if not HF_TOKEN:
+        raise HTTPException(status_code=500, detail="Server misconfigured: missing HF_TOKEN")
+
+    payload = {
+        "inputs": f"<|im_start|>system\nYou are JagX AI, a helpful assistant.<|im_end|>\n<|im_start|>user\n{req.message}<|im_end|>\n<|im_start|>assistant\n",
+        "parameters": {"max_new_tokens": req.max_tokens, "return_full_text": False},
+    }
+    headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+
+    r = requests.post(HF_MODEL_URL, headers=headers, json=payload, timeout=60)
+
+    if r.status_code == 503:
+        raise HTTPException(status_code=503, detail="Model is loading on HF, try again in ~20 seconds")
+    if r.status_code != 200:
+        raise HTTPException(status_code=502, detail=f"HF API error: {r.text}")
+
+    data = r.json()
+    reply = data[0]["generated_text"] if isinstance(data, list) else str(data)
     return {"response": reply}
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
+        
