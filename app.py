@@ -5,12 +5,11 @@ import threading
 
 import requests
 from fastapi import FastAPI, HTTPException, Header
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import uvicorn
 
 # ---------- CONFIG ----------
-# Free Hugging Face model served via HF's free Inference API.
-# This token is YOURS (free HF account) - users never see it, they only get your jagx- keys.
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
 HF_MODEL_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-1.5B-Instruct"
 
@@ -96,7 +95,82 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     return {"response": reply}
 
 
+# ---------- FRONTEND ----------
+CHAT_UI_HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JagX AI</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; background: #0d0d0f; color: #eee; margin: 0; padding: 16px; }
+    h1 { font-size: 20px; color: #7c5cff; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 10px; margin: 6px 0; border-radius: 8px; border: 1px solid #333; background: #1a1a1e; color: #eee; }
+    button { width: 100%; padding: 12px; background: #7c5cff; color: white; border: none; border-radius: 8px; font-size: 16px; margin-top: 8px; }
+    button:disabled { opacity: 0.5; }
+    #chatBox { margin-top: 16px; }
+    .msg { padding: 10px; border-radius: 8px; margin: 6px 0; }
+    .user { background: #23232a; }
+    .ai { background: #2a1f4d; }
+    label { font-size: 13px; color: #aaa; }
+  </style>
+</head>
+<body>
+  <h1>JagX AI 2.0</h1>
+  <label>Your JagX API key</label>
+  <input id="apiKey" type="text" placeholder="jagx-xxxxxxxxxxxx">
+  <label>Message</label>
+  <textarea id="message" rows="3" placeholder="Ask JagX something..."></textarea>
+  <button id="sendBtn" onclick="sendMessage()">Send</button>
+  <div id="chatBox"></div>
+
+  <script>
+    async function sendMessage() {
+      const key = document.getElementById('apiKey').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const chatBox = document.getElementById('chatBox');
+      const btn = document.getElementById('sendBtn');
+
+      if (!key || !message) { alert('Enter both your API key and a message.'); return; }
+
+      chatBox.innerHTML += `<div class="msg user"><b>You:</b> ${message}</div>`;
+      document.getElementById('message').value = '';
+      btn.disabled = true;
+      btn.innerText = 'Thinking...';
+
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': key },
+          body: JSON.stringify({ message: message, max_tokens: 200 })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          chatBox.innerHTML += `<div class="msg ai"><b>JagX:</b> ${data.response}</div>`;
+        } else {
+          chatBox.innerHTML += `<div class="msg ai"><b>Error:</b> ${data.detail}</div>`;
+        }
+      } catch (e) {
+        chatBox.innerHTML += `<div class="msg ai"><b>Error:</b> ${e.message}</div>`;
+      }
+
+      btn.disabled = false;
+      btn.innerText = 'Send';
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  </script>
+</body>
+</html>
+"""
+
+
+@app.get("/chat-ui", response_class=HTMLResponse)
+def chat_ui():
+    return CHAT_UI_HTML
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
-        
+    
