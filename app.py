@@ -16,11 +16,20 @@ HF_MODEL_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-1.5B-In
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
 
+# Permanent keys that survive redeploys - set this in Render's Environment tab.
+# Format: comma-separated, e.g. "jagx-abc123,jagx-def456"
+PERMANENT_KEYS = set(
+    k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip()
+)
+
 app = FastAPI(title="JagX AI 2.0")
 lock = threading.Lock()
 
 
 # ---------- KEY STORAGE ----------
+# NOTE: keys.json only survives while the container stays running (e.g. across
+# free-tier idle spin-down/wake). It resets on every new deploy. For a key that
+# must never disappear, add it to the JAGX_PERMANENT_KEYS env var in Render instead.
 def load_keys():
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
@@ -35,6 +44,8 @@ def save_keys(keys):
 
 
 def is_valid_key(key: str) -> bool:
+    if key in PERMANENT_KEYS:
+        return True
     keys = load_keys()
     return key in keys and keys[key].get("active", True)
 
@@ -173,4 +184,3 @@ def chat_ui():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
-    
