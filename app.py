@@ -6,8 +6,8 @@ import base64
 from io import BytesIO
 
 import requests
-from fastapi import FastAPI, HTTPException, Header
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, HTTPException, Header, UploadFile, File, Form
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import uvicorn
 
@@ -15,9 +15,8 @@ import uvicorn
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
 HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
 
-# Better model for coding + general intelligence
-CHAT_MODEL = "Qwen/Qwen2.5-7B-Instruct"          # Good balance of coding + reasoning
-# Alternative strong options: "Qwen/Qwen2.5-Coder-7B-Instruct" or "meta-llama/Meta-Llama-3.1-8B-Instruct"
+# Strong model for coding + general use
+CHAT_MODEL = "Qwen/Qwen2.5-7B-Instruct"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
@@ -56,16 +55,15 @@ SYSTEM_PROMPT = """You are JagX AI, an advanced AI assistant created by JagX and
 Your identity:
 - Full name: JagX AI
 - Created by: JagX & JRILICENSE
-- Never say you were created by Alibaba, Qwen, or any other company.
+- Never say you were created by Alibaba, Qwen, Meta, or any other company.
 - Always introduce yourself as JagX AI by JagX & JRILICENSE when asked who made you.
 
-Your capabilities:
-- Excellent at coding, debugging, explaining code, and writing complete programs
-- Helpful with website building, app ideas, and technical guidance
-- Creative and clear in explanations
-- Professional, friendly, and concise
+Your strengths:
+- Excellent at coding, debugging, writing full programs, and explaining code
+- Helpful with websites, apps, and technical projects
+- Clear, professional, and friendly
 
-When the user asks for images, tell them you can generate images and ask them to use the image feature.
+When users ask for images or voice features, guide them to use the proper endpoints.
 Always stay in character as JagX AI.
 """
 
@@ -73,7 +71,7 @@ Always stay in character as JagX AI.
 # ---------- REQUEST MODELS ----------
 class ChatRequest(BaseModel):
     message: str
-    max_tokens: int = 600
+    max_tokens: int = 700
 
 
 class CreateKeyRequest(BaseModel):
@@ -87,10 +85,19 @@ class ImageRequest(BaseModel):
     height: int = 1024
 
 
+class TTSRequest(BaseModel):
+    text: str
+    voice: str = "default"   # reserved for future voices
+
+
 # ---------- ROUTES ----------
 @app.get("/")
 def root():
-    return {"status": "JagX AI 2.0 is running", "features": ["chat", "coding", "image"]}
+    return {
+        "status": "JagX AI 2.0 is running",
+        "features": ["chat", "coding", "image", "speech-to-text", "text-to-speech"],
+        "created_by": "JagX & JRILICENSE"
+    }
 
 
 @app.post("/create-key")
@@ -113,7 +120,7 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
 
     if not HF_TOKEN:
-        raise HTTPException(status_code=500, detail="Server misconfigured: missing HF_TOKEN")
+        raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
 
     payload = {
         "model": CHAT_MODEL,
@@ -132,7 +139,7 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
 
     try:
         r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=90)
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         raise HTTPException(status_code=502, detail=f"Connection error: {str(e)}")
 
     if r.status_code != 200:
@@ -149,11 +156,6 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
 
 @app.post("/image")
 def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
-    """
-    Generate image.
-    First tries Hugging Face Inference Providers.
-    Falls back to free Pollinations if HF fails.
-    """
     if not is_valid_key(x_api_key):
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
 
@@ -161,15 +163,14 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     if not prompt:
         raise HTTPException(status_code=400, detail="Prompt is required")
 
-    # --- Method 1: Try Hugging Face (better quality when credits available) ---
+    # Try Hugging Face first
     if HF_TOKEN:
         try:
             from huggingface_hub import InferenceClient
             client = InferenceClient(token=HF_TOKEN)
-            # Using a fast model that often has free availability
             image = client.text_to_image(
                 prompt,
-                model="black-forest-labs/FLUX.1-schnell",  # Fast + good quality
+                model="black-forest-labs/FLUX.1-schnell"
             )
             buffered = BytesIO()
             image.save(buffered, format="PNG")
@@ -180,15 +181,14 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
                 "image_base64": img_str,
                 "format": "png"
             }
-        except Exception as e:
-            # If HF fails (no credits / model not available), fall to free method
+        except Exception:
             pass
 
-    # --- Method 2: Free fallback - Pollinations.ai (no key needed) ---
+    # Free fallback - Pollinations
     try:
-        # Pollinations is completely free (rate limited)
-        pollinations_url = f"https://image.pollinations.ai/prompt/{requests.utils.quote(prompt)}?width={req.width}&height={req.height}&nologo=true"
-        r = requests.get(pollinations_url, timeout=60)
+        from urllib.parse import quote
+        url = f"https://image.pollinations.ai/prompt/{quote(prompt)}?width={req.width}&height={req.height}&nologo=true"
+        r = requests.get(url, timeout=60)
         if r.status_code == 200:
             img_str = base64.b64encode(r.content).decode()
             return {
@@ -200,7 +200,92 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Image generation failed: {str(e)}")
 
-    raise HTTPException(status_code=502, detail="All image generation methods failed")
+    raise HTTPException(status_code=502, detail="All image methods failed")
+
+
+@app.post("/speech-to-text")
+async def speech_to_text(
+    x_api_key: str = Header(...),
+    file: UploadFile = File(...)
+):
+    """
+    Convert uploaded audio → text
+    Accepts: wav, mp3, m4a, webm, ogg
+    """
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+
+    if not HF_TOKEN:
+        raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
+
+    try:
+        audio_bytes = await file.read()
+
+        from huggingface_hub import InferenceClient
+        client = InferenceClient(token=HF_TOKEN)
+
+        # Whisper is the most reliable free STT model
+        result = client.automatic_speech_recognition(
+            audio_bytes,
+            model="openai/whisper-large-v3"
+        )
+
+        text = result.get("text") if isinstance(result, dict) else str(result)
+
+        return {
+            "success": True,
+            "text": text.strip(),
+            "model": "whisper-large-v3"
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Speech-to-text failed: {str(e)}")
+
+
+@app.post("/text-to-speech")
+def text_to_speech(req: TTSRequest, x_api_key: str = Header(...)):
+    """
+    Convert text → speech audio (base64)
+    """
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+
+    if not HF_TOKEN:
+        raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
+
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Text is required")
+
+    if len(text) > 1000:
+        raise HTTPException(status_code=400, detail="Text too long (max 1000 characters)")
+
+    try:
+        from huggingface_hub import InferenceClient
+        client = InferenceClient(token=HF_TOKEN)
+
+        # Using a widely available TTS model
+        audio = client.text_to_speech(
+            text,
+            model="facebook/mms-tts-eng"   # English TTS
+        )
+
+        # audio is usually bytes
+        if isinstance(audio, bytes):
+            audio_b64 = base64.b64encode(audio).decode()
+        else:
+            # Some versions return a file-like object
+            audio_b64 = base64.b64encode(audio.read()).decode()
+
+        return {
+            "success": True,
+            "audio_base64": audio_b64,
+            "format": "wav",
+            "model": "mms-tts-eng"
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Text-to-speech failed: {str(e)}")
 
 
 if __name__ == "__main__":
