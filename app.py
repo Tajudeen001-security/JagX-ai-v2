@@ -13,7 +13,7 @@ import uvicorn
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
 # New OpenAI-compatible endpoint (works with Inference Providers)
 HF_MODEL_URL = "https://router.huggingface.co/v1/chat/completions"
-MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
+MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
