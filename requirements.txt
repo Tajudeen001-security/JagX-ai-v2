@@ -3,3 +3,4 @@ uvicorn==0.30.6
 requests==2.32.3
 huggingface_hub
 Pillow
+python-multipart
