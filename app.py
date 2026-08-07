@@ -11,7 +11,7 @@ import uvicorn
 
 # ---------- CONFIG ----------
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
-HF_MODEL_URL = "https://router.huggingface.co/hf-inference/models/Qwen/Qwen2.5-1.5B-Instruct"
+HF_MODEL_URL = "https://router.huggingface.co/v1/chat/completions"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
