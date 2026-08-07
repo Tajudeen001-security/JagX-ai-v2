@@ -11,7 +11,9 @@ import uvicorn
 
 # ---------- CONFIG ----------
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
+# New OpenAI-compatible endpoint (works with Inference Providers)
 HF_MODEL_URL = "https://router.huggingface.co/v1/chat/completions"
+MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
@@ -27,9 +29,6 @@ lock = threading.Lock()
 
 
 # ---------- KEY STORAGE ----------
-# NOTE: keys.json only survives while the container stays running (e.g. across
-# free-tier idle spin-down/wake). It resets on every new deploy. For a key that
-# must never disappear, add it to the JAGX_PERMANENT_KEYS env var in Render instead.
 def load_keys():
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
@@ -88,21 +87,40 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     if not HF_TOKEN:
         raise HTTPException(status_code=500, detail="Server misconfigured: missing HF_TOKEN")
 
+    # Modern OpenAI-compatible format
     payload = {
-        "inputs": f"<|im_start|>system\nYou are JagX AI, a helpful assistant.<|im_end|>\n<|im_start|>user\n{req.message}<|im_end|>\n<|im_start|>assistant\n",
-        "parameters": {"max_new_tokens": req.max_tokens, "return_full_text": False},
+        "model": MODEL_NAME,
+        "messages": [
+            {"role": "system", "content": "You are JagX AI, a helpful assistant."},
+            {"role": "user", "content": req.message}
+        ],
+        "max_tokens": req.max_tokens,
+        "temperature": 0.7,
     }
-    headers = {"Authorization": f"Bearer {HF_TOKEN}"}
 
-    r = requests.post(HF_MODEL_URL, headers=headers, json=payload, timeout=60)
+    headers = {
+        "Authorization": f"Bearer {HF_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    try:
+        r = requests.post(HF_MODEL_URL, headers=headers, json=payload, timeout=60)
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Request to Hugging Face failed: {str(e)}")
 
     if r.status_code == 503:
-        raise HTTPException(status_code=503, detail="Model is loading on HF, try again in ~20 seconds")
+        raise HTTPException(status_code=503, detail="Model is loading, try again in \~20 seconds")
+
     if r.status_code != 200:
+        # Return the real error from Hugging Face so you can see it
         raise HTTPException(status_code=502, detail=f"HF API error: {r.text}")
 
-    data = r.json()
-    reply = data[0]["generated_text"] if isinstance(data, list) else str(data)
+    try:
+        data = r.json()
+        reply = data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError, TypeError, json.JSONDecodeError):
+        raise HTTPException(status_code=502, detail=f"Unexpected response from HF: {r.text}")
+
     return {"response": reply}
 
 
