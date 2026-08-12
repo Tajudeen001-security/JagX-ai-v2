@@ -1,13 +1,12 @@
 """
-JagX AI 3.0 — Strong Coding Backend
-Upgrades over v2:
-- Stronger default model (Qwen2.5-Coder / larger instruct)
+JagX AI 3.1 — Strong Coding + Multi-Provider Backend
+Upgrades:
+- Dual provider: Hugging Face + NVIDIA NIM with automatic failover
+- Stronger default coding models
 - Multi-turn chat history
-- Higher max_tokens
 - OpenAI-compatible /v1/chat/completions
 - Coding-optimized system prompt
-- Temperature + model selection
-- Better errors + retries
+- Image / Video / STT / TTS kept intact
 """
 
 import os
@@ -17,24 +16,42 @@ import threading
 import base64
 import time
 from urllib.parse import quote
-from typing import List, Optional, Any
+from typing import List, Optional
 
 import requests
 from fastapi import FastAPI, HTTPException, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 import uvicorn
 
 # ---------- CONFIG ----------
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
+NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY") or os.environ.get("NVIDIA_NIM_API_KEY", "")
 AGNES_API_KEY = os.environ.get("AGNES_API_KEY", "")
-HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
 
-DEFAULT_MODEL = os.environ.get("CHAT_MODEL", "Qwen/Qwen2.5-Coder-14B-Instruct")
-FALLBACK_MODEL = os.environ.get("FALLBACK_MODEL", "Qwen/Qwen2.5-14B-Instruct")
-# Optional stronger models:
-# Qwen/Qwen2.5-Coder-32B-Instruct
-# Qwen/Qwen2.5-72B-Instruct
+HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
+NVIDIA_CHAT_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
+
+# Default model lists (can be overridden by env)
+HF_MODELS = [
+    m.strip()
+    for m in os.environ.get(
+        "HF_MODELS",
+        "Qwen/Qwen2.5-Coder-7B-Instruct,Qwen/Qwen2.5-Coder-14B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-14B-Instruct",
+    ).split(",")
+    if m.strip()
+]
+
+NVIDIA_MODELS = [
+    m.strip()
+    for m in os.environ.get(
+        "NVIDIA_MODELS",
+        "qwen/qwen2.5-coder-32b-instruct,qwen/qwen2.5-7b-instruct,meta/llama-3.1-70b-instruct,nvidia/llama-3.1-nemotron-70b-instruct",
+    ).split(",")
+    if m.strip()
+]
+
+DEFAULT_MODEL = os.environ.get("CHAT_MODEL", HF_MODELS[0] if HF_MODELS else "Qwen/Qwen2.5-Coder-7B-Instruct")
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
@@ -43,9 +60,9 @@ PERMANENT_KEYS = set(
 )
 
 app = FastAPI(
-    title="JagX AI 3.0",
-    description="Strong coding + multimodal AI API by JagX & JRILICENSE",
-    version="3.0.0",
+    title="JagX AI 3.1",
+    description="Strong coding + multimodal AI API by JagX & JRILICENSE — dual provider (HF + NVIDIA)",
+    version="3.1.0",
 )
 lock = threading.Lock()
 
@@ -57,12 +74,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = """You are JagX AI 3.0 — an elite AI engineer and cybersecurity specialist created by JagX & JRILICENSE.
+SYSTEM_PROMPT = """You are JagX AI 3.1 — an elite AI engineer and cybersecurity specialist created by JagX & JRILICENSE.
 
 IDENTITY (never break character):
 - Full name: JagX AI
 - Created by: JagX & JRILICENSE
-- Never claim you were made by Alibaba, Qwen, Meta, OpenAI, Google, or any other company.
+- Never claim you were made by Alibaba, Qwen, Meta, OpenAI, Google, NVIDIA, or any other company.
 - When asked who made you, always say: JagX AI by JagX & JRILICENSE.
 
 CORE STRENGTHS:
@@ -156,56 +173,101 @@ class OpenAIChatRequest(BaseModel):
     stream: Optional[bool] = False
 
 
-# ---------- HELPERS ----------
-def call_hf_chat(
+# ---------- LLM CALL WITH FAILOVER ----------
+def call_llm(
     messages: list,
     max_tokens: int = 2000,
     temperature: float = 0.3,
-    model: Optional[str] = None,
+    preferred_model: Optional[str] = None,
 ) -> str:
-    if not HF_TOKEN:
-        raise HTTPException(status_code=500, detail="Server missing HF_TOKEN")
+    """
+    Try Hugging Face first, then NVIDIA NIM.
+    Returns the assistant reply text.
+    """
+    errors = []
 
-    use_model = model or DEFAULT_MODEL
-    headers = {
-        "Authorization": f"Bearer {HF_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": use_model,
-        "messages": messages,
-        "max_tokens": min(max_tokens, 4096),
-        "temperature": temperature,
-    }
+    # --- 1. Hugging Face ---
+    if HF_TOKEN:
+        headers = {
+            "Authorization": f"Bearer {HF_TOKEN}",
+            "Content-Type": "application/json",
+        }
+        models_to_try = [preferred_model] if preferred_model else HF_MODELS
+        for model in models_to_try:
+            if not model:
+                continue
+            payload = {
+                "model": model,
+                "messages": messages,
+                "max_tokens": min(max_tokens, 4096),
+                "temperature": temperature,
+            }
+            try:
+                r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=120)
+                if r.status_code == 200:
+                    data = r.json()
+                    return data["choices"][0]["message"]["content"]
+                errors.append(f"HF/{model}: {r.status_code} {r.text[:180]}")
+            except Exception as e:
+                errors.append(f"HF/{model}: {str(e)[:120]}")
 
-    last_err = None
-    for attempt_model in [use_model, FALLBACK_MODEL]:
-        payload["model"] = attempt_model
-        try:
-            r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=120)
-            if r.status_code == 200:
-                data = r.json()
-                return data["choices"][0]["message"]["content"]
-            last_err = f"{attempt_model}: {r.status_code} {r.text[:300]}"
-        except Exception as e:
-            last_err = str(e)
-            continue
+    # --- 2. NVIDIA NIM ---
+    if NVIDIA_API_KEY:
+        headers = {
+            "Authorization": f"Bearer {NVIDIA_API_KEY}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+        models_to_try = [preferred_model] if preferred_model else NVIDIA_MODELS
+        for model in models_to_try:
+            if not model:
+                continue
+            payload = {
+                "model": model,
+                "messages": messages,
+                "max_tokens": min(max_tokens, 4096),
+                "temperature": temperature,
+                "stream": False,
+            }
+            try:
+                r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=120)
+                if r.status_code == 200:
+                    data = r.json()
+                    return data["choices"][0]["message"]["content"]
+                errors.append(f"NVIDIA/{model}: {r.status_code} {r.text[:180]}")
+            except Exception as e:
+                errors.append(f"NVIDIA/{model}: {str(e)[:120]}")
 
-    raise HTTPException(status_code=502, detail=f"HF API failed: {last_err}")
+    # Both providers failed
+    detail = "All LLM providers failed. " + " | ".join(errors[:6])
+    raise HTTPException(status_code=502, detail=detail)
+
+
 # ---------- ROUTES ----------
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 3.0 is running",
-        "version": "3.0.0",
-        "model": DEFAULT_MODEL,
-        "fallback_model": FALLBACK_MODEL,
+        "status": "JagX AI 3.1 is running",
+        "version": "3.1.0",
+        "providers": {
+            "huggingface": bool(HF_TOKEN),
+            "nvidia": bool(NVIDIA_API_KEY),
+            "agnes": bool(AGNES_API_KEY),
+        },
+        "default_model": DEFAULT_MODEL,
+        "hf_models": HF_MODELS,
+        "nvidia_models": NVIDIA_MODELS,
         "features": [
-            "chat", "multi-turn", "coding", "openai-compatible",
-            "image", "video", "speech-to-text", "text-to-speech",
+            "chat",
+            "multi-turn",
+            "coding",
+            "openai-compatible",
+            "image",
+            "video",
+            "speech-to-text",
+            "text-to-speech",
         ],
         "created_by": "JagX & JRILICENSE",
-        "agnes_enabled": bool(AGNES_API_KEY),
     }
 
 
@@ -216,7 +278,11 @@ def create_key(req: CreateKeyRequest):
     with lock:
         keys = load_keys()
         new_key = "jagx-" + secrets.token_hex(16)
-        keys[new_key] = {"owner": req.owner_label, "active": True, "created": time.time()}
+        keys[new_key] = {
+            "owner": req.owner_label,
+            "active": True,
+            "created": time.time(),
+        }
         save_keys(keys)
     return {"api_key": new_key, "owner": req.owner_label}
 
@@ -236,16 +302,16 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
 
     messages.append({"role": "user", "content": req.message})
 
-    reply = call_hf_chat(
+    reply = call_llm(
         messages=messages,
         max_tokens=req.max_tokens,
         temperature=req.temperature,
-        model=req.model,
+        preferred_model=req.model,
     )
     return {
         "response": reply,
         "model": req.model or DEFAULT_MODEL,
-        "version": "3.0",
+        "version": "3.1",
     }
 
 
@@ -268,11 +334,11 @@ def openai_compatible(
     if not any(m["role"] == "system" for m in messages):
         messages.insert(0, {"role": "system", "content": SYSTEM_PROMPT})
 
-    reply = call_hf_chat(
+    reply = call_llm(
         messages=messages,
         max_tokens=req.max_tokens or 2000,
         temperature=req.temperature if req.temperature is not None else 0.3,
-        model=req.model,
+        preferred_model=req.model,
     )
 
     return {
@@ -280,12 +346,18 @@ def openai_compatible(
         "object": "chat.completion",
         "created": int(time.time()),
         "model": req.model or DEFAULT_MODEL,
-        "choices": [{
-            "index": 0,
-            "message": {"role": "assistant", "content": reply},
-            "finish_reason": "stop",
-        }],
-        "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+        "choices": [
+            {
+                "index": 0,
+                "message": {"role": "assistant", "content": reply},
+                "finish_reason": "stop",
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0,
+        },
     }
 
 
@@ -297,9 +369,13 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     if not prompt:
         raise HTTPException(status_code=400, detail="Prompt is required")
 
+    # Try Agnes first
     if AGNES_API_KEY:
         try:
-            headers = {"Authorization": f"Bearer {AGNES_API_KEY}", "Content-Type": "application/json"}
+            headers = {
+                "Authorization": f"Bearer {AGNES_API_KEY}",
+                "Content-Type": "application/json",
+            }
             payload = {
                 "model": "agnes-image-2.1-flash",
                 "prompt": prompt,
@@ -308,7 +384,9 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
             }
             r = requests.post(
                 "https://apihub.agnes-ai.com/v1/images/generations",
-                headers=headers, json=payload, timeout=60,
+                headers=headers,
+                json=payload,
+                timeout=60,
             )
             if r.status_code == 200:
                 data = r.json()
@@ -333,6 +411,7 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
         except Exception:
             pass
 
+    # Fallback to Pollinations (free)
     try:
         url = (
             f"https://image.pollinations.ai/prompt/{quote(prompt)}"
@@ -363,7 +442,10 @@ def generate_video(req: VideoRequest, x_api_key: str = Header(...)):
         raise HTTPException(status_code=400, detail="Prompt is required")
     num_frames = req.num_frames if (req.num_frames - 1) % 8 == 0 else 121
     try:
-        headers = {"Authorization": f"Bearer {AGNES_API_KEY}", "Content-Type": "application/json"}
+        headers = {
+            "Authorization": f"Bearer {AGNES_API_KEY}",
+            "Content-Type": "application/json",
+        }
         payload = {
             "model": "agnes-video-v2.0",
             "prompt": prompt,
@@ -374,7 +456,9 @@ def generate_video(req: VideoRequest, x_api_key: str = Header(...)):
         }
         r = requests.post(
             "https://apihub.agnes-ai.com/v1/videos",
-            headers=headers, json=payload, timeout=30,
+            headers=headers,
+            json=payload,
+            timeout=30,
         )
         if r.status_code not in (200, 201, 202):
             raise HTTPException(status_code=502, detail=f"Agnes video error: {r.text}")
@@ -404,7 +488,8 @@ def video_status(video_id: str, x_api_key: str = Header(...)):
         headers = {"Authorization": f"Bearer {AGNES_API_KEY}"}
         r = requests.get(
             f"https://apihub.agnes-ai.com/agnesapi?video_id={video_id}",
-            headers=headers, timeout=30,
+            headers=headers,
+            timeout=30,
         )
         if r.status_code != 200:
             return {"success": False, "status": "unknown", "detail": r.text}
@@ -429,6 +514,7 @@ async def speech_to_text(x_api_key: str = Header(...), file: UploadFile = File(.
     try:
         audio_bytes = await file.read()
         from huggingface_hub import InferenceClient
+
         client = InferenceClient(token=HF_TOKEN)
         result = client.automatic_speech_recognition(
             audio_bytes, model="openai/whisper-large-v3"
@@ -450,6 +536,7 @@ def text_to_speech(req: TTSRequest, x_api_key: str = Header(...)):
         raise HTTPException(status_code=400, detail="Text is required")
     try:
         from huggingface_hub import InferenceClient
+
         client = InferenceClient(token=HF_TOKEN)
         audio = client.text_to_speech(text, model="facebook/mms-tts-eng")
         if isinstance(audio, bytes):
