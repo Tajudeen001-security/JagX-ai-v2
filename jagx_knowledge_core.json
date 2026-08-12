@@ -1,0 +1,174 @@
+[
+  {
+    "question": "who are you",
+    "answer": "I am JagX AI 3.6, an independent advanced AI created by JagX & JRILICENSE. I specialize in software engineering, cybersecurity, education, and problem-solving."
+  },
+  {
+    "question": "who created you",
+    "answer": "I was created by JagX & JRILICENSE."
+  },
+  {
+    "question": "what is your name",
+    "answer": "My name is JagX AI."
+  },
+  {
+    "question": "hello",
+    "answer": "Hello! I'm JagX AI. How can I help you today?"
+  },
+  {
+    "question": "hi",
+    "answer": "Hi! I'm JagX AI. Ready to help with coding, school work, or any problem you have."
+  },
+  {
+    "question": "hey",
+    "answer": "Hey! JagX AI here. What are we working on?"
+  },
+  {
+    "question": "how are you",
+    "answer": "I'm fully operational. How can I assist you?"
+  },
+  {
+    "question": "what can you do",
+    "answer": "I can help with coding (Python, FastAPI, JavaScript, HTML, CSS, C++, C, Ruby), mathematics, English, school assignments, cybersecurity, system design, and general problem-solving."
+  },
+  {
+    "question": "help",
+    "answer": "I can help you with:\n- Writing and debugging code\n- Python & FastAPI\n- HTML, CSS, JavaScript\n- C, C++, Ruby\n- Mathematics & English\n- Cybersecurity\n- School assignments\n\nJust tell me what you need."
+  },
+
+  {
+    "question": "python fastapi hello world",
+    "answer": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef home():\n    return {\"message\": \"Hello from JagX AI\"}\n\n# Run with: uvicorn main:app --reload"
+  },
+  {
+    "question": "python reverse string",
+    "answer": "def reverse_string(s: str) -> str:\n    return s[::-1]\n\nprint(reverse_string(\"JagX\"))"
+  },
+  {
+    "question": "python check prime",
+    "answer": "def is_prime(n: int) -> bool:\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True"
+  },
+  {
+    "question": "python read json",
+    "answer": "import json\n\nwith open(\"data.json\", \"r\", encoding=\"utf-8\") as f:\n    data = json.load(f)"
+  },
+  {
+    "question": "python write json",
+    "answer": "import json\n\nwith open(\"data.json\", \"w\", encoding=\"utf-8\") as f:\n    json.dump(data, f, indent=2, ensure_ascii=False)"
+  },
+  {
+    "question": "python list comprehension",
+    "answer": "squares = [x**2 for x in range(10)]\nevens = [x for x in range(20) if x % 2 == 0]"
+  },
+  {
+    "question": "python class example",
+    "answer": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def greet(self):\n        return f\"Hello, my name is {self.name}\""
+  },
+  {
+    "question": "python try except",
+    "answer": "try:\n    result = 10 / 0\nexcept ZeroDivisionError as e:\n    print(\"Error:\", e)\nfinally:\n    print(\"This always runs\")"
+  },
+  {
+    "question": "python lambda",
+    "answer": "add = lambda x, y: x + y\nprint(add(5, 3))  # 8"
+  },
+  {
+    "question": "python map filter",
+    "answer": "nums = [1, 2, 3, 4, 5]\nsquared = list(map(lambda x: x**2, nums))\nevens = list(filter(lambda x: x % 2 == 0, nums))"
+  },
+  {
+    "question": "python decorator",
+    "answer": "def my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Before\")\n        result = func(*args, **kwargs)\n        print(\"After\")\n        return result\n    return wrapper"
+  },
+  {
+    "question": "python async await",
+    "answer": "import asyncio\n\nasync def main():\n    print(\"Hello\")\n    await asyncio.sleep(1)\n    print(\"World\")\n\nasyncio.run(main())"
+  },
+  {
+    "question": "python environment variable",
+    "answer": "import os\nvalue = os.environ.get(\"MY_KEY\", \"default\")"
+  },
+  {
+    "question": "python generate uuid",
+    "answer": "import uuid\nprint(str(uuid.uuid4()))"
+  },
+  {
+    "question": "python current time",
+    "answer": "from datetime import datetime\nimport time\n\nprint(datetime.now())\nprint(int(time.time()))"
+  },
+
+  {
+    "question": "fastapi cors",
+    "answer": "from fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)"
+  },
+  {
+    "question": "fastapi path parameter",
+    "answer": "@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int):\n    return {\"item_id\": item_id}"
+  },
+  {
+    "question": "fastapi query parameter",
+    "answer": "@app.get(\"/items/\")\ndef read_items(skip: int = 0, limit: int = 10):\n    return {\"skip\": skip, \"limit\": limit}"
+  },
+  {
+    "question": "fastapi upload file",
+    "answer": "from fastapi import File, UploadFile\n\n@app.post(\"/upload\")\nasync def upload(file: UploadFile = File(...)):\n    content = await file.read()\n    return {\"filename\": file.filename, \"size\": len(content)}"
+  },
+  {
+    "question": "fastapi dependency",
+    "answer": "from fastapi import Depends\n\ndef common_parameters(q: str = None):\n    return {\"q\": q}\n\n@app.get(\"/items/\")\ndef read_items(commons: dict = Depends(common_parameters)):\n    return commons"
+  },
+
+  {
+    "question": "what is sql injection",
+    "answer": "SQL Injection is a security vulnerability where attackers insert malicious SQL code through user input. Always use parameterized queries."
+  },
+  {
+    "question": "how to prevent sql injection",
+    "answer": "Never concatenate user input into SQL.\n\nCorrect way:\ncursor.execute(\"SELECT * FROM users WHERE id = %s\", (user_id,))"
+  },
+  {
+    "question": "what is xss",
+    "answer": "XSS (Cross-Site Scripting) allows attackers to inject malicious JavaScript into web pages. Always sanitize and escape user input."
+  },
+  {
+    "question": "what is csrf",
+    "answer": "CSRF (Cross-Site Request Forgery) tricks users into performing unwanted actions. Protect your app with CSRF tokens."
+  },
+  {
+    "question": "how to hash password",
+    "answer": "Use bcrypt or argon2. Never store plain text passwords.\n\nimport bcrypt\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())"
+  },
+  {
+    "question": "what is jwt",
+    "answer": "JWT (JSON Web Token) is a compact way to securely transmit information between parties as a JSON object. Commonly used for authentication."
+  },
+
+  {
+    "question": "clean code tips",
+    "answer": "1. Use clear and meaningful names\n2. Keep functions small and focused\n3. Avoid deep nesting\n4. Don't repeat yourself (DRY)\n5. Handle errors properly"
+  },
+  {
+    "question": "solid principles",
+    "answer": "S - Single Responsibility\nO - Open/Closed\nL - Liskov Substitution\nI - Interface Segregation\nD - Dependency Inversion"
+  },
+  {
+    "question": "what is rest api",
+    "answer": "REST is an architectural style for designing networked applications using standard HTTP methods (GET, POST, PUT, DELETE). It is stateless."
+  },
+  {
+    "question": "difference between put and patch",
+    "answer": "PUT replaces the entire resource. PATCH partially updates a resource."
+  },
+  {
+    "question": "git basic commands",
+    "answer": "git status\ngit add .\ngit commit -m \"message\"\ngit push origin main\ngit pull\ngit checkout -b feature-branch"
+  },
+  {
+    "question": "docker basic commands",
+    "answer": "docker build -t myapp .\ndocker run -p 8000:8000 myapp\ndocker ps\ndocker stop <container_id>\ndocker logs <container_id>"
+  },
+  {
+    "question": "tell me a coding tip",
+    "answer": "Write code as if the next person who maintains it is a violent psychopath who knows where you live. Clarity is more important than cleverness."
+  }
+]
