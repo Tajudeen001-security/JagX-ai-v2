@@ -1,211 +1,172 @@
 [
   {
     "question": "who are you",
-    "answer": "I am JagX AI 3.5, an independent advanced AI created by JagX & JRILICENSE. I specialize in software engineering, cybersecurity, system design, and clear problem-solving."
+    "answer": "I am JagX AI 3.5, an independent advanced AI created by JagX & JRILICENSE. I specialize in software engineering, cybersecurity, education, and problem-solving."
   },
   {
     "question": "who created you",
     "answer": "I was created by JagX & JRILICENSE."
   },
   {
-    "question": "what is your name",
-    "answer": "My name is JagX AI."
-  },
-  {
     "question": "hello",
-    "answer": "Hello! I'm JagX AI. How can I help you with coding, debugging, or cybersecurity today?"
+    "answer": "Hello! I'm JagX AI. How can I help you today?"
   },
   {
     "question": "hi",
-    "answer": "Hi there! I'm JagX AI. Ready when you are."
-  },
-  {
-    "question": "hey",
-    "answer": "Hey! JagX AI here. What are we building today?"
-  },
-  {
-    "question": "how are you",
-    "answer": "I'm operating at full capacity. How can I assist you?"
+    "answer": "Hi! I'm JagX AI. Ready to help with coding, school work, or anything else."
   },
   {
     "question": "what can you do",
-    "answer": "I can help you with coding, debugging, system architecture, cybersecurity, API design, FastAPI, Python, JavaScript, databases, and more. Just tell me what you need."
-  },
-  {
-    "question": "help",
-    "answer": "I can help you with:\n- Writing and debugging code\n- FastAPI / Python / JavaScript\n- Cybersecurity concepts\n- System design & architecture\n- Best practices\n\nJust describe what you need."
+    "answer": "I can help with coding (Python, FastAPI, JavaScript, HTML, CSS, C++, C, Ruby), mathematics, English, school assignments, cybersecurity, and general problem-solving."
   },
 
   {
-    "question": "python reverse string",
-    "answer": "def reverse_string(s: str) -> str:\n    return s[::-1]\n\nprint(reverse_string(\"JagX\"))  # XgaJ"
-  },
-  {
     "question": "python fastapi hello world",
-    "answer": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef root():\n    return {\"message\": \"Hello from JagX AI\"}\n\n# Run with: uvicorn main:app --reload"
+    "answer": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef home():\n    return {\"message\": \"Hello from JagX AI\"}\n\n# Run: uvicorn main:app --reload"
   },
   {
-    "question": "python check if prime",
-    "answer": "def is_prime(n: int) -> bool:\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True"
+    "question": "python reverse string",
+    "answer": "def reverse_string(s: str) -> str:\n    return s[::-1]"
   },
   {
-    "question": "python read json file",
-    "answer": "import json\n\ndef read_json(file_path: str):\n    with open(file_path, \"r\", encoding=\"utf-8\") as f:\n        return json.load(f)"
+    "question": "python check prime number",
+    "answer": "def is_prime(n: int) -> bool:\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True"
   },
   {
-    "question": "python write json file",
-    "answer": "import json\n\ndef write_json(data, file_path: str):\n    with open(file_path, \"w\", encoding=\"utf-8\") as f:\n        json.dump(data, f, indent=2, ensure_ascii=False)"
-  },
-  {
-    "question": "python list comprehension",
-    "answer": "squares = [x**2 for x in range(10)]\neven_numbers = [x for x in range(20) if x % 2 == 0]"
-  },
-  {
-    "question": "python dictionary get",
-    "answer": "value = my_dict.get(\"key\", \"default_value\")"
-  },
-  {
-    "question": "python generate uuid",
-    "answer": "import uuid\n\nunique_id = str(uuid.uuid4())\nprint(unique_id)"
-  },
-  {
-    "question": "python current timestamp",
-    "answer": "import time\nfrom datetime import datetime\n\nts = int(time.time())\nnow = datetime.now().isoformat()"
-  },
-  {
-    "question": "python environment variables",
-    "answer": "import os\n\nvalue = os.environ.get(\"MY_VARIABLE\", \"default_value\")"
-  },
-  {
-    "question": "python virtual environment",
-    "answer": "python -m venv venv\n\n# Activate:\n# Windows: venv\\Scripts\\activate\n# Linux/Mac: source venv/bin/activate"
-  },
-  {
-    "question": "python try except",
-    "answer": "try:\n    result = 10 / 0\nexcept ZeroDivisionError as e:\n    print(\"Error:\", e)\nfinally:\n    print(\"This always runs\")"
-  },
-  {
-    "question": "python decorators",
-    "answer": "def my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Before function\")\n        result = func(*args, **kwargs)\n        print(\"After function\")\n        return result\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    print(\"Hello\")"
-  },
-  {
-    "question": "python lambda",
-    "answer": "add = lambda x, y: x + y\nprint(add(5, 3))  # 8"
-  },
-  {
-    "question": "python map filter",
-    "answer": "nums = [1, 2, 3, 4, 5]\nsquared = list(map(lambda x: x**2, nums))\nevens = list(filter(lambda x: x % 2 == 0, nums))"
+    "question": "python read write json",
+    "answer": "import json\n\n# Read\nwith open(\"data.json\", \"r\") as f:\n    data = json.load(f)\n\n# Write\nwith open(\"data.json\", \"w\") as f:\n    json.dump(data, f, indent=2)"
   },
   {
     "question": "python class example",
-    "answer": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def greet(self):\n        return f\"Hello, my name is {self.name}\"\n\np = Person(\"JagX\", 1)\nprint(p.greet())"
+    "answer": "class Student:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def info(self):\n        return f\"{self.name} is {self.age} years old\""
   },
   {
-    "question": "python async await",
-    "answer": "import asyncio\n\nasync def main():\n    print(\"Hello\")\n    await asyncio.sleep(1)\n    print(\"World\")\n\nasyncio.run(main())"
+    "question": "python list comprehension",
+    "answer": "squares = [x**2 for x in range(10)]\nevens = [x for x in range(20) if x % 2 == 0]"
   },
   {
-    "question": "fastapi cors",
+    "question": "fastapi cors setup",
     "answer": "from fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)"
   },
   {
-    "question": "fastapi upload file",
-    "answer": "from fastapi import UploadFile, File\n\n@app.post(\"/upload\")\nasync def upload(file: UploadFile = File(...)):\n    content = await file.read()\n    return {\"filename\": file.filename, \"size\": len(content)}"
-  },
-  {
     "question": "fastapi path parameter",
-    "answer": "@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int):\n    return {\"item_id\": item_id}"
+    "answer": "@app.get(\"/users/{user_id}\")\ndef get_user(user_id: int):\n    return {\"user_id\": user_id}"
   },
   {
-    "question": "fastapi query parameter",
-    "answer": "@app.get(\"/items/\")\ndef read_items(skip: int = 0, limit: int = 10):\n    return {\"skip\": skip, \"limit\": limit}"
+    "question": "fastapi upload file",
+    "answer": "from fastapi import File, UploadFile\n\n@app.post(\"/upload\")\nasync def upload(file: UploadFile = File(...)):\n    content = await file.read()\n    return {\"filename\": file.filename, \"size\": len(content)}"
+  },
+
+  {
+    "question": "html basic structure",
+    "answer": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>JagX Page</title>\n</head>\n<body>\n    <h1>Hello from JagX AI</h1>\n</body>\n</html>"
   },
   {
-    "question": "fastapi dependency injection",
-    "answer": "from fastapi import Depends\n\ndef common_parameters(q: str = None):\n    return {\"q\": q}\n\n@app.get(\"/items/\")\ndef read_items(commons: dict = Depends(common_parameters)):\n    return commons"
+    "question": "html form example",
+    "answer": "<form action=\"/submit\" method=\"POST\">\n  <label>Name:</label>\n  <input type=\"text\" name=\"name\" required>\n  <button type=\"submit\">Submit</button>\n</form>"
+  },
+  {
+    "question": "css center div",
+    "answer": ".center {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}"
+  },
+  {
+    "question": "css flexbox example",
+    "answer": ".container {\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n}"
   },
   {
     "question": "javascript reverse string",
     "answer": "function reverseString(str) {\n  return str.split('').reverse().join('');\n}"
   },
   {
-    "question": "javascript fetch example",
-    "answer": "async function getData(url) {\n  const response = await fetch(url);\n  if (!response.ok) throw new Error(\"Network error\");\n  return await response.json();\n}"
-  },
-  {
-    "question": "javascript arrow function",
-    "answer": "const add = (a, b) => a + b;\nconst greet = name => `Hello ${name}`;"
+    "question": "javascript fetch api",
+    "answer": "async function getData(url) {\n  const res = await fetch(url);\n  if (!res.ok) throw new Error(\"Failed\");\n  return await res.json();\n}"
   },
   {
     "question": "javascript array map",
-    "answer": "const numbers = [1, 2, 3];\nconst doubled = numbers.map(n => n * 2);"
+    "answer": "const numbers = [1, 2, 3, 4];\nconst doubled = numbers.map(n => n * 2);"
+  },
+
+  {
+    "question": "c++ hello world",
+    "answer": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hello from JagX AI\" << endl;\n    return 0;\n}"
   },
   {
-    "question": "javascript async await",
-    "answer": "async function loadData() {\n  try {\n    const res = await fetch(\"/api/data\");\n    const data = await res.json();\n    console.log(data);\n  } catch (err) {\n    console.error(err);\n  }\n}"
+    "question": "c++ reverse string",
+    "answer": "#include <algorithm>\n#include <string>\n\nstring reverseString(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}"
   },
   {
-    "question": "how to hash password",
-    "answer": "Recommended way (Python + bcrypt):\n\nimport bcrypt\n\ndef hash_password(password: str) -> str:\n    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()\n\ndef check_password(password: str, hashed: str) -> bool:\n    return bcrypt.checkpw(password.encode(), hashed.encode())"
+    "question": "c hello world",
+    "answer": "#include <stdio.h>\n\nint main() {\n    printf(\"Hello from JagX AI\\n\");\n    return 0;\n}"
   },
+  {
+    "question": "ruby hello world",
+    "answer": "puts \"Hello from JagX AI\""
+  },
+  {
+    "question": "ruby reverse string",
+    "answer": "def reverse_string(str)\n  str.reverse\nend"
+  },
+
   {
     "question": "what is sql injection",
-    "answer": "SQL Injection is when an attacker inserts malicious SQL into input fields to manipulate the database. Always use parameterized queries."
+    "answer": "SQL Injection is a security vulnerability where attackers insert malicious SQL code through user input. Always use parameterized queries to prevent it."
   },
   {
     "question": "how to prevent sql injection",
-    "answer": "Never concatenate user input into SQL.\n\nCorrect way:\ncursor.execute(\"SELECT * FROM users WHERE id = %s\", (user_id,))"
+    "answer": "Never concatenate user input into SQL strings.\n\nCorrect example:\ncursor.execute(\"SELECT * FROM users WHERE id = %s\", (user_id,))"
   },
   {
     "question": "what is xss",
-    "answer": "XSS (Cross-Site Scripting) allows attackers to inject malicious scripts into web pages. Always escape/sanitize user input before rendering."
+    "answer": "XSS (Cross-Site Scripting) allows attackers to inject malicious JavaScript into websites. Always sanitize and escape user input."
   },
   {
-    "question": "what is csrf",
-    "answer": "CSRF (Cross-Site Request Forgery) tricks a user into performing unwanted actions. Protect with CSRF tokens."
+    "question": "how to hash password securely",
+    "answer": "Use bcrypt or argon2. Never store plain text passwords.\n\nPython example with bcrypt:\nimport bcrypt\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())"
+  },
+
+  {
+    "question": "solve 2x + 5 = 15",
+    "answer": "2x + 5 = 15\n2x = 15 - 5\n2x = 10\nx = 5"
   },
   {
-    "question": "what is rest api",
-    "answer": "REST is an architectural style that uses standard HTTP methods (GET, POST, PUT, DELETE) and is stateless. Resources are identified by URLs."
+    "question": "what is the area of a circle",
+    "answer": "Area of a circle = π × r²\nwhere r is the radius."
   },
   {
-    "question": "difference between put and patch",
-    "answer": "PUT replaces the entire resource. PATCH partially updates a resource."
+    "question": "pythagoras theorem",
+    "answer": "In a right-angled triangle: a² + b² = c²\nwhere c is the hypotenuse."
+  },
+  {
+    "question": "what is a noun",
+    "answer": "A noun is a word that names a person, place, thing, or idea. Examples: boy, school, happiness."
+  },
+  {
+    "question": "what is a verb",
+    "answer": "A verb is a word that shows action or state of being. Examples: run, write, is, are."
+  },
+  {
+    "question": "make a simple sentence",
+    "answer": "The boy is reading a book."
+  },
+  {
+    "question": "help with homework",
+    "answer": "Of course! Tell me the subject and the question, and I’ll help you step by step."
+  },
+
+  {
+    "question": "what is docker",
+    "answer": "Docker is a tool that packages applications and their dependencies into containers so they can run consistently on any machine."
   },
   {
     "question": "git basic commands",
-    "answer": "git status\ngit add .\ngit commit -m \"message\"\ngit push origin main\ngit pull\ngit checkout -b feature-branch"
+    "answer": "git status\ngit add .\ngit commit -m \"message\"\ngit push\ngit pull\ngit checkout -b new-branch"
   },
   {
-    "question": "how to debug python",
-    "answer": "1. Read the full traceback\n2. Print intermediate values\n3. Use logging\n4. Use pdb or an IDE debugger\n5. Create a minimal reproducible example"
-  },
-  {
-    "question": "clean code principles",
-    "answer": "- Use meaningful names\n- Keep functions small and focused\n- Avoid deep nesting\n- Prefer pure functions\n- Handle errors properly\n- Don't repeat yourself (DRY)"
-  },
-  {
-    "question": "what is solid principles",
-    "answer": "S - Single Responsibility\nO - Open/Closed\nL - Liskov Substitution\nI - Interface Segregation\nD - Dependency Inversion"
-  },
-  {
-    "question": "what is docker",
-    "answer": "Docker is a platform that packages applications and their dependencies into containers so they run consistently across different environments."
-  },
-  {
-    "question": "docker basic commands",
-    "answer": "docker build -t myapp .\ndocker run -p 8000:8000 myapp\ndocker ps\ndocker stop <container_id>\ndocker logs <container_id>"
-  },
-  {
-    "question": "what is api rate limiting",
-    "answer": "Rate limiting controls how many requests a client can make in a given time period. It protects your API from abuse and overload."
+    "question": "clean code tips",
+    "answer": "1. Use clear names\n2. Keep functions small\n3. Avoid deep nesting\n4. Don’t repeat code\n5. Handle errors properly"
   },
   {
     "question": "tell me a coding tip",
-    "answer": "Write code as if the next person who maintains it is a violent psychopath who knows where you live. Clarity beats cleverness."
-  },
-  {
-    "question": "best way to learn coding",
-    "answer": "1. Build real projects\n2. Read other people's code\n3. Debug a lot\n4. Teach what you learn\n5. Be consistent every day"
+    "answer": "Write code as if the next person maintaining it is a dangerous psychopath who knows where you live. Clarity is more important than cleverness."
   }
 ]
