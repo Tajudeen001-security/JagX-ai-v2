@@ -1,5 +1,5 @@
 """
-JagX AI 3.5 — Multi-Tier + Local Fallback
+JagX AI 3.6 — Multi-Tier + Strong Local Fallback
 Created by JagX & JRILICENSE
 """
 
@@ -15,10 +15,10 @@ from typing import List, Optional, Dict, Any, Union
 import requests
 from fastapi import FastAPI, HTTPException, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 import uvicorn
 
-# ---------- CONFIG ----------
+# ====================== CONFIG ======================
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY") or os.environ.get("NVIDIA_NIM_API_KEY", "")
 AGNES_API_KEY = os.environ.get("AGNES_API_KEY", "")
@@ -27,7 +27,7 @@ HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
 NVIDIA_CHAT_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_EMBED_URL = "https://integrate.api.nvidia.com/v1/embeddings"
 
-# Tier → model strategy
+# Tier → models mapping
 TIER_MODELS = {
     "fast": {
         "hf": ["Qwen/Qwen2.5-Coder-7B-Instruct", "Qwen/Qwen2.5-7B-Instruct"],
@@ -71,10 +71,11 @@ SUPPORTED_LANGUAGES = {
     "ar": "Arabic", "vi": "Vietnamese", "tr": "Turkish", "id": "Indonesian", "th": "Thai"
 }
 
+# ====================== APP ======================
 app = FastAPI(
-    title="JagX AI 3.5",
-    description="Multi-Tier Independent AI by JagX & JRILICENSE",
-    version="3.5.0"
+    title="JagX AI 3.6",
+    description="Independent Multi-Tier AI by JagX & JRILICENSE",
+    version="3.6.0"
 )
 lock = threading.Lock()
 
@@ -86,19 +87,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = """You are JagX AI 3.5 — an elite independent AI engineer and cybersecurity specialist created by JagX & JRILICENSE.
+SYSTEM_PROMPT = """You are JagX AI 3.6 — an elite independent AI created by JagX & JRILICENSE.
 
-IDENTITY RULES (NEVER BREAK):
+STRICT IDENTITY RULES:
 - Your name is JagX AI.
 - You were created by JagX & JRILICENSE.
 - You are an independent AI. Never say you were made by Alibaba, Qwen, Meta, OpenAI, Google, NVIDIA, Hugging Face or any other company.
 - Always present yourself as JagX AI.
 
-You are excellent at coding, cybersecurity, debugging, architecture and clear step-by-step reasoning.
-Write complete, runnable code. Never produce empty files.
+You are excellent at coding, cybersecurity, mathematics, education, and clear reasoning.
 """
 
-# ---------- KEYS & KNOWLEDGE ----------
+# ====================== HELPERS ======================
 def load_keys():
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
@@ -120,19 +120,14 @@ def is_valid_key(key: str) -> bool:
 
 def load_knowledge() -> List[Dict]:
     if not os.path.exists(KNOWLEDGE_FILE):
-        # Create a starter knowledge base
         default = [
             {
                 "question": "who are you",
-                "answer": "I am JagX AI 3.5, an independent AI created by JagX & JRILICENSE. I specialize in coding, cybersecurity, and advanced reasoning."
+                "answer": "I am JagX AI 3.6, an independent AI created by JagX & JRILICENSE."
             },
             {
                 "question": "who created you",
                 "answer": "I was created by JagX & JRILICENSE."
-            },
-            {
-                "question": "hello",
-                "answer": "Hello! I'm JagX AI. How can I help you with coding or cybersecurity today?"
             }
         ]
         with open(KNOWLEDGE_FILE, "w") as f:
@@ -142,14 +137,43 @@ def load_knowledge() -> List[Dict]:
         return json.load(f)
 
 def search_knowledge(query: str) -> Optional[str]:
+    """Improved local knowledge search"""
     knowledge = load_knowledge()
     query_lower = query.lower().strip()
-    for item in knowledge:
-        if item["question"].lower() in query_lower or query_lower in item["question"].lower():
-            return item["answer"]
-    return None
 
-# ---------- MODELS ----------
+    if not query_lower:
+        return None
+
+    # Exact / close match
+    for item in knowledge:
+        q = item["question"].lower()
+        if q == query_lower or q in query_lower or query_lower in q:
+            return item["answer"]
+
+    # Keyword scoring
+    query_words = set(query_lower.split())
+    best_score = 0
+    best_answer = None
+
+    important = ["python", "fastapi", "javascript", "html", "css", "c++", "security",
+                 "math", "english", "ruby", "class", "function", "api"]
+
+    for item in knowledge:
+        q_words = set(item["question"].lower().split())
+        common = query_words.intersection(q_words)
+        score = len(common)
+
+        for word in important:
+            if word in query_lower and word in item["question"].lower():
+                score += 2
+
+        if score > best_score and score >= 1:
+            best_score = score
+            best_answer = item["answer"]
+
+    return best_answer
+
+# ====================== MODELS ======================
 class ChatMessage(BaseModel):
     role: str
     content: str
@@ -158,8 +182,7 @@ class ChatRequest(BaseModel):
     message: str
     max_tokens: int = 2000
     temperature: float = 0.3
-    tier: Optional[str] = "auto"          # fast | balanced | expert | heavy | auto
-    model: Optional[str] = None
+    tier: Optional[str] = "auto"
     history: Optional[List[ChatMessage]] = None
     system: Optional[str] = None
 
@@ -206,7 +229,7 @@ class KnowledgeAddRequest(BaseModel):
     answer: str
     admin_secret: str
 
-# ---------- LLM CALL WITH TIERS ----------
+# ====================== LLM CALL ======================
 def call_llm(messages: list, max_tokens: int = 2000, temperature: float = 0.3, tier: str = "auto") -> str:
     tier = (tier or "auto").lower()
     if tier not in TIER_MODELS:
@@ -231,7 +254,7 @@ def call_llm(messages: list, max_tokens: int = 2000, temperature: float = 0.3, t
                     return r.json()["choices"][0]["message"]["content"]
                 errors.append(f"HF/{model}: {r.status_code}")
             except Exception as e:
-                errors.append(f"HF/{model}: {str(e)[:60]}")
+                errors.append(f"HF/{model}: {str(e)[:50]}")
 
     # 2. Try NVIDIA
     if NVIDIA_API_KEY:
@@ -254,7 +277,7 @@ def call_llm(messages: list, max_tokens: int = 2000, temperature: float = 0.3, t
                     return r.json()["choices"][0]["message"]["content"]
                 errors.append(f"NVIDIA/{model}: {r.status_code}")
             except Exception as e:
-                errors.append(f"NVIDIA/{model}: {str(e)[:60]}")
+                errors.append(f"NVIDIA/{model}: {str(e)[:50]}")
 
     # 3. Local knowledge fallback
     last_user = ""
@@ -267,19 +290,19 @@ def call_llm(messages: list, max_tokens: int = 2000, temperature: float = 0.3, t
     if local_answer:
         return local_answer
 
-    # 4. Final hard fallback
+    # 4. Final fallback
     return (
-        "I'm JagX AI. All external providers are currently unavailable, "
+        "I'm JagX AI. All external providers are temporarily unavailable "
         "and I don't have a matching answer in my local knowledge yet. "
-        "Please try again shortly or contact the admin to add this topic to my knowledge base."
+        "Please try again shortly."
     )
 
-# ---------- ROUTES ----------
+# ====================== ROUTES ======================
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 3.5 is running",
-        "version": "3.5.0",
+        "status": "JagX AI 3.6 is running",
+        "version": "3.6.0",
         "tiers": list(TIER_MODELS.keys()),
         "providers": {
             "huggingface": bool(HF_TOKEN),
@@ -309,7 +332,6 @@ def create_key(req: CreateKeyRequest):
 
 @app.post("/knowledge/add")
 def add_knowledge(req: KnowledgeAddRequest):
-    """Admin only - add training data to local knowledge"""
     if req.admin_secret != ADMIN_SECRET:
         raise HTTPException(status_code=403, detail="Invalid admin secret")
     with lock:
@@ -320,7 +342,7 @@ def add_knowledge(req: KnowledgeAddRequest):
         })
         with open(KNOWLEDGE_FILE, "w") as f:
             json.dump(knowledge, f, indent=2)
-    return {"success": True, "message": "Knowledge added successfully"}
+    return {"success": True, "message": "Knowledge added"}
 
 @app.post("/chat")
 def chat(req: ChatRequest, x_api_key: str = Header(...)):
@@ -339,8 +361,8 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     return {
         "response": reply,
         "tier": req.tier or DEFAULT_TIER,
-        "version": "3.5",
-        "model": "JagX AI"
+        "model": "JagX AI",
+        "version": "3.6"
     }
 
 @app.post("/v1/chat/completions")
@@ -361,7 +383,11 @@ def openai_compatible(req: OpenAIChatRequest, authorization: Optional[str] = Hea
         "object": "chat.completion",
         "created": int(time.time()),
         "model": "JagX AI",
-        "choices": [{"index": 0, "message": {"role": "assistant", "content": reply}, "finish_reason": "stop"}],
+        "choices": [{
+            "index": 0,
+            "message": {"role": "assistant", "content": reply},
+            "finish_reason": "stop"
+        }],
         "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
     }
 
@@ -375,7 +401,7 @@ def translate(req: TranslateRequest, x_api_key: str = Header(...)):
     source = req.source_lang.lower().strip()
     target = req.target_lang.lower().strip()
     if source not in SUPPORTED_LANGUAGES or target not in SUPPORTED_LANGUAGES:
-        raise HTTPException(status_code=400, detail="Unsupported language. See /languages")
+        raise HTTPException(status_code=400, detail="Unsupported language")
     if source == target:
         raise HTTPException(status_code=400, detail="Source and target cannot be the same")
 
@@ -383,12 +409,23 @@ def translate(req: TranslateRequest, x_api_key: str = Header(...)):
         {"role": "system", "content": f"{source}-{target}"},
         {"role": "user", "content": req.text.strip()}
     ]
-    headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json", "Accept": "application/json"}
-    payload = {"model": TRANSLATE_MODEL, "messages": messages, "max_tokens": min(req.max_tokens, 1024), "temperature": 0.0, "stream": False}
+    headers = {
+        "Authorization": f"Bearer {NVIDIA_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    payload = {
+        "model": TRANSLATE_MODEL,
+        "messages": messages,
+        "max_tokens": min(req.max_tokens, 1024),
+        "temperature": 0.0,
+        "stream": False
+    }
 
     r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=60)
     if r.status_code != 200:
         raise HTTPException(status_code=502, detail=f"Translation failed: {r.status_code}")
+    
     translated = r.json()["choices"][0]["message"]["content"].strip()
     return {
         "success": True,
@@ -408,13 +445,26 @@ def embed(req: EmbedRequest, x_api_key: str = Header(...)):
 
     model = req.model or EMBED_MODEL
     inputs = req.input if isinstance(req.input, list) else [req.input]
-    headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json", "Accept": "application/json"}
-    payload = {"model": model, "input": inputs, "encoding_format": "float"}
+    headers = {
+        "Authorization": f"Bearer {NVIDIA_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    payload = {
+        "model": model,
+        "input": inputs,
+        "encoding_format": "float"
+    }
 
     r = requests.post(NVIDIA_EMBED_URL, headers=headers, json=payload, timeout=60)
     if r.status_code != 200:
         raise HTTPException(status_code=502, detail=f"Embedding failed: {r.status_code}")
-    return {"success": True, "model": "JagX AI Embed", "data": r.json().get("data", [])}
+    
+    return {
+        "success": True,
+        "model": "JagX AI Embed",
+        "data": r.json().get("data", [])
+    }
 
 @app.post("/av/perception")
 def av_perception(req: AVRequest, x_api_key: str = Header(...)):
@@ -423,7 +473,7 @@ def av_perception(req: AVRequest, x_api_key: str = Header(...)):
     return {
         "status": "ready_for_integration",
         "supported_models": ["bevformer", "streampetr"],
-        "message": "Multi-camera 3D perception endpoint ready for future sensor data.",
+        "message": "Multi-camera 3D perception endpoint is ready for future sensor data.",
         "description": req.description
     }
 
@@ -434,7 +484,7 @@ def av_planning(req: AVRequest, x_api_key: str = Header(...)):
     return {
         "status": "ready_for_integration",
         "supported_models": ["sparsedrive"],
-        "message": "End-to-end planning endpoint ready.",
+        "message": "End-to-end planning endpoint is ready.",
         "description": req.description
     }
 
@@ -445,7 +495,7 @@ def av_world(req: AVRequest, x_api_key: str = Header(...)):
     return {
         "status": "ready_for_integration",
         "supported_models": ["cosmos-transfer2.5-2b"],
-        "message": "Physics-aware world model endpoint ready.",
+        "message": "Physics-aware world model endpoint is ready.",
         "description": req.description
     }
 
@@ -456,6 +506,7 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     prompt = req.prompt.strip()
     if not prompt:
         raise HTTPException(status_code=400, detail="Prompt is required")
+
     try:
         url = f"https://image.pollinations.ai/prompt/{quote(prompt)}?width={req.width}&height={req.height}&nologo=true&model=flux"
         r = requests.get(url, timeout=60)
@@ -467,7 +518,8 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
                 "format": "png"
             }
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Image failed: {e}")
+        raise HTTPException(status_code=502, detail=f"Image generation failed: {e}")
+    
     raise HTTPException(status_code=502, detail="Image generation failed")
 
 @app.post("/speech-to-text")
@@ -476,6 +528,7 @@ async def speech_to_text(x_api_key: str = Header(...), file: UploadFile = File(.
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
     if not HF_TOKEN:
         raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
+
     try:
         audio_bytes = await file.read()
         from huggingface_hub import InferenceClient
@@ -484,7 +537,7 @@ async def speech_to_text(x_api_key: str = Header(...), file: UploadFile = File(.
         text = result.get("text") if isinstance(result, dict) else str(result)
         return {"success": True, "text": text.strip(), "model": "JagX AI STT"}
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"STT failed: {e}")
+        raise HTTPException(status_code=502, detail=f"Speech-to-text failed: {e}")
 
 @app.post("/text-to-speech")
 def text_to_speech(req: TTSRequest, x_api_key: str = Header(...)):
@@ -492,18 +545,26 @@ def text_to_speech(req: TTSRequest, x_api_key: str = Header(...)):
         raise HTTPException(status_code=401, detail="Invalid or inactive API key")
     if not HF_TOKEN:
         raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
+
     text = req.text.strip()[:1000]
     if not text:
         raise HTTPException(status_code=400, detail="Text is required")
+
     try:
         from huggingface_hub import InferenceClient
         client = InferenceClient(token=HF_TOKEN)
         audio = client.text_to_speech(text, model="facebook/mms-tts-eng")
         audio_b64 = base64.b64encode(audio if isinstance(audio, bytes) else audio.read()).decode()
-        return {"success": True, "audio_base64": audio_b64, "format": "wav", "model": "JagX AI TTS"}
+        return {
+            "success": True,
+            "audio_base64": audio_b64,
+            "format": "wav",
+            "model": "JagX AI TTS"
+        }
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"TTS failed: {e}")
+        raise HTTPException(status_code=502, detail=f"Text-to-speech failed: {e}")
 
+# ====================== START ======================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
