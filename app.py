@@ -1,12 +1,11 @@
 """
-JagX AI 3.1 — Strong Coding + Multi-Provider Backend
-Upgrades:
-- Dual provider: Hugging Face + NVIDIA NIM with automatic failover
-- Stronger default coding models
-- Multi-turn chat history
-- OpenAI-compatible /v1/chat/completions
-- Coding-optimized system prompt
-- Image / Video / STT / TTS kept intact
+JagX AI 3.2 — Multi-Provider + Translation Backend
+Features:
+- Dual LLM providers: Hugging Face + NVIDIA NIM (automatic failover)
+- High-quality translation with NVIDIA Riva Translate 4B (37 languages)
+- Multi-turn chat + OpenAI-compatible endpoint
+- Image / Video / Speech-to-Text / Text-to-Speech
+- Created by JagX & JRILICENSE
 """
 
 import os
@@ -16,12 +15,12 @@ import threading
 import base64
 import time
 from urllib.parse import quote
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 import requests
 from fastapi import FastAPI, HTTPException, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import uvicorn
 
 # ---------- CONFIG ----------
@@ -32,7 +31,7 @@ AGNES_API_KEY = os.environ.get("AGNES_API_KEY", "")
 HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
 NVIDIA_CHAT_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# Default model lists (can be overridden by env)
+# Default model lists (override with env vars if needed)
 HF_MODELS = [
     m.strip()
     for m in os.environ.get(
@@ -52,6 +51,7 @@ NVIDIA_MODELS = [
 ]
 
 DEFAULT_MODEL = os.environ.get("CHAT_MODEL", HF_MODELS[0] if HF_MODELS else "Qwen/Qwen2.5-Coder-7B-Instruct")
+TRANSLATE_MODEL = "nvidia/riva-translate-4b-instruct-v2"
 
 KEYS_FILE = "keys.json"
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
@@ -59,10 +59,51 @@ PERMANENT_KEYS = set(
     k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip()
 )
 
+# All languages supported by Riva Translate 4B Instruct v2
+SUPPORTED_LANGUAGES: Dict[str, str] = {
+    "en": "English",
+    "cs": "Czech",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "es-es": "European Spanish",
+    "es-us": "LATAM Spanish",
+    "fi": "Finnish",
+    "fr": "French",
+    "hu": "Hungarian",
+    "it": "Italian",
+    "lt": "Lithuanian",
+    "lv": "Latvian",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "pl": "Polish",
+    "pt-pt": "European Portuguese",
+    "pt-br": "Brazilian Portuguese",
+    "ro": "Romanian",
+    "ru": "Russian",
+    "sk": "Slovak",
+    "sv": "Swedish",
+    "zh-cn": "Simplified Chinese",
+    "zh-tw": "Traditional Chinese",
+    "ja": "Japanese",
+    "hi": "Hindi",
+    "ko": "Korean",
+    "et": "Estonian",
+    "sl": "Slovenian",
+    "bg": "Bulgarian",
+    "uk": "Ukrainian",
+    "hr": "Croatian",
+    "ar": "Arabic",
+    "vi": "Vietnamese",
+    "tr": "Turkish",
+    "id": "Indonesian",
+    "th": "Thai",
+}
+
 app = FastAPI(
-    title="JagX AI 3.1",
-    description="Strong coding + multimodal AI API by JagX & JRILICENSE — dual provider (HF + NVIDIA)",
-    version="3.1.0",
+    title="JagX AI 3.2",
+    description="Strong coding + multimodal AI + 37-language translation by JagX & JRILICENSE",
+    version="3.2.0",
 )
 lock = threading.Lock()
 
@@ -74,7 +115,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = """You are JagX AI 3.1 — an elite AI engineer and cybersecurity specialist created by JagX & JRILICENSE.
+SYSTEM_PROMPT = """You are JagX AI 3.2 — an elite AI engineer and cybersecurity specialist created by JagX & JRILICENSE.
 
 IDENTITY (never break character):
 - Full name: JagX AI
@@ -173,6 +214,13 @@ class OpenAIChatRequest(BaseModel):
     stream: Optional[bool] = False
 
 
+class TranslateRequest(BaseModel):
+    text: str = Field(..., description="Text to translate")
+    source_lang: str = Field("en", description="Source language code (e.g. en, fr, zh-cn)")
+    target_lang: str = Field("zh-cn", description="Target language code (e.g. zh-cn, de, ja)")
+    max_tokens: int = 512
+
+
 # ---------- LLM CALL WITH FAILOVER ----------
 def call_llm(
     messages: list,
@@ -180,13 +228,9 @@ def call_llm(
     temperature: float = 0.3,
     preferred_model: Optional[str] = None,
 ) -> str:
-    """
-    Try Hugging Face first, then NVIDIA NIM.
-    Returns the assistant reply text.
-    """
     errors = []
 
-    # --- 1. Hugging Face ---
+    # 1. Hugging Face
     if HF_TOKEN:
         headers = {
             "Authorization": f"Bearer {HF_TOKEN}",
@@ -207,11 +251,11 @@ def call_llm(
                 if r.status_code == 200:
                     data = r.json()
                     return data["choices"][0]["message"]["content"]
-                errors.append(f"HF/{model}: {r.status_code} {r.text[:180]}")
+                errors.append(f"HF/{model}: {r.status_code} {r.text[:160]}")
             except Exception as e:
-                errors.append(f"HF/{model}: {str(e)[:120]}")
+                errors.append(f"HF/{model}: {str(e)[:100]}")
 
-    # --- 2. NVIDIA NIM ---
+    # 2. NVIDIA NIM
     if NVIDIA_API_KEY:
         headers = {
             "Authorization": f"Bearer {NVIDIA_API_KEY}",
@@ -234,21 +278,22 @@ def call_llm(
                 if r.status_code == 200:
                     data = r.json()
                     return data["choices"][0]["message"]["content"]
-                errors.append(f"NVIDIA/{model}: {r.status_code} {r.text[:180]}")
+                errors.append(f"NVIDIA/{model}: {r.status_code} {r.text[:160]}")
             except Exception as e:
-                errors.append(f"NVIDIA/{model}: {str(e)[:120]}")
+                errors.append(f"NVIDIA/{model}: {str(e)[:100]}")
 
-    # Both providers failed
-    detail = "All LLM providers failed. " + " | ".join(errors[:6])
-    raise HTTPException(status_code=502, detail=detail)
+    raise HTTPException(
+        status_code=502,
+        detail="All LLM providers failed → " + " | ".join(errors[:5]),
+    )
 
 
 # ---------- ROUTES ----------
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 3.1 is running",
-        "version": "3.1.0",
+        "status": "JagX AI 3.2 is running",
+        "version": "3.2.0",
         "providers": {
             "huggingface": bool(HF_TOKEN),
             "nvidia": bool(NVIDIA_API_KEY),
@@ -257,6 +302,8 @@ def root():
         "default_model": DEFAULT_MODEL,
         "hf_models": HF_MODELS,
         "nvidia_models": NVIDIA_MODELS,
+        "translation_model": TRANSLATE_MODEL,
+        "supported_languages": SUPPORTED_LANGUAGES,
         "features": [
             "chat",
             "multi-turn",
@@ -266,8 +313,19 @@ def root():
             "video",
             "speech-to-text",
             "text-to-speech",
+            "translation",
         ],
         "created_by": "JagX & JRILICENSE",
+    }
+
+
+@app.get("/languages")
+def list_languages():
+    """Return all supported translation languages."""
+    return {
+        "count": len(SUPPORTED_LANGUAGES),
+        "languages": SUPPORTED_LANGUAGES,
+        "note": "Use the code (left side) as source_lang / target_lang. Example: en → zh-cn",
     }
 
 
@@ -311,7 +369,7 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     return {
         "response": reply,
         "model": req.model or DEFAULT_MODEL,
-        "version": "3.1",
+        "version": "3.2",
     }
 
 
@@ -353,12 +411,88 @@ def openai_compatible(
                 "finish_reason": "stop",
             }
         ],
-        "usage": {
-            "prompt_tokens": 0,
-            "completion_tokens": 0,
-            "total_tokens": 0,
-        },
+        "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
     }
+
+
+@app.post("/translate")
+def translate(req: TranslateRequest, x_api_key: str = Header(...)):
+    """
+    Translate text between any of the 37 supported languages
+    using NVIDIA Riva Translate 4B Instruct v2.
+    """
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+
+    if not NVIDIA_API_KEY:
+        raise HTTPException(status_code=503, detail="NVIDIA_API_KEY is not configured")
+
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Text is required")
+
+    source = req.source_lang.lower().strip()
+    target = req.target_lang.lower().strip()
+
+    if source not in SUPPORTED_LANGUAGES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported source language '{source}'. See /languages for the full list.",
+        )
+    if target not in SUPPORTED_LANGUAGES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported target language '{target}'. See /languages for the full list.",
+        )
+    if source == target:
+        raise HTTPException(status_code=400, detail="Source and target language cannot be the same")
+
+    lang_pair = f"{source}-{target}"
+
+    messages = [
+        {"role": "system", "content": lang_pair},
+        {"role": "user", "content": text},
+    ]
+
+    headers = {
+        "Authorization": f"Bearer {NVIDIA_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+
+    payload = {
+        "model": TRANSLATE_MODEL,
+        "messages": messages,
+        "max_tokens": min(req.max_tokens, 1024),
+        "temperature": 0.0,
+        "stream": False,
+    }
+
+    try:
+        r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=60)
+        if r.status_code != 200:
+            raise HTTPException(
+                status_code=502,
+                detail=f"NVIDIA translation failed: {r.status_code} {r.text[:300]}",
+            )
+
+        data = r.json()
+        translated = data["choices"][0]["message"]["content"].strip()
+
+        return {
+            "success": True,
+            "source_lang": source,
+            "source_name": SUPPORTED_LANGUAGES[source],
+            "target_lang": target,
+            "target_name": SUPPORTED_LANGUAGES[target],
+            "original": text,
+            "translated": translated,
+            "model": TRANSLATE_MODEL,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Translation error: {str(e)}")
 
 
 @app.post("/image")
@@ -369,7 +503,6 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     if not prompt:
         raise HTTPException(status_code=400, detail="Prompt is required")
 
-    # Try Agnes first
     if AGNES_API_KEY:
         try:
             headers = {
@@ -411,7 +544,6 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
         except Exception:
             pass
 
-    # Fallback to Pollinations (free)
     try:
         url = (
             f"https://image.pollinations.ai/prompt/{quote(prompt)}"
@@ -496,58 +628,4 @@ def video_status(video_id: str, x_api_key: str = Header(...)):
         data = r.json()
         return {
             "success": True,
-            "video_id": video_id,
-            "status": data.get("status", "unknown"),
-            "video_url": data.get("video_url") or data.get("url") or data.get("output"),
-            "raw": data,
-        }
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=str(e))
-
-
-@app.post("/speech-to-text")
-async def speech_to_text(x_api_key: str = Header(...), file: UploadFile = File(...)):
-    if not is_valid_key(x_api_key):
-        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
-    if not HF_TOKEN:
-        raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
-    try:
-        audio_bytes = await file.read()
-        from huggingface_hub import InferenceClient
-
-        client = InferenceClient(token=HF_TOKEN)
-        result = client.automatic_speech_recognition(
-            audio_bytes, model="openai/whisper-large-v3"
-        )
-        text = result.get("text") if isinstance(result, dict) else str(result)
-        return {"success": True, "text": text.strip()}
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"STT failed: {e}")
-
-
-@app.post("/text-to-speech")
-def text_to_speech(req: TTSRequest, x_api_key: str = Header(...)):
-    if not is_valid_key(x_api_key):
-        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
-    if not HF_TOKEN:
-        raise HTTPException(status_code=500, detail="Missing HF_TOKEN")
-    text = req.text.strip()[:1000]
-    if not text:
-        raise HTTPException(status_code=400, detail="Text is required")
-    try:
-        from huggingface_hub import InferenceClient
-
-        client = InferenceClient(token=HF_TOKEN)
-        audio = client.text_to_speech(text, model="facebook/mms-tts-eng")
-        if isinstance(audio, bytes):
-            audio_b64 = base64.b64encode(audio).decode()
-        else:
-            audio_b64 = base64.b64encode(audio.read()).decode()
-        return {"success": True, "audio_base64": audio_b64, "format": "wav"}
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"TTS failed: {e}")
-
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+            "video
