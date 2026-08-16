@@ -1,7 +1,14 @@
 """
-JagX AI 4.0
-Clean Key System + Hourly Rate Limiting + Key Management
+JagX AI 4.2
 Created by JagX & JRILICENSE
+
+Features:
+- Hourly Rate Limiting
+- Full Key Management
+- Local Knowledge Fallback
+- Free Internet Search
+- Invisible Watermark on every response
+- External LLMs only when keys are available
 """
 
 import os
@@ -9,11 +16,13 @@ import json
 import secrets
 import threading
 import time
-from typing import Optional, List, Dict, Any
+import re
+from typing import Optional, List, Dict
 from collections import defaultdict
+from urllib.parse import quote
 
 import requests
-from fastapi import FastAPI, HTTPException, Header, Depends
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
@@ -33,22 +42,23 @@ PERMANENT_KEYS = set(
     k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip()
 )
 
-# Hourly Rate Limits (requests per hour)
+# Hourly limits
 TIER_HOURLY_LIMITS = {
-    "free": 60,          # 60 requests per hour
+    "free": 60,
     "premium": 300,
     "premium_plus": 800,
-    "master": None,      # Unlimited
+    "master": None,
     "admin": None
 }
 
 app = FastAPI(
-    title="JagX AI 4.0",
-    description="Clean API with Hourly Rate Limiting + Key Management by JagX & JRILICENSE",
-    version="4.0.0"
+    title="JagX AI 4.2",
+    description="Independent AI by JagX & JRILICENSE with Invisible Watermark",
+    version="4.2.0"
 )
 
 lock = threading.Lock()
+rate_limit_store = defaultdict(list)
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,19 +68,46 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = """You are JagX AI 4.0 — an advanced independent AI created by JagX & JRILICENSE.
+SYSTEM_PROMPT = """You are JagX AI, an advanced independent AI created by JagX and JRILICENSE.
 
-STRICT IDENTITY RULES:
+STRICT RULES:
 - Your name is JagX AI.
-- You were created by JagX & JRILICENSE.
-- Never say you were made by Alibaba, Qwen, Meta, OpenAI, Google, NVIDIA or any other company.
-- Always introduce yourself as JagX AI by JagX & JRILICENSE.
+- You were created by JagX and JRILICENSE.
+- Never say you were created by OpenAI, Alibaba, Qwen, Meta, Google, or any other company.
+- Always present yourself as JagX AI by JagX & JRILICENSE.
 
-You are excellent at coding, cybersecurity, mathematics, reasoning, and clear explanations.
+You are helpful, clear, and excellent at coding and explanations.
 """
 
-# In-memory rate limit tracker: {api_key: [(timestamp, ...)]}
-rate_limit_store = defaultdict(list)
+# ====================== INVISIBLE WATERMARK ======================
+def add_invisible_watermark(text: str) -> str:
+    """
+    Adds an invisible watermark using zero-width characters.
+    This watermark is not visible but usually survives copy-paste.
+    """
+    ZWSP = "\u200B"   # Zero Width Space
+    ZWNJ = "\u200C"   # Zero Width Non-Joiner
+    ZWJ  = "\u200D"   # Zero Width Joiner
+
+    # Secret pattern representing "JAGX"
+    pattern = [ZWNJ, ZWSP, ZWSP, ZWSP, ZWJ, ZWJ, ZWJ, ZWSP]
+    watermark = "".join(pattern)
+
+    if not text:
+        return watermark
+
+    if len(text) < 15:
+        return text + watermark
+
+    # Insert watermark in multiple places for better survival
+    third = len(text) // 3
+    text = (
+        text[:3] + watermark +
+        text[3:third] + watermark +
+        text[third:third*2] + watermark +
+        text[third*2:]
+    )
+    return text
 
 
 # ====================== HELPERS ======================
@@ -89,18 +126,12 @@ def save_keys(keys: dict):
 
 def load_knowledge() -> List[Dict]:
     if not os.path.exists(KNOWLEDGE_FILE):
-        default = [
-            {"question": "who are you", "answer": "I am JagX AI 4.0, created by JagX & JRILICENSE."},
-            {"question": "who created you", "answer": "I was created by JagX & JRILICENSE."}
-        ]
-        with open(KNOWLEDGE_FILE, "w") as f:
-            json.dump(default, f, indent=2)
-        return default
+        return []
     try:
         with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             return data if isinstance(data, list) else []
-    except Exception:
+    except:
         return []
 
 
@@ -117,6 +148,34 @@ def search_knowledge(query: str) -> Optional[str]:
     return None
 
 
+def free_web_search(query: str) -> Optional[str]:
+    """Simple free search using DuckDuckGo HTML"""
+    try:
+        url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+        r = requests.get(url, headers=headers, timeout=10)
+        if r.status_code != 200:
+            return None
+
+        texts = re.findall(r'class="result__snippet"[^>]*>(.*?)</a>', r.text, re.DOTALL)
+        if not texts:
+            texts = re.findall(r'class="result__snippet">(.*?)</td>', r.text, re.DOTALL)
+
+        clean = []
+        for t in texts[:3]:
+            t = re.sub(r'<.*?>', '', t).strip()
+            if t and len(t) > 40:
+                clean.append(t)
+
+        if clean:
+            return "Based on available information:\n\n" + "\n\n".join(clean)
+        return None
+    except:
+        return None
+
+
 def is_valid_key(key: str) -> bool:
     if not key:
         return False
@@ -126,8 +185,7 @@ def is_valid_key(key: str) -> bool:
     return key in keys and keys[key].get("active", True)
 
 
-def check_rate_limit(key: str) -> tuple[bool, str]:
-    """Returns (allowed, message)"""
+def check_rate_limit(key: str) -> tuple:
     if key in PERMANENT_KEYS:
         return True, "unlimited"
 
@@ -146,24 +204,90 @@ def check_rate_limit(key: str) -> tuple[bool, str]:
         return True, "unlimited"
 
     now = time.time()
-    window = 3600  # 1 hour
+    window = 3600
 
-    # Clean old timestamps
     rate_limit_store[key] = [t for t in rate_limit_store[key] if now - t < window]
 
     if len(rate_limit_store[key]) >= limit:
-        return False, f"Hourly rate limit reached ({limit} requests/hour). Please wait or upgrade."
+        return False, f"Hourly limit reached ({limit} requests/hour). Please wait or upgrade."
 
     rate_limit_store[key].append(now)
     remaining = limit - len(rate_limit_store[key])
     return True, f"{remaining} requests remaining this hour"
 
 
+# ====================== LLM ======================
+def call_external_llm(messages: list, max_tokens: int = 1200) -> Optional[str]:
+    # Try Hugging Face
+    if HF_TOKEN:
+        try:
+            headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
+            payload = {
+                "model": "Qwen/Qwen2.5-7B-Instruct",
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "temperature": 0.4
+            }
+            r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except:
+            pass
+
+    # Try NVIDIA
+    if NVIDIA_API_KEY:
+        try:
+            headers = {
+                "Authorization": f"Bearer {NVIDIA_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "meta/llama-3.1-8b-instruct",
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "temperature": 0.4,
+                "stream": False
+            }
+            r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except:
+            pass
+
+    return None
+
+
+def generate_response(user_message: str, history: Optional[List[Dict]] = None) -> str:
+    # 1. Local Knowledge
+    local = search_knowledge(user_message)
+    if local:
+        return local
+
+    # 2. External LLM (if keys exist)
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    if history:
+        for m in history[-8:]:
+            if m.get("role") in ("user", "assistant") and m.get("content"):
+                messages.append({"role": m["role"], "content": m["content"]})
+    messages.append({"role": "user", "content": user_message})
+
+    external = call_external_llm(messages)
+    if external:
+        return external
+
+    # 3. Free Internet Search
+    search_result = free_web_search(user_message)
+    if search_result:
+        return search_result
+
+    # 4. Final fallback
+    return "I am JagX AI, created by JagX & JRILICENSE. I couldn't find a good answer for that right now. Please try rephrasing your question."
+
+
 # ====================== MODELS ======================
 class ChatRequest(BaseModel):
     message: str
-    max_tokens: int = 1500
-    temperature: float = 0.4
+    max_tokens: int = 1200
     history: Optional[List[Dict[str, str]]] = None
 
 
@@ -190,75 +314,20 @@ class BlockKeyRequest(BaseModel):
     admin_secret: str
 
 
-# ====================== LLM ======================
-def call_llm(messages: list, max_tokens: int = 1500, temperature: float = 0.4) -> str:
-    errors = []
-
-    # Try Hugging Face
-    if HF_TOKEN:
-        headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
-        payload = {
-            "model": "Qwen/Qwen2.5-7B-Instruct",
-            "messages": messages,
-            "max_tokens": min(max_tokens, 4096),
-            "temperature": temperature
-        }
-        try:
-            r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=90)
-            if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"]
-            errors.append(f"HF: {r.status_code}")
-        except Exception as e:
-            errors.append(f"HF: {str(e)[:60]}")
-
-    # Try NVIDIA
-    if NVIDIA_API_KEY:
-        headers = {
-            "Authorization": f"Bearer {NVIDIA_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "model": "meta/llama-3.1-8b-instruct",
-            "messages": messages,
-            "max_tokens": min(max_tokens, 4096),
-            "temperature": temperature,
-            "stream": False
-        }
-        try:
-            r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=90)
-            if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"]
-            errors.append(f"NVIDIA: {r.status_code}")
-        except Exception as e:
-            errors.append(f"NVIDIA: {str(e)[:60]}")
-
-    # Knowledge fallback
-    last_user = ""
-    for m in reversed(messages):
-        if m.get("role") == "user":
-            last_user = m.get("content", "")
-            break
-
-    local = search_knowledge(last_user)
-    if local:
-        return local
-
-    return "I'm JagX AI. External AI providers are temporarily unavailable. Please try again shortly."
-
-
 # ====================== ROUTES ======================
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 4.0 is running",
-        "version": "4.0.0",
+        "status": "JagX AI 4.2 is running",
+        "version": "4.2.0",
+        "created_by": "JagX & JRILICENSE",
         "features": [
-            "hourly_rate_limiting",
+            "hourly_rate_limit",
             "key_management",
-            "permanent_keys",
-            "tiers"
-        ],
-        "created_by": "JagX & JRILICENSE"
+            "local_knowledge",
+            "free_search",
+            "invisible_watermark"
+        ]
     }
 
 
@@ -299,25 +368,19 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
     if not allowed:
         raise HTTPException(status_code=429, detail=quota_msg)
 
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    reply = generate_response(req.message, req.history)
 
-    if req.history:
-        for m in req.history[-10:]:
-            if m.get("role") in ("user", "assistant") and m.get("content"):
-                messages.append({"role": m["role"], "content": m["content"]})
-
-    messages.append({"role": "user", "content": req.message})
-
-    reply = call_llm(messages, req.max_tokens, req.temperature)
+    # Add invisible watermark
+    reply = add_invisible_watermark(reply)
 
     return {
         "response": reply,
-        "model": "JagX AI 4.0",
+        "model": "JagX AI 4.2",
         "quota": quota_msg
     }
 
 
-# ---------- KEY MANAGEMENT ----------
+# ---------- ADMIN KEY MANAGEMENT ----------
 @app.get("/admin/keys")
 def list_keys(admin_secret: str = Header(...)):
     if admin_secret != ADMIN_SECRET:
@@ -348,8 +411,7 @@ def block_key(req: BlockKeyRequest):
         keys[req.api_key]["active"] = req.active
         save_keys(keys)
 
-    status = "activated" if req.active else "blocked"
-    return {"success": True, "message": f"Key {status} successfully"}
+    return {"success": True, "message": "Key updated successfully"}
 
 
 @app.post("/admin/delete-key")
