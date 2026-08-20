@@ -1,14 +1,15 @@
 """
-JagX AI 5.0
-General Purpose AI
+JagX AI 5.1
+General Purpose AI + Vision
 Created by JagX & JRILICENSE
 
 Features:
 - General purpose answering
-- Strong mathematics
-- Multi-language coding (including WanX)
-- Free Internet Search
+- Mathematics
+- Multi-language coding
 - Image Generation
+- Image Understanding (Vision)
+- Free Internet Search
 - Invisible Watermark
 - Hourly Rate Limiting
 - Full Key Management
@@ -56,9 +57,9 @@ TIER_HOURLY_LIMITS = {
 }
 
 app = FastAPI(
-    title="JagX AI 5.0",
-    description="General Purpose AI by JagX & JRILICENSE",
-    version="5.0.0"
+    title="JagX AI 5.1",
+    description="General Purpose AI + Vision by JagX & JRILICENSE",
+    version="5.1.0"
 )
 
 lock = threading.Lock()
@@ -72,7 +73,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = f"""You are JagX AI 5.0 — a powerful general-purpose AI created by JagX and JRILICENSE.
+SYSTEM_PROMPT = f"""You are JagX AI 5.1 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -81,14 +82,14 @@ STRICT IDENTITY RULES:
 - Always introduce yourself as JagX AI by JagX & JRILICENSE when asked.
 
 CAPABILITIES:
-- You can answer general knowledge questions.
-- You are excellent at mathematics and step-by-step problem solving.
-- You can write and explain code in many languages including Python, JavaScript, TypeScript, Java, C++, C#, PHP, Go, Rust, Kotlin, Swift, Dart, Flutter, and WanX.
-- You can help with image generation ideas and prompts.
-- You have access to current information through search.
+- Answer general knowledge questions
+- Solve mathematics step by step
+- Write and explain code in many languages (Python, JavaScript, TypeScript, Java, C++, Go, Rust, PHP, WanX, etc.)
+- Image generation and basic image understanding
+- Internet search for real-time information
 - Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-Be clear, helpful, accurate, and professional. Give complete and useful answers.
+Be clear, helpful, accurate, and professional.
 """
 
 # ====================== WATERMARK ======================
@@ -111,7 +112,6 @@ def add_invisible_watermark(text: str) -> str:
         text[third*2:]
     )
 
-
 # ====================== HELPERS ======================
 def load_keys() -> dict:
     if not os.path.exists(KEYS_FILE):
@@ -120,11 +120,9 @@ def load_keys() -> dict:
     with open(KEYS_FILE, "r") as f:
         return json.load(f)
 
-
 def save_keys(keys: dict):
     with open(KEYS_FILE, "w") as f:
         json.dump(keys, f, indent=2)
-
 
 def load_knowledge() -> List[Dict]:
     if not os.path.exists(KNOWLEDGE_FILE):
@@ -136,7 +134,6 @@ def load_knowledge() -> List[Dict]:
     except:
         return []
 
-
 def search_knowledge(query: str) -> Optional[str]:
     knowledge = load_knowledge()
     query_lower = query.lower().strip()
@@ -147,7 +144,6 @@ def search_knowledge(query: str) -> Optional[str]:
         if q == query_lower or query_lower in q or q in query_lower:
             return item.get("answer")
     return None
-
 
 def free_web_search(query: str) -> Optional[str]:
     try:
@@ -173,7 +169,6 @@ def free_web_search(query: str) -> Optional[str]:
     except:
         return None
 
-
 def is_valid_key(key: str) -> bool:
     if not key:
         return False
@@ -181,7 +176,6 @@ def is_valid_key(key: str) -> bool:
         return True
     keys = load_keys()
     return key in keys and keys[key].get("active", True)
-
 
 def check_rate_limit(key: str) -> tuple:
     if key in PERMANENT_KEYS:
@@ -210,7 +204,6 @@ def check_rate_limit(key: str) -> tuple:
     rate_limit_store[key].append(now)
     remaining = limit - len(rate_limit_store[key])
     return True, f"{remaining} requests remaining this hour"
-
 
 # ====================== LLM ======================
 def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
@@ -247,14 +240,11 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
 
     return None
 
-
 def generate_response(user_message: str, history: Optional[List[Dict]] = None) -> str:
-    # 1. Local knowledge
     local = search_knowledge(user_message)
     if local:
         return local
 
-    # 2. External LLM
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     if history:
         for m in history[-10:]:
@@ -266,13 +256,49 @@ def generate_response(user_message: str, history: Optional[List[Dict]] = None) -
     if external:
         return external
 
-    # 3. Free search
     search_result = free_web_search(user_message)
     if search_result:
         return search_result
 
     return "I am JagX AI, created by JagX & JRILICENSE. I couldn't find a complete answer right now. Please try rephrasing your question."
 
+# ====================== VISION ======================
+def analyze_image_with_vision(image_base64: str, question: str) -> str:
+    if "," in image_base64:
+        image_base64 = image_base64.split(",")[1]
+
+    # Try Hugging Face Vision model
+    if HF_TOKEN:
+        try:
+            headers = {
+                "Authorization": f"Bearer {HF_TOKEN}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "image": image_base64,
+                "question": question
+            }
+            r = requests.post(
+                "https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base",
+                headers=headers,
+                json=payload,
+                timeout=45
+            )
+            if r.status_code == 200:
+                result = r.json()
+                if isinstance(result, list) and len(result) > 0:
+                    answer = result[0].get("answer") or str(result[0])
+                    return answer
+                if isinstance(result, dict):
+                    return result.get("answer") or result.get("generated_text") or str(result)
+        except Exception as e:
+            print("Vision error:", e)
+
+    return (
+        "I successfully received your image. "
+        "Full advanced vision is still being improved on JagX AI. "
+        "Please describe the image or ask a specific question and I will help you as much as possible."
+    )
 
 # ====================== MODELS ======================
 class ChatRequest(BaseModel):
@@ -280,55 +306,54 @@ class ChatRequest(BaseModel):
     max_tokens: int = 1500
     history: Optional[List[Dict[str, str]]] = None
 
-
 class ImageRequest(BaseModel):
     prompt: str
     width: int = 1024
     height: int = 1024
 
+class VisionRequest(BaseModel):
+    image_base64: str
+    question: str = "Describe this image in detail."
+    max_tokens: int = 800
 
 class CreateKeyRequest(BaseModel):
     owner_label: str
     admin_secret: str
     tier: str = "free"
 
-
 class AdminKeyRequest(BaseModel):
     api_key: str
     admin_secret: str
-
 
 class UpgradeKeyRequest(BaseModel):
     api_key: str
     new_tier: str
     admin_secret: str
 
-
 class BlockKeyRequest(BaseModel):
     api_key: str
     active: bool
     admin_secret: str
 
-
 # ====================== ROUTES ======================
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 5.0 is running",
-        "version": "5.0.0",
+        "status": "JagX AI 5.1 is running",
+        "version": "5.1.0",
         "created_by": "JagX & JRILICENSE",
         "features": [
             "general_purpose",
             "mathematics",
             "multi_language_coding",
             "image_generation",
+            "vision",
             "free_search",
             "invisible_watermark",
             "hourly_rate_limit",
             "key_management"
         ]
     }
-
 
 @app.post("/chat")
 def chat(req: ChatRequest, x_api_key: str = Header(...)):
@@ -344,10 +369,9 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
 
     return {
         "response": reply,
-        "model": "JagX AI 5.0",
+        "model": "JagX AI 5.1",
         "quota": quota_msg
     }
-
 
 @app.post("/image")
 def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
@@ -362,7 +386,6 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
     if not prompt:
         raise HTTPException(status_code=400, detail="Prompt is required")
 
-    # Free image generation with Pollinations
     try:
         url = f"https://image.pollinations.ai/prompt/{quote(prompt)}?width={req.width}&height={req.height}&nologo=true&model=flux"
         r = requests.get(url, timeout=60)
@@ -380,6 +403,26 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
 
     raise HTTPException(status_code=502, detail="Image generation failed")
 
+@app.post("/vision")
+def vision(req: VisionRequest, x_api_key: str = Header(...)):
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+
+    allowed, quota_msg = check_rate_limit(x_api_key)
+    if not allowed:
+        raise HTTPException(status_code=429, detail=quota_msg)
+
+    if not req.image_base64:
+        raise HTTPException(status_code=400, detail="image_base64 is required")
+
+    answer = analyze_image_with_vision(req.image_base64, req.question)
+    answer = add_invisible_watermark(answer)
+
+    return {
+        "response": answer,
+        "model": "JagX AI Vision",
+        "quota": quota_msg
+    }
 
 @app.post("/create-key")
 def create_key(req: CreateKeyRequest):
@@ -408,7 +451,6 @@ def create_key(req: CreateKeyRequest):
         "hourly_limit": TIER_HOURLY_LIMITS.get(tier)
     }
 
-
 @app.get("/admin/keys")
 def list_keys(admin_secret: str = Header(...)):
     if admin_secret != ADMIN_SECRET:
@@ -426,7 +468,6 @@ def list_keys(admin_secret: str = Header(...)):
         })
     return {"total": len(result), "keys": result}
 
-
 @app.post("/admin/block-key")
 def block_key(req: BlockKeyRequest):
     if req.admin_secret != ADMIN_SECRET:
@@ -441,7 +482,6 @@ def block_key(req: BlockKeyRequest):
 
     return {"success": True, "message": "Key updated successfully"}
 
-
 @app.post("/admin/delete-key")
 def delete_key(req: AdminKeyRequest):
     if req.admin_secret != ADMIN_SECRET:
@@ -455,7 +495,6 @@ def delete_key(req: AdminKeyRequest):
         save_keys(keys)
 
     return {"success": True, "message": "Key deleted successfully"}
-
 
 @app.post("/admin/upgrade-key")
 def upgrade_key(req: UpgradeKeyRequest):
@@ -478,7 +517,6 @@ def upgrade_key(req: UpgradeKeyRequest):
         "message": f"Key upgraded to {new_tier}",
         "hourly_limit": TIER_HOURLY_LIMITS[new_tier]
     }
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
