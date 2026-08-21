@@ -1,12 +1,11 @@
 """
-JagX AI 6.2
-General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen + File/Link Reading
+JagX AI 6.3
+General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen + File/Link Reading + PDF Generation
 Created by JagX & JRILICENSE
 """
 
 import os
 import io
-import csv
 import json
 import socket
 import ipaddress
@@ -33,6 +32,7 @@ import uvicorn
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
 import docx
+from fpdf import FPDF
 
 # ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -72,20 +72,23 @@ MAX_TOOL_STEPS = 4
 MAX_CODE_LEN = 20000
 MAX_TOOL_RESULT_LEN = 4000
 MAX_IMAGES = 6
-MAX_IMAGE_BYTES = 8 * 1024 * 1024       # 8MB decoded, per image
+MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 MAX_FILES = 3
-MAX_FILE_BYTES = 15 * 1024 * 1024       # 15MB decoded, per file
+MAX_FILE_BYTES = 15 * 1024 * 1024
 MAX_LINKS = 3
-MAX_LINK_BYTES = 3 * 1024 * 1024        # 3MB downloaded, per link
-MAX_EXTRACTED_TEXT_LEN = 12000          # chars fed into the model per file/link
+MAX_LINK_BYTES = 3 * 1024 * 1024
+MAX_EXTRACTED_TEXT_LEN = 12000
+
+MAX_PDF_SECTIONS = 50
+MAX_PDF_CONTENT_LEN = 30000
 
 APP_START_TIME = time.time()
 
 app = FastAPI(
-    title="JagX AI 6.2",
-    description="General Purpose AI with reasoning, tools, vision, image gen, and file/link reading by JagX & JRILICENSE",
-    version="6.2.0"
+    title="JagX AI 6.3",
+    description="General Purpose AI with reasoning, tools, vision, image gen, file/link reading, and PDF generation by JagX & JRILICENSE",
+    version="6.3.0"
 )
 
 lock = threading.Lock()
@@ -94,7 +97,7 @@ auth_attempt_store = defaultdict(list)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten this to your real frontend domain once you have one
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -116,7 +119,7 @@ def _build_session() -> requests.Session:
 
 HTTP = _build_session()
 
-AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.2 — a powerful general-purpose AI created by JagX and JRILICENSE.
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.3 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -131,18 +134,21 @@ CAPABILITIES:
 - Real-time web search
 - Image generation and image understanding
 - Reading attached files (PDF, Word, txt, csv) and links pasted by the user
+- Generating downloadable PDF documents
 - Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-TOOLS — you may use these when you genuinely need current information or must execute/verify code.
+TOOLS — you may use these when you genuinely need current information, must execute/verify code, or the user wants a document produced.
 To use a tool, reply with ONLY a raw JSON object, nothing else, in one of these forms:
 {{"tool": "web_search", "input": "search query"}}
 {{"tool": "run_code", "input": {{"language": "python", "code": "print('hello')"}}}}
+{{"tool": "generate_pdf", "input": {{"title": "Document Title", "sections": [{{"heading": "Section 1", "content": "Text here. Use lines starting with '- ' for bullet points."}}]}}}}
 
 When you are ready to answer the user, reply with ONLY:
 {{"final": "your complete, well-formatted answer"}}
 
 Rules:
 - If the message includes attached file or link content, it will already be given to you as context — use it directly, don't ask the user to repeat it.
+- When a user asks for a document, report, letter, or anything meant to be downloaded, use generate_pdf rather than just writing it as chat text.
 - Don't use a tool unless you actually need it — if you already know the answer, go straight to {{"final": ...}}.
 - Never call more tools than necessary.
 - Think step by step before deciding, but only the JSON should appear in your reply — no extra commentary outside the JSON.
@@ -262,7 +268,7 @@ def fetch_link_content(url: str) -> str:
     if not is_safe_url(url):
         return f"Error: '{url}' could not be read (blocked or invalid address)."
     try:
-        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/6.2)"}
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/6.3)"}
         r = HTTP.get(url, headers=headers, timeout=15, stream=True, allow_redirects=True)
         if r.status_code != 200:
             return f"Error: link returned status {r.status_code}."
@@ -323,7 +329,6 @@ def extract_text_from_file(filename: str, data: bytes) -> str:
         return extract_text_from_docx(data)
     if name.endswith((".txt", ".csv", ".md", ".json", ".log")):
         return extract_text_from_plain(data)
-    # Unknown extension — try plain text as a best-effort fallback
     return extract_text_from_plain(data)
 
 def decode_and_check_file(filename: str, content_b64: str) -> bytes:
@@ -334,6 +339,70 @@ def decode_and_check_file(filename: str, content_b64: str) -> bytes:
         return base64.b64decode(content_b64)
     except Exception:
         raise HTTPException(status_code=400, detail=f"File '{filename}' is not valid base64.")
+
+# ====================== PDF GENERATION ======================
+def slugify_filename(text: str, ext: str) -> str:
+    base = re.sub(r'[^a-zA-Z0-9\-_]+', '_', (text or "").strip()).strip('_')[:60]
+    return f"{base or 'document'}.{ext}"
+
+def _sanitize_pdf_text(text: str) -> str:
+    # Core PDF fonts only support latin-1; replace anything outside that range
+    # rather than crashing the whole generation on an emoji or exotic symbol.
+    return (text or "").encode("latin-1", "replace").decode("latin-1")
+
+def generate_pdf_document(title: str, sections: List[Dict[str, str]], author: str = "JagX AI") -> bytes:
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+
+    pdf.set_font("Helvetica", "B", 18)
+    pdf.multi_cell(0, 10, _sanitize_pdf_text(title))
+    pdf.ln(1)
+
+    pdf.set_font("Helvetica", "I", 9)
+    pdf.set_text_color(120, 120, 120)
+    pdf.multi_cell(0, 6, _sanitize_pdf_text(f"Generated by {author} — {datetime.utcnow().strftime('%Y-%m-%d')}"))
+    pdf.set_text_color(0, 0, 0)
+    pdf.ln(4)
+
+    for sec in sections[:MAX_PDF_SECTIONS]:
+        heading = sec.get("heading", "")
+        content = sec.get("content", "")
+        if heading:
+            pdf.set_font("Helvetica", "B", 13)
+            pdf.multi_cell(0, 8, _sanitize_pdf_text(heading))
+            pdf.ln(1)
+        pdf.set_font("Helvetica", "", 11)
+        for line in content.split("\n"):
+            line = line.rstrip()
+            stripped = line.strip()
+            if stripped.startswith(("- ", "* ")):
+                pdf.set_x(pdf.l_margin + 5)
+                pdf.multi_cell(0, 6, _sanitize_pdf_text("•  " + stripped[2:]))
+            else:
+                pdf.multi_cell(0, 6, _sanitize_pdf_text(line))
+        pdf.ln(3)
+
+    raw = pdf.output()
+    return bytes(raw) if not isinstance(raw, (bytes, bytearray)) else bytes(raw)
+
+def build_pdf_tool_result(title: str, sections_input) -> Tuple[str, Optional[dict]]:
+    if isinstance(sections_input, list):
+        sections = sections_input
+    else:
+        sections = [{"heading": "", "content": str(sections_input)}]
+    total_len = sum(len(s.get("content", "")) for s in sections if isinstance(s, dict))
+    if total_len > MAX_PDF_CONTENT_LEN or len(sections) > MAX_PDF_SECTIONS:
+        return "Error: requested PDF content is too large to generate.", None
+    try:
+        pdf_bytes = generate_pdf_document(title or "Document", sections)
+        filename = slugify_filename(title or "document", "pdf")
+        b64 = base64.b64encode(pdf_bytes).decode()
+        attachment = {"type": "pdf", "filename": filename, "content_base64": b64}
+        return f"PDF '{filename}' generated successfully and attached for the user to download.", attachment
+    except Exception as e:
+        logger.warning(f"pdf generation failed: {e}")
+        return f"Error: PDF generation failed ({str(e)[:150]}).", None
 
 # ====================== SANDBOXED CODE EXECUTION (Piston) ======================
 _piston_runtimes_cache = {"data": None, "ts": 0}
@@ -452,82 +521,4 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
             logger.warning(f"NVIDIA call failed: {e}")
     return None
 
-def extract_json_action(text: str) -> Optional[dict]:
-    if not text:
-        return None
-    text = text.strip()
-    try:
-        obj = json.loads(text)
-        if isinstance(obj, dict) and ("tool" in obj or "final" in obj):
-            return obj
-    except Exception:
-        pass
-    m = re.search(r'\{.*\}', text, re.DOTALL)
-    if m:
-        try:
-            obj = json.loads(m.group(0))
-            if isinstance(obj, dict) and ("tool" in obj or "final" in obj):
-                return obj
-        except Exception:
-            pass
-    return None
-
-def run_agent_loop(user_message: str, history: Optional[List[Dict]], max_tokens: int) -> str:
-    messages = [{"role": "system", "content": AGENT_SYSTEM_PROMPT}]
-    if history:
-        for m in history[-10:]:
-            if m.get("role") in ("user", "assistant") and m.get("content"):
-                messages.append({"role": m["role"], "content": m["content"]})
-    messages.append({"role": "user", "content": user_message})
-
-    for _ in range(MAX_TOOL_STEPS):
-        raw = call_external_llm(messages, max_tokens=max_tokens)
-        if not raw:
-            return "I couldn't reach any AI model right now. Please try again shortly."
-        action = extract_json_action(raw)
-        if not action:
-            return raw
-        if "final" in action:
-            return str(action["final"])
-        tool = action.get("tool")
-        tool_input = action.get("input")
-        if tool == "web_search":
-            result = free_web_search(str(tool_input)) or "No results found."
-        elif tool == "run_code":
-            if isinstance(tool_input, dict):
-                lang = tool_input.get("language", "python")
-                code = tool_input.get("code", "")
-            else:
-                lang, code = "python", str(tool_input)
-            result = run_code_sandboxed(lang, code)
-        else:
-            result = f"Unknown tool requested: {tool}"
-        messages.append({"role": "assistant", "content": raw})
-        messages.append({
-            "role": "user",
-            "content": f"[TOOL RESULT for {tool}]\n{result[:MAX_TOOL_RESULT_LEN]}\n\n"
-                        f"Continue. If you now have enough info, reply with {{\"final\": \"...\"}}."
-        })
-
-    messages.append({"role": "user", "content": "Give your final answer now, as plain text, no JSON."})
-    final = call_external_llm(messages, max_tokens=max_tokens)
-    return final or "I wasn't able to finish reasoning about that in time. Please try rephrasing."
-
-def build_augmented_message(
-    user_message: str,
-    image_descriptions: List[str],
-    file_texts: List[Tuple[str, str]],
-    link_texts: List[Tuple[str, str]]
-) -> str:
-    parts = [user_message]
-    for desc in image_descriptions:
-        parts.append(f"\n\n[Attached image content]\n{desc}")
-    for fname, ftext in file_texts:
-        parts.append(f"\n\n[Content of attached file: {fname}]\n{ftext}")
-    for url, ltext in link_texts:
-        parts.append(f"\n\n[Content of link: {url}]\n{ltext}")
-    return "".join(parts)
-
-def generate_response(
-    user_message: str,
-    history: Optional[List[Dict]] = None,
+def extract_json_action(tex
