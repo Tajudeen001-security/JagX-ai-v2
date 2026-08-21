@@ -1,6 +1,6 @@
 """
-JagX AI 6.0
-General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen + Supabase Auth
+JagX AI 6.1
+General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen
 Created by JagX & JRILICENSE
 """
 
@@ -12,16 +12,24 @@ import time
 import re
 import hmac
 import base64
+import logging
 from typing import Optional, List, Dict, Tuple
 from collections import defaultdict
 from urllib.parse import quote
 from datetime import datetime
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel
 import uvicorn
+
+# ====================== LOGGING ======================
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("jagx-ai")
 
 # ====================== CONFIG ======================
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
@@ -46,12 +54,6 @@ PERMANENT_KEYS = set(
     k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip()
 )
 
-# ===== Supabase (optional — auth layer on top of the existing key system) =====
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
-SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "")
-SUPABASE_ENABLED = bool(SUPABASE_URL and SUPABASE_ANON_KEY and SUPABASE_SERVICE_KEY)
-
 TIER_HOURLY_LIMITS = {
     "free": 60,
     "premium": 300,
@@ -65,16 +67,19 @@ MAX_TOOL_STEPS = 4
 MAX_CODE_LEN = 20000
 MAX_TOOL_RESULT_LEN = 4000
 MAX_IMAGES = 6
+MAX_IMAGE_BYTES = 8 * 1024 * 1024  # 8MB decoded, per image
+
+APP_START_TIME = time.time()
 
 app = FastAPI(
-    title="JagX AI 6.0",
-    description="General Purpose AI with reasoning, tools, vision, image gen and auth by JagX & JRILICENSE",
-    version="6.0.0"
+    title="JagX AI 6.1",
+    description="General Purpose AI with reasoning, tools, vision and image gen by JagX & JRILICENSE",
+    version="6.1.0"
 )
 
 lock = threading.Lock()
 rate_limit_store = defaultdict(list)
-auth_attempt_store = defaultdict(list)  # crude per-IP brute force guard on auth routes
+auth_attempt_store = defaultdict(list)  # crude per-IP brute force guard on admin routes
 
 app.add_middleware(
     CORSMiddleware,
@@ -83,8 +88,25 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.0 — a powerful general-purpose AI created by JagX and JRILICENSE.
+# Shared session with retries — one flaky network blip shouldn't kill a whole request
+def _build_session() -> requests.Session:
+    s = requests.Session()
+    retries = Retry(
+        total=2,
+        backoff_factor=0.5,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET", "POST"]
+    )
+    adapter = HTTPAdapter(max_retries=retries)
+    s.mount("https://", adapter)
+    s.mount("http://", adapter)
+    return s
+
+HTTP = _build_session()
+
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.1 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -142,8 +164,11 @@ def load_keys() -> dict:
         return json.load(f)
 
 def save_keys(keys: dict):
-    with open(KEYS_FILE, "w") as f:
+    """Atomic write: never leaves keys.json half-written if the process dies mid-save."""
+    tmp_path = KEYS_FILE + ".tmp"
+    with open(tmp_path, "w") as f:
         json.dump(keys, f, indent=2)
+    os.replace(tmp_path, KEYS_FILE)
 
 def load_knowledge() -> List[Dict]:
     if not os.path.exists(KNOWLEDGE_FILE):
@@ -170,7 +195,7 @@ def free_web_search(query: str) -> Optional[str]:
     try:
         url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-        r = requests.get(url, headers=headers, timeout=12)
+        r = HTTP.get(url, headers=headers, timeout=12)
         if r.status_code != 200:
             return None
         texts = re.findall(r'class="result__snippet"[^>]*>(.*?)</a>', r.text, re.DOTALL)
@@ -184,7 +209,8 @@ def free_web_search(query: str) -> Optional[str]:
         if clean:
             return "Here's what I found:\n\n" + "\n\n".join(clean)
         return None
-    except Exception:
+    except Exception as e:
+        logger.warning(f"web_search failed: {e}")
         return None
 
 # ====================== SANDBOXED CODE EXECUTION (Piston) ======================
@@ -195,13 +221,13 @@ def _get_piston_runtimes():
     if _piston_runtimes_cache["data"] and now - _piston_runtimes_cache["ts"] < 3600:
         return _piston_runtimes_cache["data"]
     try:
-        r = requests.get(f"{PISTON_URL}/runtimes", timeout=10)
+        r = HTTP.get(f"{PISTON_URL}/runtimes", timeout=10)
         if r.status_code == 200:
             _piston_runtimes_cache["data"] = r.json()
             _piston_runtimes_cache["ts"] = now
             return _piston_runtimes_cache["data"]
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(f"piston runtimes fetch failed: {e}")
     return _piston_runtimes_cache["data"] or []
 
 def _resolve_piston_version(language: str) -> Optional[Tuple[str, str]]:
@@ -230,7 +256,7 @@ def run_code_sandboxed(language: str, code: str, stdin: str = "") -> str:
             "files": [{"content": code}],
             "stdin": stdin or ""
         }
-        r = requests.post(f"{PISTON_URL}/execute", json=payload, timeout=20)
+        r = HTTP.post(f"{PISTON_URL}/execute", json=payload, timeout=20)
         if r.status_code != 200:
             return f"Error: sandbox execution failed (status {r.status_code})."
         data = r.json()
@@ -245,6 +271,7 @@ def run_code_sandboxed(language: str, code: str, stdin: str = "") -> str:
         out += f"[exit code: {run.get('code')}]"
         return out[:MAX_TOOL_RESULT_LEN]
     except Exception as e:
+        logger.warning(f"code sandbox failed: {e}")
         return f"Error: sandbox request failed ({str(e)[:200]})."
 
 # ====================== LLM CASCADE ======================
@@ -258,19 +285,16 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
     if GROQ_API_KEY:
         try:
             headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
-            payload = {
-                "model": GROQ_MODEL,
-                "messages": messages,
-                "max_tokens": max_tokens,
-                "temperature": 0.5
-            }
-            r = requests.post(GROQ_CHAT_URL, headers=headers, json=payload, timeout=70)
+            payload = {"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5}
+            r = HTTP.post(GROQ_CHAT_URL, headers=headers, json=payload, timeout=70)
             if r.status_code == 200:
                 content = _extract_openai_style_content(r.json())
                 if content:
                     return content
-        except Exception:
-            pass
+            else:
+                logger.warning(f"Groq returned {r.status_code}: {r.text[:200]}")
+        except Exception as e:
+            logger.warning(f"Groq call failed: {e}")
     if HF_TOKEN:
         try:
             headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
@@ -280,13 +304,13 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
                 "max_tokens": max_tokens,
                 "temperature": 0.5
             }
-            r = requests.post(HF_CHAT_URL, headers=headers, json=payload, timeout=70)
+            r = HTTP.post(HF_CHAT_URL, headers=headers, json=payload, timeout=70)
             if r.status_code == 200:
                 content = _extract_openai_style_content(r.json())
                 if content:
                     return content
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"HF call failed: {e}")
     if NVIDIA_API_KEY:
         try:
             headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json"}
@@ -297,13 +321,13 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
                 "temperature": 0.5,
                 "stream": False
             }
-            r = requests.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=70)
+            r = HTTP.post(NVIDIA_CHAT_URL, headers=headers, json=payload, timeout=70)
             if r.status_code == 200:
                 content = _extract_openai_style_content(r.json())
                 if content:
                     return content
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"NVIDIA call failed: {e}")
     return None
 
 def extract_json_action(text: str) -> Optional[dict]:
@@ -395,18 +419,17 @@ def call_groq_vision(images_b64: List[str], question: str, max_tokens: int = 100
             "max_tokens": max_tokens,
             "temperature": 0.4
         }
-        r = requests.post(GROQ_CHAT_URL, headers=headers, json=payload, timeout=70)
+        r = HTTP.post(GROQ_CHAT_URL, headers=headers, json=payload, timeout=70)
         if r.status_code == 200:
             return _extract_openai_style_content(r.json())
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(f"Groq vision failed: {e}")
     return None
 
 def analyze_image_with_vision(images: List[str], question: str, max_tokens: int = 1000) -> str:
     cleaned_images = []
     for img in images[:MAX_IMAGES]:
-        cleaned = img.split(",", 1)[-1] if img.startswith("data:") else img
-        cleaned_images.append(cleaned)
+        cleaned_images.append(img.split(",", 1)[-1] if img.startswith("data:") else img)
 
     groq_answer = call_groq_vision(cleaned_images, question, max_tokens)
     if groq_answer:
@@ -419,7 +442,7 @@ def analyze_image_with_vision(images: List[str], question: str, max_tokens: int 
             headers = {"Authorization": f"Bearer {HF_TOKEN}"}
             img_bytes = base64.b64decode(cleaned_images[0])
             payload = {"inputs": {"image": base64.b64encode(img_bytes).decode(), "question": question}}
-            r = requests.post(
+            r = HTTP.post(
                 "https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base",
                 headers=headers,
                 json=payload,
@@ -437,7 +460,7 @@ def analyze_image_with_vision(images: List[str], question: str, max_tokens: int 
                         answer += f"\n\n(Note: You uploaded {len(cleaned_images)} images. I analyzed the first one.)"
                     return answer
         except Exception as e:
-            print("Vision error:", e)
+            logger.warning(f"Vision fallback error: {e}")
 
     if len(cleaned_images) > 1:
         return (
@@ -460,59 +483,35 @@ def check_admin_secret(provided: str):
 def client_ip(request: Request) -> str:
     return request.client.host if request and request.client else "unknown"
 
-def guard_auth_abuse(ip: str):
+def guard_admin_abuse(ip: str):
     now = time.time()
     auth_attempt_store[ip] = [t for t in auth_attempt_store[ip] if now - t < 900]  # 15 min window
-    if len(auth_attempt_store[ip]) >= 10:
-        raise HTTPException(status_code=429, detail="Too many auth attempts. Try again later.")
+    if len(auth_attempt_store[ip]) >= 15:
+        raise HTTPException(status_code=429, detail="Too many attempts. Try again later.")
     auth_attempt_store[ip].append(now)
 
-# ====================== SUPABASE HELPERS ======================
-def supabase_signup(email: str, password: str) -> dict:
-    r = requests.post(
-        f"{SUPABASE_URL}/auth/v1/signup",
-        headers={"apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json"},
-        json={"email": email, "password": password},
-        timeout=15
-    )
-    if r.status_code not in (200, 201):
-        raise HTTPException(status_code=400, detail="Signup failed. Email may already be in use or invalid.")
-    return r.json()
+def validate_image_size(b64_str: str):
+    """Reject oversized base64 payloads before decoding the full thing into memory."""
+    approx_bytes = (len(b64_str) * 3) // 4
+    if approx_bytes > MAX_IMAGE_BYTES:
+        raise HTTPException(status_code=413, detail=f"Image too large (max {MAX_IMAGE_BYTES // (1024*1024)}MB per image).")
 
-def supabase_login(email: str, password: str) -> dict:
-    r = requests.post(
-        f"{SUPABASE_URL}/auth/v1/token?grant_type=password",
-        headers={"apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json"},
-        json={"email": email, "password": password},
-        timeout=15
-    )
-    if r.status_code != 200:
-        raise HTTPException(status_code=401, detail="Invalid email or password.")
-    return r.json()
+# ====================== KEY LOOKUP ======================
+def find_key_record(key: str) -> Tuple[Optional[dict], Optional[str]]:
+    if not key:
+        return None, None
+    if key in PERMANENT_KEYS:
+        return {"tier": "admin", "active": True}, "permanent"
+    keys = load_keys()
+    if key in keys:
+        return keys[key], "local"
+    return None, None
 
-def supabase_get_user(access_token: str) -> dict:
-    r = requests.get(
-        f"{SUPABASE_URL}/auth/v1/user",
-        headers={"apikey": SUPABASE_ANON_KEY, "Authorization": f"Bearer {access_token}"},
-        timeout=15
-    )
-    if r.status_code != 200:
-        raise HTTPException(status_code=401, detail="Invalid or expired session token.")
-    return r.json()
+def is_valid_key(key: str) -> bool:
+    record, _ = find_key_record(key)
+    if not record:
+        return False
+    return record.get("active", True)
 
-def supabase_upsert_profile(user_id: str, email: str, api_key: str, tier: str = "free"):
-    requests.post(
-        f"{SUPABASE_URL}/rest/v1/profiles",
-        headers={
-            "apikey": SUPABASE_SERVICE_KEY,
-            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-            "Content-Type": "application/json",
-            "Prefer": "resolution=merge-duplicates"
-        },
-        json={"id": user_id, "email": email, "api_key": api_key, "tier": tier, "active": True},
-        timeout=15
-    )
-
-def supabase_get_profile_by_user(user_id: str) -> Optional[dict]:
-    r = requests.get(
-        f"{SUPABASE_URL}/re
+def check_rate_limit(key: str) -> tuple:
+    record, source 
