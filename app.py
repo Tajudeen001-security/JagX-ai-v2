@@ -1,11 +1,15 @@
 """
-JagX AI 6.1
-General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen
+JagX AI 6.2
+General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen + File/Link Reading
 Created by JagX & JRILICENSE
 """
 
 import os
+import io
+import csv
 import json
+import socket
+import ipaddress
 import secrets
 import threading
 import time
@@ -15,7 +19,7 @@ import base64
 import logging
 from typing import Optional, List, Dict, Tuple
 from collections import defaultdict
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 from datetime import datetime
 
 import requests
@@ -26,6 +30,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel
 import uvicorn
+from bs4 import BeautifulSoup
+from pypdf import PdfReader
+import docx
 
 # ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -40,8 +47,6 @@ GROQ_CHAT_URL = "https://api.groq.com/openai/v1/chat/completions"
 HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions"
 NVIDIA_CHAT_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# These model names can go stale as providers update their lineups —
-# check console.groq.com/docs/models if calls start failing with a 404.
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_VISION_MODEL = os.environ.get("GROQ_VISION_MODEL", "llama-3.2-90b-vision-preview")
 
@@ -67,19 +72,25 @@ MAX_TOOL_STEPS = 4
 MAX_CODE_LEN = 20000
 MAX_TOOL_RESULT_LEN = 4000
 MAX_IMAGES = 6
-MAX_IMAGE_BYTES = 8 * 1024 * 1024  # 8MB decoded, per image
+MAX_IMAGE_BYTES = 8 * 1024 * 1024       # 8MB decoded, per image
+
+MAX_FILES = 3
+MAX_FILE_BYTES = 15 * 1024 * 1024       # 15MB decoded, per file
+MAX_LINKS = 3
+MAX_LINK_BYTES = 3 * 1024 * 1024        # 3MB downloaded, per link
+MAX_EXTRACTED_TEXT_LEN = 12000          # chars fed into the model per file/link
 
 APP_START_TIME = time.time()
 
 app = FastAPI(
-    title="JagX AI 6.1",
-    description="General Purpose AI with reasoning, tools, vision and image gen by JagX & JRILICENSE",
-    version="6.1.0"
+    title="JagX AI 6.2",
+    description="General Purpose AI with reasoning, tools, vision, image gen, and file/link reading by JagX & JRILICENSE",
+    version="6.2.0"
 )
 
 lock = threading.Lock()
 rate_limit_store = defaultdict(list)
-auth_attempt_store = defaultdict(list)  # crude per-IP brute force guard on admin routes
+auth_attempt_store = defaultdict(list)
 
 app.add_middleware(
     CORSMiddleware,
@@ -90,7 +101,6 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# Shared session with retries — one flaky network blip shouldn't kill a whole request
 def _build_session() -> requests.Session:
     s = requests.Session()
     retries = Retry(
@@ -106,7 +116,7 @@ def _build_session() -> requests.Session:
 
 HTTP = _build_session()
 
-AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.1 — a powerful general-purpose AI created by JagX and JRILICENSE.
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.2 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -120,6 +130,7 @@ CAPABILITIES:
 - Real sandboxed code execution to verify answers
 - Real-time web search
 - Image generation and image understanding
+- Reading attached files (PDF, Word, txt, csv) and links pasted by the user
 - Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
 TOOLS — you may use these when you genuinely need current information or must execute/verify code.
@@ -131,6 +142,7 @@ When you are ready to answer the user, reply with ONLY:
 {{"final": "your complete, well-formatted answer"}}
 
 Rules:
+- If the message includes attached file or link content, it will already be given to you as context — use it directly, don't ask the user to repeat it.
 - Don't use a tool unless you actually need it — if you already know the answer, go straight to {{"final": ...}}.
 - Never call more tools than necessary.
 - Think step by step before deciding, but only the JSON should appear in your reply — no extra commentary outside the JSON.
@@ -143,10 +155,8 @@ def add_invisible_watermark(text: str) -> str:
     ZWJ  = "\u200D"
     pattern = [ZWNJ, ZWSP, ZWSP, ZWSP, ZWJ, ZWJ, ZWJ, ZWSP]
     watermark = "".join(pattern)
-
     if not text or len(text) < 15:
         return text + watermark
-
     third = len(text) // 3
     return (
         text[:3] + watermark +
@@ -164,7 +174,6 @@ def load_keys() -> dict:
         return json.load(f)
 
 def save_keys(keys: dict):
-    """Atomic write: never leaves keys.json half-written if the process dies mid-save."""
     tmp_path = KEYS_FILE + ".tmp"
     with open(tmp_path, "w") as f:
         json.dump(keys, f, indent=2)
@@ -212,6 +221,119 @@ def free_web_search(query: str) -> Optional[str]:
     except Exception as e:
         logger.warning(f"web_search failed: {e}")
         return None
+
+# ====================== SSRF-SAFE LINK READING ======================
+def _is_public_ip(host: str) -> bool:
+    try:
+        infos = socket.getaddrinfo(host, None)
+        for info in infos:
+            ip_str = info[4][0]
+            ip = ipaddress.ip_address(ip_str)
+            if (ip.is_private or ip.is_loopback or ip.is_link_local
+                    or ip.is_reserved or ip.is_multicast or ip.is_unspecified):
+                return False
+        return True
+    except Exception:
+        return False
+
+def is_safe_url(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ("http", "https"):
+            return False
+        host = parsed.hostname
+        if not host:
+            return False
+        if host.lower() in ("localhost",) or host.startswith("169.254."):
+            return False
+        return _is_public_ip(host)
+    except Exception:
+        return False
+
+def extract_readable_text(html: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript", "svg", "nav", "footer"]):
+        tag.decompose()
+    text = soup.get_text(separator=" ")
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+def fetch_link_content(url: str) -> str:
+    if not is_safe_url(url):
+        return f"Error: '{url}' could not be read (blocked or invalid address)."
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/6.2)"}
+        r = HTTP.get(url, headers=headers, timeout=15, stream=True, allow_redirects=True)
+        if r.status_code != 200:
+            return f"Error: link returned status {r.status_code}."
+        content_type = r.headers.get("Content-Type", "")
+        raw = b""
+        for chunk in r.iter_content(chunk_size=65536):
+            raw += chunk
+            if len(raw) > MAX_LINK_BYTES:
+                break
+        if len(raw) > MAX_LINK_BYTES:
+            raw = raw[:MAX_LINK_BYTES]
+        text = raw.decode(errors="ignore")
+        if "html" in content_type or text.lstrip().startswith("<"):
+            text = extract_readable_text(text)
+        return text[:MAX_EXTRACTED_TEXT_LEN]
+    except Exception as e:
+        logger.warning(f"link fetch failed: {e}")
+        return f"Error: could not read link ({str(e)[:150]})."
+
+def extract_urls(text: str) -> List[str]:
+    urls = re.findall(r'https?://[^\s<>"\'\)]+', text or "")
+    seen = []
+    for u in urls:
+        if u not in seen:
+            seen.append(u)
+    return seen[:MAX_LINKS]
+
+# ====================== FILE READING ======================
+def extract_text_from_pdf(data: bytes) -> str:
+    try:
+        reader = PdfReader(io.BytesIO(data))
+        parts = []
+        for page in reader.pages[:50]:
+            parts.append(page.extract_text() or "")
+        return "\n".join(parts)[:MAX_EXTRACTED_TEXT_LEN]
+    except Exception as e:
+        return f"Error: could not read PDF ({str(e)[:150]})."
+
+def extract_text_from_docx(data: bytes) -> str:
+    try:
+        d = docx.Document(io.BytesIO(data))
+        parts = [p.text for p in d.paragraphs]
+        return "\n".join(parts)[:MAX_EXTRACTED_TEXT_LEN]
+    except Exception as e:
+        return f"Error: could not read DOCX ({str(e)[:150]})."
+
+def extract_text_from_plain(data: bytes) -> str:
+    try:
+        return data.decode(errors="ignore")[:MAX_EXTRACTED_TEXT_LEN]
+    except Exception as e:
+        return f"Error: could not read file ({str(e)[:150]})."
+
+def extract_text_from_file(filename: str, data: bytes) -> str:
+    name = (filename or "").lower()
+    if name.endswith(".pdf"):
+        return extract_text_from_pdf(data)
+    if name.endswith(".docx"):
+        return extract_text_from_docx(data)
+    if name.endswith((".txt", ".csv", ".md", ".json", ".log")):
+        return extract_text_from_plain(data)
+    # Unknown extension — try plain text as a best-effort fallback
+    return extract_text_from_plain(data)
+
+def decode_and_check_file(filename: str, content_b64: str) -> bytes:
+    approx_bytes = (len(content_b64) * 3) // 4
+    if approx_bytes > MAX_FILE_BYTES:
+        raise HTTPException(status_code=413, detail=f"File '{filename}' too large (max {MAX_FILE_BYTES // (1024*1024)}MB).")
+    try:
+        return base64.b64decode(content_b64)
+    except Exception:
+        raise HTTPException(status_code=400, detail=f"File '{filename}' is not valid base64.")
 
 # ====================== SANDBOXED CODE EXECUTION (Piston) ======================
 _piston_runtimes_cache = {"data": None, "ts": 0}
@@ -364,7 +486,7 @@ def run_agent_loop(user_message: str, history: Optional[List[Dict]], max_tokens:
             return "I couldn't reach any AI model right now. Please try again shortly."
         action = extract_json_action(raw)
         if not action:
-            return raw  # model answered directly without the tool protocol
+            return raw
         if "final" in action:
             return str(action["final"])
         tool = action.get("tool")
@@ -391,127 +513,21 @@ def run_agent_loop(user_message: str, history: Optional[List[Dict]], max_tokens:
     final = call_external_llm(messages, max_tokens=max_tokens)
     return final or "I wasn't able to finish reasoning about that in time. Please try rephrasing."
 
-def generate_response(user_message: str, history: Optional[List[Dict]] = None, max_tokens: int = 1500) -> str:
-    local = search_knowledge(user_message)
-    if local:
-        return local
-    reply = run_agent_loop(user_message, history, max_tokens)
-    if reply:
-        return reply
-    search_result = free_web_search(user_message)
-    if search_result:
-        return search_result
-    return "I'm having trouble generating a response right now. Please try again in a moment."
+def build_augmented_message(
+    user_message: str,
+    image_descriptions: List[str],
+    file_texts: List[Tuple[str, str]],
+    link_texts: List[Tuple[str, str]]
+) -> str:
+    parts = [user_message]
+    for desc in image_descriptions:
+        parts.append(f"\n\n[Attached image content]\n{desc}")
+    for fname, ftext in file_texts:
+        parts.append(f"\n\n[Content of attached file: {fname}]\n{ftext}")
+    for url, ltext in link_texts:
+        parts.append(f"\n\n[Content of link: {url}]\n{ltext}")
+    return "".join(parts)
 
-# ====================== VISION ======================
-def call_groq_vision(images_b64: List[str], question: str, max_tokens: int = 1000) -> Optional[str]:
-    if not GROQ_API_KEY:
-        return None
-    try:
-        content = [{"type": "text", "text": question}]
-        for img in images_b64[:MAX_IMAGES]:
-            data_url = img if img.startswith("data:") else f"data:image/jpeg;base64,{img}"
-            content.append({"type": "image_url", "image_url": {"url": data_url}})
-        headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
-        payload = {
-            "model": GROQ_VISION_MODEL,
-            "messages": [{"role": "user", "content": content}],
-            "max_tokens": max_tokens,
-            "temperature": 0.4
-        }
-        r = HTTP.post(GROQ_CHAT_URL, headers=headers, json=payload, timeout=70)
-        if r.status_code == 200:
-            return _extract_openai_style_content(r.json())
-    except Exception as e:
-        logger.warning(f"Groq vision failed: {e}")
-    return None
-
-def analyze_image_with_vision(images: List[str], question: str, max_tokens: int = 1000) -> str:
-    cleaned_images = []
-    for img in images[:MAX_IMAGES]:
-        cleaned_images.append(img.split(",", 1)[-1] if img.startswith("data:") else img)
-
-    groq_answer = call_groq_vision(cleaned_images, question, max_tokens)
-    if groq_answer:
-        if len(cleaned_images) > 1:
-            groq_answer += f"\n\n(Analyzed {len(cleaned_images)} images.)"
-        return groq_answer
-
-    if HF_TOKEN:
-        try:
-            headers = {"Authorization": f"Bearer {HF_TOKEN}"}
-            img_bytes = base64.b64decode(cleaned_images[0])
-            payload = {"inputs": {"image": base64.b64encode(img_bytes).decode(), "question": question}}
-            r = HTTP.post(
-                "https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base",
-                headers=headers,
-                json=payload,
-                timeout=45
-            )
-            if r.status_code == 200:
-                result = r.json()
-                answer = None
-                if isinstance(result, list) and len(result) > 0:
-                    answer = result[0].get("answer") or str(result[0])
-                elif isinstance(result, dict):
-                    answer = result.get("answer") or result.get("generated_text") or str(result)
-                if answer:
-                    if len(cleaned_images) > 1:
-                        answer += f"\n\n(Note: You uploaded {len(cleaned_images)} images. I analyzed the first one.)"
-                    return answer
-        except Exception as e:
-            logger.warning(f"Vision fallback error: {e}")
-
-    if len(cleaned_images) > 1:
-        return (
-            f"I successfully received {len(cleaned_images)} images. "
-            "Please describe the images or ask a specific question."
-        )
-    return (
-        "I successfully received your image. "
-        "Please describe the image or ask a specific question."
-    )
-
-# ====================== SECURITY HELPERS ======================
-def safe_compare(a: str, b: str) -> bool:
-    return hmac.compare_digest(a or "", b or "")
-
-def check_admin_secret(provided: str):
-    if not safe_compare(provided, ADMIN_SECRET):
-        raise HTTPException(status_code=403, detail="Invalid admin secret")
-
-def client_ip(request: Request) -> str:
-    return request.client.host if request and request.client else "unknown"
-
-def guard_admin_abuse(ip: str):
-    now = time.time()
-    auth_attempt_store[ip] = [t for t in auth_attempt_store[ip] if now - t < 900]  # 15 min window
-    if len(auth_attempt_store[ip]) >= 15:
-        raise HTTPException(status_code=429, detail="Too many attempts. Try again later.")
-    auth_attempt_store[ip].append(now)
-
-def validate_image_size(b64_str: str):
-    """Reject oversized base64 payloads before decoding the full thing into memory."""
-    approx_bytes = (len(b64_str) * 3) // 4
-    if approx_bytes > MAX_IMAGE_BYTES:
-        raise HTTPException(status_code=413, detail=f"Image too large (max {MAX_IMAGE_BYTES // (1024*1024)}MB per image).")
-
-# ====================== KEY LOOKUP ======================
-def find_key_record(key: str) -> Tuple[Optional[dict], Optional[str]]:
-    if not key:
-        return None, None
-    if key in PERMANENT_KEYS:
-        return {"tier": "admin", "active": True}, "permanent"
-    keys = load_keys()
-    if key in keys:
-        return keys[key], "local"
-    return None, None
-
-def is_valid_key(key: str) -> bool:
-    record, _ = find_key_record(key)
-    if not record:
-        return False
-    return record.get("active", True)
-
-def check_rate_limit(key: str) -> tuple:
-    record, source 
+def generate_response(
+    user_message: str,
+    history: Optional[List[Dict]] = None,
