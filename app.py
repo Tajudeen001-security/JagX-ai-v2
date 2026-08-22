@@ -1,7 +1,8 @@
 """
-JagX AI 6.4
+JagX AI 6.5
 General Purpose AI + Reasoning/Tool-Use + Vision + Image Gen + File/Link Reading
-+ PDF/CV Generation + Multi-Provider LLM Cascade + Training Data Collection
++ PDF/CV/Portfolio/ZIP Generation + Job Search & Application Drafting
++ Multi-Provider LLM Cascade + Training Data Collection + Security Hardening
 Created by JagX & JRILICENSE
 """
 
@@ -16,11 +17,15 @@ import time
 import re
 import hmac
 import base64
+import zipfile
+import smtplib
 import logging
+import uuid
+from email.message import EmailMessage
 from typing import Optional, List, Dict, Tuple
 from collections import defaultdict
 from urllib.parse import quote, urlparse
-from datetime import datetime
+from datetime import datetime, date
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -28,6 +33,8 @@ from urllib3.util.retry import Retry
 from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 from pydantic import BaseModel
 import uvicorn
 from bs4 import BeautifulSoup
@@ -56,9 +63,13 @@ PISTON_URL = "https://emkc.org/api/v2/piston"
 KEYS_FILE = "keys.json"
 KNOWLEDGE_FILE = "jagx_knowledge.json"
 TRAINING_DATA_FILE = "jagx_training_data.jsonl"
+DRAFTS_FILE = "jagx_job_drafts.json"
 TRAINING_DATA_ENABLED = os.environ.get("JAGX_TRAINING_DATA_ENABLED", "true").lower() == "true"
 
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
+ADMIN_IP_ALLOWLIST = set(
+    ip.strip() for ip in os.environ.get("JAGX_ADMIN_IP_ALLOWLIST", "").split(",") if ip.strip()
+)
 PERMANENT_KEYS = set(
     k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip()
 )
@@ -88,19 +99,67 @@ MAX_PDF_SECTIONS = 50
 MAX_PDF_CONTENT_LEN = 30000
 MAX_TRAINING_LOG_FIELD_LEN = 6000
 
+MAX_ZIP_FILES = 20
+MAX_ZIP_FILE_BYTES = 8 * 1024 * 1024
+MAX_ZIP_TOTAL_BYTES = 30 * 1024 * 1024
+
+MAX_JOB_RESULTS = 8
+DRAFT_EXPIRY_SECONDS = 48 * 3600
+MAX_APPLICATIONS_PER_DAY = int(os.environ.get("JAGX_MAX_APPLICATIONS_PER_DAY", "15"))
+
+MAX_BODY_BYTES = 20 * 1024 * 1024
+GLOBAL_IP_RPM = int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
+
 APP_START_TIME = time.time()
 
 app = FastAPI(
-    title="JagX AI 6.4",
-    description="General Purpose AI with reasoning, tools, vision, image gen, file/link reading, PDF/CV generation, and a multi-provider LLM cascade by JagX & JRILICENSE",
-    version="6.4.0"
+    title="JagX AI 6.5",
+    description="General Purpose AI by JagX & JRILICENSE — reasoning, tools, vision, documents, jobs, and more",
+    version="6.5.0"
 )
 
 lock = threading.Lock()
 training_lock = threading.Lock()
+drafts_lock = threading.Lock()
 rate_limit_store = defaultdict(list)
 auth_attempt_store = defaultdict(list)
+daily_send_store = defaultdict(list)
+global_ip_rate_store = defaultdict(list)
 
+# ---------- Security middleware (round 2) ----------
+class BodySizeLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        cl = request.headers.get("content-length")
+        if cl and cl.isdigit() and int(cl) > MAX_BODY_BYTES:
+            return JSONResponse(status_code=413, content={"detail": "Request body too large."})
+        return await call_next(request)
+
+class GlobalIPRateLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        ip = request.client.host if request.client else "unknown"
+        now = time.time()
+        with lock:
+            timestamps = global_ip_rate_store[ip]
+            fresh = [t for t in timestamps if now - t < 60]
+            if len(fresh) >= GLOBAL_IP_RPM:
+                global_ip_rate_store[ip] = fresh
+                return JSONResponse(status_code=429, content={"detail": "Too many requests from this address. Slow down."})
+            fresh.append(now)
+            global_ip_rate_store[ip] = fresh
+        return await call_next(request)
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["Cache-Control"] = response.headers.get("Cache-Control", "no-store")
+        return response
+
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(GlobalIPRateLimitMiddleware)
+app.add_middleware(BodySizeLimitMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -125,7 +184,7 @@ def _build_session() -> requests.Session:
 
 HTTP = _build_session()
 
-AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.4 — a powerful general-purpose AI created by JagX and JRILICENSE.
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.5 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -140,25 +199,27 @@ CAPABILITIES:
 - Real-time web search
 - Image generation and image understanding
 - Reading attached files (PDF, Word, txt, csv) and links pasted by the user
-- Generating downloadable PDF documents and professional CVs/resumes
+- Generating downloadable PDFs, CVs/resumes, and portfolio websites
+- Searching live job listings
 - Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-TOOLS — you may use these when you genuinely need current information, must execute/verify code, or the user wants a document produced.
-To use a tool, reply with ONLY a raw JSON object, nothing else, in one of these forms:
+TOOLS — use these when you genuinely need current information, must execute/verify code, or the user wants a document or job search.
+Reply with ONLY a raw JSON object, nothing else, in one of these forms:
 {{"tool": "web_search", "input": "search query"}}
 {{"tool": "run_code", "input": {{"language": "python", "code": "print('hello')"}}}}
-{{"tool": "generate_pdf", "input": {{"title": "Document Title", "sections": [{{"heading": "Section 1", "content": "Text here. Use lines starting with '- ' for bullet points."}}]}}}}
-{{"tool": "generate_cv", "input": {{"name": "Full Name", "title": "Professional Title", "contact": {{"email": "...", "phone": "...", "location": "...", "linkedin": "..."}}, "summary": "2-3 sentence professional summary", "experience": [{{"role": "Job Title", "company": "Company", "dates": "2022 - Present", "bullets": ["Achievement 1", "Achievement 2"]}}], "education": [{{"degree": "Degree", "school": "School", "dates": "2018 - 2022"}}], "skills": ["Skill 1", "Skill 2"]}}}}
+{{"tool": "generate_pdf", "input": {{"title": "Document Title", "sections": [{{"heading": "Section 1", "content": "Text. Lines starting with '- ' become bullets."}}]}}}}
+{{"tool": "generate_cv", "input": {{"name": "Full Name", "title": "Professional Title", "contact": {{"email": "...", "phone": "...", "location": "...", "linkedin": "..."}}, "summary": "...", "experience": [{{"role": "...", "company": "...", "dates": "...", "bullets": ["..."]}}], "education": [{{"degree": "...", "school": "...", "dates": "..."}}], "skills": ["..."]}}}}
+{{"tool": "generate_portfolio", "input": {{"name": "Full Name", "title": "...", "tagline": "...", "about": "...", "projects": [{{"name": "...", "description": "...", "link": "..."}}], "skills": ["..."], "contact": {{"email": "...", "github": "...", "linkedin": "...", "website": "..."}}}}}}
+{{"tool": "job_search", "input": {{"query": "remote python developer", "remote_only": true}}}}
 
-When you are ready to answer the user, reply with ONLY:
+When ready to answer, reply with ONLY:
 {{"final": "your complete, well-formatted answer"}}
 
 Rules:
-- If the message includes attached file or link content, it will already be given to you as context — use it directly, don't ask the user to repeat it.
-- When a user asks for a document, report, or letter, use generate_pdf. When a user asks for a CV, resume, or asks you to turn their background into one, use generate_cv and infer/organize the fields from what they told you.
-- Don't use a tool unless you actually need it — if you already know the answer, go straight to {{"final": ...}}.
-- Never call more tools than necessary.
-- Think step by step before deciding, but only the JSON should appear in your reply — no extra commentary outside the JSON.
+- If the message includes attached file or link content, use it directly — don't ask the user to repeat it.
+- Use generate_pdf for documents/reports/letters, generate_cv for resumes, generate_portfolio for personal/portfolio websites, job_search for finding jobs.
+- Don't use a tool unless you actually need it. Never call more tools than necessary.
+- Only the JSON should appear in your reply when using a tool — no extra commentary.
 """
 
 # ====================== WATERMARK ======================
@@ -275,7 +336,7 @@ def fetch_link_content(url: str) -> str:
     if not is_safe_url(url):
         return f"Error: '{url}' could not be read (blocked or invalid address)."
     try:
-        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/6.4)"}
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/6.5)"}
         r = HTTP.get(url, headers=headers, timeout=15, stream=True, allow_redirects=True)
         if r.status_code != 200:
             return f"Error: link returned status {r.status_code}."
@@ -359,17 +420,14 @@ def generate_pdf_document(title: str, sections: List[Dict[str, str]], author: st
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-
     pdf.set_font("Helvetica", "B", 18)
     pdf.multi_cell(0, 10, _sanitize_pdf_text(title))
     pdf.ln(1)
-
     pdf.set_font("Helvetica", "I", 9)
     pdf.set_text_color(120, 120, 120)
     pdf.multi_cell(0, 6, _sanitize_pdf_text(f"Generated by {author} — {datetime.utcnow().strftime('%Y-%m-%d')}"))
     pdf.set_text_color(0, 0, 0)
     pdf.ln(4)
-
     for sec in sections[:MAX_PDF_SECTIONS]:
         heading = sec.get("heading", "")
         content = sec.get("content", "")
@@ -387,7 +445,6 @@ def generate_pdf_document(title: str, sections: List[Dict[str, str]], author: st
             else:
                 pdf.multi_cell(0, 6, _sanitize_pdf_text(line))
         pdf.ln(3)
-
     raw = pdf.output()
     return bytes(raw)
 
@@ -413,7 +470,6 @@ def generate_cv_pdf(cv: dict) -> bytes:
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-
     name = cv.get("name", "Full Name")
     title = cv.get("title", "")
     contact = cv.get("contact", {}) or {}
@@ -424,13 +480,11 @@ def generate_cv_pdf(cv: dict) -> bytes:
 
     pdf.set_font("Helvetica", "B", 22)
     pdf.cell(0, 12, _sanitize_pdf_text(name), ln=True)
-
     if title:
         pdf.set_font("Helvetica", "", 13)
         pdf.set_text_color(60, 60, 60)
         pdf.cell(0, 8, _sanitize_pdf_text(title), ln=True)
         pdf.set_text_color(0, 0, 0)
-
     contact_line = "  |  ".join(
         v for v in [contact.get("email"), contact.get("phone"), contact.get("location"), contact.get("linkedin")] if v
     )
@@ -439,7 +493,6 @@ def generate_cv_pdf(cv: dict) -> bytes:
         pdf.set_text_color(90, 90, 90)
         pdf.multi_cell(0, 6, _sanitize_pdf_text(contact_line))
         pdf.set_text_color(0, 0, 0)
-
     pdf.ln(2)
     pdf.set_draw_color(180, 180, 180)
     pdf.line(pdf.l_margin, pdf.get_y(), 210 - pdf.r_margin, pdf.get_y())
@@ -457,64 +510,7 @@ def generate_cv_pdf(cv: dict) -> bytes:
         pdf.set_font("Helvetica", "", 11)
         pdf.multi_cell(0, 6, _sanitize_pdf_text(summary))
         pdf.ln(3)
-
     if experience:
         section_header("Experience")
         for job in experience:
-            role = job.get("role", "")
-            company = job.get("company", "")
-            dates = job.get("dates", "")
-            bullets = job.get("bullets", []) or []
-            pdf.set_font("Helvetica", "B", 11)
-            header_line = f"{role} — {company}" if company else role
-            pdf.cell(0, 6, _sanitize_pdf_text(header_line), ln=True)
-            if dates:
-                pdf.set_font("Helvetica", "I", 9)
-                pdf.set_text_color(110, 110, 110)
-                pdf.cell(0, 5, _sanitize_pdf_text(dates), ln=True)
-                pdf.set_text_color(0, 0, 0)
-            pdf.set_font("Helvetica", "", 10.5)
-            for b in bullets:
-                pdf.set_x(pdf.l_margin + 5)
-                pdf.multi_cell(0, 5.5, _sanitize_pdf_text("•  " + str(b)))
-            pdf.ln(2)
-
-    if education:
-        section_header("Education")
-        for edu in education:
-            degree = edu.get("degree", "")
-            school = edu.get("school", "")
-            dates = edu.get("dates", "")
-            pdf.set_font("Helvetica", "B", 11)
-            line = f"{degree} — {school}" if school else degree
-            pdf.cell(0, 6, _sanitize_pdf_text(line), ln=True)
-            if dates:
-                pdf.set_font("Helvetica", "I", 9)
-                pdf.set_text_color(110, 110, 110)
-                pdf.cell(0, 5, _sanitize_pdf_text(dates), ln=True)
-                pdf.set_text_color(0, 0, 0)
-            pdf.ln(1)
-
-    if skills:
-        section_header("Skills")
-        pdf.set_font("Helvetica", "", 10.5)
-        pdf.multi_cell(0, 6, _sanitize_pdf_text(", ".join(str(s) for s in skills)))
-
-    raw = pdf.output()
-    return bytes(raw)
-
-def build_cv_tool_result(cv_input: dict) -> Tuple[str, Optional[dict]]:
-    if not isinstance(cv_input, dict) or not cv_input.get("name"):
-        return "Error: CV generation needs at least a name field.", None
-    try:
-        pdf_bytes = generate_cv_pdf(cv_input)
-        filename = slugify_filename(f"{cv_input.get('name', 'cv')}_CV", "pdf")
-        b64 = base64.b64encode(pdf_bytes).decode()
-        attachment = {"type": "pdf", "filename": filename, "content_base64": b64}
-        return f"CV '{filename}' generated successfully and attached for the user to download.", attachment
-    except Exception as e:
-        logger.warning(f"cv generation failed: {e}")
-        return f"Error: CV generation failed ({str(e)[:150]}).", None
-
-# ====================== SANDBOXED CODE EXECUTION (Piston) ======================
-_piston_runtimes_cache = {"data": None, "
+            role = job.get("rol
