@@ -1,26 +1,22 @@
 """
-JagX AI 6.6 (Fixed & Complete)
-General Purpose AI + Fast/Reasoning Dual-Path Routing + Identity Protection
-+ Vision + Image Gen + File/Link Reading + PDF/CV Generation
-+ Job Search & Application Drafting + Neon Postgres Persistence
+JagX AI 6.6 (Clean & Complete)
+General Purpose AI + Identity Protection + Vision + Image Gen
++ PDF/CV Generation + Job Drafts + Multi-Provider LLM
 Created by JagX & JRILICENSE
 """
 
 import os
 import io
 import json
-import socket
-import ipaddress
 import secrets
 import threading
 import time
 import re
 import base64
 import logging
-import uuid
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, List, Dict
 from collections import defaultdict
-from urllib.parse import quote, urlparse
+from urllib.parse import quote
 from datetime import datetime
 
 import requests
@@ -33,19 +29,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from pydantic import BaseModel
 import uvicorn
-from bs4 import BeautifulSoup
-from pypdf import PdfReader
-import docx
 from fpdf import FPDF
-
-# Optional Neon Postgres
-try:
-    import psycopg2
-    import psycopg2.extras
-    from psycopg2 import pool as pg_pool
-    PSYCOPG2_AVAILABLE = True
-except ImportError:
-    PSYCOPG2_AVAILABLE = False
 
 # ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -60,16 +44,8 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
 
-PISTON_URL = "https://emkc.org/api/v2/piston"
-
 KEYS_FILE = "keys.json"
-KNOWLEDGE_FILE = "jagx_knowledge.json"
 DRAFTS_FILE = "jagx_job_drafts.json"
-TRAINING_DATA_FILE = "jagx_training_data.jsonl"
-
-DATABASE_URL = os.environ.get("DATABASE_URL", "")
-DB_ENABLED = bool(DATABASE_URL) and PSYCOPG2_AVAILABLE
-
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
 PERMANENT_KEYS = set(k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip())
 
@@ -81,32 +57,19 @@ TIER_HOURLY_LIMITS = {
     "admin": None
 }
 
-MAX_MESSAGE_LEN = 8000
-MAX_CODE_LEN = 20000
-MAX_TOOL_RESULT_LEN = 4000
-MAX_IMAGES = 6
-MAX_FILE_BYTES = 15 * 1024 * 1024
-MAX_LINK_BYTES = 3 * 1024 * 1024
-MAX_EXTRACTED_TEXT_LEN = 12000
-MAX_PDF_SECTIONS = 50
 MAX_BODY_BYTES = 20 * 1024 * 1024
 GLOBAL_IP_RPM = int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
 DRAFT_EXPIRY_SECONDS = 48 * 3600
-
 APP_START_TIME = time.time()
 
-app = FastAPI(
-    title="JagX AI 6.6",
-    description="General Purpose AI by JagX & JRILICENSE",
-    version="6.6.0"
-)
+app = FastAPI(title="JagX AI 6.6", version="6.6.0", description="Created by JagX & JRILICENSE")
 
 lock = threading.Lock()
 drafts_lock = threading.Lock()
 rate_limit_store = defaultdict(list)
 global_ip_rate_store = defaultdict(list)
 
-# ====================== SECURITY MIDDLEWARE ======================
+# ====================== MIDDLEWARE ======================
 class BodySizeLimitMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         cl = request.headers.get("content-length")
@@ -132,7 +95,7 @@ app.add_middleware(BodySizeLimitMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-def _build_session() -> requests.Session:
+def _build_session():
     s = requests.Session()
     retries = Retry(total=2, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retries)
@@ -142,7 +105,7 @@ def _build_session() -> requests.Session:
 
 HTTP = _build_session()
 
-# ====================== SYSTEM PROMPTS ======================
+# ====================== SYSTEM PROMPT ======================
 AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.6 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
@@ -153,11 +116,11 @@ STRICT IDENTITY RULES:
 
 Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-Be clear, helpful, natural and professional.
+Be clear, helpful and natural.
 """
 
 # ====================== IDENTITY PROTECTION ======================
-IDENTITY_LEAK_PATTERNS = [
+IDENTITY_PATTERNS = [
     (re.compile(r'\b(openai|chatgpt|gpt-?\d)\b', re.I), "JagX AI"),
     (re.compile(r'\b(anthropic|claude)\b', re.I), "JagX AI"),
     (re.compile(r'\b(llama|meta ai)\b', re.I), "JagX AI"),
@@ -171,7 +134,7 @@ IDENTITY_LEAK_PATTERNS = [
 def sanitize_identity(text: str) -> str:
     if not text:
         return text
-    for pattern, replacement in IDENTITY_LEAK_PATTERNS:
+    for pattern, replacement in IDENTITY_PATTERNS:
         text = pattern.sub(replacement, text)
     return text
 
@@ -184,23 +147,7 @@ def add_invisible_watermark(text: str) -> str:
     third = len(text) // 3
     return text[:3] + watermark + text[3:third] + watermark + text[third:third*2] + watermark + text[third*2:]
 
-# ====================== DATABASE (Optional Neon) ======================
-db_pool = None
-if DB_ENABLED:
-    try:
-        db_pool = pg_pool.SimpleConnectionPool(1, 5, DATABASE_URL, sslmode="require")
-        logger.info("Connected to Neon Postgres")
-    except Exception as e:
-        logger.error(f"DB connection failed: {e}")
-        DB_ENABLED = False
-
-def get_conn():
-    return db_pool.getconn()
-
-def put_conn(conn):
-    db_pool.putconn(conn)
-
-# ====================== KEY MANAGEMENT ======================
+# ====================== KEYS ======================
 def load_keys() -> dict:
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
@@ -258,7 +205,7 @@ def free_web_search(query: str) -> Optional[str]:
 
 # ====================== LLM CASCADE ======================
 def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
-    # 1. OpenRouter
+    # OpenRouter
     if OPENROUTER_API_KEY:
         try:
             headers = {
@@ -274,7 +221,7 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
         except Exception as e:
             logger.warning(f"OpenRouter failed: {e}")
 
-    # 2. Groq
+    # Groq
     if GROQ_API_KEY:
         try:
             headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
@@ -285,7 +232,7 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
         except Exception as e:
             logger.warning(f"Groq failed: {e}")
 
-    # 3. Hugging Face
+    # Hugging Face
     if HF_TOKEN:
         try:
             headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
@@ -296,7 +243,7 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
         except Exception as e:
             logger.warning(f"HF failed: {e}")
 
-    # 4. NVIDIA
+    # NVIDIA
     if NVIDIA_API_KEY:
         try:
             headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json"}
@@ -347,82 +294,6 @@ def analyze_image_with_vision(images: List[str], question: str) -> str:
 
     return "I received your image(s). Full advanced vision is still being improved on JagX AI."
 
-# ====================== PDF / CV ======================
-def _sanitize_pdf_text(text: str) -> str:
-    return (text or "").encode("latin-1", "replace").decode("latin-1")
-
-def generate_cv_pdf(cv: dict) -> bytes:
-    pdf = FPDF()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.add_page()
-
-    name = cv.get("name", "Full Name")
-    title = cv.get("title", "")
-    contact = cv.get("contact", {}) or {}
-    summary = cv.get("summary", "")
-    experience = cv.get("experience", []) or []
-    education = cv.get("education", []) or []
-    skills = cv.get("skills", []) or []
-
-    pdf.set_font("Helvetica", "B", 20)
-    pdf.cell(0, 12, _sanitize_pdf_text(name), ln=True)
-
-    if title:
-        pdf.set_font("Helvetica", "", 12)
-        pdf.set_text_color(60, 60, 60)
-        pdf.cell(0, 8, _sanitize_pdf_text(title), ln=True)
-        pdf.set_text_color(0, 0, 0)
-
-    contact_line = " | ".join(v for v in [contact.get("email"), contact.get("phone"), contact.get("location")] if v)
-    if contact_line:
-        pdf.set_font("Helvetica", "", 10)
-        pdf.multi_cell(0, 6, _sanitize_pdf_text(contact_line))
-    pdf.ln(4)
-
-    def section(title_text):
-        pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 8, _sanitize_pdf_text(title_text.upper()), ln=True)
-
-    if summary:
-        section("Summary")
-        pdf.set_font("Helvetica", "", 11)
-        pdf.multi_cell(0, 6, _sanitize_pdf_text(summary))
-        pdf.ln(3)
-
-    if experience:
-        section("Experience")
-        for job in experience:
-            role = job.get("role", "")
-            company = job.get("company", "")
-            dates = job.get("dates", "")
-            bullets = job.get("bullets", []) or []
-            pdf.set_font("Helvetica", "B", 11)
-            pdf.cell(0, 7, _sanitize_pdf_text(f"{role} — {company}"), ln=True)
-            if dates:
-                pdf.set_font("Helvetica", "I", 10)
-                pdf.cell(0, 6, _sanitize_pdf_text(dates), ln=True)
-            pdf.set_font("Helvetica", "", 11)
-            for b in bullets:
-                pdf.multi_cell(0, 6, _sanitize_pdf_text(f"• {b}"))
-            pdf.ln(2)
-
-    if education:
-        section("Education")
-        for edu in education:
-            pdf.set_font("Helvetica", "B", 11)
-            pdf.cell(0, 7, _sanitize_pdf_text(f"{edu.get('degree', '')} — {edu.get('school', '')}"), ln=True)
-            if edu.get("dates"):
-                pdf.set_font("Helvetica", "I", 10)
-                pdf.cell(0, 6, _sanitize_pdf_text(edu.get("dates")), ln=True)
-            pdf.ln(1)
-
-    if skills:
-        section("Skills")
-        pdf.set_font("Helvetica", "", 11)
-        pdf.multi_cell(0, 6, _sanitize_pdf_text(", ".join(skills)))
-
-    return bytes(pdf.output())
-
 # ====================== JOB DRAFTS ======================
 def _load_drafts() -> dict:
     if not os.path.exists(DRAFTS_FILE):
@@ -442,7 +313,6 @@ def _save_drafts(drafts: dict):
 def create_draft_record(draft_id: str, subject: str, body: str, job_title: str, company: str):
     with drafts_lock:
         drafts = _load_drafts()
-        # Clean expired drafts
         drafts = {
             k: v for k, v in drafts.items()
             if time.time() - v.get("created_at", 0) < DRAFT_EXPIRY_SECONDS
@@ -497,8 +367,7 @@ def root():
         "status": "JagX AI 6.6 is running",
         "version": "6.6.0",
         "created_by": "JagX & JRILICENSE",
-        "uptime_seconds": int(time.time() - APP_START_TIME),
-        "database": "connected" if DB_ENABLED else "file-based"
+        "uptime_seconds": int(time.time() - APP_START_TIME)
     }
 
 @app.post("/chat")
@@ -543,4 +412,70 @@ def vision(req: VisionRequest, x_api_key: str = Header(...)):
     if not allowed:
         raise HTTPException(status_code=429, detail=quota)
     if not req.images:
-        raise HTTPException(status_code=400, detail
+        raise HTTPException(status_code=400, detail="At least one image is required")
+
+    answer = analyze_image_with_vision(req.images, req.question)
+    answer = add_invisible_watermark(answer)
+    return {"response": answer, "model": "JagX AI Vision", "images_received": len(req.images), "quota": quota}
+
+@app.post("/create-key")
+def create_key(req: CreateKeyRequest):
+    if req.admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid admin secret")
+    tier = req.tier.lower() if req.tier.lower() in TIER_HOURLY_LIMITS else "free"
+    with lock:
+        keys = load_keys()
+        new_key = "jagx-" + secrets.token_hex(16)
+        keys[new_key] = {"owner": req.owner_label, "active": True, "tier": tier, "created_at": time.time()}
+        save_keys(keys)
+    return {"api_key": new_key, "owner": req.owner_label, "tier": tier, "hourly_limit": TIER_HOURLY_LIMITS.get(tier)}
+
+@app.get("/admin/keys")
+def list_keys(admin_secret: str = Header(...)):
+    if admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid admin secret")
+    keys = load_keys()
+    return {"total": len(keys), "keys": [{"api_key": k, **v} for k, v in keys.items()]}
+
+@app.post("/admin/block-key")
+def block_key(req: BlockKeyRequest):
+    if req.admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid admin secret")
+    with lock:
+        keys = load_keys()
+        if req.api_key not in keys:
+            raise HTTPException(status_code=404, detail="Key not found")
+        keys[req.api_key]["active"] = req.active
+        save_keys(keys)
+    return {"success": True, "message": "Key updated"}
+
+@app.post("/admin/delete-key")
+def delete_key(req: AdminKeyRequest):
+    if req.admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid admin secret")
+    with lock:
+        keys = load_keys()
+        if req.api_key not in keys:
+            raise HTTPException(status_code=404, detail="Key not found")
+        del keys[req.api_key]
+        save_keys(keys)
+    return {"success": True, "message": "Key deleted"}
+
+@app.post("/admin/upgrade-key")
+def upgrade_key(req: UpgradeKeyRequest):
+    if req.admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid admin secret")
+    new_tier = req.new_tier.lower()
+    if new_tier not in TIER_HOURLY_LIMITS:
+        raise HTTPException(status_code=400, detail="Invalid tier")
+    with lock:
+        keys = load_keys()
+        if req.api_key not in keys:
+            raise HTTPException(status_code=404, detail="Key not found")
+        keys[req.api_key]["tier"] = new_tier
+        save_keys(keys)
+    return {"success": True, "message": f"Upgraded to {new_tier}", "hourly_limit": TIER_HOURLY_LIMITS[new_tier]}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
