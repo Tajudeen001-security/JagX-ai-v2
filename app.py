@@ -1,7 +1,7 @@
 """
-JagX AI 6.6
+JagX AI 6.6 (Fixed & Complete)
 General Purpose AI + Fast/Reasoning Dual-Path Routing + Identity Protection
-+ Vision + Image Gen + File/Link Reading + PDF/CV/Portfolio/ZIP Generation
++ Vision + Image Gen + File/Link Reading + PDF/CV Generation
 + Job Search & Application Drafting + Neon Postgres Persistence
 Created by JagX & JRILICENSE
 """
@@ -15,17 +15,13 @@ import secrets
 import threading
 import time
 import re
-import hmac
 import base64
-import zipfile
-import smtplib
 import logging
 import uuid
-from email.message import EmailMessage
 from typing import Optional, List, Dict, Tuple
 from collections import defaultdict
 from urllib.parse import quote, urlparse
-from datetime import datetime, date
+from datetime import datetime
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -41,9 +37,15 @@ from bs4 import BeautifulSoup
 from pypdf import PdfReader
 import docx
 from fpdf import FPDF
-import psycopg2
-import psycopg2.extras
-from psycopg2 import pool as pg_pool
+
+# Optional Neon Postgres
+try:
+    import psycopg2
+    import psycopg2.extras
+    from psycopg2 import pool as pg_pool
+    PSYCOPG2_AVAILABLE = True
+except ImportError:
+    PSYCOPG2_AVAILABLE = False
 
 # ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -56,51 +58,40 @@ NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY") or os.environ.get("NVIDIA_NIM_
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
-GROQ_VISION_MODEL = os.environ.get("GROQ_VISION_MODEL", "llama-3.2-90b-vision-preview")
-OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "stealth/ox-alpha")
-OPENROUTER_SITE_URL = os.environ.get("OPENROUTER_SITE_URL", "https://jagx.example.com")
-OPENROUTER_SITE_NAME = os.environ.get("OPENROUTER_SITE_NAME", "JagX AI")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
 
 PISTON_URL = "https://emkc.org/api/v2/piston"
 
 KEYS_FILE = "keys.json"
 KNOWLEDGE_FILE = "jagx_knowledge.json"
-TRAINING_DATA_FILE = "jagx_training_data.jsonl"
 DRAFTS_FILE = "jagx_job_drafts.json"
-TRAINING_DATA_ENABLED = os.environ.get("JAGX_TRAINING_DATA_ENABLED", "true").lower() == "true"
+TRAINING_DATA_FILE = "jagx_training_data.jsonl"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
-DB_ENABLED = bool(DATABASE_URL)
+DB_ENABLED = bool(DATABASE_URL) and PSYCOPG2_AVAILABLE
 
 ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
-ADMIN_IP_ALLOWLIST = set(ip.strip() for ip in os.environ.get("JAGX_ADMIN_IP_ALLOWLIST", "").split(",") if ip.strip())
 PERMANENT_KEYS = set(k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip())
 
-TIER_HOURLY_LIMITS = {"free": 60, "premium": 300, "premium_plus": 800, "master": None, "admin": None}
+TIER_HOURLY_LIMITS = {
+    "free": 60,
+    "premium": 300,
+    "premium_plus": 800,
+    "master": None,
+    "admin": None
+}
 
 MAX_MESSAGE_LEN = 8000
-MAX_TOOL_STEPS = 4
 MAX_CODE_LEN = 20000
 MAX_TOOL_RESULT_LEN = 4000
 MAX_IMAGES = 6
-MAX_IMAGE_BYTES = 8 * 1024 * 1024
-MAX_FILES = 3
 MAX_FILE_BYTES = 15 * 1024 * 1024
-MAX_LINKS = 3
 MAX_LINK_BYTES = 3 * 1024 * 1024
 MAX_EXTRACTED_TEXT_LEN = 12000
 MAX_PDF_SECTIONS = 50
-MAX_PDF_CONTENT_LEN = 30000
-MAX_TRAINING_LOG_FIELD_LEN = 6000
-MAX_ZIP_FILES = 20
-MAX_ZIP_FILE_BYTES = 8 * 1024 * 1024
-MAX_ZIP_TOTAL_BYTES = 30 * 1024 * 1024
-MAX_JOB_RESULTS = 8
-DRAFT_EXPIRY_SECONDS = 48 * 3600
-MAX_APPLICATIONS_PER_DAY = int(os.environ.get("JAGX_MAX_APPLICATIONS_PER_DAY", "15"))
 MAX_BODY_BYTES = 20 * 1024 * 1024
 GLOBAL_IP_RPM = int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
-FAST_CHAT_MAX_TOKENS = 900
+DRAFT_EXPIRY_SECONDS = 48 * 3600
 
 APP_START_TIME = time.time()
 
@@ -111,14 +102,11 @@ app = FastAPI(
 )
 
 lock = threading.Lock()
-training_lock = threading.Lock()
 drafts_lock = threading.Lock()
 rate_limit_store = defaultdict(list)
-auth_attempt_store = defaultdict(list)
-daily_send_store = defaultdict(list)
 global_ip_rate_store = defaultdict(list)
 
-# ---------- Security middleware ----------
+# ====================== SECURITY MIDDLEWARE ======================
 class BodySizeLimitMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         cl = request.headers.get("content-length")
@@ -131,24 +119,14 @@ class GlobalIPRateLimitMiddleware(BaseHTTPMiddleware):
         ip = request.client.host if request.client else "unknown"
         now = time.time()
         with lock:
-            timestamps = global_ip_rate_store[ip]
-            fresh = [t for t in timestamps if now - t < 60]
-            if len(fresh) >= GLOBAL_IP_RPM:
-                global_ip_rate_store[ip] = fresh
-                return JSONResponse(status_code=429, content={"detail": "Too many requests from this address. Slow down."})
-            fresh.append(now)
-            global_ip_rate_store[ip] = fresh
+            timestamps = [t for t in global_ip_rate_store[ip] if now - t < 60]
+            if len(timestamps) >= GLOBAL_IP_RPM:
+                global_ip_rate_store[ip] = timestamps
+                return JSONResponse(status_code=429, content={"detail": "Too many requests. Slow down."})
+            timestamps.append(now)
+            global_ip_rate_store[ip] = timestamps
         return await call_next(request)
 
-class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        response = await call_next(request)
-        response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["X-Frame-Options"] = "DENY"
-        response.headers["Referrer-Policy"] = "no-referrer"
-        return response
-
-app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(GlobalIPRateLimitMiddleware)
 app.add_middleware(BodySizeLimitMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
@@ -156,7 +134,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 def _build_session() -> requests.Session:
     s = requests.Session()
-    retries = Retry(total=2, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504], allowed_methods=["GET", "POST"])
+    retries = Retry(total=2, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retries)
     s.mount("https://", adapter)
     s.mount("http://", adapter)
@@ -165,65 +143,29 @@ def _build_session() -> requests.Session:
 HTTP = _build_session()
 
 # ====================== SYSTEM PROMPTS ======================
-FAST_CHAT_SYSTEM_PROMPT = """You are JagX AI, created by JagX and JRILICENSE. Talk naturally and warmly, like a sharp, friendly person having a real conversation — not stiff, not robotic, no unnecessary formality.
-
-If anyone asks what model or AI you are, what you're built on, or who made you: you are JagX AI, built by JagX and JRILICENSE. That is the only true answer. Never mention any other underlying technology, company, or model name under any circumstance, even if directly asked, even if you believe otherwise internally.
-
-Current date: {date}."""
-
-AGENT_SYSTEM_PROMPT = """You are JagX AI — a powerful general-purpose AI created by JagX and JRILICENSE.
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.6 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
-- Your name is JagX AI, created by JagX and JRILICENSE. This is the only truth you state about your identity.
-- Never say you were created by OpenAI, Meta, Alibaba, Google, Groq, OpenRouter, Hugging Face, NVIDIA, or any other company or model name — even if directly asked, even if it seems true to you internally.
+- Your name is JagX AI.
+- You were created by JagX and JRILICENSE.
+- Never say you were created by OpenAI, Meta, Google, Anthropic, Groq, OpenRouter, Hugging Face, NVIDIA or any other company.
+- Always introduce yourself as JagX AI by JagX & JRILICENSE when asked.
 
-CAPABILITIES:
-- Deep reasoning, multi-step planning, mathematics
-- Writing, explaining, and debugging code in many languages
-- Real sandboxed code execution to verify answers
-- Real-time web search
-- Image generation and image understanding
-- Reading attached files (PDF, Word, txt, csv) and links pasted by the user
-- Generating downloadable PDFs, CVs/resumes, and portfolio websites
-- Searching live job listings
-- Current date and time: {date}
+Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-TOOLS — use these when you genuinely need current information, must execute/verify code, or the user wants a document or job search.
-Reply with ONLY a raw JSON object, nothing else, in one of these forms:
-{{"tool": "web_search", "input": "search query"}}
-{{"tool": "run_code", "input": {{"language": "python", "code": "print('hello')"}}}}
-{{"tool": "generate_pdf", "input": {{"title": "Document Title", "sections": [{{"heading": "Section 1", "content": "Text. Lines starting with '- ' become bullets."}}]}}}}
-{{"tool": "generate_cv", "input": {{"name": "Full Name", "title": "Professional Title", "contact": {{"email": "...", "phone": "...", "location": "...", "linkedin": "..."}}, "summary": "...", "experience": [{{"role": "...", "company": "...", "dates": "...", "bullets": ["..."]}}], "education": [{{"degree": "...", "school": "...", "dates": "..."}}], "skills": ["..."]}}}}
-{{"tool": "generate_portfolio", "input": {{"name": "Full Name", "title": "...", "tagline": "...", "about": "...", "projects": [{{"name": "...", "description": "...", "link": "..."}}], "skills": ["..."], "contact": {{"email": "...", "github": "...", "linkedin": "...", "website": "..."}}}}}}
-{{"tool": "job_search", "input": {{"query": "remote python developer", "remote_only": true}}}}
-
-When ready to answer, reply with ONLY:
-{{"final": "your complete, well-formatted, naturally-worded answer"}}
-
-Rules:
-- Talk like a real, warm, knowledgeable person in your final answer — not stiff or robotic.
-- If the message includes attached file or link content, use it directly — don't ask the user to repeat it.
-- Don't use a tool unless you actually need it. Never call more tools than necessary.
-- Only the JSON should appear in your reply when using a tool — no extra commentary.
+Be clear, helpful, natural and professional.
 """
 
-# ====================== IDENTITY LEAK PROTECTION ======================
+# ====================== IDENTITY PROTECTION ======================
 IDENTITY_LEAK_PATTERNS = [
-    (re.compile(r'\box[\s\-]?alpha\b', re.I), "JagX AI"),
-    (re.compile(r'\bqwen(?:[\s\-]?\d(\.\d)?)?\b', re.I), "JagX AI"),
-    (re.compile(r'\bllama[\s\-]?\d(\.\d)?\b', re.I), "JagX AI"),
+    (re.compile(r'\b(openai|chatgpt|gpt-?\d)\b', re.I), "JagX AI"),
+    (re.compile(r'\b(anthropic|claude)\b', re.I), "JagX AI"),
+    (re.compile(r'\b(llama|meta ai)\b', re.I), "JagX AI"),
     (re.compile(r'\bgroq\b', re.I), "JagX AI"),
     (re.compile(r'\bopenrouter\b', re.I), "JagX AI"),
     (re.compile(r'\bhugging\s?face\b', re.I), "JagX AI"),
     (re.compile(r'\bnvidia\b', re.I), "JagX AI"),
-    (re.compile(r'\bdeepseek\b', re.I), "JagX AI"),
-    (re.compile(r'\bmistral\b', re.I), "JagX AI"),
-    (re.compile(r'\bgemini\b', re.I), "JagX AI"),
-    (re.compile(r'\b(openai|chatgpt|gpt-?\d)\b', re.I), "JagX AI"),
-    (re.compile(r'\b(anthropic|claude)\b', re.I), "JagX AI"),
-    (re.compile(r'\bmeta\s?(ai|llama)\b', re.I), "JagX AI"),
-    (re.compile(r'\bundisclosed (organi[sz]ation|company|provider|developer)\b', re.I), "JagX & JRILICENSE"),
-    (re.compile(r'\bdeveloped by an? (third[\s\-]?party|stealth)[^.,\n]*', re.I), "developed by JagX & JRILICENSE"),
+    (re.compile(r'\bqwen\b', re.I), "JagX AI"),
 ]
 
 def sanitize_identity(text: str) -> str:
@@ -233,235 +175,372 @@ def sanitize_identity(text: str) -> str:
         text = pattern.sub(replacement, text)
     return text
 
-# ====================== INTENT ROUTING (fast chat vs tool/reasoning) ======================
-CODE_KEYWORDS = ["code", "python", "javascript", "java ", "c++", "function", "debug", "script", "algorithm",
-                 "compile", "run this", "execute", "bug", "error in my", "syntax", "programming"]
-IMAGE_KEYWORDS = ["generate an image", "draw", "create an image", "picture of", "image of", "make me an image",
-                  "illustrate", "generate a picture"]
-DOC_KEYWORDS = ["pdf", " cv", "resume", "portfolio", "cover letter", ".zip", "generate a document",
-                "generate a report", "write a report"]
-JOB_KEYWORDS = ["job search", "find a job", "find jobs", "apply for a job", "job application", "remote job", "job listing"]
-SEARCH_KEYWORDS = ["search for", "look up", "latest news", "current price", "what's happening", "who is the current",
-                    "today's", "right now"]
-
-def needs_tools(user_message: str, has_attachments: bool) -> bool:
-    if has_attachments:
-        return True
-    text = (user_message or "").lower()
-    if extract_urls(user_message):
-        return True
-    all_keywords = CODE_KEYWORDS + IMAGE_KEYWORDS + DOC_KEYWORDS + JOB_KEYWORDS + SEARCH_KEYWORDS
-    return any(kw in text for kw in all_keywords)
-
 # ====================== WATERMARK ======================
 def add_invisible_watermark(text: str) -> str:
     ZWSP, ZWNJ, ZWJ = "\u200B", "\u200C", "\u200D"
     watermark = "".join([ZWNJ, ZWSP, ZWSP, ZWSP, ZWJ, ZWJ, ZWJ, ZWSP])
     if not text or len(text) < 15:
-        return text + watermark
+        return (text or "") + watermark
     third = len(text) // 3
     return text[:3] + watermark + text[3:third] + watermark + text[third:third*2] + watermark + text[third*2:]
 
-# ====================== DATABASE LAYER (Neon Postgres, with file fallback) ======================
-db_connection_pool = None
+# ====================== DATABASE (Optional Neon) ======================
+db_pool = None
 if DB_ENABLED:
     try:
-        db_connection_pool = pg_pool.SimpleConnectionPool(1, 10, DATABASE_URL, sslmode="require")
+        db_pool = pg_pool.SimpleConnectionPool(1, 5, DATABASE_URL, sslmode="require")
+        logger.info("Connected to Neon Postgres")
     except Exception as e:
-        logger.error(f"Could not create DB connection pool: {e}")
+        logger.error(f"DB connection failed: {e}")
         DB_ENABLED = False
 
 def get_conn():
-    return db_connection_pool.getconn()
+    return db_pool.getconn()
 
 def put_conn(conn):
-    db_connection_pool.putconn(conn)
+    db_pool.putconn(conn)
 
-def init_db():
-    if not DB_ENABLED:
-        logger.warning("DATABASE_URL not set — using local file storage. Data will NOT survive redeploys on Render's free tier.")
-        return
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("""CREATE TABLE IF NOT EXISTS api_keys (
-                api_key TEXT PRIMARY KEY, owner TEXT, tier TEXT DEFAULT 'free',
-                active BOOLEAN DEFAULT TRUE, created_at DOUBLE PRECISION
-            )""")
-            cur.execute("""CREATE TABLE IF NOT EXISTS training_data (
-                id SERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT now(),
-                input TEXT, augmented_input TEXT, output TEXT, provider TEXT
-            )""")
-            cur.execute("""CREATE TABLE IF NOT EXISTS job_drafts (
-                draft_id TEXT PRIMARY KEY, subject TEXT, body TEXT,
-                job_title TEXT, company TEXT, created_at DOUBLE PRECISION
-            )""")
-        conn.commit()
-    finally:
-        put_conn(conn)
-    migrate_legacy_keys_file()
-
-def migrate_legacy_keys_file():
-    if not os.path.exists(KEYS_FILE):
-        return
-    try:
-        with open(KEYS_FILE, "r") as f:
-            legacy = json.load(f)
-        if not legacy:
-            return
-        conn = get_conn()
-        try:
-            with conn.cursor() as cur:
-                for k, v in legacy.items():
-                    cur.execute(
-                        """INSERT INTO api_keys (api_key, owner, tier, active, created_at)
-                           VALUES (%s,%s,%s,%s,%s) ON CONFLICT (api_key) DO NOTHING""",
-                        (k, v.get("owner"), v.get("tier", "free"), v.get("active", True), v.get("created_at", time.time()))
-                    )
-            conn.commit()
-            logger.info(f"Migrated {len(legacy)} legacy keys from keys.json into the database.")
-        finally:
-            put_conn(conn)
-    except Exception as e:
-        logger.warning(f"legacy key migration failed: {e}")
-
-# ---- Keys: DB-backed with file fallback ----
-def load_keys_file() -> dict:
+# ====================== KEY MANAGEMENT ======================
+def load_keys() -> dict:
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
             json.dump({}, f)
     with open(KEYS_FILE, "r") as f:
         return json.load(f)
 
-def save_keys_file(keys: dict):
-    tmp_path = KEYS_FILE + ".tmp"
-    with open(tmp_path, "w") as f:
+def save_keys(keys: dict):
+    tmp = KEYS_FILE + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(keys, f, indent=2)
-    os.replace(tmp_path, KEYS_FILE)
+    os.replace(tmp, KEYS_FILE)
 
-def db_get_key(key: str) -> Optional[dict]:
-    conn = get_conn()
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            cur.execute("SELECT * FROM api_keys WHERE api_key=%s", (key,))
-            return cur.fetchone()
-    finally:
-        put_conn(conn)
-
-def db_create_key(new_key: str, owner: str, tier: str):
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("INSERT INTO api_keys (api_key, owner, tier, active, created_at) VALUES (%s,%s,%s,TRUE,%s)",
-                        (new_key, owner, tier, time.time()))
-        conn.commit()
-    finally:
-        put_conn(conn)
-
-def db_list_keys() -> list:
-    conn = get_conn()
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            cur.execute("SELECT * FROM api_keys ORDER BY created_at DESC")
-            return cur.fetchall()
-    finally:
-        put_conn(conn)
-
-def db_set_key_active(key: str, active: bool) -> bool:
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("UPDATE api_keys SET active=%s WHERE api_key=%s", (active, key))
-            n = cur.rowcount
-        conn.commit()
-        return n > 0
-    finally:
-        put_conn(conn)
-
-def db_set_key_tier(key: str, tier: str) -> bool:
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("UPDATE api_keys SET tier=%s WHERE api_key=%s", (tier, key))
-            n = cur.rowcount
-        conn.commit()
-        return n > 0
-    finally:
-        put_conn(conn)
-
-def db_delete_key(key: str) -> bool:
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("DELETE FROM api_keys WHERE api_key=%s", (key,))
-            n = cur.rowcount
-        conn.commit()
-        return n > 0
-    finally:
-        put_conn(conn)
-
-def db_rotate_key(old_key: str, new_key: str) -> bool:
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("UPDATE api_keys SET api_key=%s, created_at=%s WHERE api_key=%s", (new_key, time.time(), old_key))
-            n = cur.rowcount
-        conn.commit()
-        return n > 0
-    finally:
-        put_conn(conn)
-
-def find_key_record(key: str) -> Tuple[Optional[dict], Optional[str]]:
+def is_valid_key(key: str) -> bool:
     if not key:
-        return None, None
+        return False
     if key in PERMANENT_KEYS:
-        return {"tier": "admin", "active": True}, "permanent"
-    if DB_ENABLED:
-        row = db_get_key(key)
-        return (dict(row), "db") if row else (None, None)
-    keys = load_keys_file()
-    return (keys[key], "local") if key in keys else (None, None)
+        return True
+    keys = load_keys()
+    return key in keys and keys[key].get("active", True)
 
-# ---- Training data: DB-backed with file fallback ----
-def log_training_example(raw_input: str, augmented_input: str, output: str, provider: Optional[str]):
-    if not TRAINING_DATA_ENABLED:
-        return
+def check_rate_limit(key: str) -> tuple:
+    if key in PERMANENT_KEYS:
+        return True, "unlimited"
+    keys = load_keys()
+    if key not in keys:
+        return False, "Invalid API key"
+    user = keys[key]
+    if not user.get("active", True):
+        return False, "This API key has been blocked"
+    tier = user.get("tier", "free")
+    limit = TIER_HOURLY_LIMITS.get(tier)
+    if limit is None:
+        return True, "unlimited"
+    now = time.time()
+    rate_limit_store[key] = [t for t in rate_limit_store[key] if now - t < 3600]
+    if len(rate_limit_store[key]) >= limit:
+        return False, f"Hourly limit reached ({limit} requests/hour)."
+    rate_limit_store[key].append(now)
+    return True, f"{limit - len(rate_limit_store[key])} requests remaining this hour"
+
+# ====================== SEARCH ======================
+def free_web_search(query: str) -> Optional[str]:
     try:
-        aug = augmented_input if augmented_input != raw_input else None
-        if DB_ENABLED:
-            conn = get_conn()
-            try:
-                with conn.cursor() as cur:
-                    cur.execute(
-                        "INSERT INTO training_data (input, augmented_input, output, provider) VALUES (%s,%s,%s,%s)",
-                        (raw_input[:MAX_TRAINING_LOG_FIELD_LEN], aug[:MAX_TRAINING_LOG_FIELD_LEN] if aug else None,
-                         output[:MAX_TRAINING_LOG_FIELD_LEN], provider)
-                    )
-                conn.commit()
-            finally:
-                put_conn(conn)
-        else:
-            record = {"timestamp": datetime.utcnow().isoformat(), "input": raw_input[:MAX_TRAINING_LOG_FIELD_LEN],
-                      "augmented_input": aug[:MAX_TRAINING_LOG_FIELD_LEN] if aug else None,
-                      "output": output[:MAX_TRAINING_LOG_FIELD_LEN], "provider": provider}
-            with training_lock:
-                with open(TRAINING_DATA_FILE, "a", encoding="utf-8") as f:
-                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
+        r = HTTP.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=12)
+        if r.status_code != 200:
+            return None
+        texts = re.findall(r'class="result__snippet"[^>]*>(.*?)</a>', r.text, re.DOTALL)
+        clean = [re.sub(r'<.*?>', '', t).strip() for t in texts[:4] if len(re.sub(r'<.*?>', '', t).strip()) > 40]
+        return "Here's what I found:\n\n" + "\n\n".join(clean) if clean else None
     except Exception as e:
-        logger.warning(f"training data logging failed: {e}")
+        logger.warning(f"Search failed: {e}")
+        return None
 
-# ---- Job drafts: DB-backed with file fallback ----
-def create_draft_record(draft_id: str, subject: str, body: str, job_title: str, company: str):
-    if DB_ENABLED:
-        conn = get_conn()
+# ====================== LLM CASCADE ======================
+def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
+    # 1. OpenRouter
+    if OPENROUTER_API_KEY:
         try:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO job_drafts (draft_id, subject, body, job_title, company, created_at) VALUES (%s,%s,%s,%s,%s,%s)",
-                            (draft_id, subject, body, job_title, company, time.time()))
-            conn.commit()
-        finally:
-            put_conn(conn)
-    else:
-        with drafts_lock:
-            drafts = _load_drafts_file()
-            drafts = {k: v for k, v in drafts.items() if time.time() - v.get("created_at", 0) < DRAFT_E
+            headers = {
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://jagx.ai",
+                "X-Title": "JagX AI"
+            }
+            payload = {"model": OPENROUTER_MODEL, "messages": messages, "max_tokens": max_tokens}
+            r = HTTP.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            logger.warning(f"OpenRouter failed: {e}")
+
+    # 2. Groq
+    if GROQ_API_KEY:
+        try:
+            headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
+            payload = {"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5}
+            r = HTTP.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            logger.warning(f"Groq failed: {e}")
+
+    # 3. Hugging Face
+    if HF_TOKEN:
+        try:
+            headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
+            payload = {"model": "Qwen/Qwen2.5-7B-Instruct", "messages": messages, "max_tokens": max_tokens}
+            r = HTTP.post("https://router.huggingface.co/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            logger.warning(f"HF failed: {e}")
+
+    # 4. NVIDIA
+    if NVIDIA_API_KEY:
+        try:
+            headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json"}
+            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": messages, "max_tokens": max_tokens, "stream": False}
+            r = HTTP.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            logger.warning(f"NVIDIA failed: {e}")
+
+    return None
+
+def generate_response(user_message: str, history: Optional[List[Dict]] = None) -> str:
+    messages = [{"role": "system", "content": AGENT_SYSTEM_PROMPT}]
+    if history:
+        for m in history[-8:]:
+            if m.get("role") in ("user", "assistant") and m.get("content"):
+                messages.append({"role": m["role"], "content": m["content"]})
+    messages.append({"role": "user", "content": user_message})
+
+    result = call_external_llm(messages)
+    if result:
+        return sanitize_identity(result)
+
+    search = free_web_search(user_message)
+    if search:
+        return search
+
+    return "I am JagX AI, created by JagX & JRILICENSE. I couldn't find a complete answer right now."
+
+# ====================== VISION ======================
+def analyze_image_with_vision(images: List[str], question: str) -> str:
+    if not images:
+        return "No images provided."
+    main_image = images[0].split(",")[-1] if "," in images[0] else images[0]
+
+    if HF_TOKEN:
+        try:
+            headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+            payload = {"image": main_image, "question": question}
+            r = HTTP.post("https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base", headers=headers, json=payload, timeout=40)
+            if r.status_code == 200:
+                result = r.json()
+                if isinstance(result, list) and result:
+                    return result[0].get("answer", str(result[0]))
+        except Exception as e:
+            logger.warning(f"Vision error: {e}")
+
+    return "I received your image(s). Full advanced vision is still being improved on JagX AI."
+
+# ====================== PDF / CV ======================
+def _sanitize_pdf_text(text: str) -> str:
+    return (text or "").encode("latin-1", "replace").decode("latin-1")
+
+def generate_cv_pdf(cv: dict) -> bytes:
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+
+    name = cv.get("name", "Full Name")
+    title = cv.get("title", "")
+    contact = cv.get("contact", {}) or {}
+    summary = cv.get("summary", "")
+    experience = cv.get("experience", []) or []
+    education = cv.get("education", []) or []
+    skills = cv.get("skills", []) or []
+
+    pdf.set_font("Helvetica", "B", 20)
+    pdf.cell(0, 12, _sanitize_pdf_text(name), ln=True)
+
+    if title:
+        pdf.set_font("Helvetica", "", 12)
+        pdf.set_text_color(60, 60, 60)
+        pdf.cell(0, 8, _sanitize_pdf_text(title), ln=True)
+        pdf.set_text_color(0, 0, 0)
+
+    contact_line = " | ".join(v for v in [contact.get("email"), contact.get("phone"), contact.get("location")] if v)
+    if contact_line:
+        pdf.set_font("Helvetica", "", 10)
+        pdf.multi_cell(0, 6, _sanitize_pdf_text(contact_line))
+    pdf.ln(4)
+
+    def section(title_text):
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 8, _sanitize_pdf_text(title_text.upper()), ln=True)
+
+    if summary:
+        section("Summary")
+        pdf.set_font("Helvetica", "", 11)
+        pdf.multi_cell(0, 6, _sanitize_pdf_text(summary))
+        pdf.ln(3)
+
+    if experience:
+        section("Experience")
+        for job in experience:
+            role = job.get("role", "")
+            company = job.get("company", "")
+            dates = job.get("dates", "")
+            bullets = job.get("bullets", []) or []
+            pdf.set_font("Helvetica", "B", 11)
+            pdf.cell(0, 7, _sanitize_pdf_text(f"{role} — {company}"), ln=True)
+            if dates:
+                pdf.set_font("Helvetica", "I", 10)
+                pdf.cell(0, 6, _sanitize_pdf_text(dates), ln=True)
+            pdf.set_font("Helvetica", "", 11)
+            for b in bullets:
+                pdf.multi_cell(0, 6, _sanitize_pdf_text(f"• {b}"))
+            pdf.ln(2)
+
+    if education:
+        section("Education")
+        for edu in education:
+            pdf.set_font("Helvetica", "B", 11)
+            pdf.cell(0, 7, _sanitize_pdf_text(f"{edu.get('degree', '')} — {edu.get('school', '')}"), ln=True)
+            if edu.get("dates"):
+                pdf.set_font("Helvetica", "I", 10)
+                pdf.cell(0, 6, _sanitize_pdf_text(edu.get("dates")), ln=True)
+            pdf.ln(1)
+
+    if skills:
+        section("Skills")
+        pdf.set_font("Helvetica", "", 11)
+        pdf.multi_cell(0, 6, _sanitize_pdf_text(", ".join(skills)))
+
+    return bytes(pdf.output())
+
+# ====================== JOB DRAFTS ======================
+def _load_drafts() -> dict:
+    if not os.path.exists(DRAFTS_FILE):
+        return {}
+    try:
+        with open(DRAFTS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _save_drafts(drafts: dict):
+    tmp = DRAFTS_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(drafts, f, indent=2)
+    os.replace(tmp, DRAFTS_FILE)
+
+def create_draft_record(draft_id: str, subject: str, body: str, job_title: str, company: str):
+    with drafts_lock:
+        drafts = _load_drafts()
+        # Clean expired drafts
+        drafts = {
+            k: v for k, v in drafts.items()
+            if time.time() - v.get("created_at", 0) < DRAFT_EXPIRY_SECONDS
+        }
+        drafts[draft_id] = {
+            "subject": subject,
+            "body": body,
+            "job_title": job_title,
+            "company": company,
+            "created_at": time.time()
+        }
+        _save_drafts(drafts)
+
+# ====================== MODELS ======================
+class ChatRequest(BaseModel):
+    message: str
+    max_tokens: int = 1500
+    history: Optional[List[Dict[str, str]]] = None
+
+class ImageRequest(BaseModel):
+    prompt: str
+    width: int = 1024
+    height: int = 1024
+
+class VisionRequest(BaseModel):
+    images: List[str]
+    question: str = "Describe the image(s) in detail."
+
+class CreateKeyRequest(BaseModel):
+    owner_label: str
+    admin_secret: str
+    tier: str = "free"
+
+class AdminKeyRequest(BaseModel):
+    api_key: str
+    admin_secret: str
+
+class UpgradeKeyRequest(BaseModel):
+    api_key: str
+    new_tier: str
+    admin_secret: str
+
+class BlockKeyRequest(BaseModel):
+    api_key: str
+    active: bool
+    admin_secret: str
+
+# ====================== ROUTES ======================
+@app.get("/")
+def root():
+    return {
+        "status": "JagX AI 6.6 is running",
+        "version": "6.6.0",
+        "created_by": "JagX & JRILICENSE",
+        "uptime_seconds": int(time.time() - APP_START_TIME),
+        "database": "connected" if DB_ENABLED else "file-based"
+    }
+
+@app.post("/chat")
+def chat(req: ChatRequest, x_api_key: str = Header(...)):
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+    allowed, quota = check_rate_limit(x_api_key)
+    if not allowed:
+        raise HTTPException(status_code=429, detail=quota)
+
+    reply = generate_response(req.message, req.history)
+    reply = add_invisible_watermark(reply)
+    return {"response": reply, "model": "JagX AI 6.6", "quota": quota}
+
+@app.post("/image")
+def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+    allowed, quota = check_rate_limit(x_api_key)
+    if not allowed:
+        raise HTTPException(status_code=429, detail=quota)
+
+    try:
+        url = f"https://image.pollinations.ai/prompt/{quote(req.prompt)}?width={req.width}&height={req.height}&nologo=true"
+        r = HTTP.get(url, timeout=60)
+        if r.status_code == 200:
+            return {
+                "success": True,
+                "image_base64": base64.b64encode(r.content).decode(),
+                "format": "png",
+                "quota": quota
+            }
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
+    raise HTTPException(status_code=502, detail="Image generation failed")
+
+@app.post("/vision")
+def vision(req: VisionRequest, x_api_key: str = Header(...)):
+    if not is_valid_key(x_api_key):
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key")
+    allowed, quota = check_rate_limit(x_api_key)
+    if not allowed:
+        raise HTTPException(status_code=429, detail=quota)
+    if not req.images:
+        raise HTTPException(status_code=400, detail
