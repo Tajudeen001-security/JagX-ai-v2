@@ -1,12 +1,11 @@
 """
-JagX AI 6.6 (Clean & Complete)
+JagX AI 6.7 (Speed Optimized + Complete)
 General Purpose AI + Identity Protection + Vision + Image Gen
-+ PDF/CV Generation + Job Drafts + Multi-Provider LLM
++ Job Drafts + Multi-Provider LLM (Groq first)
 Created by JagX & JRILICENSE
 """
 
 import os
-import io
 import json
 import secrets
 import threading
@@ -29,7 +28,6 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from pydantic import BaseModel
 import uvicorn
-from fpdf import FPDF
 
 # ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -62,7 +60,11 @@ GLOBAL_IP_RPM = int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
 DRAFT_EXPIRY_SECONDS = 48 * 3600
 APP_START_TIME = time.time()
 
-app = FastAPI(title="JagX AI 6.6", version="6.6.0", description="Created by JagX & JRILICENSE")
+app = FastAPI(
+    title="JagX AI 6.7",
+    description="Speed Optimized AI by JagX & JRILICENSE",
+    version="6.7.0"
+)
 
 lock = threading.Lock()
 drafts_lock = threading.Lock()
@@ -97,7 +99,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 def _build_session():
     s = requests.Session()
-    retries = Retry(total=2, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504])
+    retries = Retry(total=1, backoff_factor=0.3, status_forcelist=[429, 500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retries)
     s.mount("https://", adapter)
     s.mount("http://", adapter)
@@ -106,7 +108,7 @@ def _build_session():
 HTTP = _build_session()
 
 # ====================== SYSTEM PROMPT ======================
-AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.6 — a powerful general-purpose AI created by JagX and JRILICENSE.
+AGENT_SYSTEM_PROMPT = f"""You are JagX AI 6.7 — a powerful general-purpose AI created by JagX and JRILICENSE.
 
 STRICT IDENTITY RULES:
 - Your name is JagX AI.
@@ -116,7 +118,7 @@ STRICT IDENTITY RULES:
 
 Current date and time: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
-Be clear, helpful and natural.
+Be clear, helpful, natural and professional.
 """
 
 # ====================== IDENTITY PROTECTION ======================
@@ -193,19 +195,34 @@ def check_rate_limit(key: str) -> tuple:
 def free_web_search(query: str) -> Optional[str]:
     try:
         url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
-        r = HTTP.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=12)
+        r = HTTP.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
         if r.status_code != 200:
             return None
         texts = re.findall(r'class="result__snippet"[^>]*>(.*?)</a>', r.text, re.DOTALL)
-        clean = [re.sub(r'<.*?>', '', t).strip() for t in texts[:4] if len(re.sub(r'<.*?>', '', t).strip()) > 40]
+        clean = [re.sub(r'<.*?>', '', t).strip() for t in texts[:3] if len(re.sub(r'<.*?>', '', t).strip()) > 40]
         return "Here's what I found:\n\n" + "\n\n".join(clean) if clean else None
-    except Exception as e:
-        logger.warning(f"Search failed: {e}")
+    except Exception:
         return None
 
-# ====================== LLM CASCADE ======================
-def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
-    # OpenRouter
+# ====================== LLM CASCADE (Groq First) ======================
+def call_external_llm(messages: list, max_tokens: int = 1200) -> Optional[str]:
+    # 1. Groq (Fastest)
+    if GROQ_API_KEY:
+        try:
+            headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
+            payload = {
+                "model": GROQ_MODEL,
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "temperature": 0.5
+            }
+            r = HTTP.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=25)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            logger.warning(f"Groq failed: {e}")
+
+    # 2. OpenRouter
     if OPENROUTER_API_KEY:
         try:
             headers = {
@@ -215,40 +232,34 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
                 "X-Title": "JagX AI"
             }
             payload = {"model": OPENROUTER_MODEL, "messages": messages, "max_tokens": max_tokens}
-            r = HTTP.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            r = HTTP.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=30)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             logger.warning(f"OpenRouter failed: {e}")
 
-    # Groq
-    if GROQ_API_KEY:
-        try:
-            headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
-            payload = {"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5}
-            r = HTTP.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=60)
-            if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"]
-        except Exception as e:
-            logger.warning(f"Groq failed: {e}")
-
-    # Hugging Face
+    # 3. Hugging Face
     if HF_TOKEN:
         try:
             headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
             payload = {"model": "Qwen/Qwen2.5-7B-Instruct", "messages": messages, "max_tokens": max_tokens}
-            r = HTTP.post("https://router.huggingface.co/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            r = HTTP.post("https://router.huggingface.co/v1/chat/completions", headers=headers, json=payload, timeout=30)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             logger.warning(f"HF failed: {e}")
 
-    # NVIDIA
+    # 4. NVIDIA
     if NVIDIA_API_KEY:
         try:
             headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json"}
-            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": messages, "max_tokens": max_tokens, "stream": False}
-            r = HTTP.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload, timeout=60)
+            payload = {
+                "model": "meta/llama-3.1-8b-instruct",
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "stream": False
+            }
+            r = HTTP.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload, timeout=30)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
@@ -259,7 +270,7 @@ def call_external_llm(messages: list, max_tokens: int = 1500) -> Optional[str]:
 def generate_response(user_message: str, history: Optional[List[Dict]] = None) -> str:
     messages = [{"role": "system", "content": AGENT_SYSTEM_PROMPT}]
     if history:
-        for m in history[-8:]:
+        for m in history[-6:]:
             if m.get("role") in ("user", "assistant") and m.get("content"):
                 messages.append({"role": m["role"], "content": m["content"]})
     messages.append({"role": "user", "content": user_message})
@@ -268,11 +279,12 @@ def generate_response(user_message: str, history: Optional[List[Dict]] = None) -
     if result:
         return sanitize_identity(result)
 
+    # Fallback search
     search = free_web_search(user_message)
     if search:
         return search
 
-    return "I am JagX AI, created by JagX & JRILICENSE. I couldn't find a complete answer right now."
+    return "I am JagX AI, created by JagX & JRILICENSE. I couldn't generate a full answer right now. Please try again."
 
 # ====================== VISION ======================
 def analyze_image_with_vision(images: List[str], question: str) -> str:
@@ -284,7 +296,12 @@ def analyze_image_with_vision(images: List[str], question: str) -> str:
         try:
             headers = {"Authorization": f"Bearer {HF_TOKEN}"}
             payload = {"image": main_image, "question": question}
-            r = HTTP.post("https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base", headers=headers, json=payload, timeout=40)
+            r = HTTP.post(
+                "https://api-inference.huggingface.co/models/Salesforce/blip-vqa-base",
+                headers=headers,
+                json=payload,
+                timeout=25
+            )
             if r.status_code == 200:
                 result = r.json()
                 if isinstance(result, list) and result:
@@ -329,7 +346,7 @@ def create_draft_record(draft_id: str, subject: str, body: str, job_title: str, 
 # ====================== MODELS ======================
 class ChatRequest(BaseModel):
     message: str
-    max_tokens: int = 1500
+    max_tokens: int = 1200
     history: Optional[List[Dict[str, str]]] = None
 
 class ImageRequest(BaseModel):
@@ -364,8 +381,8 @@ class BlockKeyRequest(BaseModel):
 @app.get("/")
 def root():
     return {
-        "status": "JagX AI 6.6 is running",
-        "version": "6.6.0",
+        "status": "JagX AI 6.7 is running",
+        "version": "6.7.0",
         "created_by": "JagX & JRILICENSE",
         "uptime_seconds": int(time.time() - APP_START_TIME)
     }
@@ -380,7 +397,7 @@ def chat(req: ChatRequest, x_api_key: str = Header(...)):
 
     reply = generate_response(req.message, req.history)
     reply = add_invisible_watermark(reply)
-    return {"response": reply, "model": "JagX AI 6.6", "quota": quota}
+    return {"response": reply, "model": "JagX AI 6.7", "quota": quota}
 
 @app.post("/image")
 def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
@@ -392,7 +409,7 @@ def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
 
     try:
         url = f"https://image.pollinations.ai/prompt/{quote(req.prompt)}?width={req.width}&height={req.height}&nologo=true"
-        r = HTTP.get(url, timeout=60)
+        r = HTTP.get(url, timeout=45)
         if r.status_code == 200:
             return {
                 "success": True,
@@ -426,9 +443,19 @@ def create_key(req: CreateKeyRequest):
     with lock:
         keys = load_keys()
         new_key = "jagx-" + secrets.token_hex(16)
-        keys[new_key] = {"owner": req.owner_label, "active": True, "tier": tier, "created_at": time.time()}
+        keys[new_key] = {
+            "owner": req.owner_label,
+            "active": True,
+            "tier": tier,
+            "created_at": time.time()
+        }
         save_keys(keys)
-    return {"api_key": new_key, "owner": req.owner_label, "tier": tier, "hourly_limit": TIER_HOURLY_LIMITS.get(tier)}
+    return {
+        "api_key": new_key,
+        "owner": req.owner_label,
+        "tier": tier,
+        "hourly_limit": TIER_HOURLY_LIMITS.get(tier)
+    }
 
 @app.get("/admin/keys")
 def list_keys(admin_secret: str = Header(...)):
@@ -474,7 +501,11 @@ def upgrade_key(req: UpgradeKeyRequest):
             raise HTTPException(status_code=404, detail="Key not found")
         keys[req.api_key]["tier"] = new_tier
         save_keys(keys)
-    return {"success": True, "message": f"Upgraded to {new_tier}", "hourly_limit": TIER_HOURLY_LIMITS[new_tier]}
+    return {
+        "success": True,
+        "message": f"Upgraded to {new_tier}",
+        "hourly_limit": TIER_HOURLY_LIMITS[new_tier]
+    }
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
