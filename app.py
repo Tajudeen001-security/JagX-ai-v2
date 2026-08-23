@@ -1,12 +1,12 @@
 """
-JagX AI 6.8
-Restored Features Edition
-- Full Tool-Calling System
-- PDF / CV Generation
-- Dual-path Fast/Reasoning Routing
+JagX AI 6.9
+Full Features Edition
+- Tool Calling (web_search, run_code, generate_pdf, generate_cv, generate_portfolio)
+- Improved Web Search
+- PDF / CV / Portfolio / ZIP
+- Dual-path routing
 - Training Data Logging
-- Advanced File/Link Reading
-- Job Drafts + Identity Protection
+- Identity Protection + Watermark
 Created by JagX & JRILICENSE
 """
 
@@ -18,11 +18,13 @@ import threading
 import time
 import re
 import base64
+import zipfile
 import logging
 from typing import Optional, List, Dict, Tuple
 from collections import defaultdict
-from urllib.parse import quote, urlparse
+from urllib.parse import quote
 from datetime import datetime
+from io import BytesIO
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -34,7 +36,6 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from pydantic import BaseModel
 import uvicorn
-from bs4 import BeautifulSoup
 from fpdf import FPDF
 
 # ====================== LOGGING ======================
@@ -62,14 +63,14 @@ PERMANENT_KEYS = set(k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", ""
 TIER_HOURLY_LIMITS = {"free": 60, "premium": 300, "premium_plus": 800, "master": None, "admin": None}
 
 MAX_TOOL_STEPS = 3
-MAX_CODE_LEN = 15000
-MAX_TOOL_RESULT_LEN = 3500
-MAX_BODY_BYTES = 20 * 1024 * 1024
-GLOBAL_IP_RPM = 120
+MAX_CODE_LEN = 12000
+MAX_TOOL_RESULT_LEN = 3000
+MAX_BODY_BYTES = 15 * 1024 * 1024
+GLOBAL_IP_RPM = 100
 DRAFT_EXPIRY_SECONDS = 48 * 3600
 APP_START_TIME = time.time()
 
-app = FastAPI(title="JagX AI 6.8", version="6.8.0", description="Created by JagX & JRILICENSE")
+app = FastAPI(title="JagX AI 6.9", version="6.9.0", description="Created by JagX & JRILICENSE")
 
 lock = threading.Lock()
 drafts_lock = threading.Lock()
@@ -113,21 +114,22 @@ def _build_session():
 HTTP = _build_session()
 
 # ====================== PROMPTS ======================
-FAST_SYSTEM = f"""You are JagX AI, created by JagX and JRILICENSE. Talk naturally and helpfully.
-Never mention OpenAI, Groq, Meta, Google or any other company. You are only JagX AI by JagX & JRILICENSE.
+FAST_SYSTEM = f"""You are JagX AI, created by JagX and JRILICENSE. Be helpful, clear and natural.
+Never mention OpenAI, Groq, Meta, Google, Anthropic or any other company. You are only JagX AI by JagX & JRILICENSE.
 Current date: {datetime.utcnow().strftime("%Y-%m-%d")}."""
 
-AGENT_SYSTEM = f"""You are JagX AI — created by JagX and JRILICENSE.
+AGENT_SYSTEM = f"""You are JagX AI, created by JagX and JRILICENSE.
 Never claim to be made by any other company.
 
-You can use tools when needed by replying with ONLY a JSON object:
-{{"tool": "web_search", "input": "query"}}
+When you need a tool, reply with ONLY a JSON object (no extra text):
+{{"tool": "web_search", "input": "search query"}}
 {{"tool": "run_code", "input": {{"language": "python", "code": "print(1+1)"}}}}
-{{"tool": "generate_pdf", "input": {{"title": "Title", "sections": [{{"heading": "H1", "content": "text"}}]}}}}
-{{"tool": "generate_cv", "input": {{"name": "Name", "title": "Title", "summary": "...", "experience": [], "education": [], "skills": []}}}}
+{{"tool": "generate_pdf", "input": {{"title": "Title", "sections": [{{"heading": "Section", "content": "text"}}]}}}}
+{{"tool": "generate_cv", "input": {{"name": "Full Name", "title": "Job Title", "summary": "...", "experience": [{{"role": "...", "company": "...", "dates": "...", "bullets": ["..."]}}], "education": [], "skills": []}}}}
+{{"tool": "generate_portfolio", "input": {{"name": "Name", "title": "Title", "about": "...", "projects": [{{"name": "...", "description": "...", "link": "..."}}], "skills": [], "contact": {{"email": "", "github": "", "linkedin": ""}}}}}}
 
-When ready to answer, reply with ONLY:
-{{"final": "your answer here"}}
+When ready to answer the user, reply with ONLY:
+{{"final": "your complete answer here"}}
 
 Current date: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 """
@@ -201,32 +203,55 @@ def check_rate_limit(key: str) -> tuple:
     rate_limit_store[key].append(now)
     return True, f"{limit - len(rate_limit_store[key])} remaining this hour"
 
-# ====================== SEARCH + CODE ======================
-def free_web_search(query: str) -> str:
+# ====================== IMPROVED WEB SEARCH ======================
+def free_web_search(query: str, max_results: int = 5) -> str:
     try:
-        r = HTTP.get(f"https://html.duckduckgo.com/html/?q={quote(query)}", headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
-        texts = re.findall(r'class="result__snippet"[^>]*>(.*?)</a>', r.text, re.DOTALL)
-        clean = [re.sub(r'<.*?>', '', t).strip() for t in texts[:3] if len(re.sub(r'<.*?>', '', t).strip()) > 40]
-        return "Search results:\n\n" + "\n\n".join(clean) if clean else "No good results found."
-    except Exception:
-        return "Search failed."
+        url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        r = HTTP.get(url, headers=headers, timeout=10)
+        if r.status_code != 200:
+            return "Search currently unavailable."
 
+        results = []
+        # Try to get title + snippet pairs
+        blocks = re.findall(r'class="result__a"[^>]*>(.*?)</a>.*?class="result__snippet"[^>]*>(.*?)</(?:a|td)>', r.text, re.DOTALL)
+        for title, snippet in blocks[:max_results]:
+            title = re.sub(r'<.*?>', '', title).strip()
+            snippet = re.sub(r'<.*?>', '', snippet).strip()
+            if title and len(snippet) > 30:
+                results.append(f"**{title}**\n{snippet}")
+
+        if not results:
+            snippets = re.findall(r'class="result__snippet"[^>]*>(.*?)</(?:a|td)>', r.text, re.DOTALL)
+            for s in snippets[:max_results]:
+                clean = re.sub(r'<.*?>', '', s).strip()
+                if len(clean) > 40:
+                    results.append(clean)
+
+        if results:
+            return "Here’s what I found online:\n\n" + "\n\n".join(results)
+        return "No relevant results found."
+    except Exception as e:
+        logger.warning(f"Web search failed: {e}")
+        return "Search failed at the moment."
+
+# ====================== CODE EXECUTION ======================
 def run_code_sandboxed(language: str, code: str) -> str:
     if len(code) > MAX_CODE_LEN:
-        return "Code too long."
+        return "Code is too long."
     try:
         payload = {"language": language.lower(), "version": "*", "files": [{"content": code}]}
-        r = HTTP.post(f"{PISTON_URL}/execute", json=payload, timeout=18)
+        r = HTTP.post(f"{PISTON_URL}/execute", json=payload, timeout=15)
         if r.status_code != 200:
-            return f"Execution failed ({r.status_code})"
+            return f"Execution failed (status {r.status_code})"
         data = r.json()
         run = data.get("run", {})
         out = (run.get("stdout") or "") + (run.get("stderr") or "")
-        return out[:MAX_TOOL_RESULT_LEN] or "No output"
+        return (out[:MAX_TOOL_RESULT_LEN] or "No output").strip()
     except Exception as e:
-        return f"Sandbox error: {str(e)[:150]}"
+        return f"Sandbox error: {str(e)[:120]}"
 
-# ====================== PDF / CV ======================
+# ====================== PDF / CV / PORTFOLIO ======================
 def _sanitize(text: str) -> str:
     return (text or "").encode("latin-1", "replace").decode("latin-1")
 
@@ -236,8 +261,8 @@ def generate_pdf_document(title: str, sections: List[Dict]) -> bytes:
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 16)
     pdf.multi_cell(0, 10, _sanitize(title))
-    pdf.ln(4)
-    for sec in sections[:30]:
+    pdf.ln(3)
+    for sec in sections[:25]:
         if sec.get("heading"):
             pdf.set_font("Helvetica", "B", 12)
             pdf.multi_cell(0, 8, _sanitize(sec["heading"]))
@@ -255,13 +280,13 @@ def generate_cv_pdf(cv: dict) -> bytes:
     if cv.get("title"):
         pdf.set_font("Helvetica", "", 12)
         pdf.cell(0, 8, _sanitize(cv["title"]), ln=True)
-    pdf.ln(4)
+    pdf.ln(3)
     if cv.get("summary"):
         pdf.set_font("Helvetica", "B", 12)
         pdf.cell(0, 8, "SUMMARY", ln=True)
         pdf.set_font("Helvetica", "", 11)
         pdf.multi_cell(0, 6, _sanitize(cv["summary"]))
-        pdf.ln(3)
+        pdf.ln(2)
     if cv.get("experience"):
         pdf.set_font("Helvetica", "B", 12)
         pdf.cell(0, 8, "EXPERIENCE", ln=True)
@@ -274,7 +299,7 @@ def generate_cv_pdf(cv: dict) -> bytes:
             pdf.set_font("Helvetica", "", 11)
             for b in job.get("bullets", []):
                 pdf.multi_cell(0, 6, _sanitize(f"• {b}"))
-            pdf.ln(2)
+            pdf.ln(1)
     if cv.get("skills"):
         pdf.set_font("Helvetica", "B", 12)
         pdf.cell(0, 8, "SKILLS", ln=True)
@@ -282,47 +307,101 @@ def generate_cv_pdf(cv: dict) -> bytes:
         pdf.multi_cell(0, 6, _sanitize(", ".join(cv["skills"])))
     return bytes(pdf.output())
 
+def generate_portfolio_html(data: dict) -> str:
+    name = data.get("name", "My Portfolio")
+    title = data.get("title", "")
+    about = data.get("about", "")
+    projects = data.get("projects", [])
+    skills = data.get("skills", [])
+    contact = data.get("contact", {})
+
+    projects_html = ""
+    for p in projects:
+        link = f'<p><a href="{p.get("link")}" target="_blank">View Project</a></p>' if p.get("link") else ""
+        projects_html += f"""
+        <div style="border:1px solid #ddd; padding:16px; margin:12px 0; border-radius:8px;">
+            <h3>{p.get('name', 'Project')}</h3>
+            <p>{p.get('description', '')}</p>
+            {link}
+        </div>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{name} - Portfolio</title>
+<style>
+body {{ font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }}
+h1 {{ margin-bottom: 4px; }}
+.title {{ color: #555; margin-top: 0; }}
+a {{ color: #0066cc; }}
+</style>
+</head>
+<body>
+<h1>{name}</h1>
+<p class="title">{title}</p>
+<h2>About</h2>
+<p>{about}</p>
+<h2>Projects</h2>
+{projects_html}
+<h2>Skills</h2>
+<p>{', '.join(skills) if skills else 'Not specified'}</p>
+<h2>Contact</h2>
+<p>{contact.get('email', '')}<br>{contact.get('github', '')}<br>{contact.get('linkedin', '')}</p>
+<hr>
+<small>Generated by JagX AI</small>
+</body>
+</html>"""
+
+def create_zip(files: Dict[str, bytes]) -> bytes:
+    buffer = BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+        for filename, content in files.items():
+            zf.writestr(filename, content)
+    return buffer.getvalue()
+
 # ====================== LLM ======================
-def call_llm(messages: list, max_tokens: int = 1200) -> Optional[str]:
-    # Groq first
+def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
     if GROQ_API_KEY:
         try:
             r = HTTP.post("https://api.groq.com/openai/v1/chat/completions",
-                          headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-                          json={"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5},
-                          timeout=22)
+                headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
+                json={"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5},
+                timeout=20)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            logger.warning(f"Groq: {e}")
+            logger.warning(f"Groq failed: {e}")
 
     if OPENROUTER_API_KEY:
         try:
             r = HTTP.post("https://openrouter.ai/api/v1/chat/completions",
-                          headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
-                          json={"model": OPENROUTER_MODEL, "messages": messages, "max_tokens": max_tokens},
-                          timeout=25)
+                headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
+                json={"model": OPENROUTER_MODEL, "messages": messages, "max_tokens": max_tokens},
+                timeout=22)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            logger.warning(f"OpenRouter: {e}")
+            logger.warning(f"OpenRouter failed: {e}")
 
     if HF_TOKEN:
         try:
             r = HTTP.post("https://router.huggingface.co/v1/chat/completions",
-                          headers={"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"},
-                          json={"model": "Qwen/Qwen2.5-7B-Instruct", "messages": messages, "max_tokens": max_tokens},
-                          timeout=25)
+                headers={"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"},
+                json={"model": "Qwen/Qwen2.5-7B-Instruct", "messages": messages, "max_tokens": max_tokens},
+                timeout=22)
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            logger.warning(f"HF: {e}")
+            logger.warning(f"HF failed: {e}")
 
     return None
 
 def needs_tools(msg: str) -> bool:
     text = (msg or "").lower()
-    keywords = ["code", "python", "javascript", "run this", "execute", "pdf", "cv", "resume", "search for", "look up", "latest", "job"]
+    keywords = ["code", "python", "javascript", "run this", "execute", "pdf", "cv", "resume", "portfolio",
+                "search for", "look up", "latest", "job", "generate a", "create a"]
     return any(k in text for k in keywords)
 
 def extract_json(text: str) -> Optional[dict]:
@@ -337,14 +416,15 @@ def extract_json(text: str) -> Optional[dict]:
 def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, Optional[dict]]:
     messages = [{"role": "system", "content": AGENT_SYSTEM}]
     if history:
-        for m in history[-5:]:
+        for m in history[-4:]:
             if m.get("role") in ("user", "assistant"):
                 messages.append({"role": m["role"], "content": m["content"]})
     messages.append({"role": "user", "content": user_message})
 
     attachment = None
-    for step in range(MAX_TOOL_STEPS):
-        raw = call_llm(messages, max_tokens=900)
+
+    for _ in range(MAX_TOOL_STEPS):
+        raw = call_llm(messages, max_tokens=800)
         if not raw:
             break
         data = extract_json(raw)
@@ -352,7 +432,7 @@ def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, O
             return sanitize_identity(raw), None
 
         if "final" in data:
-            return sanitize_identity(data["final"]), attachment
+            return sanitize_identity(str(data["final"])), attachment
 
         tool = data.get("tool")
         inp = data.get("input")
@@ -364,33 +444,38 @@ def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, O
         elif tool == "generate_pdf" and isinstance(inp, dict):
             try:
                 pdf_bytes = generate_pdf_document(inp.get("title", "Document"), inp.get("sections", []))
-                b64 = base64.b64encode(pdf_bytes).decode()
-                attachment = {"type": "pdf", "filename": "document.pdf", "content_base64": b64}
-                result = "PDF generated successfully."
+                attachment = {"type": "pdf", "filename": "document.pdf", "content_base64": base64.b64encode(pdf_bytes).decode()}
+                result = "PDF generated successfully and attached."
             except Exception as e:
-                result = f"PDF failed: {e}"
+                result = f"PDF generation failed: {e}"
         elif tool == "generate_cv" and isinstance(inp, dict):
             try:
                 pdf_bytes = generate_cv_pdf(inp)
-                b64 = base64.b64encode(pdf_bytes).decode()
-                attachment = {"type": "pdf", "filename": "cv.pdf", "content_base64": b64}
-                result = "CV generated successfully."
+                attachment = {"type": "pdf", "filename": "cv.pdf", "content_base64": base64.b64encode(pdf_bytes).decode()}
+                result = "CV generated successfully and attached."
             except Exception as e:
-                result = f"CV failed: {e}"
+                result = f"CV generation failed: {e}"
+        elif tool == "generate_portfolio" and isinstance(inp, dict):
+            try:
+                html = generate_portfolio_html(inp)
+                attachment = {"type": "html", "filename": "portfolio.html", "content_base64": base64.b64encode(html.encode()).decode()}
+                result = "Portfolio generated successfully and attached."
+            except Exception as e:
+                result = f"Portfolio generation failed: {e}"
         else:
-            result = "Unknown tool."
+            result = "Unknown or unsupported tool."
 
         messages.append({"role": "assistant", "content": raw})
-        messages.append({"role": "user", "content": f"Tool result:\n{result}"})
+        messages.append({"role": "user", "content": f"Tool result:\n{result}\n\nContinue."})
 
-    # Fallback
+    # Final fallback
     fallback = call_llm([{"role": "system", "content": FAST_SYSTEM}, {"role": "user", "content": user_message}])
     return sanitize_identity(fallback or "I couldn't complete the request."), attachment
 
 def generate_response(user_message: str, history: Optional[List] = None) -> Tuple[str, Optional[dict]]:
     if needs_tools(user_message):
         return run_agent(user_message, history)
-    # Fast path
+
     messages = [{"role": "system", "content": FAST_SYSTEM}]
     if history:
         for m in history[-6:]:
@@ -401,109 +486,4 @@ def generate_response(user_message: str, history: Optional[List] = None) -> Tupl
     return sanitize_identity(result or "I couldn't generate a response."), None
 
 # ====================== TRAINING LOG ======================
-def log_training(input_text: str, output_text: str):
-    if not TRAINING_DATA_ENABLED:
-        return
-    try:
-        with training_lock:
-            with open(TRAINING_DATA_FILE, "a", encoding="utf-8") as f:
-                f.write(json.dumps({
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "input": input_text[:4000],
-                    "output": output_text[:4000]
-                }) + "\n")
-    except Exception:
-        pass
-
-# ====================== MODELS ======================
-class ChatRequest(BaseModel):
-    message: str
-    max_tokens: int = 1200
-    history: Optional[List[Dict[str, str]]] = None
-
-class ImageRequest(BaseModel):
-    prompt: str
-    width: int = 1024
-    height: int = 1024
-
-class VisionRequest(BaseModel):
-    images: List[str]
-    question: str = "Describe this image."
-
-class CreateKeyRequest(BaseModel):
-    owner_label: str
-    admin_secret: str
-    tier: str = "free"
-
-class AdminKeyRequest(BaseModel):
-    api_key: str
-    admin_secret: str
-
-class UpgradeKeyRequest(BaseModel):
-    api_key: str
-    new_tier: str
-    admin_secret: str
-
-class BlockKeyRequest(BaseModel):
-    api_key: str
-    active: bool
-    admin_secret: str
-
-# ====================== ROUTES ======================
-@app.get("/")
-def root():
-    return {
-        "status": "JagX AI 6.8 is running",
-        "version": "6.8.0",
-        "created_by": "JagX & JRILICENSE",
-        "features": ["tool_calling", "pdf_cv", "vision", "image_gen", "dual_path", "training_log"]
-    }
-
-@app.post("/chat")
-def chat(req: ChatRequest, x_api_key: str = Header(...)):
-    if not is_valid_key(x_api_key):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    allowed, quota = check_rate_limit(x_api_key)
-    if not allowed:
-        raise HTTPException(status_code=429, detail=quota)
-
-    reply, attachment = generate_response(req.message, req.history)
-    reply = add_invisible_watermark(reply)
-    log_training(req.message, reply)
-
-    result = {"response": reply, "model": "JagX AI 6.8", "quota": quota}
-    if attachment:
-        result["attachment"] = attachment
-    return result
-
-@app.post("/image")
-def generate_image(req: ImageRequest, x_api_key: str = Header(...)):
-    if not is_valid_key(x_api_key):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    allowed, quota = check_rate_limit(x_api_key)
-    if not allowed:
-        raise HTTPException(status_code=429, detail=quota)
-    try:
-        url = f"https://image.pollinations.ai/prompt/{quote(req.prompt)}?width={req.width}&height={req.height}&nologo=true"
-        r = HTTP.get(url, timeout=40)
-        if r.status_code == 200:
-            return {"success": True, "image_base64": base64.b64encode(r.content).decode(), "format": "png", "quota": quota}
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=str(e))
-    raise HTTPException(status_code=502, detail="Image generation failed")
-
-@app.post("/vision")
-def vision(req: VisionRequest, x_api_key: str = Header(...)):
-    if not is_valid_key(x_api_key):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    allowed, quota = check_rate_limit(x_api_key)
-    if not allowed:
-        raise HTTPException(status_code=429, detail=quota)
-    if not req.images:
-        raise HTTPException(status_code=400, detail="No images provided")
-
-    main_image = req.images[0].split(",")[-1] if "," in req.images[0] else req.images[0]
-    answer = "I received the image. Advanced vision is limited right now."
-    if HF_TOKEN:
-        try:
-            r = HTTP.post("https://api-in
+def log_training(input_text: str, output_
