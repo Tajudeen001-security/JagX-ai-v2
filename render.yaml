@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: jagx-ai-v2
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: JAGX_LLM_TIMEOUT
+        value: "8"
+      - key: JAGX_MAX_OUTPUT_TOKENS
+        value: "1200"
