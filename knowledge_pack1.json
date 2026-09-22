@@ -1,0 +1,22 @@
+[
+  {"k": ["2+2", "2 + 2", "what is 2+2"], "a": "4"},
+  {"k": ["who are you", "what are you", "your name"], "a": "I am JagX AI, created by JagX and JRILICENSE."},
+  {"k": ["who created you", "who made you", "who built you"], "a": "I was created by JagX and JRILICENSE."},
+  {"k": ["hello", "hi", "hey"], "a": "Hello! I am JagX AI. How can I help you today?"},
+  {"k": ["help", "what can you do", "capabilities"], "a": "I answer questions, write code (Python, JavaScript), run code, and search the web. Built by JagX & JRILICENSE."},
+  {"k": ["reverse a string", "reverse string", "string reverse", "reverses a string"], "a": "```python\ndef reverse_string(s: str) -> str:\n    return s[::-1]\n```"},
+  {"k": ["factorial"], "a": "```python\ndef factorial(n: int) -> int:\n    return 1 if n <= 1 else n * factorial(n - 1)\n```"},
+  {"k": ["fibonacci"], "a": "```python\ndef fibonacci(n: int) -> int:\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n```"},
+  {"k": ["palindrome"], "a": "```python\ndef is_palindrome(s: str) -> bool:\n    s = s.lower().replace(' ', '')\n    return s == s[::-1]\n```"},
+  {"k": ["sort list", "python sort"], "a": "```python\ndef sort_list(items):\n    return sorted(items)\n```"},
+  {"k": ["read file", "python read file"], "a": "```python\nwith open('file.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n```"},
+  {"k": ["write file", "python write file"], "a": "```python\nwith open('file.txt', 'w', encoding='utf-8') as f:\n    f.write('hello')\n```"},
+  {"k": ["json parse", "python json"], "a": "```python\nimport json\ndata = json.loads('{\"a\": 1}')\nprint(data['a'])\n```"},
+  {"k": ["http request", "python requests"], "a": "```python\nimport requests\nr = requests.get('https://example.com')\nprint(r.status_code)\n```"},
+  {"k": ["javascript reverse", "js reverse string"], "a": "```javascript\nfunction reverseString(s) {\n  return s.split('').reverse().join('');\n}\n```"},
+  {"k": ["javascript fetch", "js fetch"], "a": "```javascript\nconst res = await fetch('https://example.com');\nconst data = await res.json();\n```"},
+  {"k": ["what is rest", "rest api"], "a": "REST is a web API style using HTTP methods (GET, POST, PUT, DELETE) and usually JSON."},
+  {"k": ["what is json"], "a": "JSON is a text data format: objects {}, arrays [], strings, numbers, booleans, and null."},
+  {"k": ["what is python"], "a": "Python is a popular programming language used for web, data, AI, and scripting."},
+  {"k": ["what is javascript", "what is js"], "a": "JavaScript is the main language for web browsers and also used on servers with Node.js."}
+]
