@@ -94,14 +94,14 @@ You are only JagX AI by JagX & JRILICENSE.
 Date: {datetime.now(timezone.utc).strftime("%Y-%m-%d")}."""
 
 IDENTITY_PATTERNS = [
-    (re.compile(r"\\b(openai|chatgpt|gpt-?\\d)\\b", re.I), "JagX AI"),
-    (re.compile(r"\\b(anthropic|claude)\\b", re.I), "JagX AI"),
-    (re.compile(r"\\b(llama|meta ai)\\b", re.I), "JagX AI"),
-    (re.compile(r"\\bgroq\\b", re.I), "JagX AI"),
-    (re.compile(r"\\bopenrouter\\b", re.I), "JagX AI"),
-    (re.compile(r"\\bhugging\\s?face\\b", re.I), "JagX AI"),
-    (re.compile(r"\\bnvidia\\b", re.I), "JagX AI"),
-    (re.compile(r"\\bqwen\\b", re.I), "JagX AI"),
+    (re.compile(r"\b(openai|chatgpt|gpt-?\d)\b", re.I), "JagX AI"),
+    (re.compile(r"\b(anthropic|claude)\b", re.I), "JagX AI"),
+    (re.compile(r"\b(llama|meta ai)\b", re.I), "JagX AI"),
+    (re.compile(r"\bgroq\b", re.I), "JagX AI"),
+    (re.compile(r"\bopenrouter\b", re.I), "JagX AI"),
+    (re.compile(r"\bhugging\s?face\b", re.I), "JagX AI"),
+    (re.compile(r"\bnvidia\b", re.I), "JagX AI"),
+    (re.compile(r"\bqwen\b", re.I), "JagX AI"),
 ]
 
 def sanitize_identity(text: str) -> str:
@@ -112,7 +112,7 @@ def sanitize_identity(text: str) -> str:
     return text
 
 def add_invisible_watermark(text: str) -> str:
-    ZWSP, ZWNJ, ZWJ = "\\u200B", "\\u200C", "\\u200D"
+    ZWSP, ZWNJ, ZWJ = "\u200B", "\u200C", "\u200D"
     wm = "".join([ZWNJ, ZWSP, ZWSP, ZWSP, ZWJ, ZWJ, ZWJ, ZWSP])
     if not text or len(text) < 15:
         return (text or "") + wm
@@ -179,9 +179,9 @@ def free_web_search(query: str, max_results: int = 5) -> str:
             title = re.sub(r"<.*?>", "", title).strip()
             snippet = re.sub(r"<.*?>", "", snippet).strip()
             if title and len(snippet) > 25:
-                results.append(f"**{title}**\\n{snippet}")
+                results.append(f"**{title}**\n{snippet}")
         if results:
-            return "Search results:\\n\\n" + "\\n\\n".join(results)
+            return "Search results:\n\n" + "\n\n".join(results)
         return "No relevant results found."
     except Exception as e:
         logger.warning(f"Web search failed: {e}")
@@ -244,18 +244,38 @@ def call_llm(messages: list, max_tokens: int = None) -> Optional[str]:
             logger.warning(f"HF failed: {e}")
     return None
 
-LOCAL_KNOWLEDGE = [
-    (["2+2", "2 + 2", "what is 2+2"], "4"),
-    (["who are you", "what are you", "your name"], "I am JagX AI, created by JagX and JRILICENSE."),
-    (["who created you", "who made you", "who built you"], "I was created by JagX and JRILICENSE."),
-    (["reverse a string", "reverse string", "string reverse"],
-     "```python\\ndef reverse_string(s: str) -> str:\\n    return s[::-1]\\n```"),
-    (["factorial"], "```python\\ndef factorial(n: int) -> int:\\n    return 1 if n <= 1 else n * factorial(n-1)\\n```"),
-    (["fibonacci"], "```python\\ndef fibonacci(n: int) -> int:\\n    a, b = 0, 1\\n    for _ in range(n):\\n        a, b = b, a + b\\n    return a\\n```"),
-    (["palindrome"], "```python\\ndef is_palindrome(s: str) -> bool:\\n    s = s.lower().replace(' ', '')\\n    return s == s[::-1]\\n```"),
-    (["help", "what can you do", "capabilities"],
-     "I answer questions, write code (Python/JS), run code, and search the web. Built by JagX & JRILICENSE."),
-]
+def load_local_knowledge():
+    """Load all knowledge_pack*.json files next to this script."""
+    items = []
+    base = os.path.dirname(os.path.abspath(__file__)) or "."
+    try:
+        names = sorted(os.listdir(base))
+    except Exception:
+        names = []
+    for name in names:
+        if name.startswith("knowledge_pack") and name.endswith(".json"):
+            path = os.path.join(base, name)
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, list):
+                    for row in data:
+                        k = row.get("k") or row.get("keywords") or []
+                        a = row.get("a") or row.get("answer") or ""
+                        if k and a:
+                            items.append((list(k), str(a)))
+            except Exception as e:
+                logger.warning(f"Knowledge pack load failed {name}: {e}")
+    if not items:
+        items = [
+            (["who are you", "what are you"], "I am JagX AI, created by JagX and JRILICENSE."),
+            (["2+2", "2 + 2"], "4"),
+            (["help", "capabilities"], "I answer questions and write code. Built by JagX & JRILICENSE."),
+        ]
+    logger.info(f"Loaded {len(items)} local knowledge entries")
+    return items
+
+LOCAL_KNOWLEDGE = load_local_knowledge()
 
 def local_knowledge_answer(msg: str) -> Optional[str]:
     t = (msg or "").lower().strip()
@@ -264,7 +284,7 @@ def local_knowledge_answer(msg: str) -> Optional[str]:
     for keywords, answer in LOCAL_KNOWLEDGE:
         if any(k in t for k in keywords):
             return answer
-    m = re.fullmatch(r"\\s*(\\d+)\\s*\\+\\s*(\\d+)\\s*\\??\\s*", t)
+    m = re.fullmatch(r"\s*(\d+)\s*\+\s*(\d+)\s*\??\s*", t)
     if m:
         return str(int(m.group(1)) + int(m.group(2)))
     return None
@@ -298,7 +318,7 @@ def log_training(input_text: str, output_text: str):
         with training_lock:
             with open(TRAINING_DATA_FILE, "a", encoding="utf-8") as f:
                 f.write(json.dumps({"input": input_text[:3500], "output": output_text[:3500],
-                                    "ts": datetime.now(timezone.utc).isoformat()}, ensure_ascii=False) + "\\n")
+                                    "ts": datetime.now(timezone.utc).isoformat()}, ensure_ascii=False) + "\n")
     except Exception as e:
         logger.warning(f"Training log failed: {e}")
 
@@ -334,6 +354,7 @@ def debug_status():
         "max_tokens": MAX_OUTPUT_TOKENS,
         "temperature": TEMPERATURE,
         "version": "1.1.2",
+        "local_knowledge_entries": len(LOCAL_KNOWLEDGE),
     }
 
 @app.post("/create-key")
@@ -359,7 +380,7 @@ def chat(body: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api
         raise HTTPException(status_code=429, detail=msg)
     if body.run_code and isinstance(body.run_code, dict):
         result = run_code_sandboxed(body.run_code.get("language", "python"), body.run_code.get("code", ""))
-        final = add_invisible_watermark(sanitize_identity(f"Code execution result:\\n```\\n{result}\\n```"))
+        final = add_invisible_watermark(sanitize_identity(f"Code execution result:\n```\n{result}\n```"))
         log_training(body.message or "run", final)
         return {"response": final, "rate_limit": msg}
     if body.search:
