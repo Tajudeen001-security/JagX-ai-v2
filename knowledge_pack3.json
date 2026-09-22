@@ -1,0 +1,22 @@
+[
+  {"k": ["what is http"], "a": "HTTP is the protocol browsers and servers use to exchange data (GET, POST, PUT, DELETE)."},
+  {"k": ["what is api"], "a": "An API lets programs talk to each other. Web APIs often use HTTP and JSON."},
+  {"k": ["what is sql"], "a": "SQL is the language used to query and manage relational databases (SELECT, INSERT, UPDATE, DELETE)."},
+  {"k": ["select sql", "sql select"], "a": "```sql\nSELECT id, name FROM users WHERE active = 1 ORDER BY name;\n```"},
+  {"k": ["insert sql"], "a": "```sql\nINSERT INTO users (name, email) VALUES ('Ada', 'ada@example.com');\n```"},
+  {"k": ["what is git"], "a": "Git is a version control system for tracking code changes and collaborating."},
+  {"k": ["git commit"], "a": "```bash\ngit add .\ngit commit -m \"your message\"\ngit push\n```"},
+  {"k": ["git clone"], "a": "```bash\ngit clone https://github.com/owner/repo.git\n```"},
+  {"k": ["what is docker"], "a": "Docker packages apps and dependencies into containers so they run the same everywhere."},
+  {"k": ["what is linux"], "a": "Linux is an open-source operating system used on servers, phones, and desktops."},
+  {"k": ["chmod"], "a": "```bash\nchmod +x script.sh   # make executable\n```"},
+  {"k": ["curl example"], "a": "```bash\ncurl -X POST https://example.com/api -H 'Content-Type: application/json' -d '{\"a\":1}'\n```"},
+  {"k": ["what is html"], "a": "HTML structures web pages with tags like h1, p, div, a, and form."},
+  {"k": ["what is css"], "a": "CSS styles web pages: colors, layout, fonts, and responsive design."},
+  {"k": ["what is node", "what is nodejs"], "a": "Node.js lets you run JavaScript on the server outside the browser."},
+  {"k": ["npm install"], "a": "```bash\nnpm install package-name\n```"},
+  {"k": ["what is fastapi"], "a": "FastAPI is a modern Python web framework for building fast APIs."},
+  {"k": ["what is react"], "a": "React is a JavaScript library for building user interfaces with components."},
+  {"k": ["capital of nigeria"], "a": "The capital of Nigeria is Abuja."},
+  {"k": ["capital of ghana"], "a": "The capital of Ghana is Accra."}
+]
