@@ -26,8 +26,8 @@ GROQ_API_KEY = (os.environ.get("GROQ_API_KEY") or "").strip().strip('"').strip("
 HF_TOKEN = (os.environ.get("HF_TOKEN") or "").strip().strip('"').strip("'")
 OPENROUTER_API_KEY = (os.environ.get("OPENROUTER_API_KEY") or "").strip().strip('"').strip("'")
 
-GROQ_MODEL = (os.environ.get("GROQ_MODEL") or "llama-3.1-8b-instant").split(",")[0].strip()
-OPENROUTER_MODEL = (os.environ.get("OPENROUTER_MODEL") or "meta-llama/llama-3.1-8b-instruct:free").split(",")[0].strip()
+GROQ_MODEL = (os.environ.get("GROQ_MODEL") or "openai/gpt-oss-20b").split(",")[0].strip()
+OPENROUTER_MODEL = (os.environ.get("OPENROUTER_MODEL") or "meta-llama/llama-3.1-8b-instruct").split(",")[0].strip()
 HF_MODEL = (os.environ.get("HF_MODEL") or "Qwen/Qwen2.5-7B-Instruct").split(",")[0].strip()
 
 LLM_TIMEOUT = float(os.environ.get("JAGX_LLM_TIMEOUT", "12"))
@@ -188,8 +188,10 @@ def call_llm(messages: list, max_tokens: int = None) -> Optional[str]:
     _LAST_LLM_ERRORS = []
     max_tokens = max(1, min(int(max_tokens or MAX_OUTPUT_TOKENS), MAX_OUTPUT_TOKENS, 1500))
     if GROQ_API_KEY:
-        for model in [GROQ_MODEL, "llama-3.1-8b-instant"]:
-            if not model: continue
+        seen = set()
+        for model in [GROQ_MODEL, "openai/gpt-oss-20b", "llama-3.3-70b-versatile"]:
+            if not model or model in seen: continue
+            seen.add(model)
             try:
                 r = HTTP.post("https://api.groq.com/openai/v1/chat/completions",
                     headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
@@ -204,8 +206,10 @@ def call_llm(messages: list, max_tokens: int = None) -> Optional[str]:
                 err = f"Groq {model}: {type(e).__name__}: {e}"
                 _LAST_LLM_ERRORS.append(err); logger.warning(err)
     if OPENROUTER_API_KEY:
-        for model in [OPENROUTER_MODEL, "meta-llama/llama-3.1-8b-instruct:free"]:
-            if not model: continue
+        seen = set()
+        for model in [OPENROUTER_MODEL, "meta-llama/llama-3.1-8b-instruct"]:
+            if not model or model in seen: continue
+            seen.add(model)
             try:
                 r = HTTP.post("https://openrouter.ai/api/v1/chat/completions",
                     headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json",
