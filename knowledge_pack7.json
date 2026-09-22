@@ -1,0 +1,20 @@
+[
+  {"k": ["nigeria president"], "a": "As of recent years, Nigeria's president is elected; check current official sources for the latest name."},
+  {"k": ["nigeria independence"], "a": "Nigeria gained independence from Britain on 1 October 1960."},
+  {"k": ["nigeria languages"], "a": "Major Nigerian languages include Hausa, Yoruba, Igbo, and English (official)."},
+  {"k": ["africa largest city"], "a": "Lagos (Nigeria) is among Africa's largest cities by population."},
+  {"k": ["sahara"], "a": "The Sahara is the world's largest hot desert, covering much of North Africa."},
+  {"k": ["nile river"], "a": "The Nile is one of the world's longest rivers, flowing through northeastern Africa."},
+  {"k": ["what is bitcoin"], "a": "Bitcoin is a decentralized digital currency that runs on a blockchain without a central bank."},
+  {"k": ["what is blockchain"], "a": "A blockchain is a shared, append-only ledger secured by cryptography and consensus."},
+  {"k": ["what is cloud computing"], "a": "Cloud computing means using remote servers (storage, compute, databases) over the internet."},
+  {"k": ["what is devops"], "a": "DevOps is practices that connect software development and IT operations for faster, reliable releases."},
+  {"k": ["what is ci cd"], "a": "CI/CD automates building, testing, and deploying code (Continuous Integration / Continuous Delivery)."},
+  {"k": ["what is kubernetes"], "a": "Kubernetes (k8s) orchestrates containers: scheduling, scaling, and healing apps across machines."},
+  {"k": ["what is graphql"], "a": "GraphQL is a query language for APIs that lets clients request exactly the fields they need."},
+  {"k": ["what is websocket"], "a": "WebSockets provide full-duplex real-time communication between browser and server."},
+  {"k": ["what is oauth2"], "a": "OAuth 2.0 is an authorization framework for granting limited access without sharing passwords."},
+  {"k": ["http status 200"], "a": "200 OK means the request succeeded."},
+  {"k": ["http status 404"], "a": "404 Not Found means the resource does not exist."},
+  {"k": ["http status 403"], "a": "403 Forbidden means the server understood the request but refuses to authorize it."}
+]
