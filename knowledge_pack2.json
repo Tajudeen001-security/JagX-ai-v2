@@ -1,0 +1,17 @@
+[
+  {"k": ["binary search"], "a": "```python\ndef binary_search(arr, target):\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        if arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n```"},
+  {"k": ["bubble sort"], "a": "```python\ndef bubble_sort(arr):\n    a = arr[:]\n    n = len(a)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if a[j] > a[j + 1]:\n                a[j], a[j + 1] = a[j + 1], a[j]\n    return a\n```"},
+  {"k": ["linked list"], "a": "```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n```"},
+  {"k": ["stack python", "python stack"], "a": "```python\nstack = []\nstack.append(1)  # push\nstack.pop()      # pop\n```"},
+  {"k": ["queue python", "python queue"], "a": "```python\nfrom collections import deque\nq = deque()\nq.append(1)   # enqueue\nq.popleft()   # dequeue\n```"},
+  {"k": ["dictionary python", "python dict"], "a": "```python\nd = {'name': 'JagX', 'version': 1}\nprint(d.get('name'))\n```"},
+  {"k": ["list comprehension"], "a": "```python\nsquares = [x * x for x in range(10)]\n```"},
+  {"k": ["try except", "python exception"], "a": "```python\ntry:\n    x = 1 / 0\nexcept ZeroDivisionError as e:\n    print('error:', e)\n```"},
+  {"k": ["class python", "python class"], "a": "```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n    def hello(self):\n        return f'Hi, I am {self.name}'\n```"},
+  {"k": ["lambda python"], "a": "```python\nadd = lambda a, b: a + b\nprint(add(2, 3))\n```"},
+  {"k": ["map filter python"], "a": "```python\nnums = [1, 2, 3, 4]\nprint(list(map(lambda x: x * 2, nums)))\nprint(list(filter(lambda x: x % 2 == 0, nums)))\n```"},
+  {"k": ["decorator python"], "a": "```python\ndef log(fn):\n    def wrapper(*args, **kwargs):\n        print('calling', fn.__name__)\n        return fn(*args, **kwargs)\n    return wrapper\n```"},
+  {"k": ["async python", "asyncio"], "a": "```python\nimport asyncio\nasync def main():\n    await asyncio.sleep(1)\n    print('done')\nasyncio.run(main())\n```"},
+  {"k": ["regex python", "python regex"], "a": "```python\nimport re\nm = re.search(r'\\d+', 'id=42')\nprint(m.group() if m else None)\n```"},
+  {"k": ["datetime python"], "a": "```python\nfrom datetime import datetime, timezone\nprint(datetime.now(timezone.utc).isoformat())\n```"}
+]
