@@ -8,6 +8,16 @@ services:
       - key: GROQ_MODEL
         value: llama-3.1-8b-instant
       - key: JAGX_LLM_TIMEOUT
-        value: "8"
+        value: "10"
       - key: JAGX_MAX_OUTPUT_TOKENS
         value: "1200"
+      - key: JAGX_TEMPERATURE
+        value: "0.35"
+      - key: JAGX_ADMIN_SECRET
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+venv/
+keys.json
+keys.json.tmp
+jagx_training_data.jsonl
+*.log
+.DS_Store
