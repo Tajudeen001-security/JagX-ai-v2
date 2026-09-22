@@ -1,0 +1,19 @@
+[
+  {"k": ["javascript arrow function"], "a": "```javascript\nconst add = (a, b) => a + b;\n```"},
+  {"k": ["javascript destructuring"], "a": "```javascript\nconst {name, age} = user;\nconst [first, second] = arr;\n```"},
+  {"k": ["javascript async await"], "a": "```javascript\nasync function load() {\n  const res = await fetch('/api');\n  return res.json();\n}\n```"},
+  {"k": ["javascript localstorage"], "a": "```javascript\nlocalStorage.setItem('key', 'value');\nconst v = localStorage.getItem('key');\n```"},
+  {"k": ["css flexbox"], "a": "```css\n.container { display: flex; justify-content: center; align-items: center; }\n```"},
+  {"k": ["css grid"], "a": "```css\n.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }\n```"},
+  {"k": ["css media query"], "a": "```css\n@media (max-width: 600px) {\n  .nav { flex-direction: column; }\n}\n```"},
+  {"k": ["sql create table"], "a": "```sql\nCREATE TABLE users (\n  id SERIAL PRIMARY KEY,\n  name TEXT NOT NULL,\n  email TEXT UNIQUE\n);\n```"},
+  {"k": ["sql update"], "a": "```sql\nUPDATE users SET name = 'Ada' WHERE id = 1;\n```"},
+  {"k": ["sql delete"], "a": "```sql\nDELETE FROM users WHERE id = 1;\n```"},
+  {"k": ["sql index"], "a": "```sql\nCREATE INDEX idx_users_email ON users(email);\n```"},
+  {"k": ["bash for loop"], "a": "```bash\nfor f in *.txt; do echo \"$f\"; done\n```"},
+  {"k": ["bash pipe"], "a": "Pipes send output of one command to another: `cat file.txt | grep error`"},
+  {"k": ["git branch"], "a": "```bash\ngit branch feature-x\ngit checkout feature-x\n```"},
+  {"k": ["git merge"], "a": "```bash\ngit checkout main\ngit merge feature-x\n```"},
+  {"k": ["docker run"], "a": "```bash\ndocker run -p 3000:3000 my-image\n```"},
+  {"k": ["docker compose"], "a": "```bash\ndocker compose up -d\n```"}
+]
