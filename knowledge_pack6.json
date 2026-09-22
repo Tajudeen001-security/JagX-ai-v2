@@ -1,0 +1,17 @@
+[
+  {"k": ["what is list", "python list"], "a": "A Python list is an ordered, mutable collection: nums = [1, 2, 3]"},
+  {"k": ["what is tuple"], "a": "A tuple is an ordered, immutable collection: t = (1, 2, 3)"},
+  {"k": ["what is set python"], "a": "A set stores unique items with fast lookup: s = {1, 2, 3}"},
+  {"k": ["enumerate python"], "a": "```python\nfor i, item in enumerate(['a', 'b']):\n    print(i, item)\n```"},
+  {"k": ["zip python"], "a": "```python\nfor a, b in zip([1, 2], ['x', 'y']):\n    print(a, b)\n```"},
+  {"k": ["generators python"], "a": "```python\ndef count(n):\n    i = 0\n    while i < n:\n        yield i\n        i += 1\n```"},
+  {"k": ["context manager", "with open"], "a": "```python\nwith open('f.txt') as f:\n    data = f.read()\n```"},
+  {"k": ["dataclass"], "a": "```python\nfrom dataclasses import dataclass\n@dataclass\nclass User:\n    name: str\n    age: int\n```"},
+  {"k": ["type hint python"], "a": "```python\ndef add(a: int, b: int) -> int:\n    return a + b\n```"},
+  {"k": ["f-string", "f string"], "a": "```python\nname = 'JagX'\nprint(f'Hello, {name}!')\n```"},
+  {"k": ["list slice"], "a": "```python\na = [0, 1, 2, 3, 4]\nprint(a[1:4])  # [1, 2, 3]\nprint(a[::-1])  # reverse\n```"},
+  {"k": ["deepcopy"], "a": "```python\nimport copy\nb = copy.deepcopy(a)\n```"},
+  {"k": ["collections counter"], "a": "```python\nfrom collections import Counter\nprint(Counter('banana'))\n```"},
+  {"k": ["pathlib"], "a": "```python\nfrom pathlib import Path\np = Path('data') / 'file.txt'\nprint(p.exists())\n```"},
+  {"k": ["virtualenv", "venv python"], "a": "```bash\npython -m venv .venv\nsource .venv/bin/activate  # Linux/Mac\n```"}
+]
