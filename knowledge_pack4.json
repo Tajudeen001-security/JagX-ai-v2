@@ -1,0 +1,17 @@
+[
+  {"k": ["hello world python"], "a": "```python\nprint('Hello, World!')\n```"},
+  {"k": ["for loop python"], "a": "```python\nfor i in range(5):\n    print(i)\n```"},
+  {"k": ["while loop python"], "a": "```python\ni = 0\nwhile i < 5:\n    print(i)\n    i += 1\n```"},
+  {"k": ["if else python"], "a": "```python\nx = 10\nif x > 5:\n    print('big')\nelse:\n    print('small')\n```"},
+  {"k": ["function python", "def python"], "a": "```python\ndef greet(name):\n    return f'Hello, {name}'\n```"},
+  {"k": ["merge sort"], "a": "Merge sort splits the list, sorts each half, then merges them. O(n log n)."},
+  {"k": ["quick sort"], "a": "Quick sort picks a pivot, partitions, and sorts sides recursively. Average O(n log n)."},
+  {"k": ["what is recursion"], "a": "Recursion is when a function calls itself with a smaller problem until a base case."},
+  {"k": ["what is array"], "a": "An array (or list) stores ordered items accessible by index."},
+  {"k": ["capital of kenya"], "a": "The capital of Kenya is Nairobi."},
+  {"k": ["capital of egypt"], "a": "The capital of Egypt is Cairo."},
+  {"k": ["largest country africa"], "a": "Algeria is the largest country in Africa by land area."},
+  {"k": ["what is ai"], "a": "AI (artificial intelligence) is software that can learn, reason, or act on tasks that usually need human intelligence."},
+  {"k": ["what is machine learning"], "a": "Machine learning is a type of AI where models learn patterns from data instead of only hard-coded rules."},
+  {"k": ["thank you", "thanks"], "a": "You're welcome! Happy to help — JagX AI by JagX & JRILICENSE."}
+]
