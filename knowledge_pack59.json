@@ -1,0 +1,14 @@
+[
+  {"k": ["train test split"], "a": "Split data into train/validation/test to estimate generalization."},
+  {"k": ["overfitting vs underfitting"], "a": "Overfit: great train, poor test. Underfit: poor on both."},
+  {"k": ["cross validation"], "a": "k-fold cross-validation rotates validation folds for more robust estimates."},
+  {"k": ["confusion matrix"], "a": "Confusion matrix counts TP/FP/TN/FN for classification performance."},
+  {"k": ["precision recall"], "a": "Precision = TP/(TP+FP); Recall = TP/(TP+FN)."},
+  {"k": ["f1 score"], "a": "F1 is the harmonic mean of precision and recall."},
+  {"k": ["roc auc"], "a": "ROC AUC measures ranking quality of a binary classifier across thresholds."},
+  {"k": ["feature engineering"], "a": "Feature engineering creates informative inputs from raw data."},
+  {"k": ["regularization"], "a": "L1/L2 regularization penalizes large weights to reduce overfitting."},
+  {"k": ["batch size"], "a": "Batch size is how many samples per gradient update."},
+  {"k": ["epoch ml"], "a": "An epoch is one full pass over the training dataset."},
+  {"k": ["transfer learning"], "a": "Transfer learning reuses a pretrained model on a new related task."}
+]
