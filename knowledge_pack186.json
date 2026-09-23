@@ -1,0 +1,12 @@
+[
+  {"k": ["sdk vs raw http"], "a": "SDKs improve DX; raw HTTP stays flexible and language-agnostic."},
+  {"k": ["client retries"], "a": "Retry idempotent requests with exponential backoff and jitter."},
+  {"k": ["client timeouts"], "a": "Set connect and read timeouts; never hang forever."},
+  {"k": ["pagination client"], "a": "Auto-follow cursors carefully with max page limits."},
+  {"k": ["idempotency client"], "a": "Send Idempotency-Key on creating payments and orders."},
+  {"k": ["user agent sdk"], "a": "Identify SDK name/version in User-Agent for support."},
+  {"k": ["client error types"], "a": "Map HTTP statuses to typed errors (auth, rate limit, validation)."},
+  {"k": ["openapi generated clients"], "a": "Generate clients from OpenAPI for type safety and speed."},
+  {"k": ["client caching"], "a": "Honor cache headers; avoid stale sensitive data."},
+  {"k": ["webhook client verify"], "a": "Verify signatures before processing webhook payloads."}
+]
