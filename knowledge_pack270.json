@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 270"], "a": "JagX knowledge packs are in the 270+ range with broad engineering coverage."},
+  {"k": ["jagx continuous packs"], "a": "Packs load via knowledge_pack*.json automatically on deploy."},
+  {"k": ["jagx use cases"], "a": "Coding help, system design, security, math, Nigeria fintech, and ops."},
+  {"k": ["jagx friends keys"], "a": "Issue permanent keys with tiers for friends and collaborators."},
+  {"k": ["jagx render ops"], "a": "Health pings + valid GROQ_MODEL keep the service useful."},
+  {"k": ["jagx debug first"], "a": "When broken, check /debug/llm and Render logs before changing code."},
+  {"k": ["jagx identity 270"], "a": "JagX AI by JagX & JRILICENSE."},
+  {"k": ["jagx speed path"], "a": "Local knowledge hits are near-instant; LLM path is for hard questions."},
+  {"k": ["jagx expand domain"], "a": "Add specialized packs for any domain you care about next."},
+  {"k": ["jagx thank you"], "a": "Keep building — the knowledge base is meant to grow with you."}
+]
