@@ -1,0 +1,12 @@
+[
+  {"k": ["swift optionals"], "a": "Swift optionals hold a value or nil; unwrap safely with if let or guard."},
+  {"k": ["swift struct vs class"], "a": "Structs are value types; classes are reference types with inheritance."},
+  {"k": ["swiftui"], "a": "SwiftUI is Apple's declarative UI framework for Apple platforms."},
+  {"k": ["kotlin null safety"], "a": "Kotlin distinguishes nullable and non-null types at compile time."},
+  {"k": ["kotlin coroutines"], "a": "Coroutines simplify async code on Android and Kotlin backends."},
+  {"k": ["kotlin data class"], "a": "data class generates equals, hashCode, toString, and copy for models."},
+  {"k": ["jetpack compose"], "a": "Jetpack Compose is Android's modern declarative UI toolkit."},
+  {"k": ["android activity"], "a": "An Activity is a single screen with a UI in classic Android apps."},
+  {"k": ["android viewmodel"], "a": "ViewModel holds UI-related state that survives configuration changes."},
+  {"k": ["ios uikit"], "a": "UIKit is the traditional imperative UI framework for iOS."}
+]
