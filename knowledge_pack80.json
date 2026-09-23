@@ -1,0 +1,14 @@
+[
+  {"k": ["excel vlookup"], "a": "VLOOKUP finds a value in a table by key in the first column (consider XLOOKUP modernly)."},
+  {"k": ["excel xlookup"], "a": "XLOOKUP is a flexible modern lookup supporting left/right search and defaults."},
+  {"k": ["excel pivot table"], "a": "Pivot tables summarize large data by categories with sums/counts/averages."},
+  {"k": ["excel index match"], "a": "INDEX/MATCH looks up values more flexibly than classic VLOOKUP."},
+  {"k": ["spreadsheet absolute ref"], "a": "$A$1 absolute references do not change when filled across cells."},
+  {"k": ["csv pitfalls"], "a": "CSV issues: commas in fields, encoding, leading zeros stripped, locale decimals."},
+  {"k": ["data cleaning steps"], "a": "Clean data: trim spaces, fix types, handle nulls, dedupe, standardize categories."},
+  {"k": ["outlier"], "a": "An outlier is an extreme value that may be error or important signal."},
+  {"k": ["correlation vs causation"], "a": "Correlation does not imply causation — linked trends may share confounders."},
+  {"k": ["sample bias"], "a": "Sample bias means the data does not represent the population of interest."},
+  {"k": ["dashboard design"], "a": "Good dashboards answer key questions quickly with clear metrics and filters."},
+  {"k": ["kpi vs vanity metric"], "a": "KPIs drive decisions; vanity metrics look good but rarely change actions."}
+]
