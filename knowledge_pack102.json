@@ -1,0 +1,12 @@
+[
+  {"k": ["proof by induction"], "a": "Induction: prove base case, then show n⇒n+1 for all n ≥ base."},
+  {"k": ["proof by contradiction"], "a": "Assume the opposite, derive a contradiction, conclude the statement is true."},
+  {"k": ["proof by contrapositive"], "a": "To prove P⇒Q, prove ¬Q⇒¬P."},
+  {"k": ["direct proof"], "a": "Assume P and logically derive Q for P⇒Q."},
+  {"k": ["pigeonhole principle"], "a": "If n+1 items go into n boxes, some box has at least two items."},
+  {"k": ["inclusion exclusion"], "a": "|A∪B| = |A|+|B|-|A∩B| (extends to more sets)."},
+  {"k": ["graph euler path"], "a": "An Euler path visits every edge once; existence depends on vertex degrees."},
+  {"k": ["hamiltonian path"], "a": "A Hamiltonian path visits every vertex once; deciding existence is hard in general."},
+  {"k": ["recurrence solving"], "a": "Solve linear recurrences with characteristic equations or generating functions."},
+  {"k": ["big o formal"], "a": "f(n)=O(g(n)) if for large n, |f| ≤ C|g| for some constant C."}
+]
