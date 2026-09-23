@@ -1,0 +1,12 @@
+[
+  {"k": ["hypothesis ab test"], "a": "State expected metric change and why before starting an experiment."},
+  {"k": ["sample size ab"], "a": "Compute required sample size from baseline, MDE, and power."},
+  {"k": ["srm check"], "a": "Sample Ratio Mismatch means assignment is biased — investigate."},
+  {"k": ["peeking problem"], "a": "Repeated early looks inflate false positives; use sequential methods or fixed horizon."},
+  {"k": ["guardrail metrics"], "a": "Watch secondary metrics that must not degrade (errors, latency, revenue)."},
+  {"k": ["novelty effect"], "a": "Short-term lifts may fade as users adapt."},
+  {"k": ["network effects experiment"], "a": "Social products may need cluster randomization to avoid interference."},
+  {"k": ["experiment exposure"], "a": "Log exposures so analysis only includes assigned users who saw the experience."},
+  {"k": ["holdout group"], "a": "Long-term holdouts measure cumulative impact of many changes."},
+  {"k": ["ship decision"], "a": "Ship when primary metric wins with acceptable guardrails and practical significance."}
+]
