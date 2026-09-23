@@ -1,0 +1,20 @@
+[
+  {"k": ["newton second law"], "a": "F = ma — force equals mass times acceleration."},
+  {"k": ["newton third law"], "a": "For every action there is an equal and opposite reaction."},
+  {"k": ["kinetic energy"], "a": "KE = (1/2)mv²"},
+  {"k": ["potential energy gravity"], "a": "PE = mgh near Earth's surface."},
+  {"k": ["ohm law"], "a": "V = IR — voltage equals current times resistance."},
+  {"k": ["speed of light"], "a": "c ≈ 3.00 × 10^8 m/s in vacuum."},
+  {"k": ["einstein e=mc2"], "a": "E = mc² relates energy and mass; c is speed of light."},
+  {"k": ["wave equation speed"], "a": "v = fλ — wave speed equals frequency times wavelength."},
+  {"k": ["momentum"], "a": "p = mv — momentum equals mass times velocity."},
+  {"k": ["work physics"], "a": "W = F·d (force times displacement in the direction of the force)."},
+  {"k": ["power physics"], "a": "P = W/t = Fv — power is work per time."},
+  {"k": ["density"], "a": "ρ = m/V — density equals mass over volume."},
+  {"k": ["pressure"], "a": "P = F/A — pressure equals force over area."},
+  {"k": ["ideal gas law"], "a": "PV = nRT"},
+  {"k": ["coulomb law"], "a": "F = k|q1 q2|/r² — electrostatic force between point charges."},
+  {"k": ["snell law"], "a": "n1 sinθ1 = n2 sinθ2 for refraction."},
+  {"k": ["first law thermodynamics"], "a": "ΔU = Q - W — change in internal energy equals heat added minus work done by the system."},
+  {"k": ["entropy"], "a": "Entropy measures disorder or the number of microscopic configurations; isolated systems tend to increase entropy."}
+]
