@@ -1,0 +1,12 @@
+[
+  {"k": ["web app manifest"], "a": "manifest.webmanifest defines name, icons, start_url, and display mode."},
+  {"k": ["service worker lifecycle"], "a": "Install → activate → fetch; use skipWaiting/clients.claim carefully."},
+  {"k": ["offline fallback page"], "a": "Cache a simple offline page for navigation failures."},
+  {"k": ["pwa update flow"], "a": "Prompt users when a new service worker is waiting."},
+  {"k": ["add to homescreen"], "a": "Installability needs manifest + SW + HTTPS engagement heuristics."},
+  {"k": ["background sync"], "a": "Background Sync retries failed requests when connectivity returns."},
+  {"k": ["push notification pwa"], "a": "Web Push needs permission, SW, and a push service."},
+  {"k": ["pwa caching strategies"], "a": "Cache-first for static; network-first for API; stale-while-revalidate hybrids."},
+  {"k": ["pwa ios caveats"], "a": "iOS supports PWAs with limitations vs Android."},
+  {"k": ["pwa security"], "a": "SW can intercept traffic — scope carefully and serve over HTTPS."}
+]
