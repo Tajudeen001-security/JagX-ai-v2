@@ -1,0 +1,18 @@
+[
+  {"k": ["stack trace"], "a": "A stack trace shows the call chain at the moment of an error — read from the top/bottom depending on language."},
+  {"k": ["logging levels"], "a": "Common levels: DEBUG, INFO, WARNING, ERROR, CRITICAL."},
+  {"k": ["exception handling python"], "a": "```python\ntry:\n    risky()\nexcept ValueError as e:\n    logger.exception('bad value: %s', e)\n```"},
+  {"k": ["finally block"], "a": "finally runs whether or not an exception occurred — use for cleanup."},
+  {"k": ["what is assert"], "a": "assert checks a condition in development; failure raises an error."},
+  {"k": ["binary search debug"], "a": "When debugging, isolate: reproduce, reduce inputs, check assumptions, verify each step."},
+  {"k": ["print debugging"], "a": "Print/log intermediate values; remove or gate logs before production."},
+  {"k": ["breakpoint"], "a": "A breakpoint pauses execution in a debugger so you can inspect state."},
+  {"k": ["heisenbug"], "a": "A heisenbug seems to change behavior when you try to observe/debug it."},
+  {"k": ["null pointer"], "a": "Dereferencing null/None causes crashes; check before use or use safe types."},
+  {"k": ["timeout error"], "a": "Timeouts mean an operation took too long — raise limits carefully or fix slow dependency."},
+  {"k": ["connection refused"], "a": "Connection refused usually means nothing is listening on that host:port."},
+  {"k": ["cors debugging"], "a": "CORS errors appear in the browser; fix Access-Control headers on the API origin."},
+  {"k": ["idempotent retry"], "a": "Only retry safely if the operation is idempotent or guarded by an idempotency key."},
+  {"k": ["circuit breaker"], "a": "A circuit breaker stops calling a failing dependency temporarily to allow recovery."},
+  {"k": ["graceful degradation"], "a": "Graceful degradation keeps core features working when optional services fail."}
+]
