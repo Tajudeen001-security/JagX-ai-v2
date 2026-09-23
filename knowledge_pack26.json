@@ -1,0 +1,18 @@
+[
+  {"k": ["what is xml"], "a": "XML is a markup language for structured data using tags."},
+  {"k": ["what is yaml"], "a": "YAML is a human-readable data format often used for configs."},
+  {"k": ["what is toml"], "a": "TOML is a minimal config file format (used by many Rust and Python tools)."},
+  {"k": ["what is csv"], "a": "CSV stores tabular data as comma-separated values in plain text."},
+  {"k": ["what is protobuf"], "a": "Protocol Buffers are a compact binary serialization format by Google."},
+  {"k": ["what is avro"], "a": "Apache Avro is a binary data serialization system used in data pipelines."},
+  {"k": ["what is base64"], "a": "Base64 encodes binary data as ASCII text for safe transport."},
+  {"k": ["what is utf8"], "a": "UTF-8 is the dominant character encoding for Unicode text on the web."},
+  {"k": ["what is unicode"], "a": "Unicode is a standard that assigns codes to characters from many languages."},
+  {"k": ["what is mime type"], "a": "A MIME type labels content format, e.g. application/json or image/png."},
+  {"k": ["content type json"], "a": "Content-Type: application/json means the body is JSON."},
+  {"k": ["what is multipart form"], "a": "multipart/form-data is used to upload files and form fields in one HTTP request."},
+  {"k": ["what is gzip"], "a": "gzip compresses data to reduce transfer size."},
+  {"k": ["what is schema"], "a": "A schema defines the structure and types of data (JSON Schema, DB schema, etc.)."},
+  {"k": ["json pretty print"], "a": "```python\nimport json\nprint(json.dumps(data, indent=2))\n```"},
+  {"k": ["parse yaml python"], "a": "```python\nimport yaml\ndata = yaml.safe_load(open('config.yaml'))\n```"}
+]
