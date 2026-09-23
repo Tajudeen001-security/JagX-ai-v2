@@ -1,0 +1,14 @@
+[
+  {"k": ["transformer model"], "a": "Transformers use attention mechanisms to model relationships between tokens."},
+  {"k": ["self attention"], "a": "Self-attention lets each token attend to other tokens in the sequence."},
+  {"k": ["tokenizer bpe"], "a": "BPE/WordPiece tokenizers split text into subword units."},
+  {"k": ["context window"], "a": "Context window is the maximum tokens a model can consider at once."},
+  {"k": ["prompt engineering"], "a": "Prompt engineering crafts instructions/examples to steer model behavior."},
+  {"k": ["few shot learning"], "a": "Few-shot provides a few examples in the prompt without weight updates."},
+  {"k": ["zero shot"], "a": "Zero-shot means the model attempts a task with no task-specific examples."},
+  {"k": ["hallucination llm"], "a": "Hallucination is fluent but incorrect model output — verify critical facts."},
+  {"k": ["embeddings search"], "a": "Embed text and search by vector similarity for semantic retrieval."},
+  {"k": ["chunking documents"], "a": "Chunk long docs into overlapping segments for RAG retrieval quality."},
+  {"k": ["reranking"], "a": "Rerankers reorder retrieved candidates for higher relevance."},
+  {"k": ["lora fine tune"], "a": "LoRA fine-tunes small adapter weights instead of the full model."}
+]
