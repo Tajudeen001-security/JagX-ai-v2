@@ -1,0 +1,12 @@
+[
+  {"k": ["extract method"], "a": "Turn a code fragment into a named method."},
+  {"k": ["rename symbol"], "a": "Rename for clarity with automated tooling."},
+  {"k": ["inline temp"], "a": "Remove unnecessary temporary variables."},
+  {"k": ["replace conditional polymorphism"], "a": "Replace type switches with polymorphic methods."},
+  {"k": ["introduce parameter object"], "a": "Group related parameters into an object."},
+  {"k": ["decompose conditional"], "a": "Extract complex conditions into named functions."},
+  {"k": ["remove dead code refactor"], "a": "Delete unused paths; trust version control."},
+  {"k": ["split phase"], "a": "Separate calculation from formatting/IO phases."},
+  {"k": ["preserve behavior"], "a": "Refactor with tests so behavior stays the same."},
+  {"k": ["boy scout refactor"], "a": "Leave each touched file a bit cleaner."}
+]
