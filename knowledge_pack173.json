@@ -1,0 +1,12 @@
+[
+  {"k": ["what is wasm"], "a": "WebAssembly (Wasm) is a portable binary instruction format that runs near-native speed in browsers and other hosts."},
+  {"k": ["wasm use cases"], "a": "Games, image/video codecs, crypto, and porting C/C++/Rust to the web."},
+  {"k": ["wasm vs javascript"], "a": "JS is flexible and DOM-friendly; Wasm is better for heavy CPU-bound code."},
+  {"k": ["wasm modular"], "a": "Wasm modules export functions that JS can call after instantiation."},
+  {"k": ["wasm memory"], "a": "Linear memory is a resizable ArrayBuffer shared with the host."},
+  {"k": ["wasi"], "a": "WASI is a system interface for running Wasm outside the browser."},
+  {"k": ["emscripten"], "a": "Emscripten compiles C/C++ to Wasm/JS."},
+  {"k": ["rust wasm"], "a": "wasm-pack helps build Rust libraries for the web."},
+  {"k": ["wasm simd"], "a": "Wasm SIMD accelerates vectorized numeric workloads."},
+  {"k": ["wasm security"], "a": "Wasm runs in a sandbox with explicit imports; still validate all inputs."}
+]
