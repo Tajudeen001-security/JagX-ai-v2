@@ -1,0 +1,14 @@
+[
+  {"k": ["jagx what is it"], "a": "JagX AI is a text+coding API backend built by JagX and JRILICENSE with permanent API keys."},
+  {"k": ["jagx how to call"], "a": "POST https://jagx-ai-v2.onrender.com/chat with header x-api-key and JSON {\"message\":\"...\"}."},
+  {"k": ["jagx free tier render"], "a": "On Render free tier, ping /health regularly so the service does not sleep."},
+  {"k": ["jagx models"], "a": "Uses cloud LLM providers (e.g. Groq/OpenRouter) plus local knowledge packs for speed."},
+  {"k": ["jagx local packs"], "a": "knowledge_pack*.json files load at startup for instant answers on common topics."},
+  {"k": ["jagx admin secret"], "a": "JAGX_ADMIN_SECRET protects /create-key so only you can mint keys."},
+  {"k": ["jagx permanent keys env"], "a": "Put critical keys in JAGX_PERMANENT_KEYS so they survive disk resets."},
+  {"k": ["jagx training data"], "a": "Chat logs can append to jagx_training_data.jsonl when training logging is enabled."},
+  {"k": ["jagx code run"], "a": "Optional run_code field can execute short snippets via a sandbox API when configured."},
+  {"k": ["jagx search"], "a": "Optional search field can fetch quick web snippets when enabled."},
+  {"k": ["jagx identity rule"], "a": "Responses are sanitized to present as JagX AI by JagX & JRILICENSE."},
+  {"k": ["jagx improve accuracy"], "a": "Lower temperature, good system prompt, valid Groq model, and more knowledge packs improve answers."}
+]
