@@ -1,0 +1,12 @@
+[
+  {"k": ["stride model"], "a": "STRIDE: Spoofing, Tampering, Repudiation, Info disclosure, DoS, Elevation."},
+  {"k": ["attack surface"], "a": "Attack surface is all entry points an attacker might abuse."},
+  {"k": ["trust boundary"], "a": "Trust boundaries separate zones with different trust levels."},
+  {"k": ["data flow diagram"], "a": "DFDs map how data moves for threat identification."},
+  {"k": ["abuse cases"], "a": "Abuse cases describe how features can be misused."},
+  {"k": ["risk rating"], "a": "Rate risks by likelihood × impact to prioritize fixes."},
+  {"k": ["security champion"], "a": "Champions embed security thinking inside product teams."},
+  {"k": ["secure defaults"], "a": "Defaults should be safe; opt-in to riskier modes."},
+  {"k": ["defense in depth"], "a": "Multiple layers so one failure does not equal total compromise."},
+  {"k": ["assume breach"], "a": "Design detection and containment assuming attackers get in."}
+]
