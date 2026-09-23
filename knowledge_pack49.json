@@ -1,0 +1,17 @@
+[
+  {"k": ["cap theorem"], "a": "CAP: in a partition, a distributed system must choose consistency or availability."},
+  {"k": ["eventual consistency"], "a": "Eventual consistency means replicas converge to the same value given enough time without writes."},
+  {"k": ["strong consistency"], "a": "Strong consistency means reads see the latest committed write."},
+  {"k": ["sharding"], "a": "Sharding splits data across machines by a shard key to scale storage and throughput."},
+  {"k": ["replication"], "a": "Replication copies data to multiple nodes for durability and read scale."},
+  {"k": ["leader follower"], "a": "Leader-follower replication: one primary takes writes; followers replicate."},
+  {"k": ["message queue design"], "a": "Queues decouple producers/consumers, buffer spikes, and enable async processing."},
+  {"k": ["cdn design"], "a": "CDNs cache static and some dynamic content near users to cut latency."},
+  {"k": ["rate limiter design"], "a": "Rate limiters use counters/tokens (fixed window, sliding window, token bucket) per key."},
+  {"k": ["url shortener design"], "a": "URL shorteners map short codes to long URLs with a datastore and optional analytics."},
+  {"k": ["chat system design"], "a": "Chat systems need presence, fan-out, storage, delivery receipts, and often WebSockets."},
+  {"k": ["search system design"], "a": "Search uses inverted indexes, ranking, sharding, and sometimes ranking ML."},
+  {"k": ["feed system design"], "a": "News feeds use push/pull fan-out, ranking, and caching for home timelines."},
+  {"k": ["idempotency in design"], "a": "Design write APIs to be safely retryable using idempotency keys."},
+  {"k": ["back of envelope"], "a": "Back-of-envelope estimates use orders of magnitude for QPS, storage, and bandwidth."}
+]
