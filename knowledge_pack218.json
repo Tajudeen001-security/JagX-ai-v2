@@ -1,0 +1,12 @@
+[
+  {"k": ["3nf reminder"], "a": "Third normal form reduces redundancy by removing transitive dependencies."},
+  {"k": ["star schema"], "a": "Fact tables + dimension tables for analytics warehouses."},
+  {"k": ["snowflake schema"], "a": "Normalized dimensions in a star-like warehouse model."},
+  {"k": ["surrogate key"], "a": "Surrogate keys are system-generated ids independent of business meaning."},
+  {"k": ["natural key"], "a": "Natural keys come from the domain (email, ISBN) but can change."},
+  {"k": ["soft delete"], "a": "deleted_at flags hide rows without physical delete; index carefully."},
+  {"k": ["audit columns"], "a": "created_at/updated_at/created_by support support and compliance."},
+  {"k": ["polymorphic association caution"], "a": "Type+id references are flexible but weaken FK integrity."},
+  {"k": ["json column when"], "a": "JSON columns fit evolving attributes; query heavily? consider tables."},
+  {"k": ["cardinality relationships"], "a": "Model 1:1, 1:N, M:N explicitly with join tables when needed."}
+]
