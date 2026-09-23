@@ -1,0 +1,12 @@
+[
+  {"k": ["cqrs why"], "a": "Separate read and write models when their needs diverge significantly."},
+  {"k": ["event store"], "a": "An event store appends domain events as the source of truth."},
+  {"k": ["projection read model"], "a": "Projections build query-optimized views from events."},
+  {"k": ["snapshot event sourcing"], "a": "Snapshots speed rehydration of long event streams."},
+  {"k": ["eventual consistency cqrs"], "a": "Read models may lag writes; design UX for that."},
+  {"k": ["idempotent projection"], "a": "Projections must handle duplicate events safely."},
+  {"k": ["when not event sourcing"], "a": "Avoid if simple CRUD suffices; complexity cost is real."},
+  {"k": ["audit via events"], "a": "Event streams provide natural audit history."},
+  {"k": ["versioning events"], "a": "Upcast old events when schemas evolve."},
+  {"k": ["process manager saga"], "a": "Process managers react to events to drive multi-step workflows."}
+]
