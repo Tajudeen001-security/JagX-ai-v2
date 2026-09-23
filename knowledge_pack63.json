@@ -1,0 +1,14 @@
+[
+  {"k": ["three pillars observability"], "a": "Logs, metrics, and traces are the three pillars of observability."},
+  {"k": ["structured logging"], "a": "Log JSON fields (request_id, user_id, latency) for searchable events."},
+  {"k": ["correlation id"], "a": "Correlation/request IDs tie logs across services for one user request."},
+  {"k": ["red metrics"], "a": "RED: Rate, Errors, Duration — useful service health metrics."},
+  {"k": ["use metrics"], "a": "USE: Utilization, Saturation, Errors — useful for resources (CPU, disk, queues)."},
+  {"k": ["distributed tracing"], "a": "Tracing follows a request across services with spans and parent links."},
+  {"k": ["alert fatigue"], "a": "Too many noisy alerts cause ignored pages — alert on symptoms with good thresholds."},
+  {"k": ["mttr mtbf"], "a": "MTTR is mean time to recover; MTBF is mean time between failures."},
+  {"k": ["incident severity"], "a": "Severity levels (SEV1–SEV4) prioritize impact and response speed."},
+  {"k": ["status communication"], "a": "Communicate impact, ETA, and workarounds during incidents."},
+  {"k": ["error budget"], "a": "Error budgets balance reliability targets against release velocity."},
+  {"k": ["chaos engineering"], "a": "Chaos engineering injects failures to test resilience in controlled ways."}
+]
