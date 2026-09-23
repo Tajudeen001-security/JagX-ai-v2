@@ -1,0 +1,12 @@
+[
+  {"k": ["golden signals"], "a": "Latency, traffic, errors, and saturation are classic golden signals."},
+  {"k": ["dashboard hierarchy"], "a": "Overview → service → dependency drill-down."},
+  {"k": ["slo dashboard"], "a": "Show SLI, SLO target, and error budget burn."},
+  {"k": ["high cardinality avoid"], "a": "Do not put unbounded user ids as metric labels."},
+  {"k": ["alert on symptoms"], "a": "Alert on user-visible symptoms more than internal causes alone."},
+  {"k": ["runbook link alerts"], "a": "Every page should link to a runbook."},
+  {"k": ["dashboard as code"], "a": "Version dashboard JSON/Terraform like application code."},
+  {"k": ["trace exemplars"], "a": "Link slow metrics to example traces."},
+  {"k": ["empty state metrics"], "a": "Distinguish no-data from zero values on charts."},
+  {"k": ["oncall friendly panels"], "a": "Use clear titles, units, and thresholds for stressed humans."}
+]
