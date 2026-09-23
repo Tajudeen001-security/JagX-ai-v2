@@ -1,0 +1,12 @@
+[
+  {"k": ["bfs shortest unweighted"], "a": "BFS finds shortest paths in unweighted graphs."},
+  {"k": ["dfs applications"], "a": "DFS is used for cycle detection, topology, and components."},
+  {"k": ["connected components"], "a": "Count components via DFS/BFS or Union-Find."},
+  {"k": ["bipartite check"], "a": "2-color the graph with BFS/DFS; conflicts mean not bipartite."},
+  {"k": ["topological kahn"], "a": "Kahn's algorithm uses indegrees and a queue for topo order."},
+  {"k": ["cycle detection directed"], "a": "Use DFS colors or attempt topo sort to detect directed cycles."},
+  {"k": ["dijkstra complexity"], "a": "With a binary heap, Dijkstra is O((V+E) log V) typical."},
+  {"k": ["bellman ford use"], "a": "Use Bellman-Ford when negative edges may exist."},
+  {"k": ["floyd warshall"], "a": "All-pairs shortest paths in O(V³) via dynamic programming."},
+  {"k": ["mst prim kruskal"], "a": "Prim grows a tree from a node; Kruskal adds lightest safe edges."}
+]
