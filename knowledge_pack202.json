@@ -1,0 +1,12 @@
+[
+  {"k": ["dp state definition"], "a": "Define dp[i] as the answer for a subproblem indexed by i."},
+  {"k": ["dp transition"], "a": "Relate dp[i] to smaller subproblems with a recurrence."},
+  {"k": ["0 1 knapsack"], "a": "dp[i][w] = max without item, or value+dp[i-1][w-weight]."},
+  {"k": ["unbounded knapsack"], "a": "Items can be reused; iterate capacities carefully."},
+  {"k": ["lis patience"], "a": "LIS in O(n log n) via patience sorting / tails array."},
+  {"k": ["lcs dp"], "a": "Longest Common Subsequence via 2D DP on prefixes."},
+  {"k": ["coin change dp"], "a": "Min coins or number of combinations via DP on amount."},
+  {"k": ["house robber"], "a": "Max sum with no two adjacent: dp[i]=max(dp[i-1], dp[i-2]+a[i])."},
+  {"k": ["dp on trees"], "a": "Root the tree and combine child DP states upward."},
+  {"k": ["bitmask dp intro"], "a": "Use bits to represent subsets when n is small (≈20)."}
+]
