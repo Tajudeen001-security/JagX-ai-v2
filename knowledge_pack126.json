@@ -1,0 +1,12 @@
+[
+  {"k": ["cache aside"], "a": "Cache-aside: app reads cache, on miss loads DB then fills cache."},
+  {"k": ["read through cache"], "a": "Read-through: cache layer loads from DB on miss transparently."},
+  {"k": ["write through cache"], "a": "Write-through writes to cache and DB together for consistency."},
+  {"k": ["write behind cache"], "a": "Write-behind writes cache first and asynchronously persists to DB."},
+  {"k": ["ttl cache"], "a": "TTL expires entries after a duration to bound staleness."},
+  {"k": ["cache invalidation"], "a": "Invalidation removes or updates cache when source data changes."},
+  {"k": ["cache key design"], "a": "Keys should include version, tenant, and relevant query dimensions."},
+  {"k": ["thundering herd"], "a": "Many clients missing the same key stampede the DB; serialize or soft-TTL."},
+  {"k": ["cdn caching"], "a": "CDN caches responses near users using Cache-Control and surrogate keys."},
+  {"k": ["negative caching"], "a": "Cache 'not found' briefly to protect origin from repeated misses."}
+]
