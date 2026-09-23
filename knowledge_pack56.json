@@ -1,0 +1,14 @@
+[
+  {"k": ["rest naming"], "a": "Use nouns for resources (/users/123), not verbs (/getUser)."},
+  {"k": ["rest filtering"], "a": "Filter with query params: /items?status=active&limit=20"},
+  {"k": ["rest sorting"], "a": "Sort with query params: /items?sort=-created_at"},
+  {"k": ["rest sparse fieldsets"], "a": "Allow clients to request fields: /users?fields=id,name"},
+  {"k": ["rest error body"], "a": "Return structured errors: {code, message, details} with proper status codes."},
+  {"k": ["rest hypermedia"], "a": "HATEOAS includes links in responses so clients discover next actions."},
+  {"k": ["rest bulk endpoints"], "a": "Bulk endpoints reduce round-trips for multi-item create/update/delete."},
+  {"k": ["api rate limit headers"], "a": "Expose X-RateLimit-Limit/Remaining/Reset so clients can back off."},
+  {"k": ["etag caching"], "a": "ETag/If-None-Match enable conditional requests and 304 Not Modified."},
+  {"k": ["optimistic locking"], "a": "Use version fields or ETags so concurrent updates do not silently overwrite."},
+  {"k": ["cursor pagination"], "a": "Cursor pagination uses opaque cursors instead of OFFSET for stable large lists."},
+  {"k": ["api idempotency header"], "a": "Idempotency-Key header makes safe retries of POST requests."}
+]
