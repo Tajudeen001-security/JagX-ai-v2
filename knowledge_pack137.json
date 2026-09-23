@@ -1,0 +1,12 @@
+[
+  {"k": ["json number precision"], "a": "JSON numbers are often doubles; large integers may lose precision in JS."},
+  {"k": ["json date format"], "a": "Prefer ISO-8601 strings for dates; JSON has no native date type."},
+  {"k": ["yaml security"], "a": "Unsafe YAML loaders can execute code; use safe_load equivalents."},
+  {"k": ["pickle risk"], "a": "Python pickle can execute arbitrary code; never unpickle untrusted data."},
+  {"k": ["protobuf unknown fields"], "a": "Unknown fields can be preserved for forward compatibility."},
+  {"k": ["endian serialization"], "a": "Binary formats must define endianness explicitly."},
+  {"k": ["schema registry"], "a": "Schema registries coordinate evolving Avro/Protobuf schemas in streams."},
+  {"k": ["content type mismatch"], "a": "Always parse based on Content-Type; do not sniff unsafely."},
+  {"k": ["base64 size overhead"], "a": "Base64 expands binary size by ~33%."},
+  {"k": ["unicode normalization"], "a": "Normalize Unicode (NFC/NFKC) when comparing user-facing strings."}
+]
