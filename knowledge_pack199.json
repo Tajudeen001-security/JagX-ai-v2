@@ -1,0 +1,12 @@
+[
+  {"k": ["secrets not in git"], "a": "Never commit secrets; use env vars or a secret manager."},
+  {"k": ["secret manager"], "a": "Vault/AWS SM/GCP SM store and rotate secrets centrally."},
+  {"k": ["short lived credentials"], "a": "Prefer temporary credentials over long-lived static keys."},
+  {"k": ["secret rotation"], "a": "Rotate regularly and after any suspected leak."},
+  {"k": ["secret scanning ci"], "a": "Scan commits/PRs for accidental secret inserts."},
+  {"k": ["env separation"], "a": "Different secrets per environment: dev/stage/prod."},
+  {"k": ["principle least secret access"], "a": "Services get only the secrets they need."},
+  {"k": ["secret injection runtime"], "a": "Inject at runtime, not at image build time."},
+  {"k": ["leak response"], "a": "Rotate, revoke, review logs, and notify if customer data risk exists."},
+  {"k": ["config vs secret"], "a": "Non-sensitive config can be in files; secrets must be protected."}
+]
