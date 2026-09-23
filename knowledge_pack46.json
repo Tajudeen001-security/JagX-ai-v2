@@ -1,0 +1,17 @@
+[
+  {"k": ["sql window function"], "a": "Window functions compute across related rows without collapsing groups (e.g. ROW_NUMBER, SUM OVER)."},
+  {"k": ["sql cte"], "a": "A CTE (WITH clause) names a temporary result set for readable queries."},
+  {"k": ["sql subquery"], "a": "A subquery is a query nested inside another SQL statement."},
+  {"k": ["sql explain"], "a": "EXPLAIN shows the query plan so you can see scans, joins, and index use."},
+  {"k": ["sql covering index"], "a": "A covering index includes all columns a query needs so the table is not visited."},
+  {"k": ["sql composite index"], "a": "A composite index is on multiple columns; column order matters for matching predicates."},
+  {"k": ["sql isolation levels"], "a": "Isolation levels (Read Committed, Repeatable Read, Serializable) trade consistency vs concurrency."},
+  {"k": ["sql deadlocks"], "a": "DB deadlocks happen when transactions wait on each other's locks; engines abort one."},
+  {"k": ["sql upsert"], "a": "UPSERT inserts or updates on conflict (e.g. ON CONFLICT in PostgreSQL)."},
+  {"k": ["sql materialized view"], "a": "A materialized view stores query results physically and can be refreshed."},
+  {"k": ["sql vacuum"], "a": "VACUUM in PostgreSQL reclaims storage and maintains statistics after updates/deletes."},
+  {"k": ["sql prepared statement"], "a": "Prepared statements separate SQL from data and prevent SQL injection."},
+  {"k": ["sql full text search"], "a": "Full-text search indexes documents for keyword relevance beyond simple LIKE."},
+  {"k": ["sql partition"], "a": "Table partitioning splits large tables by range/list/hash for manageability and performance."},
+  {"k": ["sql foreign data wrapper"], "a": "FDWs let a database query external data sources as if they were local tables."}
+]
