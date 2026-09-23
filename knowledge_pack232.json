@@ -1,0 +1,12 @@
+[
+  {"k": ["url versioning"], "a": "/v1/resource is explicit and easy to route."},
+  {"k": ["header versioning"], "a": "Accept versioning via headers keeps URLs clean but is less visible."},
+  {"k": ["compatibility window"], "a": "Support N-1 versions during migration periods."},
+  {"k": ["deprecation header"], "a": "Signal deprecation with headers and docs sunset dates."},
+  {"k": ["additive changes"], "a": "Additive non-breaking changes avoid major bumps."},
+  {"k": ["breaking change examples"], "a": "Removing fields, renaming, or changing types are breaking."},
+  {"k": ["default version"], "a": "Document the default if clients omit a version."},
+  {"k": ["parallel run versions"], "a": "Run old and new implementations behind version routing."},
+  {"k": ["consumer migration guide"], "a": "Publish migration guides with code samples."},
+  {"k": ["version in sdks"], "a": "SDKs pin to API versions and changelog carefully."}
+]
