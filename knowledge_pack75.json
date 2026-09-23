@@ -1,0 +1,14 @@
+[
+  {"k": ["contract testing"], "a": "Contract tests verify producer/consumer API agreements without full end-to-end stacks."},
+  {"k": ["property based testing"], "a": "Property-based tests check invariants across many generated inputs."},
+  {"k": ["mutation testing"], "a": "Mutation testing changes code slightly to see if tests catch the mutants."},
+  {"k": ["snapshot testing"], "a": "Snapshot tests compare UI/output against a stored baseline."},
+  {"k": ["test pyramid"], "a": "Many unit tests, fewer integration tests, fewest expensive e2e tests."},
+  {"k": ["test double"], "a": "Test doubles include mocks, stubs, fakes, and spies."},
+  {"k": ["arrange act assert"], "a": "AAA pattern: arrange data, act on system, assert results."},
+  {"k": ["flaky test causes"], "a": "Flakes often come from time, order dependence, shared state, or network."},
+  {"k": ["ci test parallel"], "a": "Parallelize independent tests to cut CI wall-clock time."},
+  {"k": ["code coverage limits"], "a": "High coverage does not guarantee quality; still need meaningful assertions."},
+  {"k": ["chaos test"], "a": "Chaos tests inject failures (latency, kill nodes) to verify resilience."},
+  {"k": ["visual regression"], "a": "Visual regression testing detects unintended UI pixel/layout changes."}
+]
