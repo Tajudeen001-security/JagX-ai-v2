@@ -1,0 +1,14 @@
+[
+  {"k": ["layered architecture"], "a": "Layered architecture separates presentation, business, and data layers."},
+  {"k": ["hexagonal architecture"], "a": "Hexagonal (ports/adapters) isolates domain logic from external interfaces."},
+  {"k": ["event driven architecture"], "a": "Event-driven systems communicate by publishing and consuming events."},
+  {"k": ["cqrs"], "a": "CQRS separates read models from write models for scalability and clarity."},
+  {"k": ["event sourcing"], "a": "Event sourcing stores state as a sequence of events instead of only latest row state."},
+  {"k": ["modular monolith"], "a": "A modular monolith is one deployable unit with strong internal module boundaries."},
+  {"k": ["service oriented architecture"], "a": "SOA organizes capabilities as interoperable services, often with an ESB historically."},
+  {"k": ["bff pattern"], "a": "Backend-for-Frontend provides an API tailored to a specific client (web/mobile)."},
+  {"k": ["sidecar pattern"], "a": "A sidecar container adds supporting features (proxy, logging) beside the main app."},
+  {"k": ["ambassador pattern"], "a": "Ambassador proxies outbound traffic for retries, discovery, and monitoring."},
+  {"k": ["anti corruption layer"], "a": "An ACL translates between your domain model and an external legacy model."},
+  {"k": ["strangler fig"], "a": "Strangler fig incrementally replaces a legacy system by routing pieces to new services."}
+]
