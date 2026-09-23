@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 200"], "a": "JagX local knowledge packs have reached the 200 milestone."},
+  {"k": ["jagx scale knowledge"], "a": "Hundreds of packs cover coding, systems, security, math, Nigeria, and ops."},
+  {"k": ["jagx hybrid intelligence"], "a": "Instant local answers plus cloud LLM for hard reasoning."},
+  {"k": ["jagx api unchanged"], "a": "Still POST /chat with x-api-key and {message}."},
+  {"k": ["jagx permanent keys"], "a": "Permanent keys do not expire; store in env for durability."},
+  {"k": ["jagx render keep alive"], "a": "Ping /health on a schedule to reduce free-tier cold starts."},
+  {"k": ["jagx debug tools"], "a": "/debug/status and /debug/llm diagnose config and provider issues."},
+  {"k": ["jagx credit 200"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["jagx expand more"], "a": "Continue adding knowledge_packN.json for new domains."},
+  {"k": ["jagx goal accuracy speed"], "a": "Goal: accurate, fast answers for builders and friends."}
+]
