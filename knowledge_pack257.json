@@ -1,0 +1,12 @@
+[
+  {"k": ["select star prod"], "a": "Avoid SELECT * in production; select needed columns."},
+  {"k": ["or in join predicates"], "a": "OR in joins can prevent index use; rewrite carefully."},
+  {"k": ["functions on indexed columns"], "a": "WHERE YEAR(col)=2024 often kills index use; rewrite ranges."},
+  {"k": ["implicit conversions"], "a": "Type mismatches can force scans and wrong comparisons."},
+  {"k": ["n+1 orm"], "a": "Lazy loading loops cause N+1 queries."},
+  {"k": ["missing limit"], "a": "Unbounded queries can return huge results."},
+  {"k": ["over indexing"], "a": "Too many indexes slow writes; index for real queries."},
+  {"k": ["using offset deep"], "a": "Deep OFFSET pagination gets slower as pages increase."},
+  {"k": ["not null missing"], "a": "Nullable columns invite null bugs; constrain when possible."},
+  {"k": ["business logic only sql"], "a": "Extremely complex SQL can be hard to test; balance layers."}
+]
