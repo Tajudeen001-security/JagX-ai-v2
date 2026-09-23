@@ -1,0 +1,12 @@
+[
+  {"k": ["cron syntax"], "a": "minute hour day-of-month month day-of-week — e.g. */5 * * * * every 5 minutes."},
+  {"k": ["cron special strings"], "a": "@daily, @hourly, @reboot are common shortcuts on some systems."},
+  {"k": ["timezone cron"], "a": "Always document which timezone the schedule uses (UTC vs local)."},
+  {"k": ["distributed cron"], "a": "Use locks or a leader so multi-instance apps do not run the same job twice."},
+  {"k": ["job scheduling idempotent"], "a": "Scheduled jobs must tolerate retries and overlapping runs safely."},
+  {"k": ["systemd timer"], "a": "systemd timers are an alternative to cron on modern Linux."},
+  {"k": ["cloud scheduler"], "a": "Cloud Scheduler/EventBridge can hit HTTP endpoints on a schedule."},
+  {"k": ["missed schedule"], "a": "Decide catch-up vs skip policy when the worker was down."},
+  {"k": ["cron monitoring"], "a": "Alert if expected jobs do not report success by a deadline."},
+  {"k": ["cron example health ping"], "a": "*/5 * * * * curl -fsS https://your-app/health >/dev/null"}
+]
