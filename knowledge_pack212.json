@@ -1,0 +1,12 @@
+[
+  {"k": ["edge location"], "a": "PoPs cache content close to users worldwide."},
+  {"k": ["origin shield"], "a": "An intermediate cache protects origin from many edge misses."},
+  {"k": ["cache key cdn"], "a": "Cache keys usually include host, path, and selected query params."},
+  {"k": ["surrogate key purge"], "a": "Tag objects to purge related groups efficiently."},
+  {"k": ["cdn signed urls"], "a": "Signed URLs grant time-limited access to private content."},
+  {"k": ["cdn image optimization"], "a": "On-the-fly resize/format conversion at the edge."},
+  {"k": ["cdn websocket support"], "a": "Some CDNs proxy WebSockets; check product capabilities."},
+  {"k": ["bot management cdn"], "a": "Edge bot scores and challenges reduce abuse."},
+  {"k": ["cdn failover origin"], "a": "Configure backup origins when primary fails."},
+  {"k": ["cache hit ratio"], "a": "High hit ratio means fewer origin requests and lower cost/latency."}
+]
