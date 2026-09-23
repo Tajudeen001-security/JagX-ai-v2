@@ -1,0 +1,12 @@
+[
+  {"k": ["money integer cents"], "a": "Store currency as integer minor units (kobo/cents) to avoid float errors."},
+  {"k": ["decimal type money"], "a": "If using decimals, use exact decimal types — never binary floats."},
+  {"k": ["currency code iso"], "a": "Use ISO 4217 codes (NGN, USD, EUR)."},
+  {"k": ["fx rate timestamp"], "a": "Record the rate and time used for conversions."},
+  {"k": ["rounding money"], "a": "Define rounding rules (bankers vs half-up) explicitly."},
+  {"k": ["split payments"], "a": "Allocate remainders deterministically when splitting amounts."},
+  {"k": ["idempotent charge"], "a": "Charges must use idempotency keys."},
+  {"k": ["ledger double entry"], "a": "Double-entry ledgers keep debits and credits balanced."},
+  {"k": ["display currency"], "a": "Format with locale separators and correct symbol placement."},
+  {"k": ["tax inclusive exclusive"], "a": "Be explicit whether prices include tax."}
+]
