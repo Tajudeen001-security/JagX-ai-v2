@@ -1,0 +1,12 @@
+[
+  {"k": ["sync vs async microservices"], "a": "Sync (HTTP/gRPC) is simple; async (queues/events) decouples and buffers."},
+  {"k": ["service discovery"], "a": "Clients find instances via DNS, registries, or mesh control planes."},
+  {"k": ["api gateway microservices"], "a": "Gateway handles external auth, routing, and aggregation."},
+  {"k": ["bff mobile web"], "a": "Separate BFFs tailor payloads for mobile vs web clients."},
+  {"k": ["distributed transaction avoid"], "a": "Prefer sagas and eventual consistency over 2PC across services."},
+  {"k": ["timeouts between services"], "a": "Always set deadlines; cascading retries without budgets cause outages."},
+  {"k": ["bulkhead microservices"], "a": "Isolate thread/connection pools per dependency."},
+  {"k": ["contract testing services"], "a": "Consumer-driven contracts catch breaking API changes early."},
+  {"k": ["shared database smell"], "a": "Sharing DBs couples services; prefer APIs and events."},
+  {"k": ["service mesh mTLS"], "a": "Meshes can encrypt and authenticate service-to-service traffic."}
+]
