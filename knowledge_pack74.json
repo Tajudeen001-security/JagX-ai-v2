@@ -1,0 +1,14 @@
+[
+  {"k": ["kafka basics"], "a": "Kafka is a distributed log for high-throughput event streaming."},
+  {"k": ["kafka topic"], "a": "A topic is a named stream of records partitioned across brokers."},
+  {"k": ["kafka consumer group"], "a": "Consumer groups share work so each partition is consumed by one member."},
+  {"k": ["rabbitmq basics"], "a": "RabbitMQ is a message broker supporting queues, exchanges, and routing keys."},
+  {"k": ["pub sub"], "a": "Pub/sub publishes events to many subscribers without tight coupling."},
+  {"k": ["at least once delivery"], "a": "At-least-once may duplicate messages; consumers must be idempotent."},
+  {"k": ["exactly once delivery"], "a": "Exactly-once is hard; systems approximate it with transactions and idempotency."},
+  {"k": ["dead letter queue"], "a": "A DLQ holds messages that failed processing after retries."},
+  {"k": ["message ordering"], "a": "Ordering is usually guaranteed per partition/queue key, not globally."},
+  {"k": ["stream processing"], "a": "Stream processing computes continuously on unbounded event streams."},
+  {"k": ["kafka offset"], "a": "Offsets track a consumer's position in a partition."},
+  {"k": ["event schema evolution"], "a": "Evolve event schemas carefully (backward/forward compatible) with registries."}
+]
