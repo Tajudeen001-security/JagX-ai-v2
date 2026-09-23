@@ -1,0 +1,12 @@
+[
+  {"k": ["compiler vs interpreter"], "a": "Compilers translate whole programs ahead of time; interpreters execute source incrementally."},
+  {"k": ["lexer"], "a": "A lexer (tokenizer) splits source text into tokens."},
+  {"k": ["parser"], "a": "A parser builds a syntax tree from tokens according to a grammar."},
+  {"k": ["ast"], "a": "An AST (Abstract Syntax Tree) represents program structure without surface syntax details."},
+  {"k": ["bytecode"], "a": "Bytecode is portable intermediate code executed by a VM (e.g. JVM, CPython)."},
+  {"k": ["jit compilation"], "a": "JIT compiles hot code at runtime for speed while keeping portability."},
+  {"k": ["static vs dynamic typing"], "a": "Static typing checks types before run; dynamic typing checks mostly at runtime."},
+  {"k": ["type inference"], "a": "Type inference lets the compiler deduce types without explicit annotations."},
+  {"k": ["garbage collection algorithms"], "a": "Common GC: mark-sweep, generational, reference counting (with cycle caveats)."},
+  {"k": ["linker"], "a": "A linker combines object files and libraries into an executable."}
+]
