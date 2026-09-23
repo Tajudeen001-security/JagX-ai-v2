@@ -1,0 +1,12 @@
+[
+  {"k": ["top htop"], "a": "Interactive process viewers for CPU and memory."},
+  {"k": ["vmstat"], "a": "vmstat shows processes, memory, swap, IO, and CPU."},
+  {"k": ["iostat"], "a": "iostat reports disk utilization and throughput."},
+  {"k": ["perf linux"], "a": "perf profiles CPU at kernel/user level."},
+  {"k": ["strace debug"], "a": "strace traces syscalls to find hangs and failures."},
+  {"k": ["lsof open files"], "a": "lsof lists open files and sockets by process."},
+  {"k": ["ss sockets"], "a": "ss inspects TCP/UDP sockets and states."},
+  {"k": ["dmesg"], "a": "dmesg shows kernel ring buffer messages."},
+  {"k": ["nice ionice"], "a": "nice/ionice adjust CPU and IO priority."},
+  {"k": ["sar history"], "a": "sar reports historical system activity."}
+]
