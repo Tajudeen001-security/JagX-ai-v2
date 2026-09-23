@@ -1,0 +1,12 @@
+[
+  {"k": ["bias to action"], "a": "Ship small experiments fast, then learn."},
+  {"k": ["owner not renter"], "a": "Own outcomes end-to-end, not only tickets."},
+  {"k": ["measure what matters"], "a": "Instrument before debating opinions."},
+  {"k": ["keep stack simple"], "a": "Prefer boring technology that the team can operate."},
+  {"k": ["document decisions"], "a": "Short ADRs prevent repeated debates."},
+  {"k": ["oncall even small"], "a": "Someone must own production even at seed stage."},
+  {"k": ["customer proximity"], "a": "Engineers should hear real user pain regularly."},
+  {"k": ["hire for learning"], "a": "Learning rate beats narrow resume keywords early."},
+  {"k": ["focus wip limit"], "a": "Limit work in progress to finish more."},
+  {"k": ["celebrate reliability"], "a": "Celebrate boring uptime, not only flashy launches."}
+]
