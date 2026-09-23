@@ -1,0 +1,12 @@
+[
+  {"k": ["ssh key only"], "a": "Disable password SSH login; use key-based authentication."},
+  {"k": ["fail2ban"], "a": "fail2ban bans IPs with repeated failed logins."},
+  {"k": ["ufw firewall"], "a": "UFW is a simple frontend for iptables/nftables firewall rules."},
+  {"k": ["least privilege linux"], "a": "Run services as non-root users with minimal permissions."},
+  {"k": ["unattended upgrades"], "a": "Automatic security updates reduce exposure window."},
+  {"k": ["file permissions 600"], "a": "Private keys and secrets often use mode 600 (owner read/write only)."},
+  {"k": ["sudo audit"], "a": "Limit sudo access and log privileged commands."},
+  {"k": ["disable unused services"], "a": "Stop and disable services you do not need to shrink attack surface."},
+  {"k": ["selinux apparmor"], "a": "Mandatory access control systems confine processes beyond Unix permissions."},
+  {"k": ["security updates linux"], "a": "Apply patches promptly; track CVEs for critical packages."}
+]
