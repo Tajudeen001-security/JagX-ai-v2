@@ -1,0 +1,18 @@
+[
+  {"k": ["what is phishing"], "a": "Phishing tricks people into revealing secrets via fake emails, sites, or messages."},
+  {"k": ["what is malware"], "a": "Malware is software designed to harm, spy, or take control of a system."},
+  {"k": ["what is ransomware"], "a": "Ransomware encrypts files and demands payment for the decryption key."},
+  {"k": ["what is 2fa", "what is mfa"], "a": "2FA/MFA adds a second factor (app code, SMS, hardware key) beyond a password."},
+  {"k": ["what is password manager"], "a": "A password manager stores unique strong passwords so you do not reuse them."},
+  {"k": ["what is zero trust"], "a": "Zero Trust assumes no network is trusted by default and verifies every access request."},
+  {"k": ["what is vulnerability"], "a": "A vulnerability is a weakness that attackers can exploit."},
+  {"k": ["what is exploit"], "a": "An exploit is code or a technique that takes advantage of a vulnerability."},
+  {"k": ["what is patch"], "a": "A patch is an update that fixes bugs or security holes."},
+  {"k": ["what is social engineering"], "a": "Social engineering manipulates people into giving access or information."},
+  {"k": ["what is ddos"], "a": "A DDoS attack floods a service with traffic to make it unavailable."},
+  {"k": ["what is brute force"], "a": "Brute force tries many passwords or keys until one works. Rate limits and lockouts help stop it."},
+  {"k": ["what is principle of least privilege"], "a": "Give users and services only the minimum permissions they need."},
+  {"k": ["what is security audit"], "a": "A security audit reviews systems and processes to find risks and compliance gaps."},
+  {"k": ["what is penetration test"], "a": "A penetration test is an authorized simulated attack to find exploitable weaknesses."},
+  {"k": ["secure coding"], "a": "Secure coding means validating input, encoding output, least privilege, and not hardcoding secrets."}
+]
