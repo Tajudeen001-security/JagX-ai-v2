@@ -1,0 +1,16 @@
+[
+  {"k": ["git status"], "a": "```bash\ngit status\n```"},
+  {"k": ["git log"], "a": "```bash\ngit log --oneline -10\n```"},
+  {"k": ["git stash"], "a": "```bash\ngit stash\ngit stash pop\n```"},
+  {"k": ["git rebase"], "a": "```bash\ngit rebase main\n```\nReplays your commits on top of another branch. Use carefully on shared branches."},
+  {"k": ["git reset"], "a": "```bash\ngit reset --soft HEAD~1   # undo commit, keep changes\ngit reset --hard HEAD~1   # undo commit and discard changes\n```"},
+  {"k": ["git revert"], "a": "```bash\ngit revert <commit>\n```\nCreates a new commit that undoes a previous commit (safe for shared history)."},
+  {"k": ["git pull"], "a": "```bash\ngit pull origin main\n```"},
+  {"k": ["git push"], "a": "```bash\ngit push -u origin branch-name\n```"},
+  {"k": ["git remote"], "a": "```bash\ngit remote -v\ngit remote add origin https://github.com/user/repo.git\n```"},
+  {"k": ["pull request", "what is pr"], "a": "A pull request (PR) proposes merging one branch into another and is used for code review on GitHub/GitLab."},
+  {"k": ["gitignore"], "a": "A .gitignore file lists files and folders Git should not track (e.g. .env, node_modules)."},
+  {"k": ["conventional commits"], "a": "Commit style like feat:, fix:, docs: helps changelogs and semantic versioning."},
+  {"k": ["semantic versioning"], "a": "Version format MAJOR.MINOR.PATCH (e.g. 1.4.2): breaking changes, features, fixes."},
+  {"k": ["code review"], "a": "Code review is checking a teammate's changes for correctness, clarity, and security before merge."}
+]
