@@ -1,0 +1,14 @@
+[
+  {"k": ["idempotent http methods"], "a": "GET, PUT, DELETE should be idempotent; POST usually is not."},
+  {"k": ["retry after header"], "a": "Retry-After tells clients how long to wait before retrying."},
+  {"k": ["exponential backoff"], "a": "Exponential backoff increases wait time between retries (often with jitter)."},
+  {"k": ["connection keep alive"], "a": "HTTP keep-alive reuses TCP connections to reduce handshake overhead."},
+  {"k": ["http compression"], "a": "Clients send Accept-Encoding: gzip/br; servers may compress responses."},
+  {"k": ["user agent"], "a": "User-Agent identifies the client; some APIs require a clear UA string."},
+  {"k": ["content negotiation"], "a": "Clients and servers agree on representation via Accept and Content-Type."},
+  {"k": ["multipart upload"], "a": "Large uploads can use multipart forms or resumable chunked upload APIs."},
+  {"k": ["websocket vs http"], "a": "WebSockets stay open for bidirectional messages; HTTP is request/response."},
+  {"k": ["sse server sent events"], "a": "SSE streams server→client events over HTTP."},
+  {"k": ["grpc vs rest"], "a": "gRPC is efficient binary RPC; REST is ubiquitous HTTP+JSON for public APIs."},
+  {"k": ["dns ttl"], "a": "DNS TTL controls how long resolvers cache a DNS answer."}
+]
