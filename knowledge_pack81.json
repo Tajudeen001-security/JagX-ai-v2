@@ -1,0 +1,14 @@
+[
+  {"k": ["soc"], "a": "A SOC (Security Operations Center) monitors and responds to security events."},
+  {"k": ["siem"], "a": "SIEM systems aggregate logs and alert on suspicious patterns."},
+  {"k": ["incident response steps"], "a": "Typical IR: prepare, detect, contain, eradicate, recover, lessons learned."},
+  {"k": ["ioc"], "a": "Indicators of Compromise are forensic clues (IPs, hashes, domains) of attacks."},
+  {"k": ["threat hunting"], "a": "Threat hunting proactively searches for attackers that evade automated alerts."},
+  {"k": ["vulnerability management"], "a": "Find, prioritize, patch, and verify vulnerabilities continuously."},
+  {"k": ["patch management"], "a": "Patch management schedules and verifies software security updates."},
+  {"k": ["least privilege ops"], "a": "Grant the minimum access needed for each role and revoke promptly."},
+  {"k": ["secrets scanning"], "a": "Scan repos and logs for leaked API keys and credentials."},
+  {"k": ["security baseline"], "a": "A baseline is a hardened configuration standard for systems."},
+  {"k": ["red team blue team"], "a": "Red teams attack; blue teams defend; purple teams collaborate to improve both."},
+  {"k": ["tabletop exercise"], "a": "Tabletop exercises walk through incident scenarios without real systems impact."}
+]
