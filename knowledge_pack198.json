@@ -1,0 +1,12 @@
+[
+  {"k": ["dependency pin"], "a": "Pin versions and use lockfiles for reproducible builds."},
+  {"k": ["lockfile commit"], "a": "Commit package-lock/yarn.lock/poetry.lock for deterministic installs."},
+  {"k": ["sbom generate"], "a": "Generate SBOMs to know what you shipped."},
+  {"k": ["provenance attestations"], "a": "Provenance links artifacts to source and build systems."},
+  {"k": ["typosquatting packages"], "a": "Attackers publish similarly named packages; verify publishers."},
+  {"k": ["minimum permissions ci"], "a": "CI tokens should have least privilege and short life."},
+  {"k": ["dependency review pr"], "a": "Review new dependencies on every PR for risk."},
+  {"k": ["hash verify downloads"], "a": "Verify checksums of critical downloaded binaries."},
+  {"k": ["private registry mirror"], "a": "Mirror approved packages to reduce reliance on public registries."},
+  {"k": ["compromised maintainer"], "a": "Monitor for sudden maintainer changes and unusual releases."}
+]
