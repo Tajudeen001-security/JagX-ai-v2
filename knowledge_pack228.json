@@ -1,0 +1,12 @@
+[
+  {"k": ["i18n vs l10n"], "a": "i18n prepares software for locales; l10n adapts to a specific locale."},
+  {"k": ["message catalogs"], "a": "Store translatable strings in locale files, not hard-coded UI."},
+  {"k": ["plural rules"], "a": "Languages have different plural categories; use ICU message format."},
+  {"k": ["rtl layout"], "a": "Right-to-left languages need mirrored layouts and logical CSS."},
+  {"k": ["locale number date"], "a": "Format numbers/dates with Intl APIs per locale."},
+  {"k": ["pseudo localization"], "a": "Fake translations reveal truncation and hard-coded strings."},
+  {"k": ["translation context"], "a": "Provide screenshots/context so translators choose correct wording."},
+  {"k": ["string concatenation i18n"], "a": "Avoid stitching sentences; word order varies by language."},
+  {"k": ["locale detection"], "a": "Detect from Accept-Language, user profile, or explicit picker."},
+  {"k": ["currency formatting"], "a": "Use locale-aware currency formatters; store amounts as integers/decimals carefully."}
+]
