@@ -1,0 +1,12 @@
+[
+  {"k": ["websocket handshake"], "a": "WebSocket starts as HTTP Upgrade then switches to a full-duplex socket."},
+  {"k": ["websocket frames"], "a": "Data is sent in frames (text/binary) with opcodes and optional masking."},
+  {"k": ["websocket heartbeat"], "a": "Ping/pong frames detect dead connections."},
+  {"k": ["socket io"], "a": "Socket.IO adds fallbacks, rooms, and reconnection on top of WebSocket-like transport."},
+  {"k": ["websocket scaling"], "a": "Scale with sticky sessions or a pub/sub bus so messages reach the right node."},
+  {"k": ["websocket auth"], "a": "Authenticate on connect via token query/header then authorize per message."},
+  {"k": ["sse vs websocket"], "a": "SSE is server-to-client over HTTP; WebSocket is bidirectional."},
+  {"k": ["websocket reconnect"], "a": "Clients should reconnect with backoff and resume state after disconnects."},
+  {"k": ["websocket rooms"], "a": "Rooms/channels group connections for targeted broadcasts."},
+  {"k": ["websocket backpressure"], "a": "If clients are slow, buffer limits and drop/slow producers to avoid OOM."}
+]
