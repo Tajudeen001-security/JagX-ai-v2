@@ -1,0 +1,12 @@
+[
+  {"k": ["allowlist validation"], "a": "Prefer allowlists of accepted values over blocklists of bad ones."},
+  {"k": ["schema validation"], "a": "Validate JSON with schemas (JSON Schema, Zod, Pydantic)."},
+  {"k": ["length limits"], "a": "Bound string and array lengths to prevent resource abuse."},
+  {"k": ["type coercion care"], "a": "Be explicit about types; unexpected coercion causes bugs."},
+  {"k": ["path validation"], "a": "Canonicalize paths and reject .. traversal."},
+  {"k": ["url validation"], "a": "Allow only http/https; block internal IPs to reduce SSRF."},
+  {"k": ["email validation practical"], "a": "Syntax-check then verify via OTP; perfect RFC validation is hard."},
+  {"k": ["file upload validation"], "a": "Check size, magic bytes, and extension; store outside web root."},
+  {"k": ["unicode validation"], "a": "Normalize Unicode and reject unexpected control characters."},
+  {"k": ["fail closed validation"], "a": "If validation is uncertain, reject the input."}
+]
