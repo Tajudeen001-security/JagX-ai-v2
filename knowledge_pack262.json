@@ -1,0 +1,12 @@
+[
+  {"k": ["csp default src"], "a": "default-src sets a fallback for many fetch directives."},
+  {"k": ["csp script src"], "a": "script-src restricts which scripts can execute."},
+  {"k": ["csp nonce"], "a": "Nonces allow specific inline scripts without unsafe-inline broadly."},
+  {"k": ["csp hash"], "a": "Hashes allow specific inline script content."},
+  {"k": ["csp strict dynamic"], "a": "strict-dynamic trusts scripts loaded by already-trusted scripts."},
+  {"k": ["csp report uri"], "a": "report-uri/report-to collect violation reports."},
+  {"k": ["csp frame ancestors"], "a": "Controls who can embed your pages (clickjacking defense)."},
+  {"k": ["csp object src"], "a": "object-src should usually be 'none' to block plugins."},
+  {"k": ["csp base uri"], "a": "base-uri restricts <base> tag hijacking."},
+  {"k": ["csp rollout"], "a": "Start report-only, fix violations, then enforce."}
+]
