@@ -1,0 +1,17 @@
+[
+  {"k": ["linux ping"], "a": "```bash\nping -c 4 example.com\n```"},
+  {"k": ["linux traceroute"], "a": "```bash\ntraceroute example.com\n```"},
+  {"k": ["linux netstat"], "a": "```bash\nss -tulpn   # modern alternative to netstat\n```"},
+  {"k": ["linux curl headers"], "a": "```bash\ncurl -I https://example.com\n```"},
+  {"k": ["linux dig dns"], "a": "```bash\ndig example.com +short\n```"},
+  {"k": ["linux iptables"], "a": "iptables/nftables filter packets on Linux firewalls."},
+  {"k": ["linux journalctl"], "a": "```bash\njournalctl -u nginx -n 50 --no-pager\n```"},
+  {"k": ["linux top"], "a": "```bash\ntop\nhtop\n```"},
+  {"k": ["linux free memory"], "a": "```bash\nfree -h\n```"},
+  {"k": ["linux lsof"], "a": "```bash\nlsof -i :8000\n```"},
+  {"k": ["linux strace"], "a": "strace traces system calls of a process for deep debugging."},
+  {"k": ["linux tcpdump"], "a": "```bash\ntcpdump -i any port 80 -n\n```"},
+  {"k": ["linux ulimit"], "a": "ulimit controls resource limits (open files, processes, etc.)."},
+  {"k": ["linux cron example"], "a": "```bash\n*/5 * * * * curl -fsS https://example.com/health\n```"},
+  {"k": ["linux env file"], "a": "Export vars in shell or use EnvironmentFile= in systemd units."}
+]
