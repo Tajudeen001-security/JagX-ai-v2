@@ -1,0 +1,12 @@
+[
+  {"k": ["cors simple request"], "a": "Simple requests (some GET/POST) skip preflight under limited conditions."},
+  {"k": ["cors preflight options"], "a": "Browsers send OPTIONS preflight for non-simple cross-origin requests."},
+  {"k": ["access control allow origin"], "a": "Reflect a specific origin (not *) when credentials are used."},
+  {"k": ["cors credentials"], "a": "Access-Control-Allow-Credentials: true enables cookies on cross-origin calls."},
+  {"k": ["cors allow headers"], "a": "List allowed request headers in Access-Control-Allow-Headers."},
+  {"k": ["cors expose headers"], "a": "Expose non-simple response headers the JS client needs to read."},
+  {"k": ["cors max age"], "a": "Access-Control-Max-Age caches preflight results."},
+  {"k": ["cors misconfig risk"], "a": "Overly broad * with credentials or reflecting any Origin is dangerous."},
+  {"k": ["same site vs cors"], "a": "SameSite cookies and CORS solve different cross-site problems."},
+  {"k": ["cors debugging tip"], "a": "Check browser console Network tab for preflight failures and missing headers."}
+]
