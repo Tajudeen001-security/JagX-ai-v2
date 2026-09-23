@@ -1,0 +1,18 @@
+[
+  {"k": ["regex digit"], "a": "\\d matches a digit (0-9). \\d+ matches one or more digits."},
+  {"k": ["regex word"], "a": "\\w matches word characters [A-Za-z0-9_]. \\W is the opposite."},
+  {"k": ["regex whitespace"], "a": "\\s matches whitespace. \\S matches non-whitespace."},
+  {"k": ["regex email basic"], "a": "A simple email pattern: [\\w.-]+@[\\w.-]+\\.\\w+"},
+  {"k": ["regex anchors"], "a": "^ matches start of string; $ matches end of string."},
+  {"k": ["regex quantifiers"], "a": "* means 0+, + means 1+, ? means 0 or 1, {n,m} means n to m times."},
+  {"k": ["regex groups"], "a": "Parentheses ( ) capture groups. (?: ) is non-capturing."},
+  {"k": ["regex alternation"], "a": "| means OR: cat|dog matches cat or dog."},
+  {"k": ["regex character class"], "a": "[abc] matches a, b, or c. [^abc] matches anything except those."},
+  {"k": ["python re search"], "a": "```python\nimport re\nm = re.search(r'\\d+', 'id=42')\nprint(m.group() if m else None)\n```"},
+  {"k": ["python re sub"], "a": "```python\nimport re\nprint(re.sub(r'\\s+', ' ', 'a   b'))\n```"},
+  {"k": ["javascript regex test"], "a": "```javascript\n/\\d+/.test('abc123')  // true\n```"},
+  {"k": ["what is tokenization text"], "a": "Tokenization splits text into units (words, subwords, or symbols) for NLP."},
+  {"k": ["what is stemming"], "a": "Stemming reduces words to a rough root (running → run) using rules."},
+  {"k": ["what is lemmatization"], "a": "Lemmatization reduces words to a dictionary lemma using vocabulary and morphology."},
+  {"k": ["what is tf idf"], "a": "TF-IDF weights terms by frequency in a document and rarity across documents."}
+]
