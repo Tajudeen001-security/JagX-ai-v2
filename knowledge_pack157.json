@@ -1,0 +1,12 @@
+[
+  {"k": ["dirty read"], "a": "Dirty read sees uncommitted data from another transaction."},
+  {"k": ["non repeatable read"], "a": "A row read twice changes because another transaction committed an update."},
+  {"k": ["phantom read"], "a": "A range query returns new rows committed by others between reads."},
+  {"k": ["read committed"], "a": "Read Committed avoids dirty reads; default in many databases."},
+  {"k": ["repeatable read"], "a": "Repeatable Read keeps row reads stable within a transaction (details vary by engine)."},
+  {"k": ["serializable isolation"], "a": "Serializable prevents anomalies by making transactions appear one-by-one."},
+  {"k": ["optimistic concurrency"], "a": "Optimistic concurrency detects conflicts at commit via versions/ETags."},
+  {"k": ["pessimistic locking"], "a": "Pessimistic locking locks rows early to block conflicting writers."},
+  {"k": ["two phase commit"], "a": "2PC coordinates commit across multiple resources; can block on failures."},
+  {"k": ["saga pattern"], "a": "Sagas coordinate distributed workflows with compensating transactions."}
+]
