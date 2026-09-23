@@ -1,0 +1,18 @@
+[
+  {"k": ["what is cpu"], "a": "The CPU executes instructions: fetch, decode, execute."},
+  {"k": ["what is ram"], "a": "RAM is fast volatile memory for running programs and data."},
+  {"k": ["what is rom"], "a": "ROM is read-only (or rarely written) memory often used for firmware."},
+  {"k": ["what is cache cpu"], "a": "CPU cache is small fast memory that stores frequently used data/instructions."},
+  {"k": ["what is process os"], "a": "A process is a running instance of a program with its own address space."},
+  {"k": ["what is thread"], "a": "A thread is a unit of execution within a process that shares memory with other threads."},
+  {"k": ["what is deadlock"], "a": "Deadlock is when processes wait forever for each other's resources."},
+  {"k": ["what is mutex"], "a": "A mutex is a lock that allows only one thread to enter a critical section."},
+  {"k": ["what is semaphore"], "a": "A semaphore is a counter used to control access to a limited resource."},
+  {"k": ["what is virtual memory"], "a": "Virtual memory maps process address spaces to physical RAM and disk (swap)."},
+  {"k": ["what is context switch"], "a": "A context switch saves one process/thread state and loads another so the CPU can multitask."},
+  {"k": ["what is kernel"], "a": "The kernel is the core of the OS managing hardware, processes, memory, and drivers."},
+  {"k": ["what is syscall"], "a": "A system call is how user programs request services from the kernel."},
+  {"k": ["what is endianness"], "a": "Endianness is byte order in memory: little-endian stores least significant byte first."},
+  {"k": ["what is instruction set"], "a": "An ISA (instruction set architecture) defines the machine instructions a CPU understands."},
+  {"k": ["what is pipeline cpu"], "a": "Pipelining overlaps stages of instruction execution to improve throughput."}
+]
