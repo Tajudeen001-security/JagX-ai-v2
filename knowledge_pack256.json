@@ -1,0 +1,12 @@
+[
+  {"k": ["tsconfig strict"], "a": "strict mode enables a suite of stronger type checks."},
+  {"k": ["path aliases ts"], "a": "paths in tsconfig map clean import aliases."},
+  {"k": ["typescript eslint"], "a": "typescript-eslint applies lint rules with type information."},
+  {"k": ["tsc no emit"], "a": "tsc --noEmit typechecks without producing JS."},
+  {"k": ["incremental builds ts"], "a": "incremental and project references speed large monorepos."},
+  {"k": ["declaration maps"], "a": "declarationMap helps editors navigate to source from .d.ts."},
+  {"k": ["bundler module resolution"], "a": "moduleResolution bundler matches modern bundler behavior."},
+  {"k": ["verbatim module syntax"], "a": "Encourages precise type-only imports."},
+  {"k": ["ts node vs tsx"], "a": "tsx/ts-node run TypeScript directly in development."},
+  {"k": ["skip lib check"], "a": "skipLibCheck speeds builds but can hide dependency type issues."}
+]
