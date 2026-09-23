@@ -1,0 +1,12 @@
+[
+  {"k": ["what is webrtc"], "a": "WebRTC enables real-time audio, video, and data between peers in browsers and apps."},
+  {"k": ["webrtc signaling"], "a": "Signaling exchanges SDP offers/answers and ICE candidates via your server."},
+  {"k": ["ice candidates"], "a": "ICE finds network paths (host, srflx, relay) for connectivity."},
+  {"k": ["stun turn"], "a": "STUN discovers public addresses; TURN relays when direct peer paths fail."},
+  {"k": ["webrtc datachannel"], "a": "DataChannels send arbitrary data peer-to-peer with optional reliability."},
+  {"k": ["webrtc media stream"], "a": "MediaStream tracks capture microphone/camera for sending."},
+  {"k": ["sfu vs mesh"], "a": "Mesh connects everyone to everyone; SFU forwards media more scalably."},
+  {"k": ["webrtc security"], "a": "DTLS/SRTP encrypt media; authenticate signaling endpoints carefully."},
+  {"k": ["webrtc adaptive bitrate"], "a": "Congestion control adapts media quality to network conditions."},
+  {"k": ["webrtc use cases"], "a": "Video calls, live streaming contributions, screen share, and low-latency games."}
+]
