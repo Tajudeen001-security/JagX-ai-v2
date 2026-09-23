@@ -1,0 +1,12 @@
+[
+  {"k": ["model registry"], "a": "A model registry versions trained models and metadata."},
+  {"k": ["feature store"], "a": "Feature stores share and serve consistent features offline/online."},
+  {"k": ["training serving skew"], "a": "Skew is when training features differ from production features."},
+  {"k": ["model monitoring"], "a": "Monitor input drift, prediction drift, and performance metrics."},
+  {"k": ["data drift"], "a": "Data drift is change in input distributions over time."},
+  {"k": ["concept drift"], "a": "Concept drift is when the relationship between inputs and target changes."},
+  {"k": ["shadow deployment ml"], "a": "Shadow mode scores live traffic without affecting users."},
+  {"k": ["canary model"], "a": "Route a small % of traffic to a new model before full rollout."},
+  {"k": ["retraining triggers"], "a": "Retrain on schedule or when drift/performance thresholds breach."},
+  {"k": ["experiment tracking ml"], "a": "Log params, metrics, and artifacts for reproducible experiments."}
+]
