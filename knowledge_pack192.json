@@ -1,0 +1,12 @@
+[
+  {"k": ["password length entropy"], "a": "Longer random passwords beat complex short ones; prefer passphrases."},
+  {"k": ["credential stuffing"], "a": "Attackers try leaked username/password pairs; use MFA and breach detection."},
+  {"k": ["password reset tokens"], "a": "Single-use, short-lived, high-entropy tokens sent over secure channels."},
+  {"k": ["session fixation fix"], "a": "Issue a new session id after successful login."},
+  {"k": ["session idle timeout"], "a": "Expire idle sessions; absolute timeouts bound long-lived sessions."},
+  {"k": ["concurrent sessions"], "a": "Offer view/revoke active sessions for account security."},
+  {"k": ["remember me risks"], "a": "Long-lived remember-me tokens need rotation and theft detection."},
+  {"k": ["secure cookie flags"], "a": "Secure, HttpOnly, SameSite for session cookies."},
+  {"k": ["logout everywhere"], "a": "Invalidate all server sessions and refresh tokens on demand."},
+  {"k": ["password managers"], "a": "Encourage password managers; never block paste in password fields."}
+]
