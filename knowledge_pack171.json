@@ -1,0 +1,12 @@
+[
+  {"k": ["junior engineer focus"], "a": "Deliver assigned tasks well, ask good questions, learn the codebase."},
+  {"k": ["mid level engineer"], "a": "Own features end-to-end, improve designs, mentor juniors lightly."},
+  {"k": ["senior engineer"], "a": "Lead ambiguous projects, raise quality bar, multiply team output."},
+  {"k": ["staff engineer"], "a": "Influence across teams, set technical direction, solve org-level problems."},
+  {"k": ["tech lead vs manager"], "a": "Tech leads guide technical execution; managers own people and process."},
+  {"k": ["impact narrative"], "a": "Promotion packets show impact with metrics and stories, not only activity."},
+  {"k": ["scope complexity ambiguity"], "a": "Higher levels handle larger scope, harder complexity, and more ambiguity."},
+  {"k": ["mentorship ladder"], "a": "Teaching others is a force multiplier recognized in leveling."},
+  {"k": ["work visibility"], "a": "Make work visible with design docs, demos, and written outcomes."},
+  {"k": ["calibrate feedback"], "a": "Seek calibrated feedback from peers and managers regularly."}
+]
