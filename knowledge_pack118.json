@@ -1,0 +1,12 @@
+[
+  {"k": ["terraform provider"], "a": "Providers plug Terraform into APIs (AWS, GCP, Azure, etc.)."},
+  {"k": ["terraform state"], "a": "State maps resources to real infrastructure; store it remotely and lock it."},
+  {"k": ["terraform plan"], "a": "terraform plan shows what will change without applying."},
+  {"k": ["terraform apply"], "a": "terraform apply executes the planned changes."},
+  {"k": ["terraform module"], "a": "Modules package reusable infrastructure configurations."},
+  {"k": ["terraform workspace"], "a": "Workspaces separate state for environments like staging/prod."},
+  {"k": ["iac drift"], "a": "Drift is when real infra diverges from declared code."},
+  {"k": ["terraform import"], "a": "Import brings existing resources under Terraform management."},
+  {"k": ["pulumi"], "a": "Pulumi is IaC using general-purpose languages instead of HCL only."},
+  {"k": ["cloudformation"], "a": "CloudFormation is AWS-native infrastructure as code."}
+]
