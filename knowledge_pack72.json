@@ -1,0 +1,14 @@
+[
+  {"k": ["how to learn programming"], "a": "Build projects, read docs, practice problems, and review your own code weekly."},
+  {"k": ["portfolio tips"], "a": "Show 2–4 solid projects with README, live demo, and clear problem/solution."},
+  {"k": ["resume tips developers"], "a": "Quantify impact, list relevant stack, link GitHub, keep to one page when possible."},
+  {"k": ["interview prep coding"], "a": "Practice arrays/strings/trees/graphs, speak your thoughts, test edge cases."},
+  {"k": ["system design prep"], "a": "Practice requirements, estimates, APIs, data model, scaling, and trade-offs."},
+  {"k": ["open source contributing"], "a": "Start with docs/bugs, read CONTRIBUTING.md, make small PRs, communicate clearly."},
+  {"k": ["imposter syndrome"], "a": "Feeling behind is common; track progress, ask questions, ship small wins."},
+  {"k": ["mentorship"], "a": "A mentor gives feedback and career context; come with specific questions."},
+  {"k": ["continuous learning"], "a": "Schedule weekly learning time; depth in one stack beats shallow buzzwords."},
+  {"k": ["remote work tips"], "a": "Over-communicate, document decisions, protect focus blocks, keep reliable internet."},
+  {"k": ["code review etiquette"], "a": "Be kind and specific; prefer questions; praise good patterns; own your merges."},
+  {"k": ["burnout prevention"], "a": "Sleep, breaks, realistic scope, and saying no protect long-term productivity."}
+]
