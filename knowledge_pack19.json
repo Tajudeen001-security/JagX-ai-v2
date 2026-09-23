@@ -1,0 +1,18 @@
+[
+  {"k": ["what is android"], "a": "Android is Google's mobile operating system used on many phones and tablets."},
+  {"k": ["what is ios"], "a": "iOS is Apple's operating system for iPhone and iPad."},
+  {"k": ["what is flutter"], "a": "Flutter is Google's UI toolkit for building apps for mobile, web, and desktop from one codebase (Dart)."},
+  {"k": ["what is react native"], "a": "React Native builds mobile apps with React and JavaScript/TypeScript for iOS and Android."},
+  {"k": ["what is kotlin"], "a": "Kotlin is the preferred language for modern Android development."},
+  {"k": ["what is swift"], "a": "Swift is Apple's main language for iOS, macOS, and related platforms."},
+  {"k": ["what is dart"], "a": "Dart is the programming language used by Flutter."},
+  {"k": ["flutter widget"], "a": "In Flutter, almost everything is a widget — buttons, layouts, text, and screens."},
+  {"k": ["android apk"], "a": "An APK is the installable package format for Android apps."},
+  {"k": ["ios ipa"], "a": "An IPA is the installable package format for iOS apps."},
+  {"k": ["what is expo"], "a": "Expo is a toolkit that speeds up React Native development and builds."},
+  {"k": ["what is play store"], "a": "Google Play Store is the main app store for Android apps."},
+  {"k": ["what is app store"], "a": "The Apple App Store is the main app store for iPhone and iPad apps."},
+  {"k": ["deep link"], "a": "A deep link opens a specific screen inside a mobile app from a URL."},
+  {"k": ["push notification"], "a": "Push notifications are messages sent to a device even when the app is in the background."},
+  {"k": ["what is firebase"], "a": "Firebase is Google's platform for auth, database, messaging, analytics, and hosting."}
+]
