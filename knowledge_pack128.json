@@ -1,0 +1,12 @@
+[
+  {"k": ["optimistic ui"], "a": "Update UI before server confirms, then reconcile on response/error."},
+  {"k": ["offline sync"], "a": "Queue writes offline and sync when connectivity returns with conflict rules."},
+  {"k": ["conflict resolution"], "a": "Strategies: last-write-wins, version vectors, or manual merge."},
+  {"k": ["mobile pagination"], "a": "Use cursors and infinite scroll carefully to avoid duplicate/missing items."},
+  {"k": ["background fetch"], "a": "OS APIs allow limited background network work for freshness."},
+  {"k": ["certificate pinning"], "a": "Pinning trusts specific certs/keys to reduce MITM risk on mobile."},
+  {"k": ["app transport security"], "a": "ATS on iOS requires secure HTTPS defaults."},
+  {"k": ["graphql mobile"], "a": "GraphQL can reduce overfetch on slow mobile networks."},
+  {"k": ["image caching mobile"], "a": "Cache decoded/resized images on disk/memory with size limits."},
+  {"k": ["battery network tradeoff"], "a": "Batch network calls; avoid frequent radio wakeups that drain battery."}
+]
