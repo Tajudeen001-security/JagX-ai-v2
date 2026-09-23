@@ -1,0 +1,14 @@
+[
+  {"k": ["reverse linked list"], "a": "```python\ndef reverse_list(head):\n    prev = None\n    while head:\n        nxt = head.next\n        head.next = prev\n        prev = head\n        head = nxt\n    return prev\n```"},
+  {"k": ["detect cycle linked list"], "a": "Floyd's cycle detection uses slow/fast pointers; they meet if a cycle exists."},
+  {"k": ["merge two sorted lists"], "a": "Merge by always taking the smaller head node into a new list."},
+  {"k": ["valid anagram"], "a": "Two strings are anagrams if sorted forms match or character counts match."},
+  {"k": ["first unique character"], "a": "Count frequencies, then return the first index with count 1."},
+  {"k": ["climbing stairs"], "a": "Ways to climb n stairs taking 1 or 2 steps is Fibonacci-like DP."},
+  {"k": ["maximum depth binary tree"], "a": "Depth = 1 + max(depth(left), depth(right)); empty tree depth 0."},
+  {"k": ["invert binary tree"], "a": "Swap left/right children recursively or with a queue."},
+  {"k": ["contains duplicate"], "a": "Use a set; if an element is already present, a duplicate exists."},
+  {"k": ["product except self"], "a": "Build prefix and suffix products so each index multiplies all others without division."},
+  {"k": ["number of islands"], "a": "DFS/BFS flood-fill each unvisited land cell and count components."},
+  {"k": ["meeting rooms"], "a": "Sort intervals by start; check overlaps or use a min-heap of end times."}
+]
