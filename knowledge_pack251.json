@@ -1,0 +1,12 @@
+[
+  {"k": ["dummy object"], "a": "Dummies fill parameter lists but are never used."},
+  {"k": ["fake object"], "a": "Fakes work with simplified implementations (in-memory DB)."},
+  {"k": ["stub returns"], "a": "Stubs provide canned answers to calls."},
+  {"k": ["mock expectations"], "a": "Mocks verify interactions were made as expected."},
+  {"k": ["spy partial"], "a": "Spies wrap real objects and record calls."},
+  {"k": ["when to mock"], "a": "Mock external systems; prefer fakes for your own domain logic."},
+  {"k": ["over mocking"], "a": "Over-mocking couples tests to implementation details."},
+  {"k": ["contract vs mock"], "a": "Contracts test real integration boundaries; mocks isolate units."},
+  {"k": ["time mock"], "a": "Freeze time for deterministic scheduling tests."},
+  {"k": ["random seed tests"], "a": "Seed RNGs for reproducible randomized tests."}
+]
