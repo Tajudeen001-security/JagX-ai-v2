@@ -1,0 +1,12 @@
+[
+  {"k": ["retrieval precision"], "a": "Fraction of retrieved chunks that are relevant."},
+  {"k": ["retrieval recall"], "a": "Fraction of relevant chunks that were retrieved."},
+  {"k": ["faithfulness answer"], "a": "Faithfulness measures whether the answer sticks to sources."},
+  {"k": ["answer relevance"], "a": "Does the answer actually address the user question?"},
+  {"k": ["context relevance"], "a": "Are retrieved contexts useful for the question?"},
+  {"k": ["hallucination rate"], "a": "Track invented facts not supported by retrieved docs."},
+  {"k": ["chunking experiments"], "a": "Tune chunk size/overlap with retrieval metrics."},
+  {"k": ["hybrid retrieval eval"], "a": "Compare BM25, vector, and hybrid on the same gold set."},
+  {"k": ["rag offline online eval"], "a": "Offline gold sets plus online user feedback."},
+  {"k": ["citation required mode"], "a": "Require answers to quote or cite retrieved passages."}
+]
