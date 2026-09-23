@@ -1,0 +1,12 @@
+[
+  {"k": ["gcp compute engine"], "a": "Compute Engine is GCP's virtual machine service."},
+  {"k": ["gcp cloud run"], "a": "Cloud Run runs containers serverless with request-based scaling."},
+  {"k": ["gcp bigquery"], "a": "BigQuery is a serverless analytical data warehouse."},
+  {"k": ["gcp gke"], "a": "GKE is Google Kubernetes Engine."},
+  {"k": ["azure vm"], "a": "Azure Virtual Machines provide IaaS compute."},
+  {"k": ["azure functions"], "a": "Azure Functions is Microsoft's serverless functions platform."},
+  {"k": ["azure aks"], "a": "AKS is Azure Kubernetes Service."},
+  {"k": ["azure blob storage"], "a": "Blob Storage is Azure's object storage."},
+  {"k": ["cloud iam least privilege"], "a": "Grant only required roles; prefer short-lived credentials."},
+  {"k": ["multi cloud"], "a": "Multi-cloud uses more than one provider; adds resilience and complexity."}
+]
