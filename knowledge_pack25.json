@@ -1,0 +1,18 @@
+[
+  {"k": ["what is readme"], "a": "A README explains what a project is, how to install it, and how to use it."},
+  {"k": ["what is changelog"], "a": "A changelog lists notable changes for each version of a project."},
+  {"k": ["what is license mit"], "a": "MIT License is a permissive open-source license allowing reuse with attribution."},
+  {"k": ["what is open source"], "a": "Open source software shares source code so others can use, study, and improve it under a license."},
+  {"k": ["code comment best practice"], "a": "Comment why, not what. Prefer clear names so code is self-explanatory."},
+  {"k": ["what is technical debt"], "a": "Technical debt is the cost of quick shortcuts that make future changes harder."},
+  {"k": ["what is refactoring"], "a": "Refactoring improves code structure without changing external behavior."},
+  {"k": ["what is pair programming"], "a": "Pair programming is two developers working together on the same code."},
+  {"k": ["what is rubber duck"], "a": "Rubber duck debugging means explaining your code out loud to find bugs."},
+  {"k": ["how to ask good questions"], "a": "State the goal, what you tried, exact error messages, and a minimal example."},
+  {"k": ["what is rfc"], "a": "An RFC is a Request for Comments — a design proposal document for discussion."},
+  {"k": ["what is adr"], "a": "An ADR (Architecture Decision Record) documents why a technical decision was made."},
+  {"k": ["write good commit message"], "a": "Use a short imperative summary (e.g. Fix login timeout) and optional body for details."},
+  {"k": ["what is linter"], "a": "A linter statically analyzes code for bugs and style issues."},
+  {"k": ["what is formatter"], "a": "A formatter auto-rewrites code layout for consistent style."},
+  {"k": ["what is code smell"], "a": "A code smell is a sign the design may need cleanup (not necessarily a bug)."}
+]
