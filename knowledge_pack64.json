@@ -1,0 +1,14 @@
+[
+  {"k": ["mobile first design"], "a": "Design for small screens first, then enhance for larger breakpoints."},
+  {"k": ["touch target size"], "a": "Touch targets should be large enough (about 44×44 pt/dp minimum guidance)."},
+  {"k": ["offline first"], "a": "Offline-first apps cache data and sync when connectivity returns."},
+  {"k": ["app permissions"], "a": "Request permissions in context and explain why they are needed."},
+  {"k": ["deep linking mobile"], "a": "Universal/App Links open specific app screens from web URLs."},
+  {"k": ["push permission"], "a": "Ask for notification permission after demonstrating value, not on first launch only."},
+  {"k": ["app crash reporting"], "a": "Use crash reporters (e.g. Sentry/Firebase Crashlytics) to fix stability issues."},
+  {"k": ["app versioning"], "a": "Use semantic-ish version codes/names required by Play Store and App Store."},
+  {"k": ["testflight"], "a": "TestFlight distributes iOS betas to testers before App Store release."},
+  {"k": ["play internal testing"], "a": "Play Console internal/closed testing tracks release Android builds to testers."},
+  {"k": ["app size optimization"], "a": "Reduce APK/IPA size with splits, compression, and removing unused resources."},
+  {"k": ["biometric auth"], "a": "Biometrics (fingerprint/face) improve UX but need secure fallback PINs."}
+]
