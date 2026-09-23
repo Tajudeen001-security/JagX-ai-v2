@@ -1,0 +1,12 @@
+[
+  {"k": ["log identities"], "a": "log(ab)=log a + log b; log(a/b)=log a - log b; log(a^k)=k log a"},
+  {"k": ["modular inverse"], "a": "a has inverse mod m if gcd(a,m)=1; use extended Euclid."},
+  {"k": ["combinations identity"], "a": "C(n,k)=C(n-1,k-1)+C(n-1,k)"},
+  {"k": ["geometric series"], "a": "Sum r^i from 0 to n-1 = (1-r^n)/(1-r) for r≠1"},
+  {"k": ["expected value linearity"], "a": "E[X+Y]=E[X]+E[Y] always, even if dependent."},
+  {"k": ["bayes interview form"], "a": "Posterior ∝ likelihood × prior; normalize by total probability."},
+  {"k": ["big o common"], "a": "O(1)<O(log n)<O(n)<O(n log n)<O(n²)<O(2^n)"},
+  {"k": ["hash collision birthday"], "a": "Birthday paradox: collisions become likely around sqrt of space size."},
+  {"k": ["matrix multiply complexity"], "a": "Naive matrix multiply is O(n³); better algorithms exist but are complex."},
+  {"k": ["derivative interview"], "a": "Know power, product, chain rules cold for calculus questions."}
+]
