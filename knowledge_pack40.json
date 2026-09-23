@@ -1,0 +1,18 @@
+[
+  {"k": ["paystack"], "a": "Paystack is a popular Nigerian payment gateway for accepting cards and transfers online."},
+  {"k": ["flutterwave"], "a": "Flutterwave is an African payment technology company widely used in Nigeria."},
+  {"k": ["interswitch"], "a": "Interswitch is a Nigerian digital payments and switching company."},
+  {"k": ["nibss"], "a": "NIBSS operates shared payment infrastructure in Nigeria including NIP transfers."},
+  {"k": ["nip transfer"], "a": "NIP is Nigeria Inter-Bank Settlement System Instant Payment for fast bank transfers."},
+  {"k": ["ussd banking"], "a": "USSD banking lets customers do transactions with codes like *737# without mobile data."},
+  {"k": ["nigeria fintech"], "a": "Nigeria has a large fintech scene covering payments, lending, savings, and business tools."},
+  {"k": ["lagos tech"], "a": "Lagos is Nigeria's main tech hub with startups, hubs, and investors."},
+  {"k": ["andela"], "a": "Andela is a well-known company that trained and placed software engineers across Africa."},
+  {"k": ["nigerian startups"], "a": "Notable Nigerian startups have operated in payments, logistics, energy, and commerce."},
+  {"k": ["data protection nigeria"], "a": "Nigeria has data protection rules; the NDPR/framework governs personal data handling."},
+  {"k": ["cac nigeria"], "a": "CAC is the Corporate Affairs Commission for registering companies in Nigeria."},
+  {"k": ["tin nigeria"], "a": "TIN is a Tax Identification Number used for tax administration in Nigeria."},
+  {"k": ["naira api payments"], "a": "Payment APIs in Nigeria typically support cards, bank transfer, USSD, and sometimes wallets."},
+  {"k": ["pos nigeria"], "a": "POS agents and terminals are widely used for cash-in/cash-out and card payments in Nigeria."},
+  {"k": ["mobile money nigeria"], "a": "Mobile money and wallet services complement banks for everyday payments in Nigeria."}
+]
