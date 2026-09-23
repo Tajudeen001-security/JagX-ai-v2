@@ -1,0 +1,12 @@
+[
+  {"k": ["hls streaming"], "a": "HLS splits video into segments with a playlist for adaptive bitrate."},
+  {"k": ["dash streaming"], "a": "DASH is an adaptive streaming standard similar in idea to HLS."},
+  {"k": ["transcoding"], "a": "Transcoding converts video to multiple bitrates/resolutions/codecs."},
+  {"k": ["ffmpeg"], "a": "FFmpeg is the Swiss-army tool for media convert, cut, and probe."},
+  {"k": ["keyframe interval"], "a": "Keyframe interval affects seekability and segment boundaries."},
+  {"k": ["video bitrate"], "a": "Bitrate controls quality vs file size; ABR switches ladders by network."},
+  {"k": ["rtmp ingest"], "a": "RTMP is commonly used to ingest live streams to a media server."},
+  {"k": ["cdn for video"], "a": "Video CDNs cache segments near viewers for scale."},
+  {"k": ["drm video"], "a": "DRM systems protect premium content with encrypted playback licenses."},
+  {"k": ["thumbnail sprite"], "a": "Sprite sheets enable hover previews on seek bars."}
+]
