@@ -1,0 +1,18 @@
+[
+  {"k": ["big o practical"], "a": "Prefer O(1)/O(log n)/O(n) over O(n²) for large inputs; measure before micro-optimizing."},
+  {"k": ["premature optimization"], "a": "Premature optimization is tuning before you know the real bottleneck — profile first."},
+  {"k": ["profiling"], "a": "Profiling measures where time/memory is spent so you optimize the hot path."},
+  {"k": ["caching strategy"], "a": "Cache expensive results; set TTL; invalidate on writes; watch for stale data."},
+  {"k": ["n+1 fix"], "a": "Fix N+1 queries with joins, batch fetches, or eager loading."},
+  {"k": ["pagination performance"], "a": "Prefer keyset/cursor pagination over large OFFSET for big tables."},
+  {"k": ["index selectivity"], "a": "Indexes help most on selective columns frequently used in WHERE/JOIN."},
+  {"k": ["lazy loading"], "a": "Lazy loading defers work until needed; can hurt if it causes many small loads."},
+  {"k": ["eager loading"], "a": "Eager loading fetches related data upfront to avoid later round-trips."},
+  {"k": ["cdn performance"], "a": "CDNs cut latency by serving static assets from edge locations near users."},
+  {"k": ["gzip brotli"], "a": "Compress HTTP responses (gzip/brotli) to reduce transfer size."},
+  {"k": ["connection pooling"], "a": "Pool DB/HTTP connections to avoid expensive connect/handshake per request."},
+  {"k": ["batch processing"], "a": "Batch many small operations into fewer larger ones to cut overhead."},
+  {"k": ["memory leak"], "a": "A memory leak retains unused memory — watch growing RSS and unbounded caches."},
+  {"k": ["hot path"], "a": "The hot path is the code executed most frequently; optimize it first."},
+  {"k": ["latency vs throughput"], "a": "Latency is time per request; throughput is requests per second — tune for your goal."}
+]
