@@ -1,0 +1,12 @@
+[
+  {"k": ["adapter pattern"], "a": "Adapter converts one interface into another clients expect."},
+  {"k": ["decorator pattern"], "a": "Decorator adds behavior to objects dynamically without changing their class."},
+  {"k": ["strategy pattern"], "a": "Strategy swaps algorithms behind a common interface."},
+  {"k": ["command pattern"], "a": "Command encapsulates a request as an object (undo, queues, logging)."},
+  {"k": ["template method"], "a": "Template Method defines an algorithm skeleton with overridable steps."},
+  {"k": ["proxy pattern"], "a": "Proxy controls access to another object (lazy load, access control, remote)."},
+  {"k": ["builder pattern"], "a": "Builder constructs complex objects step by step."},
+  {"k": ["facade pattern"], "a": "Facade provides a simple interface to a complex subsystem."},
+  {"k": ["iterator pattern"], "a": "Iterator provides sequential access without exposing underlying representation."},
+  {"k": ["state pattern"], "a": "State lets an object change behavior when its internal state changes."}
+]
