@@ -1,0 +1,12 @@
+[
+  {"k": ["row number sql"], "a": "ROW_NUMBER() assigns unique ranks within a partition ordered by a key."},
+  {"k": ["rank vs dense rank"], "a": "RANK leaves gaps after ties; DENSE_RANK does not."},
+  {"k": ["lag lead sql"], "a": "LAG/LEAD access previous/next row values without self-joins."},
+  {"k": ["running total sql"], "a": "SUM(x) OVER (ORDER BY t) computes a running total."},
+  {"k": ["moving average sql"], "a": "AVG(x) OVER (ORDER BY t ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)."},
+  {"k": ["ntile sql"], "a": "NTILE(n) buckets rows into n roughly equal groups."},
+  {"k": ["partition by sql"], "a": "PARTITION BY resets window calculations per group."},
+  {"k": ["first value sql"], "a": "FIRST_VALUE/LAST_VALUE return boundary values in the window frame."},
+  {"k": ["qualify clause"], "a": "Some engines support QUALIFY to filter on window function results."},
+  {"k": ["window frame clause"], "a": "ROWS/RANGE define which neighboring rows are included in the frame."}
+]
