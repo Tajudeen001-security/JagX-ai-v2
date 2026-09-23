@@ -1,0 +1,12 @@
+[
+  {"k": ["empty states design"], "a": "Empty states should teach and guide the next action."},
+  {"k": ["loading states"], "a": "Skeletons/spinners prevent layout jumps and confusion."},
+  {"k": ["error states ux"], "a": "Explain what failed and how to recover."},
+  {"k": ["permission denied ux"], "a": "Tell users why access is denied and what to do next."},
+  {"k": ["destructive confirm"], "a": "Confirm deletes with the resource name typed if high impact."},
+  {"k": ["undo when possible"], "a": "Soft-delete + undo reduces costly mistakes."},
+  {"k": ["defaults matter"], "a": "Safe, smart defaults beat complex configuration."},
+  {"k": ["progressive disclosure"], "a": "Show advanced options only when needed."},
+  {"k": ["consistency design"], "a": "Same actions should look and behave the same across the app."},
+  {"k": ["accessibility built in"], "a": "Design with keyboard, contrast, and labels from the start."}
+]
