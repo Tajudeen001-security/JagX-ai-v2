@@ -1,0 +1,12 @@
+[
+  {"k": ["smtp"], "a": "SMTP sends email between servers."},
+  {"k": ["imap"], "a": "IMAP lets clients read and manage mail on the server."},
+  {"k": ["pop3"], "a": "POP3 downloads mail to a client, often removing it from the server."},
+  {"k": ["spf dkim dmarc"], "a": "SPF/DKIM/DMARC authenticate senders and reduce spoofing/phishing."},
+  {"k": ["transactional email"], "a": "Transactional email is triggered by product events (signup, receipt)."},
+  {"k": ["email deliverability"], "a": "Deliverability depends on reputation, authentication, content, and engagement."},
+  {"k": ["bounce email"], "a": "Bounces signal invalid addresses; hard bounces should be suppressed."},
+  {"k": ["mime email"], "a": "MIME structures multipart email (text, HTML, attachments)."},
+  {"k": ["email queue"], "a": "Send email asynchronously via a queue so web requests stay fast."},
+  {"k": ["unsubscribe link"], "a": "Marketing mail must include a working unsubscribe mechanism where required."}
+]
