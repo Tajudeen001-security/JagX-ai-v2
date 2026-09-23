@@ -1,0 +1,14 @@
+[
+  {"k": ["k8s pod"], "a": "A Pod is the smallest deployable unit — one or more containers sharing network/storage."},
+  {"k": ["k8s deployment"], "a": "A Deployment manages replica Pods and rolling updates."},
+  {"k": ["k8s service"], "a": "A Service provides a stable virtual IP/DNS to reach Pods."},
+  {"k": ["k8s ingress"], "a": "Ingress routes external HTTP(S) traffic to Services with rules/hosts."},
+  {"k": ["k8s configmap"], "a": "ConfigMaps inject non-secret configuration into Pods."},
+  {"k": ["k8s secret"], "a": "Secrets store sensitive data (base64-encoded by default; encrypt at rest in prod)."},
+  {"k": ["k8s namespace"], "a": "Namespaces isolate resources within a cluster for teams/environments."},
+  {"k": ["k8s liveness probe"], "a": "Liveness probes restart containers that are stuck."},
+  {"k": ["k8s readiness probe"], "a": "Readiness probes control when a Pod receives traffic."},
+  {"k": ["k8s hpa"], "a": "Horizontal Pod Autoscaler scales replicas based on CPU/metrics."},
+  {"k": ["kubectl get pods"], "a": "```bash\nkubectl get pods -A\n```"},
+  {"k": ["kubectl logs"], "a": "```bash\nkubectl logs pod-name -c container\n```"}
+]
