@@ -1,0 +1,14 @@
+[
+  {"k": ["docker multi stage"], "a": "Multi-stage builds compile in one stage and copy artifacts into a slim runtime image."},
+  {"k": ["docker layer cache"], "a": "Order Dockerfile instructions from least to most changing to maximize layer cache hits."},
+  {"k": ["docker .dockerignore"], "a": ".dockerignore excludes files from the build context (like .gitignore)."},
+  {"k": ["docker healthcheck"], "a": "HEALTHCHECK tells orchestrators if a container is still healthy."},
+  {"k": ["docker volumes"], "a": "Volumes persist data beyond container lifetime."},
+  {"k": ["docker networks"], "a": "User-defined bridges let containers resolve each other by name."},
+  {"k": ["docker compose depends"], "a": "depends_on controls start order but not full readiness; use healthchecks."},
+  {"k": ["docker entrypoint vs cmd"], "a": "ENTRYPOINT is the main executable; CMD supplies default args."},
+  {"k": ["docker non root"], "a": "Run as non-root user in images to reduce privilege risk."},
+  {"k": ["docker image scan"], "a": "Scan images for CVEs before deploying to production."},
+  {"k": ["docker buildx"], "a": "buildx builds multi-architecture images (amd64/arm64)."},
+  {"k": ["docker logs"], "a": "```bash\ndocker logs -f container_name\n```"}
+]
