@@ -1,0 +1,12 @@
+[
+  {"k": ["webhook retry policy"], "a": "Retry with exponential backoff on 5xx and network errors."},
+  {"k": ["webhook signature"], "a": "HMAC signatures let receivers verify authenticity."},
+  {"k": ["webhook idempotency"], "a": "Receivers must handle duplicate deliveries safely."},
+  {"k": ["webhook timeout"], "a": "Receivers should respond quickly and process async."},
+  {"k": ["webhook event types"], "a": "Version and document event type strings clearly."},
+  {"k": ["webhook endpoint security"], "a": "Require HTTPS and rotate signing secrets."},
+  {"k": ["webhook replay protection"], "a": "Include timestamps and reject old signed payloads."},
+  {"k": ["webhook delivery logs"], "a": "Store delivery attempts for debugging customer integrations."},
+  {"k": ["webhook circuit breaker"], "a": "Pause delivery to chronically failing endpoints temporarily."},
+  {"k": ["webhook test ping"], "a": "Provide a send-test-event tool in the developer dashboard."}
+]
