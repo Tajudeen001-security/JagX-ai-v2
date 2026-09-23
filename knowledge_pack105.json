@@ -1,0 +1,12 @@
+[
+  {"k": ["bernoulli distribution"], "a": "Bernoulli is a single yes/no trial with success probability p."},
+  {"k": ["binomial distribution"], "a": "Binomial counts successes in n independent Bernoulli trials."},
+  {"k": ["poisson distribution"], "a": "Poisson models counts of rare events in a fixed interval with rate λ."},
+  {"k": ["exponential distribution"], "a": "Exponential models waiting times between Poisson events."},
+  {"k": ["uniform distribution"], "a": "Uniform assigns equal probability over an interval or discrete set."},
+  {"k": ["gaussian distribution"], "a": "Gaussian/Normal is the bell curve fully specified by mean and variance."},
+  {"k": ["law of total probability"], "a": "P(A) = Σ P(A|B_i)P(B_i) for a partition {B_i}."},
+  {"k": ["covariance"], "a": "Cov(X,Y) measures joint variation; positive means they tend to move together."},
+  {"k": ["correlation coefficient"], "a": "Correlation is normalized covariance in [-1, 1]."},
+  {"k": ["markov inequality"], "a": "For nonnegative X, P(X ≥ a) ≤ E[X]/a for a > 0."}
+]
