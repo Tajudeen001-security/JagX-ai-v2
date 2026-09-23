@@ -1,0 +1,12 @@
+[
+  {"k": ["portfolio project ideas"], "a": "API backend, full-stack app, CLI tool, or data pipeline with real users."},
+  {"k": ["readme quality"], "a": "Problem, demo, stack, setup, architecture diagram, and screenshots."},
+  {"k": ["deploy your project"], "a": "A live URL beats a repo-only project for many roles."},
+  {"k": ["tests in portfolio"], "a": "Include tests to signal engineering maturity."},
+  {"k": ["ci badge"], "a": "Green CI badges show automated checks."},
+  {"k": ["write a case study"], "a": "Explain trade-offs and what you would improve next."},
+  {"k": ["open source contributions"], "a": "Meaningful PRs to real projects demonstrate collaboration."},
+  {"k": ["scope portfolio"], "a": "Depth in one polished project beats ten unfinished toys."},
+  {"k": ["security basics shown"], "a": "Auth, validation, and secrets handling impress reviewers."},
+  {"k": ["metrics on project"], "a": "Share users, latency, or cost savings when you have them."}
+]
