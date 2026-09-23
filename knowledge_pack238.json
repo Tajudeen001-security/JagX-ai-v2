@@ -1,0 +1,12 @@
+[
+  {"k": ["scope triangle"], "a": "Scope, time, and resources trade off; quality is not free."},
+  {"k": ["negotiate deadlines"], "a": "Bring options: cut scope, add people, or move date."},
+  {"k": ["written agreements"], "a": "Confirm scope changes in writing."},
+  {"k": ["mvp for stakeholders"], "a": "Offer a thinner slice that still delivers learning/value."},
+  {"k": ["risk register"], "a": "List risks with owners and mitigations early."},
+  {"k": ["estimate ranges"], "a": "Give ranges with assumptions, not false precision."},
+  {"k": ["change request process"], "a": "Define how new requests affect timeline and cost."},
+  {"k": ["say no with alternatives"], "a": "No + alternative preserves relationships better than soft maybes."},
+  {"k": ["success metrics project"], "a": "Agree how success will be measured before build."},
+  {"k": ["demo early"], "a": "Early demos surface misunderstandings cheaply."}
+]
