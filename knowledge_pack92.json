@@ -1,0 +1,12 @@
+[
+  {"k": ["cpu scheduling"], "a": "CPU scheduling decides which ready process runs next on a core."},
+  {"k": ["round robin scheduling"], "a": "Round robin gives each process a time slice in cyclic order."},
+  {"k": ["priority scheduling"], "a": "Priority scheduling runs higher-priority processes first (risk of starvation)."},
+  {"k": ["multilevel queue"], "a": "Multilevel queues separate process types (interactive vs batch) with different policies."},
+  {"k": ["context switch cost"], "a": "Context switches save/restore state and can be expensive if too frequent."},
+  {"k": ["page fault"], "a": "A page fault occurs when a needed page is not in physical memory."},
+  {"k": ["thrashing"], "a": "Thrashing is excessive paging that collapses useful work."},
+  {"k": ["copy on write"], "a": "COW shares pages until a write occurs, then copies — efficient forks."},
+  {"k": ["user mode kernel mode"], "a": "User mode is restricted; kernel mode can access hardware and privileged instructions."},
+  {"k": ["interrupt handling"], "a": "Interrupts signal the CPU to pause and run a handler for devices or timers."}
+]
