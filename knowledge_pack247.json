@@ -1,0 +1,12 @@
+[
+  {"k": ["github codespaces"], "a": "Codespaces provides cloud dev environments from a repo."},
+  {"k": ["github packages"], "a": "GitHub Packages hosts container and language packages."},
+  {"k": ["github environments"], "a": "Environments gate deployments with secrets and reviewers."},
+  {"k": ["github oidc"], "a": "OIDC federation issues short-lived cloud creds to Actions."},
+  {"k": ["github rulesets"], "a": "Rulesets enforce branch policies at scale."},
+  {"k": ["github merge queue"], "a": "Merge queues serialize merges to keep main green."},
+  {"k": ["github security advisories"], "a": "Private vulnerability reporting and advisory publishing."},
+  {"k": ["github copilot pr"], "a": "AI assistants can draft tests and summaries; humans still review."},
+  {"k": ["github project boards"], "a": "Projects track issues/PRs with custom fields."},
+  {"k": ["github release assets"], "a": "Attach binaries and checksums to releases."}
+]
