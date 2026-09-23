@@ -1,0 +1,22 @@
+[
+  {"k": ["nigeria time zone"], "a": "Nigeria uses West Africa Time (WAT), which is UTC+1 all year (no daylight saving)."},
+  {"k": ["nigeria phone code"], "a": "Nigeria's country calling code is +234."},
+  {"k": ["nigeria domain"], "a": "Nigeria's country-code top-level domain is .ng"},
+  {"k": ["abuja"], "a": "Abuja is the capital city of Nigeria and the seat of the federal government."},
+  {"k": ["port harcourt"], "a": "Port Harcourt is a major city in Rivers State and an important oil and gas hub."},
+  {"k": ["kano"], "a": "Kano is a major commercial city in northern Nigeria with a long trading history."},
+  {"k": ["ibadan"], "a": "Ibadan is a large city in southwestern Nigeria and the capital of Oyo State."},
+  {"k": ["niger river"], "a": "The Niger River is West Africa's main river and flows through several countries including Nigeria."},
+  {"k": ["ecowas"], "a": "ECOWAS is the Economic Community of West African States, a regional political and economic union."},
+  {"k": ["naira symbol"], "a": "The Nigerian Naira is often written as NGN or with the ₦ symbol."},
+  {"k": ["nigeria banks"], "a": "Major Nigerian banks include Access, GTBank, Zenith, First Bank, UBA, and others regulated by the CBN."},
+  {"k": ["cbn"], "a": "CBN is the Central Bank of Nigeria, which manages monetary policy and the currency."},
+  {"k": ["nin nigeria"], "a": "NIN is the National Identification Number used for identity verification in Nigeria."},
+  {"k": ["bvn nigeria"], "a": "BVN is the Bank Verification Number used to uniquely identify bank customers in Nigeria."},
+  {"k": ["ussd nigeria"], "a": "USSD codes (like *737#) let users do banking and services on phones without internet."},
+  {"k": ["mtn nigeria"], "a": "MTN is one of Nigeria's largest mobile network operators."},
+  {"k": ["airtel nigeria"], "a": "Airtel is a major mobile network operator in Nigeria."},
+  {"k": ["glo nigeria"], "a": "Glo (Globacom) is a Nigerian telecommunications company."},
+  {"k": ["9mobile"], "a": "9mobile is a mobile network operator in Nigeria (formerly Etisalat Nigeria)."},
+  {"k": ["jAMB"], "a": "JAMB runs the Unified Tertiary Matriculation Examination (UTME) for entry into Nigerian universities."}
+]
