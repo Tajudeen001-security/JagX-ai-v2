@@ -1,0 +1,12 @@
+[
+  {"k": ["nip timeout"], "a": "Bank transfers can be delayed; design pending states and webhooks."},
+  {"k": ["ussd session limit"], "a": "USSD sessions are short; keep menus shallow."},
+  {"k": ["bvn nin privacy"], "a": "Treat BVN/NIN as highly sensitive PII with strict access controls."},
+  {"k": ["naira subunits"], "a": "Store amounts in kobo integers when using NGN."},
+  {"k": ["payment webhook verify"], "a": "Verify Paystack/Flutterwave signatures before trusting events."},
+  {"k": ["duplicate payment protect"], "a": "Idempotency keys and unique business references prevent double charge."},
+  {"k": ["settlement lag"], "a": "Settlement may lag authorization; do not spend unsettled funds."},
+  {"k": ["chargeback nigeria"], "a": "Keep evidence of delivery/consent for disputes."},
+  {"k": ["pos agent flows"], "a": "Offline-ish agent networks need clear reconciliation processes."},
+  {"k": ["multi bank test"], "a": "Test transfers across multiple banks; behaviors differ."}
+]
