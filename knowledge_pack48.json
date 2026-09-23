@@ -1,0 +1,17 @@
+[
+  {"k": ["python gil explained"], "a": "The GIL serializes bytecode execution in CPython; use multiprocessing or native extensions for CPU-bound parallelism."},
+  {"k": ["python slots"], "a": "__slots__ limits instance attributes and can save memory."},
+  {"k": ["python descriptor"], "a": "Descriptors customize attribute access via __get__/__set__/__delete__."},
+  {"k": ["python metaclass"], "a": "A metaclass is the class of a class — it controls class creation."},
+  {"k": ["python contextvars"], "a": "contextvars store context-local state safe for async code."},
+  {"k": ["python typing protocol"], "a": "typing.Protocol defines structural typing (duck typing with types)."},
+  {"k": ["python dataclass field"], "a": "```python\nfrom dataclasses import dataclass, field\n@dataclass\nclass C:\n    items: list = field(default_factory=list)\n```"},
+  {"k": ["python pathlib glob"], "a": "```python\nfrom pathlib import Path\nlist(Path('.').glob('**/*.py'))\n```"},
+  {"k": ["python venv vs poetry"], "a": "venv is built-in virtualenvs; Poetry manages dependencies and packaging more fully."},
+  {"k": ["python wheel"], "a": "A wheel (.whl) is a built package format for fast pip installs."},
+  {"k": ["python entry points"], "a": "Entry points expose CLI commands from installed packages."},
+  {"k": ["python __name__ main"], "a": "```python\nif __name__ == '__main__':\n    main()\n```"},
+  {"k": ["python itertools"], "a": "itertools provides efficient iterators (chain, groupby, product, etc.)."},
+  {"k": ["python functools lru"], "a": "```python\nfrom functools import lru_cache\n@lru_cache(maxsize=128)\ndef f(x): ...\n```"},
+  {"k": ["python multiprocessing"], "a": "multiprocessing runs separate processes to bypass the GIL for CPU-bound work."}
+]
