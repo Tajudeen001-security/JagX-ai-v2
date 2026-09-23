@@ -1,0 +1,14 @@
+[
+  {"k": ["html semantic tags"], "a": "Use semantic tags like header, nav, main, article, section, footer for structure and accessibility."},
+  {"k": ["html form validation"], "a": "HTML5 validation uses required, type=email, min/max, pattern before submit."},
+  {"k": ["aria label"], "a": "aria-label provides an accessible name when visible text is missing."},
+  {"k": ["aria live"], "a": "aria-live regions announce dynamic updates to screen readers."},
+  {"k": ["keyboard navigation"], "a": "All interactive controls should be reachable and usable with the keyboard (Tab, Enter, Space)."},
+  {"k": ["focus visible"], "a": "Never remove focus outlines without a clear :focus-visible replacement."},
+  {"k": ["alt text"], "a": "alt text describes images for screen readers and when images fail to load."},
+  {"k": ["html meta viewport"], "a": "```html\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n```"},
+  {"k": ["html doctype"], "a": "<!DOCTYPE html> puts the browser in standards mode."},
+  {"k": ["html canvas"], "a": "<canvas> draws 2D/WebGL graphics via JavaScript."},
+  {"k": ["html local storage vs session"], "a": "localStorage persists; sessionStorage clears when the tab closes."},
+  {"k": ["html defer async"], "a": "script defer runs after HTML parse in order; async runs when downloaded, order not guaranteed."}
+]
