@@ -1,0 +1,12 @@
+[
+  {"k": ["redis distributed lock"], "a": "Use Redlock or SET NX PX carefully; prefer single-instance locks when possible."},
+  {"k": ["redis leaderboard"], "a": "Sorted sets power leaderboards with ZADD/ZRANGE."},
+  {"k": ["redis session store"], "a": "Store session blobs with TTL; rotate session ids on login."},
+  {"k": ["redis cache stampede lock"], "a": "Only one worker rebuilds a missing hot key; others wait or serve stale."},
+  {"k": ["redis bloom"], "a": "Bloom filters quickly test set membership with false positives."},
+  {"k": ["redis geo"], "a": "GEO commands store coordinates for radius queries."},
+  {"k": ["redis streams consumer group"], "a": "Consumer groups share stream processing like Kafka lite."},
+  {"k": ["redis memory policies"], "a": "maxmemory-policy (e.g. allkeys-lru) defines eviction under pressure."},
+  {"k": ["redis pipeline vs transaction"], "a": "Pipelines batch for speed; MULTI/EXEC groups atomically."},
+  {"k": ["redis key naming"], "a": "Use namespaced keys: app:tenant:object:id."}
+]
