@@ -1,0 +1,12 @@
+[
+  {"k": ["rag pipeline"], "a": "RAG: ingest → chunk → embed → store → retrieve → prompt → generate."},
+  {"k": ["chunk size rag"], "a": "Chunk size balances context quality vs retrieval precision; overlap helps continuity."},
+  {"k": ["prompt injection"], "a": "Prompt injection tricks models via hostile user content; sanitize and isolate tools."},
+  {"k": ["tool calling llm"], "a": "Tool calling lets models request functions; validate all arguments server-side."},
+  {"k": ["eval harness"], "a": "Build offline eval sets to measure accuracy, latency, and regressions."},
+  {"k": ["guardrails ai"], "a": "Guardrails filter unsafe inputs/outputs and enforce policy."},
+  {"k": ["model routing"], "a": "Route simple queries to fast cheap models and hard ones to stronger models."},
+  {"k": ["caching llm"], "a": "Cache identical prompts and embeddings to cut cost and latency."},
+  {"k": ["token budgeting"], "a": "Budget tokens for system, history, retrieved docs, and answer."},
+  {"k": ["human feedback loop"], "a": "Collect thumbs/edits to improve prompts, retrieval, and fine-tuning data."}
+]
