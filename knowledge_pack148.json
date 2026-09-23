@@ -1,0 +1,12 @@
+[
+  {"k": ["react concurrent features"], "a": "Concurrent React can interrupt rendering for higher-priority updates."},
+  {"k": ["react suspense"], "a": "Suspense shows fallback UI while lazy components or data resolve."},
+  {"k": ["react server components"], "a": "Server Components render on the server and reduce client bundle size."},
+  {"k": ["react useTransition"], "a": "useTransition marks updates as non-urgent to keep the UI responsive."},
+  {"k": ["react useDeferredValue"], "a": "useDeferredValue defers re-rendering with a lagging value."},
+  {"k": ["react portal"], "a": "Portals render children into a DOM node outside the parent hierarchy."},
+  {"k": ["react error boundary"], "a": "Error boundaries catch render errors and show fallback UI."},
+  {"k": ["react key remount"], "a": "Changing key forces React to remount a component and reset state."},
+  {"k": ["react context performance"], "a": "Split contexts and memoize values to avoid wide re-renders."},
+  {"k": ["react query"], "a": "TanStack Query manages server state: cache, retries, and invalidation."}
+]
