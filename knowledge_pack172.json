@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx chat not working"], "a": "Check /debug/llm, Render logs, GROQ_API_KEY, and GROQ_MODEL validity."},
+  {"k": ["jagx model not found"], "a": "Replace GROQ_MODEL with a model your Groq account supports."},
+  {"k": ["jagx empty local knowledge"], "a": "Ensure knowledge_pack*.json are in the repo root and service redeployed."},
+  {"k": ["jagx key rejected"], "a": "Confirm x-api-key header matches a permanent or created key."},
+  {"k": ["jagx slow cold start"], "a": "Free Render sleeps; ping /health with UptimeRobot every 5 minutes."},
+  {"k": ["jagx timeout errors"], "a": "Raise REQUEST_TIMEOUT modestly (e.g. 10–15s) and keep max_tokens reasonable."},
+  {"k": ["jagx add pack"], "a": "Commit knowledge_packN.json and redeploy; no server code change required."},
+  {"k": ["jagx admin create key"], "a": "POST /create-key with admin_secret, owner_label, tier."},
+  {"k": ["jagx identity"], "a": "JagX AI by JagX & JRILICENSE — permanent keys, coding+text focus."},
+  {"k": ["jagx success checks"], "a": "/health ok, /debug/status shows packs, /chat answers math and code."}
+]
