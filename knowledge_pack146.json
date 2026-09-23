@@ -1,0 +1,12 @@
+[
+  {"k": ["bem css"], "a": "BEM names blocks, elements, and modifiers: block__element--modifier."},
+  {"k": ["css modules"], "a": "CSS Modules scope class names locally to avoid global collisions."},
+  {"k": ["styled components"], "a": "CSS-in-JS libraries colocate styles with components."},
+  {"k": ["utility first css"], "a": "Utility-first (e.g. Tailwind) composes designs from small helper classes."},
+  {"k": ["css cascade layers"], "a": "@layer controls priority between resets, components, and utilities."},
+  {"k": ["design tokens"], "a": "Design tokens store shared colors, spacing, and typography as variables."},
+  {"k": ["critical css"], "a": "Inline critical CSS for above-the-fold content to speed first paint."},
+  {"k": ["css containment"], "a": "contain property limits layout/paint scope for performance isolation."},
+  {"k": ["css logical properties"], "a": "Logical properties (margin-inline) adapt better to writing modes/RTL."},
+  {"k": ["dark mode css"], "a": "Prefer prefers-color-scheme and token swaps over hard-coded themes only."}
+]
