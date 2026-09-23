@@ -1,0 +1,12 @@
+[
+  {"k": ["bit set clear toggle"], "a": "Set: x| (1<<i); clear: x&~(1<<i); toggle: x^(1<<i)."},
+  {"k": ["check power of two"], "a": "n>0 && (n & (n-1))==0"},
+  {"k": ["count set bits"], "a": "Brian Kernighan: n &= n-1 loops popcount times."},
+  {"k": ["xor swap properties"], "a": "XOR finds unique numbers and swaps without temps carefully."},
+  {"k": ["lowest set bit"], "a": "n & -n isolates the lowest set bit (two's complement)."},
+  {"k": ["bitmask subsets"], "a": "Iterate submasks for subset DP over small n."},
+  {"k": ["shift arithmetic logical"], "a": "Logical shifts fill zeros; arithmetic right shift sign-extends."},
+  {"k": ["endian bit care"], "a": "Bit layouts in files must specify endianness."},
+  {"k": ["bitfield flags"], "a": "Pack boolean flags into an integer for compact state."},
+  {"k": ["parity bit"], "a": "Parity is whether the number of 1-bits is odd or even."}
+]
