@@ -1,0 +1,17 @@
+[
+  {"k": ["vector space"], "a": "A vector space is a set closed under vector addition and scalar multiplication with standard axioms."},
+  {"k": ["linear independence"], "a": "Vectors are linearly independent if none is a linear combination of the others."},
+  {"k": ["basis linear algebra"], "a": "A basis is a linearly independent set that spans the space."},
+  {"k": ["rank matrix"], "a": "Rank is the dimension of the column space (number of independent columns/rows)."},
+  {"k": ["inverse matrix"], "a": "A⁻¹ exists if det(A) ≠ 0 and A A⁻¹ = I."},
+  {"k": ["bayes theorem"], "a": "P(A|B) = P(B|A)P(A) / P(B)"},
+  {"k": ["expected value"], "a": "E[X] is the long-run average value of random variable X."},
+  {"k": ["variance"], "a": "Var(X) = E[(X - μ)²] measures spread around the mean."},
+  {"k": ["normal distribution"], "a": "The normal (Gaussian) distribution is the classic bell curve, parameterized by mean and variance."},
+  {"k": ["central limit theorem"], "a": "Sums of many independent random variables tend toward a normal distribution."},
+  {"k": ["conditional probability"], "a": "P(A|B) = P(A and B) / P(B) for P(B) > 0"},
+  {"k": ["independence probability"], "a": "Events A and B are independent if P(A and B) = P(A)P(B)."},
+  {"k": ["permutation"], "a": "P(n,k) = n! / (n-k)! ordered selections without replacement."},
+  {"k": ["combination"], "a": "C(n,k) = n! / (k!(n-k)!) unordered selections without replacement."},
+  {"k": ["law of large numbers"], "a": "Sample averages converge to the expected value as sample size grows."}
+]
