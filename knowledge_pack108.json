@@ -1,0 +1,12 @@
+[
+  {"k": ["funnel analysis"], "a": "Funnels measure drop-off across sequential steps (view → signup → pay)."},
+  {"k": ["retention cohort"], "a": "Cohort retention tracks whether groups of users return over time."},
+  {"k": ["dau mau"], "a": "DAU/MAU are daily/monthly active users; ratio indicates stickiness."},
+  {"k": ["north star metric"], "a": "A north-star metric best captures the core value delivered to customers."},
+  {"k": ["event tracking"], "a": "Track product events with properties for analysis (not only page views)."},
+  {"k": ["attribution marketing"], "a": "Attribution assigns credit for conversions across channels/touchpoints."},
+  {"k": ["activation metric"], "a": "Activation is the moment a new user first experiences core value."},
+  {"k": ["engagement metric"], "a": "Engagement measures depth/frequency of product use."},
+  {"k": ["qualitative feedback"], "a": "Interviews and surveys explain the why behind quantitative trends."},
+  {"k": ["experiment design"], "a": "Define hypothesis, metric, sample size, duration, and guardrails before testing."}
+]
