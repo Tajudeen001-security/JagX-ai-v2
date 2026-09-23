@@ -1,0 +1,12 @@
+[
+  {"k": ["pdf structure"], "a": "PDFs contain pages, fonts, images, and optional text objects or scanned images."},
+  {"k": ["pdf text extraction"], "a": "Text-based PDFs extract cleanly; scanned PDFs need OCR."},
+  {"k": ["ocr engines"], "a": "Tesseract and cloud OCR convert image text to strings."},
+  {"k": ["pdf generation"], "a": "Libraries like reportlab, pdfkit, or headless Chromium generate PDFs."},
+  {"k": ["pdf accessibility"], "a": "Tagged PDFs and alt text improve accessibility."},
+  {"k": ["pdf size optimization"], "a": "Compress images, subset fonts, and remove unused objects."},
+  {"k": ["digital signature pdf"], "a": "PDF signatures verify integrity and signer identity."},
+  {"k": ["form fill pdf"], "a": "AcroForm fields can be filled programmatically."},
+  {"k": ["pdf malware"], "a": "Untrusted PDFs can embed scripts; sanitize and open carefully."},
+  {"k": ["docx vs pdf"], "a": "DOCX is editable structured XML; PDF is fixed-layout for exchange/print."}
+]
