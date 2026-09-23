@@ -1,0 +1,12 @@
+[
+  {"k": ["full backup"], "a": "A full backup copies the entire dataset."},
+  {"k": ["incremental backup"], "a": "Incremental backups store changes since the last backup."},
+  {"k": ["wal archiving"], "a": "Archiving write-ahead logs enables point-in-time recovery."},
+  {"k": ["backup encryption"], "a": "Encrypt backups at rest and in transit."},
+  {"k": ["test restore"], "a": "Untested backups are risky — restore regularly to staging."},
+  {"k": ["rpo planning"], "a": "RPO defines how much data loss is acceptable."},
+  {"k": ["rto planning"], "a": "RTO defines how fast you must be back online."},
+  {"k": ["offsite backups"], "a": "Keep copies in another region/provider."},
+  {"k": ["backup retention"], "a": "Retention balances cost, compliance, and recovery needs."},
+  {"k": ["logical vs physical backup"], "a": "Logical exports SQL/data; physical copies data files."}
+]
