@@ -1,0 +1,12 @@
+[
+  {"k": ["typescript utility types"], "a": "Partial, Required, Pick, Omit, Record, Readonly are common utility types."},
+  {"k": ["typescript discriminated union"], "a": "Discriminated unions use a shared tag field for safe narrowing."},
+  {"k": ["typescript type guard"], "a": "Type guards (is/asserts) narrow types in control flow."},
+  {"k": ["typescript conditional types"], "a": "T extends U ? X : Y enables type-level branching."},
+  {"k": ["typescript mapped types"], "a": "Mapped types transform each property of a type programmatically."},
+  {"k": ["typescript template literal types"], "a": "Template literal types build string types from parts."},
+  {"k": ["typescript satisfies"], "a": "satisfies checks a value matches a type without widening inference."},
+  {"k": ["typescript unknown vs any"], "a": "unknown is safe until narrowed; any disables checking."},
+  {"k": ["typescript strict null checks"], "a": "strictNullChecks makes null/undefined explicit in the type system."},
+  {"k": ["typescript declaration files"], "a": ".d.ts files describe types for JS libraries."}
+]
