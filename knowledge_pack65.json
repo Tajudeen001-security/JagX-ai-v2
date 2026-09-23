@@ -1,0 +1,14 @@
+[
+  {"k": ["roi formula"], "a": "ROI = (gain - cost) / cost"},
+  {"k": ["break even"], "a": "Break-even quantity = fixed costs / (price - variable cost per unit)"},
+  {"k": ["gross margin"], "a": "Gross margin = (revenue - COGS) / revenue"},
+  {"k": ["net margin"], "a": "Net margin = net profit / revenue"},
+  {"k": ["cagr"], "a": "CAGR = (end/start)^(1/years) - 1"},
+  {"k": ["npv"], "a": "NPV sums discounted cash flows minus initial investment."},
+  {"k": ["irr"], "a": "IRR is the discount rate that makes NPV zero."},
+  {"k": ["payback period"], "a": "Payback period is time to recover the initial investment from cash inflows."},
+  {"k": ["rule of 72"], "a": "Years to double ≈ 72 / interest rate percent."},
+  {"k": ["elasticity demand"], "a": "Price elasticity ≈ % change quantity / % change price"},
+  {"k": ["contribution margin"], "a": "Contribution margin = price - variable cost per unit"},
+  {"k": ["burn rate"], "a": "Burn rate is how fast a startup spends cash; runway = cash / burn."}
+]
