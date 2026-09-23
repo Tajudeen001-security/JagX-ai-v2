@@ -1,0 +1,12 @@
+[
+  {"k": ["contributing guide"], "a": "CONTRIBUTING.md explains how to set up, code style, and PR process."},
+  {"k": ["code of conduct"], "a": "A CoC sets community behavior expectations."},
+  {"k": ["issue templates"], "a": "Templates gather repro steps and environment details."},
+  {"k": ["label triage"], "a": "Labels (bug, enhancement, good first issue) organize work."},
+  {"k": ["semantic release oss"], "a": "Automate versioning from conventional commits."},
+  {"k": ["breaking change notice"], "a": "Call out breaking changes loudly in release notes."},
+  {"k": ["mentor first timers"], "a": "Good first issues with mentorship grow contributors."},
+  {"k": ["security policy oss"], "a": "SECURITY.md explains private vulnerability reporting."},
+  {"k": ["burnout maintainers"], "a": "Set boundaries; share ownership; it is okay to archive."},
+  {"k": ["cla dco"], "a": "Some projects require CLA or Developer Certificate of Origin."}
+]
