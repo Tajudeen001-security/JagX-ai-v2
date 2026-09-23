@@ -1,0 +1,17 @@
+[
+  {"k": ["what is typescript"], "a": "TypeScript is JavaScript with static types. It compiles to plain JavaScript."},
+  {"k": ["typescript type"], "a": "```typescript\ntype User = { id: number; name: string };\n```"},
+  {"k": ["typescript interface vs type"], "a": "Interfaces and type aliases both describe shapes. Interfaces can be merged; types are more flexible for unions."},
+  {"k": ["typescript generic"], "a": "```typescript\nfunction identity<T>(value: T): T { return value; }\n```"},
+  {"k": ["typescript enum"], "a": "```typescript\nenum Role { Admin, User, Guest }\n```"},
+  {"k": ["what is nodejs event loop"], "a": "The Node.js event loop handles async I/O callbacks without blocking the main thread."},
+  {"k": ["nodejs express route"], "a": "```javascript\nconst express = require('express');\nconst app = express();\napp.get('/hi', (req, res) => res.json({ ok: true }));\n```"},
+  {"k": ["nodejs package.json"], "a": "package.json lists project metadata, scripts, and dependencies for Node.js projects."},
+  {"k": ["npm scripts"], "a": "```json\n{\"scripts\": {\"start\": \"node index.js\", \"dev\": \"nodemon index.js\"}}\n```"},
+  {"k": ["what is nodemon"], "a": "Nodemon restarts a Node app automatically when files change."},
+  {"k": ["what is express"], "a": "Express is a minimal Node.js web framework for APIs and servers."},
+  {"k": ["what is nestjs"], "a": "NestJS is a structured Node.js framework inspired by Angular, often used with TypeScript."},
+  {"k": ["commonjs vs esm"], "a": "CommonJS uses require/module.exports. ESM uses import/export (modern standard)."},
+  {"k": ["nodejs env"], "a": "```javascript\nconst port = process.env.PORT || 3000;\n```"},
+  {"k": ["typescript tsconfig"], "a": "tsconfig.json configures the TypeScript compiler options for a project."}
+]
