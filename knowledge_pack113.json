@@ -1,0 +1,12 @@
+[
+  {"k": ["redis data types"], "a": "Redis types include strings, lists, sets, sorted sets, hashes, streams, and bitmaps."},
+  {"k": ["redis ttl"], "a": "TTL expires keys after a time-to-live; used for caches and sessions."},
+  {"k": ["redis pubsub"], "a": "PUBLISH/SUBSCRIBE delivers messages to channels for lightweight fan-out."},
+  {"k": ["redis streams"], "a": "Streams are append-only logs with consumer groups for reliable messaging."},
+  {"k": ["redis pipeline"], "a": "Pipelining batches commands to reduce round-trips."},
+  {"k": ["redis cluster"], "a": "Redis Cluster shards data across nodes for scale and availability."},
+  {"k": ["redis persistence"], "a": "RDB snapshots and AOF logs provide durability options."},
+  {"k": ["redis lua"], "a": "Lua scripts run atomically on the server for complex operations."},
+  {"k": ["redis rate limit"], "a": "INCR + EXPIRE patterns implement fixed-window rate limits."},
+  {"k": ["redis cache stampede"], "a": "Prevent stampedes with locks, probabilistic early expiry, or single-flight."}
+]
