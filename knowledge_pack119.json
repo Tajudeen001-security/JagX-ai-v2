@@ -1,0 +1,12 @@
+[
+  {"k": ["api gateway"], "a": "An API gateway is a single entry point for routing, auth, rate limits, and observability."},
+  {"k": ["reverse proxy"], "a": "A reverse proxy sits in front of servers to load-balance and terminate TLS."},
+  {"k": ["cloudflare"], "a": "Cloudflare provides CDN, DNS, WAF, and edge compute services."},
+  {"k": ["waf"], "a": "A Web Application Firewall blocks common web attacks at the edge."},
+  {"k": ["edge computing"], "a": "Edge compute runs code near users for lower latency."},
+  {"k": ["cloudflare workers"], "a": "Workers run JavaScript/WASM at the edge on Cloudflare's network."},
+  {"k": ["nginx reverse proxy"], "a": "Nginx commonly terminates TLS and proxies to app servers."},
+  {"k": ["load balancing algorithms"], "a": "Common methods: round-robin, least connections, IP hash."},
+  {"k": ["sticky sessions"], "a": "Sticky sessions route a user to the same backend; prefer stateless design."},
+  {"k": ["tls termination"], "a": "TLS termination decrypts HTTPS at the proxy before forwarding HTTP internally."}
+]
