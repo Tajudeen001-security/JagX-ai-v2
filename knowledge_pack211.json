@@ -1,0 +1,12 @@
+[
+  {"k": ["l4 vs l7 lb"], "a": "L4 balances TCP/UDP connections; L7 understands HTTP and routes by path/host."},
+  {"k": ["least connections"], "a": "Send new requests to the backend with fewest active connections."},
+  {"k": ["consistent hashing lb"], "a": "Consistent hashing minimizes remaps when nodes join/leave."},
+  {"k": ["health check lb"], "a": "Remove unhealthy backends from the pool automatically."},
+  {"k": ["connection draining"], "a": "Stop new traffic but finish in-flight requests on deploy."},
+  {"k": ["global load balancing"], "a": "GSLB routes users to regional endpoints by latency/health."},
+  {"k": ["sticky session risks"], "a": "Affinity complicates scaling; prefer shared session stores."},
+  {"k": ["lb ssl offload"], "a": "Terminate TLS at the LB to centralize certificates."},
+  {"k": ["active passive lb"], "a": "Active-passive pairs provide failover for the balancer itself."},
+  {"k": ["observability lb"], "a": "Export per-backend latency, errors, and saturation metrics."}
+]
