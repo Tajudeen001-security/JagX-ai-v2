@@ -1,0 +1,12 @@
+[
+  {"k": ["git rebase interactive"], "a": "git rebase -i lets you squash, reorder, and edit commits cleanly."},
+  {"k": ["git cherry pick"], "a": "Cherry-pick applies a specific commit onto another branch."},
+  {"k": ["git bisect"], "a": "Bisect binary-searches history to find the commit that introduced a bug."},
+  {"k": ["git worktree"], "a": "Worktrees check out multiple branches in parallel directories."},
+  {"k": ["git reflog"], "a": "Reflog records where HEAD pointed; useful to recover lost commits."},
+  {"k": ["git sparse checkout"], "a": "Sparse checkout checks out only part of a large monorepo."},
+  {"k": ["git signed commits"], "a": "Signed commits prove authorship with GPG/SSH signatures."},
+  {"k": ["trunk based development"], "a": "Trunk-based dev uses short-lived branches and frequent integration to main."},
+  {"k": ["git hooks server"], "a": "Server-side hooks enforce policy on push (tests, message format)."},
+  {"k": ["conventional commits examples"], "a": "feat: add login; fix: handle null user; chore: bump deps."}
+]
