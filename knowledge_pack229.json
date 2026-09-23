@@ -1,0 +1,12 @@
+[
+  {"k": ["store utc"], "a": "Store timestamps in UTC; convert to local only for display."},
+  {"k": ["iso 8601"], "a": "Prefer ISO-8601 strings with offset or Z for interchange."},
+  {"k": ["timezone database"], "a": "IANA tz database defines zone rules and DST transitions."},
+  {"k": ["dst bugs"], "a": "Ambiguous/local gaps occur around DST changes — use libraries."},
+  {"k": ["cron timezone"], "a": "Document whether schedules are UTC or local business time."},
+  {"k": ["user timezone preference"], "a": "Save user timezone for notifications and reports."},
+  {"k": ["monotonic clock"], "a": "Use monotonic clocks for durations; wall clocks can jump."},
+  {"k": ["leap seconds"], "a": "Rare leap seconds can affect precise time systems."},
+  {"k": ["relative time ui"], "a": "Show '3 hours ago' carefully with accurate absolute tooltips."},
+  {"k": ["business days calc"], "a": "Business-day math must include holidays and locales."}
+]
