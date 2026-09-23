@@ -1,0 +1,14 @@
+[
+  {"k": ["etl vs elt"], "a": "ETL transforms before load; ELT loads first then transforms in the warehouse."},
+  {"k": ["data warehouse"], "a": "A warehouse stores structured analytical data optimized for queries."},
+  {"k": ["data lake"], "a": "A data lake stores raw data in many formats at scale."},
+  {"k": ["batch vs stream"], "a": "Batch processes timed chunks; streaming processes events continuously."},
+  {"k": ["airflow"], "a": "Apache Airflow schedules and orchestrates data pipelines as DAGs."},
+  {"k": ["dbt"], "a": "dbt transforms warehouse data with SQL and software-engineering practices."},
+  {"k": ["parquet"], "a": "Parquet is a columnar file format efficient for analytics."},
+  {"k": ["data partitioning files"], "a": "Partition files by date/key to prune scans and cut cost."},
+  {"k": ["slowly changing dimension"], "a": "SCD patterns track historical changes to dimension attributes."},
+  {"k": ["data quality checks"], "a": "Check nulls, ranges, uniqueness, referential integrity, and freshness."},
+  {"k": ["idempotent pipelines"], "a": "Idempotent jobs can re-run safely without duplicating results."},
+  {"k": ["oltp vs olap"], "a": "OLTP serves transactions; OLAP serves analytical queries."}
+]
