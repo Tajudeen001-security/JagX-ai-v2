@@ -1,0 +1,12 @@
+[
+  {"k": ["object storage"], "a": "Object storage keeps files as objects with keys in buckets (e.g. S3)."},
+  {"k": ["s3 presigned url"], "a": "Presigned URLs grant time-limited upload/download without exposing credentials."},
+  {"k": ["s3 consistency"], "a": "Modern S3 provides strong read-after-write consistency for new objects."},
+  {"k": ["cdn origin"], "a": "Object storage often acts as origin for a CDN serving static assets."},
+  {"k": ["multipart upload s3"], "a": "Multipart upload splits large files into parts for reliability."},
+  {"k": ["storage class"], "a": "Storage classes trade cost vs access speed (hot, infrequent, archive)."},
+  {"k": ["bucket policy"], "a": "Bucket policies define who can access objects at the bucket level."},
+  {"k": ["content disposition"], "a": "Content-Disposition controls whether browsers display or download a file."},
+  {"k": ["virus scan uploads"], "a": "Scan user uploads asynchronously before making them public."},
+  {"k": ["signed cookies cdn"], "a": "Signed cookies/URLs restrict CDN access to authorized users."}
+]
