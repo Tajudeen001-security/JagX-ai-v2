@@ -1,0 +1,12 @@
+[
+  {"k": ["start with timeline"], "a": "Build a timeline of deploys, traffic, and error spikes first."},
+  {"k": ["check dashboards"], "a": "Inspect RED/USE metrics before diving into random logs."},
+  {"k": ["reproduce safely"], "a": "Reproduce in staging with production-like data when possible."},
+  {"k": ["feature flag kill switch"], "a": "Disable the suspect feature via flag before long fixes."},
+  {"k": ["rollback first"], "a": "If a deploy caused the incident, rollback is often the fastest mitigation."},
+  {"k": ["correlate logs traces"], "a": "Use request IDs to join gateway, service, and DB logs."},
+  {"k": ["dependency outage"], "a": "Check third-party status pages for payment, SMS, and cloud outages."},
+  {"k": ["hot patch"], "a": "Hotfixes should be minimal, reviewed, and followed by a proper fix."},
+  {"k": ["customer communication"], "a": "Share impact, workaround, and next update time honestly."},
+  {"k": ["post incident review"], "a": "Write a blameless postmortem with action items and owners."}
+]
