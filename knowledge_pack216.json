@@ -1,0 +1,12 @@
+[
+  {"k": ["retry jitter"], "a": "Add random jitter so clients do not retry in lockstep."},
+  {"k": ["circuit breaker states"], "a": "Closed → open on failures → half-open probe → closed on success."},
+  {"k": ["timeout budget"], "a": "Allocate total request time across downstream calls."},
+  {"k": ["fallback response"], "a": "Serve degraded cached or default responses when dependencies fail."},
+  {"k": ["bulkhead isolation"], "a": "Separate pools so one dependency cannot exhaust all resources."},
+  {"k": ["hedging requests"], "a": "Send a backup request if the first is slow (use carefully)."},
+  {"k": ["load shedding"], "a": "Reject excess traffic to protect core latency/SLO."},
+  {"k": ["backpressure queues"], "a": "Slow producers when consumers lag."},
+  {"k": ["health based routing"], "a": "Route away from failing instances automatically."},
+  {"k": ["chaos experiments"], "a": "Inject failures to validate resilience assumptions."}
+]
