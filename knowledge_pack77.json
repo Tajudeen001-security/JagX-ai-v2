@@ -1,0 +1,14 @@
+[
+  {"k": ["session cookie auth"], "a": "Server stores session; browser sends session cookie on each request."},
+  {"k": ["jwt structure"], "a": "JWT has header.payload.signature — verify signature and expiry always."},
+  {"k": ["jwt vs session"], "a": "JWTs are often stateless; sessions are server-side and easier to revoke."},
+  {"k": ["refresh token rotation"], "a": "Rotate refresh tokens on use to reduce replay risk if stolen."},
+  {"k": ["passwordless auth"], "a": "Passwordless uses email magic links, OTP, or WebAuthn instead of passwords."},
+  {"k": ["webauthn"], "a": "WebAuthn enables phishing-resistant auth with platform/security keys."},
+  {"k": ["oauth client credentials"], "a": "Client credentials flow is machine-to-machine without a user login."},
+  {"k": ["openid connect"], "a": "OIDC adds identity (ID token) on top of OAuth 2.0 authorization."},
+  {"k": ["saml"], "a": "SAML is an XML-based SSO standard common in enterprises."},
+  {"k": ["rbac"], "a": "RBAC assigns permissions to roles, then roles to users."},
+  {"k": ["abac"], "a": "ABAC grants access based on attributes (user, resource, context)."},
+  {"k": ["mfa methods"], "a": "MFA methods include TOTP apps, SMS (weaker), hardware keys, push approve."}
+]
