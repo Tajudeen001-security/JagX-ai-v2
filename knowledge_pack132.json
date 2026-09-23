@@ -1,0 +1,12 @@
+[
+  {"k": ["clustered index"], "a": "A clustered index defines physical row order (often the primary key)."},
+  {"k": ["covering index query"], "a": "A covering index can satisfy a query from the index alone."},
+  {"k": ["index selectivity"], "a": "High selectivity columns (many distinct values) benefit more from indexes."},
+  {"k": ["composite index order"], "a": "Leftmost prefix rule: (a,b,c) helps a, a+b, a+b+c filters."},
+  {"k": ["index only scan"], "a": "Index-only scans read from the index without heap fetches when possible."},
+  {"k": ["partial index"], "a": "Partial indexes cover a subset of rows matching a WHERE clause."},
+  {"k": ["expression index"], "a": "Expression/functional indexes speed queries on computed expressions."},
+  {"k": ["bloat index"], "a": "Index bloat wastes space and slows scans; reindex/vacuum as needed."},
+  {"k": ["write amplification index"], "a": "Each extra index speeds reads but slows inserts/updates/deletes."},
+  {"k": ["explain index usage"], "a": "Use EXPLAIN to verify Index Scan vs Seq Scan decisions."}
+]
