@@ -1,0 +1,22 @@
+[
+  {"k": ["derivative definition"], "a": "The derivative f'(x) = lim(h→0) [f(x+h)-f(x)]/h measures instantaneous rate of change."},
+  {"k": ["integral definition"], "a": "A definite integral ∫_a^b f(x) dx is the signed area under the curve from a to b."},
+  {"k": ["chain rule"], "a": "Chain rule: d/dx f(g(x)) = f'(g(x)) · g'(x)"},
+  {"k": ["product rule"], "a": "Product rule: (uv)' = u'v + uv'"},
+  {"k": ["quotient rule"], "a": "Quotient rule: (u/v)' = (u'v - uv') / v²"},
+  {"k": ["pythagorean identity"], "a": "sin²θ + cos²θ = 1"},
+  {"k": ["euler identity"], "a": "Euler's identity: e^(iπ) + 1 = 0"},
+  {"k": ["quadratic formula"], "a": "x = [-b ± √(b² - 4ac)] / (2a) for ax² + bx + c = 0"},
+  {"k": ["binomial theorem"], "a": "(x+y)^n = Σ C(n,k) x^(n-k) y^k"},
+  {"k": ["matrix multiplication"], "a": "(AB)_ij = sum_k A_ik B_kj. Columns of B must match rows of A."},
+  {"k": ["determinant 2x2"], "a": "det([[a,b],[c,d]]) = ad - bc"},
+  {"k": ["eigenvalue"], "a": "For Av = λv with v ≠ 0, λ is an eigenvalue and v an eigenvector."},
+  {"k": ["limit infinity"], "a": "lim(x→∞) 1/x = 0. Limits describe values approached, not always attained."},
+  {"k": ["lhopital rule"], "a": "If lim f/g is 0/0 or ∞/∞, then lim f/g = lim f'/g' when the latter exists."},
+  {"k": ["taylor series"], "a": "Taylor series expands f around a: f(a) + f'(a)(x-a) + f''(a)(x-a)²/2! + …"},
+  {"k": ["fourier idea"], "a": "Fourier analysis represents functions as sums of sines and cosines (frequencies)."},
+  {"k": ["gradient"], "a": "The gradient ∇f points in the direction of steepest ascent of f."},
+  {"k": ["dot product"], "a": "a·b = |a||b|cosθ = sum a_i b_i"},
+  {"k": ["cross product"], "a": "In 3D, a×b is a vector perpendicular to both a and b with magnitude |a||b|sinθ."},
+  {"k": ["complex number"], "a": "A complex number is a+bi with i² = -1."}
+]
