@@ -1,0 +1,20 @@
+[
+  {"k": ["what is iaas"], "a": "IaaS provides virtual machines, storage, and networking (infrastructure as a service)."},
+  {"k": ["what is paas"], "a": "PaaS provides a platform to deploy apps without managing servers (e.g. Render, Heroku-style)."},
+  {"k": ["what is faas", "what is serverless"], "a": "Serverless/FaaS runs functions on demand without managing servers continuously."},
+  {"k": ["what is aws"], "a": "AWS is Amazon Web Services, a major cloud provider."},
+  {"k": ["what is gcp"], "a": "GCP is Google Cloud Platform."},
+  {"k": ["what is azure"], "a": "Microsoft Azure is Microsoft's cloud platform."},
+  {"k": ["what is container"], "a": "A container packages an app with its dependencies for consistent runs everywhere."},
+  {"k": ["what is image docker"], "a": "A Docker image is a read-only template used to create containers."},
+  {"k": ["dockerfile"], "a": "A Dockerfile lists instructions to build a Docker image."},
+  {"k": ["what is ci"], "a": "Continuous Integration automatically builds and tests code on every change."},
+  {"k": ["what is cd deploy"], "a": "Continuous Delivery/Deployment automates releasing tested code to environments."},
+  {"k": ["what is infrastructure as code"], "a": "IaC manages servers and cloud resources with code (Terraform, CloudFormation, etc.)."},
+  {"k": ["what is terraform"], "a": "Terraform is a popular tool for infrastructure as code across cloud providers."},
+  {"k": ["what is observability"], "a": "Observability means understanding systems via logs, metrics, and traces."},
+  {"k": ["what is prometheus"], "a": "Prometheus is a metrics monitoring and alerting system."},
+  {"k": ["what is grafana"], "a": "Grafana visualizes metrics and logs with dashboards."},
+  {"k": ["blue green deploy"], "a": "Blue-green deployment switches traffic between two identical environments for safer releases."},
+  {"k": ["canary deploy"], "a": "Canary deployment rolls out a change to a small % of users first."}
+]
