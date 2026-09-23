@@ -1,0 +1,12 @@
+[
+  {"k": ["payment idempotency"], "a": "Payment APIs must be idempotent so retries do not double-charge."},
+  {"k": ["payment ledger"], "a": "A ledger records every credit/debit for auditability and balance correctness."},
+  {"k": ["pci dss"], "a": "PCI DSS is the security standard for handling cardholder data."},
+  {"k": ["tokenization payments"], "a": "Tokenization replaces card numbers with tokens to reduce PCI scope."},
+  {"k": ["3d secure"], "a": "3-D Secure adds an authentication step to reduce card fraud."},
+  {"k": ["settlement payments"], "a": "Settlement moves funds between banks/processors after authorization."},
+  {"k": ["chargeback"], "a": "A chargeback is a forced reversal initiated by the cardholder's bank."},
+  {"k": ["escrow payments"], "a": "Escrow holds funds until conditions are met, common in marketplaces."},
+  {"k": ["webhook payments"], "a": "Payment webhooks notify your server of async status changes."},
+  {"k": ["multi currency"], "a": "Multi-currency systems track FX rates, fees, and currency of record carefully."}
+]
