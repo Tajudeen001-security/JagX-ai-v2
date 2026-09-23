@@ -1,0 +1,12 @@
+[
+  {"k": ["hypothesis testing"], "a": "Hypothesis testing evaluates evidence against a null hypothesis using a test statistic and p-value."},
+  {"k": ["p value"], "a": "A p-value is the probability of data as extreme as observed if the null is true."},
+  {"k": ["confidence interval"], "a": "A confidence interval ranges plausible values for a parameter at a confidence level."},
+  {"k": ["type i error"], "a": "Type I error rejects a true null hypothesis (false positive)."},
+  {"k": ["type ii error"], "a": "Type II error fails to reject a false null hypothesis (false negative)."},
+  {"k": ["linear regression assumptions"], "a": "Common assumptions: linearity, independence, homoscedasticity, residual normality."},
+  {"k": ["bayesian vs frequentist"], "a": "Bayesian updates beliefs with priors; frequentist focuses on long-run procedure properties."},
+  {"k": ["sampling methods"], "a": "Sampling methods include simple random, stratified, cluster, and systematic sampling."},
+  {"k": ["a/b test statistics"], "a": "A/B tests estimate treatment effects and uncertainty; watch multiple testing and peeking."},
+  {"k": ["regression to the mean"], "a": "Extreme observations tend to be followed by more average ones purely statistically."}
+]
