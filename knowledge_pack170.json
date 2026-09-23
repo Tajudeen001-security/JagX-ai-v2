@@ -1,0 +1,12 @@
+[
+  {"k": ["privacy by design"], "a": "Build privacy into systems from the start, not as a retrofit only."},
+  {"k": ["data inventory"], "a": "Know what personal data you store, why, where, and who can access it."},
+  {"k": ["purpose binding"], "a": "Use data only for disclosed purposes."},
+  {"k": ["anonymization vs pseudonymization"], "a": "Anonymization irreversibly removes identity; pseudonymization replaces identifiers but may be reversible."},
+  {"k": ["data subject request"], "a": "Processes to access, correct, or delete personal data on request."},
+  {"k": ["retention schedule"], "a": "Delete or aggregate data when the retention period ends."},
+  {"k": ["third party processors"], "a": "Vendor contracts must cover security and permitted processing."},
+  {"k": ["privacy impact assessment"], "a": "Assess risks when launching high-impact data processing."},
+  {"k": ["logging pii"], "a": "Avoid logging secrets and raw PII; mask when needed for debug."},
+  {"k": ["consent records"], "a": "Store evidence of consent and make withdrawal practical."}
+]
