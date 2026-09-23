@@ -1,0 +1,12 @@
+[
+  {"k": ["sql injection example"], "a": "Attackers inject SQL via inputs; prevent with parameterized queries."},
+  {"k": ["xss stored"], "a": "Stored XSS saves malicious script on the server and hits later visitors."},
+  {"k": ["xss reflected"], "a": "Reflected XSS echoes attacker input in a response immediately."},
+  {"k": ["csrf attack"], "a": "CSRF makes a logged-in browser perform unwanted actions; use tokens."},
+  {"k": ["clickjacking"], "a": "Clickjacking tricks users into clicking hidden UI via iframes."},
+  {"k": ["directory traversal"], "a": "../ sequences access unintended files; canonicalize and restrict paths."},
+  {"k": ["command injection"], "a": "Untrusted input passed to shells can run OS commands; avoid shells and escape."},
+  {"k": ["insecure deserialization"], "a": "Deserializing untrusted data can execute code or alter logic."},
+  {"k": ["security misconfiguration"], "a": "Default passwords, open admin panels, and verbose errors are common misconfigs."},
+  {"k": ["broken access control"], "a": "Users access others' data/actions due to missing authorization checks."}
+]
