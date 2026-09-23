@@ -1,0 +1,12 @@
+[
+  {"k": ["dbt model layers"], "a": "Staging → intermediate → marts is a common dbt layering."},
+  {"k": ["fact vs dimension"], "a": "Facts are measurable events; dimensions describe entities."},
+  {"k": ["slowly changing dim type2"], "a": "Type 2 SCD keeps history with effective dates/versions."},
+  {"k": ["data contracts"], "a": "Contracts define schema/SLA expectations between producers and consumers."},
+  {"k": ["freshness checks"], "a": "Monitor how up-to-date tables are vs expectations."},
+  {"k": ["metric definitions"], "a": "Centralize metric logic to avoid conflicting dashboard numbers."},
+  {"k": ["column level lineage"], "a": "Lineage shows where a column comes from and who uses it."},
+  {"k": ["pii in warehouse"], "a": "Minimize PII; mask/tokenize and restrict access."},
+  {"k": ["incremental models"], "a": "Incremental builds process only new/changed data."},
+  {"k": ["bi tool semantic layer"], "a": "Semantic layers define business metrics for BI tools consistently."}
+]
