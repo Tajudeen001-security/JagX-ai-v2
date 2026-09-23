@@ -1,0 +1,12 @@
+[
+  {"k": ["elasticsearch index"], "a": "An index is a collection of documents with a shared schema-like mapping."},
+  {"k": ["elasticsearch mapping"], "a": "Mappings define field types (text, keyword, date, nested) for indexing behavior."},
+  {"k": ["elasticsearch analyzer"], "a": "Analyzers tokenize and normalize text for full-text search."},
+  {"k": ["elasticsearch query dsl"], "a": "Query DSL is JSON-based query language for match, term, bool, range, etc."},
+  {"k": ["elasticsearch aggregation"], "a": "Aggregations compute metrics and buckets over search results."},
+  {"k": ["elasticsearch shard"], "a": "Indices are split into primary shards and optional replicas for scale and HA."},
+  {"k": ["elasticsearch bulk api"], "a": "Bulk API indexes/updates many documents in one request for speed."},
+  {"k": ["opensearch"], "a": "OpenSearch is an open-source fork/distribution related to Elasticsearch."},
+  {"k": ["elasticsearch keyword vs text"], "a": "text is analyzed for full-text; keyword is exact-value for filters/sorts."},
+  {"k": ["elasticsearch refresh"], "a": "Refresh makes new documents searchable; near-real-time by default."}
+]
