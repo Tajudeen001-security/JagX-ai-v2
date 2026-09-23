@@ -1,0 +1,12 @@
+[
+  {"k": ["wcag"], "a": "WCAG is the Web Content Accessibility Guidelines (A, AA, AAA levels)."},
+  {"k": ["perceivable operable understandable robust"], "a": "POUR: Perceivable, Operable, Understandable, Robust — WCAG principles."},
+  {"k": ["color contrast"], "a": "Text needs sufficient contrast against backgrounds (WCAG ratios)."},
+  {"k": ["screen reader"], "a": "Screen readers announce page content using semantics and ARIA."},
+  {"k": ["skip link"], "a": "Skip links let keyboard users jump to main content."},
+  {"k": ["accessible forms"], "a": "Label every input, associate errors, and do not rely on color alone."},
+  {"k": ["accessible names"], "a": "Buttons/links need accessible names via text or aria-label."},
+  {"k": ["reduced motion"], "a": "Respect prefers-reduced-motion for users sensitive to animation."},
+  {"k": ["keyboard trap"], "a": "Avoid focus traps that prevent Tab from leaving a component."},
+  {"k": ["aria roles"], "a": "ARIA roles describe UI widgets when native HTML semantics are insufficient."}
+]
