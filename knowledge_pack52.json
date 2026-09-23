@@ -1,0 +1,17 @@
+[
+  {"k": ["jagx chat endpoint"], "a": "POST /chat with header x-api-key and JSON body {\"message\": \"...\"}."},
+  {"k": ["jagx health endpoint"], "a": "GET /health returns service status and uptime."},
+  {"k": ["jagx debug status"], "a": "GET /debug/status shows model config and local knowledge entry count."},
+  {"k": ["jagx debug llm"], "a": "GET /debug/llm tests Groq/OpenRouter connectivity and returns real error bodies."},
+  {"k": ["jagx create key"], "a": "POST /create-key with admin_secret, owner_label, and tier to mint a permanent key."},
+  {"k": ["render free tier sleep"], "a": "Render free web services may sleep after idle; ping /health to keep warm."},
+  {"k": ["uptimerobot"], "a": "UptimeRobot can HTTP-check your /health URL every 5 minutes for free."},
+  {"k": ["render env vars"], "a": "Set GROQ_API_KEY, GROQ_MODEL, JAGX_ADMIN_SECRET, JAGX_PERMANENT_KEYS in Render Environment."},
+  {"k": ["recommended groq model"], "a": "If llama-3.1-8b-instant 404s, try openai/gpt-oss-20b or llama-3.3-70b-versatile."},
+  {"k": ["jagx local knowledge"], "a": "Local knowledge loads all knowledge_pack*.json files at startup for fast offline answers."},
+  {"k": ["jagx permanent key"], "a": "Permanent keys do not expire; store them in JAGX_PERMANENT_KEYS or keys.json."},
+  {"k": ["jagx identity"], "a": "JagX AI is built by JagX and JRILICENSE — text + coding focused backend."},
+  {"k": ["render logs"], "a": "Check Render Logs for Groq HTTP status lines when chat fails."},
+  {"k": ["cors jagx"], "a": "JagX backend allows CORS * for easy frontend integration."},
+  {"k": ["jagx rate limits"], "a": "Tiers: free ~80/hr, premium higher; master/admin/permanent can be unlimited."}
+]
