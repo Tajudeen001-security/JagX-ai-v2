@@ -1,0 +1,12 @@
+[
+  {"k": ["context aware encoding"], "a": "Encode differently for HTML body, attributes, JS, CSS, and URLs."},
+  {"k": ["html entity encode"], "a": "Escape < > & \" ' in HTML text contexts."},
+  {"k": ["javascript encoding"], "a": "Do not build JS with raw user strings; use safe APIs/JSON serialization."},
+  {"k": ["dom xss"], "a": "DOM XSS happens when JS writes untrusted data into dangerous sinks."},
+  {"k": ["dangerous sinks"], "a": "innerHTML, document.write, eval, and some URL assignments are risky."},
+  {"k": ["csp xss defense"], "a": "CSP reduces XSS impact by restricting script sources."},
+  {"k": ["trusted types"], "a": "Trusted Types help prevent DOM XSS by restricting sink assignments."},
+  {"k": ["markdown xss"], "a": "Sanitize rendered Markdown/HTML with a vetted sanitizer."},
+  {"k": ["svg xss"], "a": "SVG can contain scripts; sanitize or serve as downloads."},
+  {"k": ["react xss default"], "a": "React escapes text by default; avoid dangerous HTML injection APIs."}
+]
