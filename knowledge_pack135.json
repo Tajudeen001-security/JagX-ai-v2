@@ -1,0 +1,12 @@
+[
+  {"k": ["clarify requirements"], "a": "Ask functional and non-functional requirements before designing."},
+  {"k": ["estimate scale"], "a": "Estimate QPS, storage, bandwidth, and growth to size components."},
+  {"k": ["api sketch"], "a": "Define main endpoints and core data entities early."},
+  {"k": ["data model design"], "a": "Choose SQL/NoSQL, keys, indexes, and consistency needs."},
+  {"k": ["high level diagram"], "a": "Draw clients, gateways, services, caches, queues, and databases."},
+  {"k": ["bottlenecks design"], "a": "Identify single points of failure and hot partitions."},
+  {"k": ["tradeoffs discussion"], "a": "Explicitly discuss consistency, latency, cost, and complexity trade-offs."},
+  {"k": ["failure modes"], "a": "Plan for node death, network partitions, and dependency outages."},
+  {"k": ["security design"], "a": "Cover authn/authz, encryption, and abuse prevention."},
+  {"k": ["monitoring design"], "a": "Define SLIs, alerts, and dashboards for the system."}
+]
