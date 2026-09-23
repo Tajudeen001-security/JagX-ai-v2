@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 272"], "a": "This completes a 100-pack batch from 173 through 272."},
+  {"k": ["jagx total packs"], "a": "Total knowledge_pack files now span 1–272."},
+  {"k": ["jagx redeploy note"], "a": "Redeploy on Render so local_knowledge_entries refreshes."},
+  {"k": ["jagx verify status"], "a": "GET /debug/status to see the new entry count."},
+  {"k": ["jagx test chat"], "a": "POST /chat with your permanent key to confirm answers."},
+  {"k": ["jagx keep growing"], "a": "Say next 30 or next 100 anytime to expand further."},
+  {"k": ["jagx hybrid reminder"], "a": "Local packs + cloud LLM = speed and depth."},
+  {"k": ["jagx credit final"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["jagx mission"], "a": "Help builders ship faster with accurate text and coding help."},
+  {"k": ["jagx api key permanent"], "a": "Permanent keys do not expire; protect them like passwords."}
+]
