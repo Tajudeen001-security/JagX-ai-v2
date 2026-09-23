@@ -1,0 +1,20 @@
+[
+  {"k": ["pythagoras"], "a": "In a right triangle: a² + b² = c² where c is the hypotenuse."},
+  {"k": ["area of circle"], "a": "Area of a circle = πr²"},
+  {"k": ["circumference"], "a": "Circumference of a circle = 2πr"},
+  {"k": ["area of rectangle"], "a": "Area of a rectangle = length × width"},
+  {"k": ["area of triangle"], "a": "Area of a triangle = (1/2) × base × height"},
+  {"k": ["percentage"], "a": "Percentage = (part / whole) × 100"},
+  {"k": ["simple interest"], "a": "Simple interest = principal × rate × time"},
+  {"k": ["compound interest"], "a": "A = P(1 + r/n)^(nt) for compound interest."},
+  {"k": ["mean average"], "a": "Mean (average) = sum of values / count of values"},
+  {"k": ["median"], "a": "Median is the middle value when data is sorted."},
+  {"k": ["mode statistics"], "a": "Mode is the value that appears most often."},
+  {"k": ["standard deviation"], "a": "Standard deviation measures how spread out numbers are from the mean."},
+  {"k": ["probability basics"], "a": "Probability of an event is between 0 and 1 (or 0% to 100%)."},
+  {"k": ["what is factorial math"], "a": "n! = n × (n-1) × … × 1. Example: 5! = 120"},
+  {"k": ["fibonacci sequence"], "a": "Fibonacci: each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, …"},
+  {"k": ["prime number"], "a": "A prime number has exactly two distinct positive divisors: 1 and itself."},
+  {"k": ["even odd"], "a": "Even numbers are divisible by 2; odd numbers are not."},
+  {"k": ["speed distance time"], "a": "speed = distance / time; distance = speed × time; time = distance / speed"}
+]
