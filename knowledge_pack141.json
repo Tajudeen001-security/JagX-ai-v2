@@ -1,0 +1,12 @@
+[
+  {"k": ["story points"], "a": "Story points estimate relative effort/complexity, not exact hours."},
+  {"k": ["planning poker"], "a": "Team estimation technique using cards to converge on story points."},
+  {"k": ["cone of uncertainty"], "a": "Estimates are wide early and narrow as knowledge grows."},
+  {"k": ["buffer contingency"], "a": "Add contingency for unknowns; do not pretend precision you lack."},
+  {"k": ["breakdown work"], "a": "Split large work into vertical slices you can demo."},
+  {"k": ["risk driven estimate"], "a": "Identify risky unknowns and spike them before committing dates."},
+  {"k": ["velocity agile"], "a": "Velocity is completed points per sprint; use trends, not single sprints."},
+  {"k": ["underestimation causes"], "a": "Missed integration, testing, polish, and meetings cause underestimates."},
+  {"k": ["estimate communication"], "a": "Give ranges and assumptions; update when facts change."},
+  {"k": ["mythical man month"], "a": "Adding people late to a late project can make it later."}
+]
