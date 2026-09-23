@@ -1,0 +1,12 @@
+[
+  {"k": ["write for skimmers"], "a": "Use headings, bullets, and short paragraphs."},
+  {"k": ["one idea sentence"], "a": "Prefer one idea per sentence when explaining complex topics."},
+  {"k": ["active voice docs"], "a": "Active voice is clearer for instructions."},
+  {"k": ["examples over abstraction"], "a": "Concrete examples beat abstract claims."},
+  {"k": ["define jargon"], "a": "Define terms on first use or link to a glossary."},
+  {"k": ["docs test commands"], "a": "Copy-paste commands should work as written."},
+  {"k": ["keep docs near code"], "a": "Docs-as-code stays updated with PRs."},
+  {"k": ["changelog user focus"], "a": "Write changelogs for users, not only internal tickets."},
+  {"k": ["diagrams when"], "a": "Diagrams help for architecture and sequences."},
+  {"k": ["edit ruthlessly"], "a": "Cut words that do not change meaning."}
+]
