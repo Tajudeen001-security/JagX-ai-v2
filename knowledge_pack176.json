@@ -1,0 +1,12 @@
+[
+  {"k": ["spf record"], "a": "SPF lists servers allowed to send mail for a domain."},
+  {"k": ["dkim signature"], "a": "DKIM cryptographically signs messages so receivers can verify authenticity."},
+  {"k": ["dmarc policy"], "a": "DMARC tells receivers what to do with SPF/DKIM failures (none/quarantine/reject)."},
+  {"k": ["ptr reverse dns"], "a": "PTR records should match sending hostnames for better reputation."},
+  {"k": ["warmup ip"], "a": "Warm new sending IPs gradually to build reputation."},
+  {"k": ["bounce handling"], "a": "Suppress hard bounces; investigate spikes in soft bounces."},
+  {"k": ["spam complaint"], "a": "High complaint rates damage reputation; honor unsubscribes quickly."},
+  {"k": ["transactional vs marketing"], "a": "Separate streams so marketing issues do not block receipts/OTP mail."},
+  {"k": ["list hygiene"], "a": "Remove invalid addresses; avoid purchased lists."},
+  {"k": ["email authentication check"], "a": "Use tools to verify SPF/DKIM/DMARC alignment before big sends."}
+]
