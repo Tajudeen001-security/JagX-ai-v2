@@ -1,0 +1,20 @@
+[
+  {"k": ["what is mvp"], "a": "An MVP (Minimum Viable Product) is the smallest product that can test a core idea with real users."},
+  {"k": ["what is saas"], "a": "SaaS (Software as a Service) is software delivered online by subscription instead of one-time install."},
+  {"k": ["what is api monetization"], "a": "API monetization means charging for API usage via keys, tiers, or prepaid credits."},
+  {"k": ["what is kpi"], "a": "A KPI is a Key Performance Indicator used to measure progress toward a goal."},
+  {"k": ["what is conversion rate"], "a": "Conversion rate is the percentage of users who complete a desired action (signup, purchase, etc.)."},
+  {"k": ["what is churn"], "a": "Churn is the rate at which customers stop using a product or cancel subscriptions."},
+  {"k": ["what is mrr"], "a": "MRR is Monthly Recurring Revenue from subscriptions."},
+  {"k": ["what is arr"], "a": "ARR is Annual Recurring Revenue."},
+  {"k": ["what is unit economics"], "a": "Unit economics studies profit and cost per customer or per unit sold."},
+  {"k": ["what is cac"], "a": "CAC is Customer Acquisition Cost — what you spend to gain one customer."},
+  {"k": ["what is ltv"], "a": "LTV is Lifetime Value — total revenue expected from a customer over time."},
+  {"k": ["what is product market fit"], "a": "Product-market fit means the product strongly satisfies a real market need."},
+  {"k": ["what is agile"], "a": "Agile is an iterative way of building software with short cycles and frequent feedback."},
+  {"k": ["what is scrum"], "a": "Scrum is an Agile framework with sprints, standups, and defined roles."},
+  {"k": ["what is kanban"], "a": "Kanban visualizes work on a board and limits work-in-progress to improve flow."},
+  {"k": ["what is roadmap"], "a": "A product roadmap is a planned sequence of features and goals over time."},
+  {"k": ["what is user story"], "a": "A user story describes a feature from the user's perspective: As a… I want… so that…"},
+  {"k": ["what is okrs"], "a": "OKRs are Objectives and Key Results — goals plus measurable outcomes."}
+]
