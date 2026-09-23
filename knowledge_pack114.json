@@ -1,0 +1,12 @@
+[
+  {"k": ["postgres jsonb"], "a": "JSONB stores binary JSON with indexing and efficient operators."},
+  {"k": ["postgres gin index"], "a": "GIN indexes support full-text and JSONB containment queries."},
+  {"k": ["postgres btree index"], "a": "B-tree is the default index for equality and range lookups."},
+  {"k": ["postgres ctid"], "a": "ctid is a physical row location; avoid relying on it for application logic."},
+  {"k": ["postgres mvcc"], "a": "MVCC keeps concurrent transactions consistent without heavy read locks."},
+  {"k": ["postgres advisory lock"], "a": "Advisory locks coordinate application-level critical sections."},
+  {"k": ["postgres listen notify"], "a": "LISTEN/NOTIFY provides simple pub/sub inside the database."},
+  {"k": ["postgres extension"], "a": "Extensions like pg_trgm, uuid-ossp, and postgis add capabilities."},
+  {"k": ["postgres explain analyze"], "a": "EXPLAIN ANALYZE runs the query and shows actual timings and row counts."},
+  {"k": ["postgres connection pooling"], "a": "Use PgBouncer or similar to multiplex many clients onto fewer DB connections."}
+]
