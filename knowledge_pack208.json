@@ -1,0 +1,12 @@
+[
+  {"k": ["virtual address"], "a": "Processes see virtual addresses mapped to physical frames."},
+  {"k": ["page table"], "a": "Page tables store virtual-to-physical translations."},
+  {"k": ["tlb cache"], "a": "TLB caches recent address translations for speed."},
+  {"k": ["demand paging"], "a": "Pages load on first access rather than all upfront."},
+  {"k": ["page replacement"], "a": "LRU, Clock, and related policies choose victims on faults."},
+  {"k": ["thrashing fix"], "a": "Reduce multiprogramming or add memory when thrashing."},
+  {"k": ["mmap"], "a": "mmap maps files or anonymous memory into the address space."},
+  {"k": ["heap allocator"], "a": "malloc/free manage the process heap; fragmentation matters."},
+  {"k": ["stack overflow"], "a": "Deep recursion or large stack frames can overflow the stack."},
+  {"k": ["shared memory ipc"], "a": "Shared memory lets processes communicate via mapped regions."}
+]
