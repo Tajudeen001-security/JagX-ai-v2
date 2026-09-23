@@ -1,0 +1,12 @@
+[
+  {"k": ["gcd lcm code"], "a": "lcm(a,b)=a/gcd(a,b)*b computed carefully to avoid overflow."},
+  {"k": ["extended euclid"], "a": "Finds x,y such that ax+by=gcd(a,b)."},
+  {"k": ["modular multiply"], "a": "Multiply carefully under mod to avoid overflow."},
+  {"k": ["fast pow mod"], "a": "Binary exponentiation computes a^n mod m in O(log n)."},
+  {"k": ["sieve eratosthenes"], "a": "Sieve marks composites to list primes up to n efficiently."},
+  {"k": ["prime check"], "a": "Trial division to sqrt(n); Miller-Rabin for large n."},
+  {"k": ["chinese remainder"], "a": "CRT solves systems of congruences with coprime moduli."},
+  {"k": ["euler totient"], "a": "φ(n) counts integers up to n coprime to n."},
+  {"k": ["factorial mod prime"], "a": "Precompute factorials and inv factorials for nCr mod p."},
+  {"k": ["ncr mod prime"], "a": "nCr = fact[n]*invfact[r]*invfact[n-r] % p for r<=n<p."}
+]
