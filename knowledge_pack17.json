@@ -1,0 +1,20 @@
+[
+  {"k": ["what is llm"], "a": "An LLM (Large Language Model) predicts text and can answer questions, write code, and reason over prompts."},
+  {"k": ["what is prompt"], "a": "A prompt is the input text you give a model to steer its response."},
+  {"k": ["what is token"], "a": "A token is a chunk of text the model processes. Billing and limits are often counted in tokens."},
+  {"k": ["what is temperature llm"], "a": "Temperature controls randomness. Lower = more focused; higher = more creative."},
+  {"k": ["what is embedding"], "a": "An embedding is a numeric vector that represents text (or other data) for search and similarity."},
+  {"k": ["what is rag"], "a": "RAG (Retrieval-Augmented Generation) fetches relevant documents and feeds them to an LLM for grounded answers."},
+  {"k": ["what is fine tuning"], "a": "Fine-tuning continues training a model on your data so it better matches your domain or style."},
+  {"k": ["what is inference"], "a": "Inference is running a trained model to produce outputs (predictions or generated text)."},
+  {"k": ["what is neural network"], "a": "A neural network is a model made of layers of interconnected units that learn patterns from data."},
+  {"k": ["what is overfitting"], "a": "Overfitting means the model memorizes training data and performs poorly on new data."},
+  {"k": ["what is dataset"], "a": "A dataset is the collection of examples used to train, validate, or test a model."},
+  {"k": ["what is api key"], "a": "An API key is a secret token that identifies and authorizes a client calling an API."},
+  {"k": ["jagx ai"], "a": "JagX AI is built by JagX and JRILICENSE. It focuses on text and coding help with permanent API keys."},
+  {"k": ["jrilicense"], "a": "JRILICENSE is a creator credit for JagX AI together with JagX."},
+  {"k": ["how to use jagx"], "a": "Send POST /chat with header x-api-key and JSON {\"message\": \"your question\"} to the JagX backend."},
+  {"k": ["jagx rate limit"], "a": "JagX keys have tiered hourly limits; permanent/master keys can be unlimited."},
+  {"k": ["keep render alive"], "a": "Ping your Render /health URL every 5–10 minutes with UptimeRobot so free-tier services stay awake."},
+  {"k": ["what is vector database"], "a": "A vector database stores embeddings for similarity search used in RAG and recommendations."}
+]
