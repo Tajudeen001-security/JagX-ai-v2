@@ -1,0 +1,12 @@
+[
+  {"k": ["dns hierarchy"], "a": "Root → TLD → authoritative name servers resolve names."},
+  {"k": ["dns a aaaa"], "a": "A maps to IPv4; AAAA maps to IPv6."},
+  {"k": ["dns cname"], "a": "CNAME aliases one name to another."},
+  {"k": ["dns mx"], "a": "MX records point to mail servers."},
+  {"k": ["dns txt"], "a": "TXT holds arbitrary text (SPF, verification, etc.)."},
+  {"k": ["dns ns"], "a": "NS records delegate a zone to name servers."},
+  {"k": ["dns caching ttl"], "a": "Resolvers cache answers for the TTL duration."},
+  {"k": ["dnssec"], "a": "DNSSEC signs DNS data to prevent spoofing."},
+  {"k": ["dns load balancing"], "a": "Multiple A records or geo-DNS distribute traffic."},
+  {"k": ["dns propagation"], "a": "Changes appear gradually as TTLs expire worldwide."}
+]
