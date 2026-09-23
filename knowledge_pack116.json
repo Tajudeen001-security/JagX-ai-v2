@@ -1,0 +1,12 @@
+[
+  {"k": ["nextjs app router"], "a": "App Router uses the app/ directory with layouts, pages, and server components."},
+  {"k": ["nextjs server component"], "a": "Server Components render on the server and send HTML, reducing client JS."},
+  {"k": ["nextjs client component"], "a": "Client Components use 'use client' for interactivity and browser APIs."},
+  {"k": ["nextjs api route"], "a": "Route Handlers in app/api provide backend endpoints."},
+  {"k": ["nextjs ssr ssg isr"], "a": "SSR renders per request; SSG builds at compile; ISR revalidates periodically."},
+  {"k": ["nextjs middleware"], "a": "Middleware runs before requests for auth, redirects, and headers."},
+  {"k": ["nextjs image"], "a": "next/image optimizes images with sizing, formats, and lazy loading."},
+  {"k": ["nextjs env"], "a": "NEXT_PUBLIC_ vars are exposed to the browser; others stay server-only."},
+  {"k": ["nextjs deployment"], "a": "Common hosts: Vercel, Node servers, or Docker containers."},
+  {"k": ["nextjs metadata"], "a": "Export metadata or generateMetadata for SEO titles and Open Graph."}
+]
