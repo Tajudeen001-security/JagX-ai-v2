@@ -1,0 +1,12 @@
+[
+  {"k": ["docs as code"], "a": "Docs-as-code stores documentation in Git with reviews and CI like software."},
+  {"k": ["api reference docs"], "a": "API reference documents endpoints, params, auth, and examples precisely."},
+  {"k": ["tutorial vs how to"], "a": "Tutorials teach by doing; how-tos solve a specific task quickly."},
+  {"k": ["explanation docs"], "a": "Explanations deepen understanding of concepts and trade-offs."},
+  {"k": ["diataxis"], "a": "Diátaxis organizes docs into tutorials, how-to, reference, and explanation."},
+  {"k": ["changelog keep a changelog"], "a": "Keep a Changelog style lists Added/Changed/Fixed per version."},
+  {"k": ["architecture decision record"], "a": "ADRs capture context, decision, and consequences for major choices."},
+  {"k": ["runbook template"], "a": "Runbooks include symptoms, checks, mitigation steps, and escalation paths."},
+  {"k": ["onboarding docs"], "a": "Onboarding docs get a new engineer productive on day one with setup steps."},
+  {"k": ["public roadmap"], "a": "Public roadmaps set expectations without over-promising dates."}
+]
