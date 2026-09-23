@@ -1,0 +1,12 @@
+[
+  {"k": ["user problem first"], "a": "Start from the user problem and success metric, not a cool technology."},
+  {"k": ["mvp scope cut"], "a": "Cut scope ruthlessly; ship the smallest path to learning."},
+  {"k": ["instrument before guess"], "a": "Add analytics before debating what users do."},
+  {"k": ["activation aha"], "a": "Design onboarding to the aha moment quickly."},
+  {"k": ["retention over vanity"], "a": "Returning usage beats one-time signup spikes."},
+  {"k": ["support driven roadmap"], "a": "Frequent support tickets are roadmap signals."},
+  {"k": ["pricing engineering impact"], "a": "Pricing tiers affect architecture: quotas, multi-tenant isolation, metering."},
+  {"k": ["time to value"], "a": "Reduce setup friction so users reach value in minutes, not days."},
+  {"k": ["delight vs table stakes"], "a": "Ship reliability table stakes before polish-only features."},
+  {"k": ["say no roadmap"], "a": "Saying no protects focus; document why for later revisit."}
+]
