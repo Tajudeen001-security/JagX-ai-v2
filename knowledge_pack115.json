@@ -1,0 +1,12 @@
+[
+  {"k": ["mongodb document"], "a": "Documents are BSON objects stored in collections."},
+  {"k": ["mongodb aggregation"], "a": "Aggregation pipelines transform data through stages like $match, $group, $lookup."},
+  {"k": ["mongodb index"], "a": "Indexes speed queries; compound indexes need careful field order."},
+  {"k": ["mongodb replica set"], "a": "Replica sets provide redundancy and failover with a primary and secondaries."},
+  {"k": ["mongodb sharding"], "a": "Sharding partitions data across shards using a shard key."},
+  {"k": ["mongodb transaction"], "a": "Multi-document ACID transactions are supported in modern MongoDB."},
+  {"k": ["mongodb atlas"], "a": "Atlas is MongoDB's managed cloud service."},
+  {"k": ["mongodb vs sql"], "a": "Mongo favors flexible documents; SQL favors relational integrity and joins."},
+  {"k": ["mongodb objectid"], "a": "ObjectId is a 12-byte unique identifier often used as _id."},
+  {"k": ["mongodb projection"], "a": "Projections return only selected fields to reduce payload size."}
+]
