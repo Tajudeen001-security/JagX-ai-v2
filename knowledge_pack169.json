@@ -1,0 +1,12 @@
+[
+  {"k": ["semver breaking"], "a": "MAJOR version bumps for breaking API changes."},
+  {"k": ["changelog automation"], "a": "Generate changelogs from conventional commits in CI."},
+  {"k": ["release branch"], "a": "Release branches stabilize while main continues feature work."},
+  {"k": ["feature freeze"], "a": "Feature freeze accepts only fixes before a major release."},
+  {"k": ["canary percentage"], "a": "Start canaries at small % and expand if metrics stay healthy."},
+  {"k": ["rollback plan"], "a": "Every release should have a tested rollback path."},
+  {"k": ["artifact signing"], "a": "Sign release artifacts so clients can verify integrity."},
+  {"k": ["sbom"], "a": "SBOM lists components in a build for supply-chain visibility."},
+  {"k": ["npm publish"], "a": "Publish packages with clear versioning and restricted tokens."},
+  {"k": ["docker image tags"], "a": "Tag images with versions and digests; avoid relying only on latest."}
+]
