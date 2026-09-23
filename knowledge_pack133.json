@@ -1,0 +1,12 @@
+[
+  {"k": ["quic protocol"], "a": "QUIC is a UDP-based transport with built-in TLS and faster connection setup."},
+  {"k": ["http3 benefits"], "a": "HTTP/3 reduces head-of-line blocking and improves performance on lossy networks."},
+  {"k": ["tls 1.3"], "a": "TLS 1.3 is faster and safer than older TLS versions with fewer round trips."},
+  {"k": ["alpn"], "a": "ALPN negotiates application protocol (h2/h3) during TLS handshake."},
+  {"k": ["0rtt"], "a": "0-RTT can send data on reconnect but has replay considerations."},
+  {"k": ["multiplexing http2"], "a": "HTTP/2 multiplexes many streams on one TCP connection."},
+  {"k": ["server push deprecated"], "a": "HTTP/2 server push is rarely used and often disabled; prefer preload hints."},
+  {"k": ["websocket over http2"], "a": "WebSockets traditionally need HTTP/1.1 upgrade; alternatives exist with HTTP/2/3 designs."},
+  {"k": ["dns over https"], "a": "DoH encrypts DNS queries over HTTPS for privacy."},
+  {"k": ["ech tls"], "a": "Encrypted Client Hello aims to hide more handshake metadata from observers."}
+]
