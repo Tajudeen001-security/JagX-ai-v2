@@ -1,0 +1,17 @@
+[
+  {"k": ["closure javascript"], "a": "A closure is a function that remembers variables from its outer scope even after that scope finished."},
+  {"k": ["hoisting javascript"], "a": "Hoisting moves declarations to the top of a scope; var/function behave differently than let/const."},
+  {"k": ["event loop javascript"], "a": "The JS event loop processes the call stack and queues (microtasks/macrotasks) for async work."},
+  {"k": ["prototype javascript"], "a": "JS objects inherit via the prototype chain."},
+  {"k": ["this keyword javascript"], "a": "this depends on how a function is called (object method, bind, arrow functions differ)."},
+  {"k": ["arrow function this"], "a": "Arrow functions do not bind their own this; they use the enclosing scope's this."},
+  {"k": ["optional chaining"], "a": "obj?.prop safely accesses nested props without throwing if intermediate values are nullish."},
+  {"k": ["nullish coalescing"], "a": "a ?? b uses b only when a is null or undefined (not for 0 or '')."},
+  {"k": ["destructuring default"], "a": "```javascript\nconst {x = 1} = obj;\n```"},
+  {"k": ["spread operator"], "a": "... expands iterables/objects: [...arr], {...obj}."},
+  {"k": ["modules esm"], "a": "ES modules use import/export and are the standard module system in modern JS."},
+  {"k": ["event delegation"], "a": "Event delegation listens on a parent and handles events from children via bubbling."},
+  {"k": ["weakmap"], "a": "WeakMap keys are objects held weakly so they can be garbage-collected."},
+  {"k": ["generator javascript"], "a": "function* generators yield values lazily and can pause/resume execution."},
+  {"k": ["proxy javascript"], "a": "Proxy intercepts object operations (get/set/has) for custom behavior."}
+]
