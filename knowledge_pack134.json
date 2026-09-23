@@ -1,0 +1,12 @@
+[
+  {"k": ["meaningful names"], "a": "Names should reveal intent; avoid cryptic abbreviations."},
+  {"k": ["small functions"], "a": "Functions should do one thing and stay short when practical."},
+  {"k": ["avoid deep nesting"], "a": "Use early returns and guard clauses to flatten logic."},
+  {"k": ["comments when"], "a": "Comment why and trade-offs; prefer code that needs fewer comments."},
+  {"k": ["boy scout rule"], "a": "Leave the code cleaner than you found it on each change."},
+  {"k": ["feature envy"], "a": "Feature envy is when a method uses another object more than its own data."},
+  {"k": ["god class"], "a": "A god class knows/does too much; split responsibilities."},
+  {"k": ["dead code"], "a": "Remove unused code; version control keeps history."},
+  {"k": ["magic numbers"], "a": "Replace unexplained numbers with named constants."},
+  {"k": ["consistent style"], "a": "Use formatters and linters so style is automatic and shared."}
+]
