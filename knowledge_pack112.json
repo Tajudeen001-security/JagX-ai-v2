@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx deploy checklist"], "a": "Set GROQ_API_KEY, GROQ_MODEL, JAGX_ADMIN_SECRET, JAGX_PERMANENT_KEYS; verify /health and /debug/llm."},
+  {"k": ["jagx model 404 fix"], "a": "If model_not_found, switch GROQ_MODEL to openai/gpt-oss-20b or llama-3.3-70b-versatile."},
+  {"k": ["jagx test chat"], "a": "curl -X POST /chat -H 'x-api-key: KEY' -H 'Content-Type: application/json' -d '{\"message\":\"hi\"}'"},
+  {"k": ["jagx knowledge count"], "a": "See local_knowledge_entries on /debug/status after redeploy."},
+  {"k": ["jagx friends sharing"], "a": "Share permanent keys carefully; use tiers for rate limits on free users."},
+  {"k": ["jagx improve packs"], "a": "Add more knowledge_pack JSON files for offline speed on repeated questions."},
+  {"k": ["jagx train later"], "a": "Use jagx_training_data.jsonl + Kaggle GPU to fine-tune a small model later."},
+  {"k": ["jagx security tips"], "a": "Never commit API keys; rotate Groq keys if leaked; protect admin secret."},
+  {"k": ["jagx performance tips"], "a": "Keep max_tokens moderate (800), timeout ~10–12s, prefer fast models."},
+  {"k": ["jagx success state"], "a": "Success = /health ok, /debug/llm ok, /chat answers math and coding, packs loading."}
+]
