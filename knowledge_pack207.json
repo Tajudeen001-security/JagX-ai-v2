@@ -1,0 +1,12 @@
+[
+  {"k": ["cross product 2d"], "a": "ax*by - ay*bx gives signed area/orientation."},
+  {"k": ["point in polygon"], "a": "Ray casting or winding number tests containment."},
+  {"k": ["convex hull"], "a": "Andrew/Monotone chain or Graham scan builds the hull."},
+  {"k": ["segment intersection"], "a": "Orientation tests detect proper segment intersections."},
+  {"k": ["closest pair points"], "a": "Divide-and-conquer finds closest pair in O(n log n)."},
+  {"k": ["euclidean distance 2d"], "a": "sqrt((x1-x2)²+(y1-y2)²)"},
+  {"k": ["line equation"], "a": "ax+by+c=0 or slope-intercept forms."},
+  {"k": ["floating geometry eps"], "a": "Use epsilon comparisons; avoid == on floats."},
+  {"k": ["bounding box"], "a": "Axis-aligned bbox enables fast reject tests."},
+  {"k": ["rotating calipers"], "a": "Technique for diameter and width of convex polygons."}
+]
