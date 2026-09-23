@@ -1,0 +1,12 @@
+[
+  {"k": ["what is java"], "a": "Java is a widely used OOP language that runs on the JVM."},
+  {"k": ["jvm"], "a": "The JVM executes Java bytecode and provides portability across OSes."},
+  {"k": ["java class vs object"], "a": "A class is a blueprint; an object is an instance of a class."},
+  {"k": ["java inheritance"], "a": "Inheritance lets a class extend another to reuse and specialize behavior."},
+  {"k": ["java interface"], "a": "Interfaces define method contracts that implementing classes must fulfill."},
+  {"k": ["java exception"], "a": "Checked exceptions must be declared or handled; unchecked are RuntimeExceptions."},
+  {"k": ["java collections"], "a": "List, Set, Map are core collection interfaces in java.util."},
+  {"k": ["java stream api"], "a": "Streams support functional-style map/filter/reduce over collections."},
+  {"k": ["java spring"], "a": "Spring is a major framework for Java enterprise and web applications."},
+  {"k": ["java garbage collection"], "a": "GC automatically reclaims memory for unreachable objects on the JVM."}
+]
