@@ -1,0 +1,12 @@
+[
+  {"k": ["otel trace"], "a": "A trace is a tree of spans representing one request across services."},
+  {"k": ["otel span"], "a": "A span is a timed operation with attributes, events, and status."},
+  {"k": ["otel context propagation"], "a": "Context propagation carries trace IDs across process boundaries via headers."},
+  {"k": ["w3c tracecontext"], "a": "traceparent/tracestate headers standardize distributed tracing context."},
+  {"k": ["otel exporter"], "a": "Exporters send telemetry to backends like Jaeger, Tempo, or cloud APM."},
+  {"k": ["otel instrumentation"], "a": "Auto-instrumentation hooks common libraries; manual spans add business context."},
+  {"k": ["baggage otel"], "a": "Baggage propagates key-value application data alongside the trace context."},
+  {"k": ["sampling strategies"], "a": "Head/tail sampling control which traces are kept to manage cost."},
+  {"k": ["exemplars metrics"], "a": "Exemplars link metric data points to example traces."},
+  {"k": ["semantic conventions"], "a": "OTel semantic conventions standardize attribute names (http.method, etc.)."}
+]
