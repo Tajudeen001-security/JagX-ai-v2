@@ -1,0 +1,12 @@
+[
+  {"k": ["system prompt role"], "a": "System prompts set identity, style, and hard constraints."},
+  {"k": ["few shot examples"], "a": "Show input/output examples to steer format and quality."},
+  {"k": ["chain of thought care"], "a": "Ask for stepwise reasoning when helpful; hide internal chain if needed."},
+  {"k": ["output schema prompt"], "a": "Request JSON matching a schema for reliable parsing."},
+  {"k": ["retrieval grounding"], "a": "Provide source snippets and instruct the model to cite them."},
+  {"k": ["tool use instructions"], "a": "Describe available tools and when to call them clearly."},
+  {"k": ["delimiter prompts"], "a": "Use clear delimiters around untrusted user content."},
+  {"k": ["refusal policies"], "a": "State disallowed categories explicitly in the system prompt."},
+  {"k": ["temperature tasks"], "a": "Lower temperature for factual/coding; higher for brainstorming."},
+  {"k": ["eval driven prompts"], "a": "Improve prompts using a fixed evaluation set, not vibes alone."}
+]
