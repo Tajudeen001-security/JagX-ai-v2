@@ -1,0 +1,12 @@
+[
+  {"k": ["llm gateway"], "a": "A gateway centralizes auth, routing, logging, and rate limits for model calls."},
+  {"k": ["prompt template store"], "a": "Version prompts like code with reviews and rollbacks."},
+  {"k": ["tool sandbox"], "a": "Run tools with least privilege and strict argument validation."},
+  {"k": ["conversation memory"], "a": "Store short-term chat state and optional long-term summaries."},
+  {"k": ["streaming tokens ui"], "a": "Stream tokens to the client for better perceived latency."},
+  {"k": ["cost controls llm"], "a": "Cap tokens, cache, and route simple queries to smaller models."},
+  {"k": ["safety layer"], "a": "Filter inputs/outputs for policy violations before showing users."},
+  {"k": ["human escalation"], "a": "Escalate low-confidence or high-risk cases to humans."},
+  {"k": ["audit llm calls"], "a": "Log prompts/responses (redacted) for debugging and compliance."},
+  {"k": ["multi model fallback"], "a": "Fallback across providers when one is down or rate-limited."}
+]
