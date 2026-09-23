@@ -1,0 +1,12 @@
+[
+  {"k": ["inverted index"], "a": "An inverted index maps terms to the documents that contain them."},
+  {"k": ["bm25"], "a": "BM25 is a ranking function for keyword relevance in search engines."},
+  {"k": ["tf idf ranking"], "a": "TF-IDF ranks documents higher when terms are frequent in-doc but rare globally."},
+  {"k": ["semantic search"], "a": "Semantic search matches meaning via embeddings, not only exact keywords."},
+  {"k": ["hybrid search"], "a": "Hybrid search combines keyword and vector retrieval for better results."},
+  {"k": ["elasticsearch"], "a": "Elasticsearch is a distributed search and analytics engine built on Lucene."},
+  {"k": ["autocomplete search"], "a": "Autocomplete suggests queries/documents as the user types using prefixes/tries."},
+  {"k": ["faceted search"], "a": "Facets let users filter results by categories/attributes with counts."},
+  {"k": ["stop words"], "a": "Stop words are common words often ignored in classic keyword indexes."},
+  {"k": ["stemming search"], "a": "Stemming normalizes word variants so 'running' matches 'run'."}
+]
