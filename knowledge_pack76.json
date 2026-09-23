@@ -1,0 +1,14 @@
+[
+  {"k": ["critical rendering path"], "a": "CRP is the sequence to paint pixels: HTML/CSS/JS → render tree → layout → paint."},
+  {"k": ["reflow vs repaint"], "a": "Reflow recalculates layout; repaint redraws pixels without layout change."},
+  {"k": ["request animation frame"], "a": "requestAnimationFrame schedules work before the next repaint for smooth animation."},
+  {"k": ["web vitals"], "a": "Core Web Vitals include LCP, INP/FID, and CLS for user-centric performance."},
+  {"k": ["lcp"], "a": "LCP (Largest Contentful Paint) measures when the main content becomes visible."},
+  {"k": ["cls"], "a": "CLS (Cumulative Layout Shift) measures unexpected layout movement."},
+  {"k": ["code splitting"], "a": "Code splitting loads only needed JS bundles to improve startup time."},
+  {"k": ["tree shaking"], "a": "Tree shaking removes unused module exports from production bundles."},
+  {"k": ["lazy load images"], "a": "loading=\"lazy\" defers offscreen images until near the viewport."},
+  {"k": ["service worker"], "a": "Service workers intercept network requests for offline caches and push."},
+  {"k": ["browser cache headers"], "a": "Cache-Control and ETag control browser/proxy caching behavior."},
+  {"k": ["memory leak browser"], "a": "Detached DOM nodes and unbounded listeners/caches cause browser memory leaks."}
+]
