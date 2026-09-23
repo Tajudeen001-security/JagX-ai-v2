@@ -1,0 +1,14 @@
+[
+  {"k": ["graphql query"], "a": "A GraphQL query reads data and lets the client specify exact fields."},
+  {"k": ["graphql mutation"], "a": "Mutations change data (create/update/delete) on the server."},
+  {"k": ["graphql subscription"], "a": "Subscriptions stream real-time updates over WebSocket or similar."},
+  {"k": ["graphql schema"], "a": "The schema defines types, queries, mutations, and relationships."},
+  {"k": ["graphql resolver"], "a": "Resolvers are functions that fetch the data for each field."},
+  {"k": ["graphql n+1"], "a": "GraphQL can cause N+1 fetches; DataLoader batches and caches per request."},
+  {"k": ["graphql introspection"], "a": "Introspection lets clients discover the schema; disable or restrict in production if needed."},
+  {"k": ["graphql variables"], "a": "Variables pass dynamic values into queries without string concatenation."},
+  {"k": ["graphql fragments"], "a": "Fragments reuse field selections across multiple queries."},
+  {"k": ["graphql federation"], "a": "Federation composes multiple GraphQL services into one graph."},
+  {"k": ["graphql vs rest when"], "a": "Use GraphQL for flexible client-driven reads; REST is simpler for uniform public resources."},
+  {"k": ["apollo client"], "a": "Apollo Client is a popular GraphQL client with cache and hooks."}
+]
