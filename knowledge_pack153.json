@@ -1,0 +1,12 @@
+[
+  {"k": ["k8s statefulset"], "a": "StatefulSets manage pods with stable identities and persistent storage."},
+  {"k": ["k8s daemonset"], "a": "DaemonSets run a pod on every node (or a subset) for agents/logging."},
+  {"k": ["k8s job cronjob"], "a": "Jobs run finite tasks; CronJobs schedule Jobs on a timetable."},
+  {"k": ["k8s network policy"], "a": "NetworkPolicies restrict pod-to-pod traffic like a firewall."},
+  {"k": ["k8s pdb"], "a": "PodDisruptionBudgets limit voluntary disruptions during maintenance."},
+  {"k": ["k8s resource requests limits"], "a": "Requests schedule capacity; limits cap usage to protect neighbors."},
+  {"k": ["k8s taints tolerations"], "a": "Taints repel pods; tolerations allow pods onto tainted nodes."},
+  {"k": ["k8s affinity"], "a": "Affinity/anti-affinity prefer or avoid placing pods together."},
+  {"k": ["k8s service mesh"], "a": "Service meshes (Istio/Linkerd) add mTLS, traffic policy, and observability."},
+  {"k": ["k8s helm"], "a": "Helm packages Kubernetes apps as charts with templates and values."}
+]
