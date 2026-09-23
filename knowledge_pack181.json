@@ -1,0 +1,12 @@
+[
+  {"k": ["push vs inapp"], "a": "Push reaches outside the app; in-app notifies while the user is active."},
+  {"k": ["notification preferences"], "a": "Let users choose channels and categories; default conservatively."},
+  {"k": ["notification fanout"], "a": "Fan-out writes notification records to many recipients efficiently."},
+  {"k": ["dedupe notifications"], "a": "Collapse duplicate events so users are not spammed."},
+  {"k": ["quiet hours"], "a": "Respect quiet hours and timezones for non-urgent messages."},
+  {"k": ["email digests"], "a": "Batch low-priority updates into digests instead of many singles."},
+  {"k": ["fcm apns"], "a": "FCM (Android) and APNs (iOS) deliver mobile push notifications."},
+  {"k": ["web push"], "a": "Web Push uses service workers and VAPID keys for browser notifications."},
+  {"k": ["notification templates"], "a": "Templates keep copy consistent and localizable."},
+  {"k": ["unread badge"], "a": "Badges show unread counts; keep them accurate to avoid distrust."}
+]
