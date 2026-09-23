@@ -1,0 +1,18 @@
+[
+  {"k": ["modular arithmetic"], "a": "a ≡ b (mod n) means n divides (a-b). Clock arithmetic."},
+  {"k": ["gcd"], "a": "gcd(a,b) is the greatest positive integer dividing both a and b."},
+  {"k": ["lcm"], "a": "lcm(a,b) is the smallest positive integer divisible by both a and b."},
+  {"k": ["euclidean algorithm"], "a": "gcd(a,b) = gcd(b, a mod b) until remainder 0."},
+  {"k": ["prime factorization"], "a": "Every integer > 1 factors uniquely into primes (Fundamental Theorem of Arithmetic)."},
+  {"k": ["graph theory degree"], "a": "Degree of a vertex is the number of edges incident to it."},
+  {"k": ["tree graph"], "a": "A tree is a connected acyclic graph. n vertices ⇒ n-1 edges."},
+  {"k": ["boolean algebra"], "a": "Boolean algebra uses AND, OR, NOT with values true/false (1/0)."},
+  {"k": ["set union"], "a": "A ∪ B is elements in A or B or both."},
+  {"k": ["set intersection"], "a": "A ∩ B is elements in both A and B."},
+  {"k": ["set difference"], "a": "A − B is elements in A but not in B."},
+  {"k": ["cartesian product"], "a": "A × B = {(a,b) | a∈A, b∈B}"},
+  {"k": ["injective function"], "a": "Injective (one-to-one): f(x)=f(y) ⇒ x=y"},
+  {"k": ["surjective function"], "a": "Surjective (onto): every element in the codomain is hit."},
+  {"k": ["bijective function"], "a": "Bijective means both injective and surjective (invertible)."},
+  {"k": ["recurrence relation"], "a": "A recurrence defines terms using previous terms, e.g. a_n = a_(n-1) + a_(n-2)."}
+]
