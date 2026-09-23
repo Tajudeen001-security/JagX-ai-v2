@@ -1,0 +1,20 @@
+[
+  {"k": ["what is dom"], "a": "The DOM is the browser's tree representation of an HTML page that JavaScript can read and update."},
+  {"k": ["what is spa"], "a": "A Single Page Application loads one page and updates the UI with JavaScript without full reloads."},
+  {"k": ["what is ssr"], "a": "Server-Side Rendering builds HTML on the server for faster first paint and better SEO."},
+  {"k": ["what is csr"], "a": "Client-Side Rendering builds the UI in the browser with JavaScript after loading a shell page."},
+  {"k": ["react component"], "a": "A React component is a reusable UI piece that returns JSX."},
+  {"k": ["react props"], "a": "Props are inputs passed from a parent component to a child."},
+  {"k": ["react state"], "a": "State is data a component owns and can update, causing a re-render."},
+  {"k": ["react key prop"], "a": "The key prop helps React identify list items when reconciling updates."},
+  {"k": ["react router"], "a": "React Router maps URLs to components for navigation in a React app."},
+  {"k": ["what is nextjs"], "a": "Next.js is a React framework with routing, SSR/SSG, and API routes."},
+  {"k": ["what is tailwind"], "a": "Tailwind CSS is a utility-first CSS framework for building designs with class names."},
+  {"k": ["what is accessibility", "a11y"], "a": "Accessibility (a11y) means designing UIs so people with disabilities can use them (keyboard, screen readers, contrast)."},
+  {"k": ["what is responsive design"], "a": "Responsive design makes layouts adapt to phone, tablet, and desktop screen sizes."},
+  {"k": ["what is pwa"], "a": "A Progressive Web App can be installed, work offline, and feel more like a native app."},
+  {"k": ["what is bundle"], "a": "A JS bundle is the packaged frontend code shipped to the browser (often via webpack/vite)."},
+  {"k": ["what is vite"], "a": "Vite is a fast frontend build tool and dev server popular with React and Vue."},
+  {"k": ["what is webpack"], "a": "Webpack bundles JavaScript modules and assets for the browser."},
+  {"k": ["cors preflight"], "a": "A CORS preflight is an OPTIONS request the browser sends before some cross-origin requests."}
+]
