@@ -1,0 +1,12 @@
+[
+  {"k": ["node cluster"], "a": "cluster module runs multiple workers to use multi-core CPUs."},
+  {"k": ["node pm2"], "a": "PM2 keeps Node processes alive, restarts on crash, and load-balances."},
+  {"k": ["node memory leak"], "a": "Watch heap growth; common causes are global caches and unremoved listeners."},
+  {"k": ["node event emitter"], "a": "EventEmitter implements the observer pattern for in-process events."},
+  {"k": ["node streams"], "a": "Streams process data in chunks for efficient IO."},
+  {"k": ["node worker threads"], "a": "worker_threads run CPU-bound JS in parallel threads."},
+  {"k": ["node graceful shutdown"], "a": "On SIGTERM close server, drain connections, then exit."},
+  {"k": ["node env config"], "a": "Use dotenv in dev; real env vars in production."},
+  {"k": ["node typescript"], "a": "TypeScript + tsx/ts-node or compile to JS for production."},
+  {"k": ["node security headers"], "a": "helmet middleware sets secure HTTP headers for Express apps."}
+]
