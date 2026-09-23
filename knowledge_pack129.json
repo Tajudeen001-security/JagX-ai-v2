@@ -1,0 +1,12 @@
+[
+  {"k": ["django csrf"], "a": "Django includes CSRF middleware and template tokens for forms."},
+  {"k": ["flask secret key"], "a": "Set a strong SECRET_KEY for sessions and signing in Flask."},
+  {"k": ["sqlalchemy injection"], "a": "Use bound parameters; never format raw SQL with user input."},
+  {"k": ["python secrets module"], "a": "Use secrets for tokens and cryptographic randomness, not random."},
+  {"k": ["password hashing python"], "a": "Prefer passlib/argon2/bcrypt over plain hashes for passwords."},
+  {"k": ["fastapi dependency auth"], "a": "Use Depends() to inject auth checks into routes cleanly."},
+  {"k": ["cors fastapi"], "a": "Configure CORSMiddleware with explicit origins in production."},
+  {"k": ["upload validation python"], "a": "Validate size, content-type, and extension; store outside web root."},
+  {"k": ["ssrf python"], "a": "Block requests to internal IPs when fetching user-provided URLs."},
+  {"k": ["secure headers python"], "a": "Set HSTS, X-Content-Type-Options, and CSP via middleware."}
+]
