@@ -1,0 +1,12 @@
+[
+  {"k": ["precision at k"], "a": "P@k is the fraction of relevant results in the top k."},
+  {"k": ["recall search"], "a": "Recall is the fraction of all relevant documents that were retrieved."},
+  {"k": ["ndcg"], "a": "nDCG measures ranking quality with graded relevance and position discount."},
+  {"k": ["query understanding"], "a": "Parse intent, entities, and spell-correction before retrieval."},
+  {"k": ["synonym expansion"], "a": "Expand queries with synonyms to improve recall carefully."},
+  {"k": ["learning to rank"], "a": "ML models reorder candidates using click and relevance features."},
+  {"k": ["cold start search"], "a": "New items lack signals; use content features and exploration."},
+  {"k": ["personalization search"], "a": "Personalize ranking with user history while avoiding filter bubbles."},
+  {"k": ["spell correction"], "a": "Suggest corrections for misspelled queries using edit distance and popularity."},
+  {"k": ["zero result query"], "a": "Handle empty results with relaxed filters, suggestions, and related queries."}
+]
