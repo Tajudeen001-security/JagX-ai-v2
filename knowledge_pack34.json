@@ -1,0 +1,18 @@
+[
+  {"k": ["periodic table"], "a": "The periodic table organizes elements by atomic number and recurring chemical properties."},
+  {"k": ["atomic number"], "a": "Atomic number Z is the number of protons in an atom's nucleus."},
+  {"k": ["atomic mass"], "a": "Atomic mass is roughly protons + neutrons (isotopes average for the element)."},
+  {"k": ["mole chemistry"], "a": "One mole is 6.022 × 10^23 particles (Avogadro's number)."},
+  {"k": ["ph scale"], "a": "pH < 7 acidic, pH = 7 neutral, pH > 7 basic. pH = -log10[H+]."},
+  {"k": ["oxidation"], "a": "Oxidation is loss of electrons; reduction is gain of electrons (OIL RIG)."},
+  {"k": ["covalent bond"], "a": "A covalent bond shares electron pairs between atoms."},
+  {"k": ["ionic bond"], "a": "An ionic bond forms by transfer of electrons creating attraction between ions."},
+  {"k": ["exothermic"], "a": "Exothermic reactions release heat to the surroundings."},
+  {"k": ["endothermic"], "a": "Endothermic reactions absorb heat from the surroundings."},
+  {"k": ["catalyst"], "a": "A catalyst speeds up a reaction without being consumed."},
+  {"k": ["stoichiometry"], "a": "Stoichiometry uses balanced equations to relate amounts of reactants and products."},
+  {"k": ["valence electron"], "a": "Valence electrons are the outermost electrons that determine bonding."},
+  {"k": ["isotope"], "a": "Isotopes are atoms of the same element with different numbers of neutrons."},
+  {"k": ["molarity"], "a": "Molarity M = moles of solute / liters of solution."},
+  {"k": ["balancing equation"], "a": "A balanced chemical equation has the same number of each atom on both sides."}
+]
