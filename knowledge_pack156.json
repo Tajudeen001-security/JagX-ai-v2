@@ -1,0 +1,12 @@
+[
+  {"k": ["oauth authorization code + pkce"], "a": "Best default for public clients: auth code with PKCE."},
+  {"k": ["oauth implicit flow"], "a": "Implicit flow is legacy and discouraged for new apps."},
+  {"k": ["oauth device code"], "a": "Device code flow helps TVs and CLI devices without rich browsers."},
+  {"k": ["oauth scopes"], "a": "Scopes limit what an access token is allowed to do."},
+  {"k": ["oauth consent"], "a": "Users approve requested scopes on the authorization server."},
+  {"k": ["jwt validation steps"], "a": "Verify signature, iss, aud, exp, and nbf before trusting claims."},
+  {"k": ["jwks"], "a": "JWKS endpoints publish public keys for verifying JWTs."},
+  {"k": ["token introspection"], "a": "Introspection lets resource servers ask the auth server if a token is active."},
+  {"k": ["dpop"], "a": "DPoP sender-constrains tokens to a key to reduce bearer token theft impact."},
+  {"k": ["oauth state param"], "a": "state prevents CSRF on the redirect-based authorization flow."}
+]
