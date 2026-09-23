@@ -1,0 +1,12 @@
+[
+  {"k": ["vertical vs horizontal"], "a": "Vertical scales up machines; horizontal adds more instances."},
+  {"k": ["autoscaling metrics"], "a": "Scale on CPU, RPS, queue depth, or custom lag metrics."},
+  {"k": ["warm pool"], "a": "Keep warm instances ready to absorb sudden spikes."},
+  {"k": ["queue based scaling"], "a": "Scale workers by backlog size for async workloads."},
+  {"k": ["database scaling limits"], "a": "DBs often bottleneck first; cache, read replicas, then shard."},
+  {"k": ["shard key choice"], "a": "Choose keys that distribute load and match query patterns."},
+  {"k": ["hot partition"], "a": "A hot key/partition receives disproportionate traffic."},
+  {"k": ["back of envelope qps"], "a": "Estimate peak QPS from DAU × actions × seasonality."},
+  {"k": ["headroom capacity"], "a": "Run below max capacity to survive spikes and failures."},
+  {"k": ["load test regularly"], "a": "Load test before big launches and after architecture changes."}
+]
