@@ -1,0 +1,12 @@
+[
+  {"k": ["aws ec2"], "a": "EC2 provides virtual machines in the cloud."},
+  {"k": ["aws s3"], "a": "S3 is object storage for files, backups, and static assets."},
+  {"k": ["aws rds"], "a": "RDS manages relational databases with backups and failover options."},
+  {"k": ["aws lambda"], "a": "Lambda runs functions without managing servers (serverless)."},
+  {"k": ["aws iam"], "a": "IAM controls identities, roles, and permissions in AWS."},
+  {"k": ["aws vpc"], "a": "VPC is your isolated virtual network with subnets and routing."},
+  {"k": ["aws cloudfront"], "a": "CloudFront is AWS's CDN."},
+  {"k": ["aws sqs sns"], "a": "SQS is a queue; SNS is pub/sub fan-out messaging."},
+  {"k": ["aws ecs eks"], "a": "ECS runs containers on AWS; EKS is managed Kubernetes."},
+  {"k": ["aws cloudwatch"], "a": "CloudWatch provides metrics, logs, and alarms."}
+]
