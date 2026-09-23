@@ -1,0 +1,14 @@
+[
+  {"k": ["github actions workflow"], "a": "Workflows in .github/workflows/*.yml define automated CI/CD on GitHub events."},
+  {"k": ["github actions trigger"], "a": "on: push, pull_request, schedule, workflow_dispatch are common triggers."},
+  {"k": ["github actions job"], "a": "Jobs run on runners; steps inside a job share a workspace."},
+  {"k": ["github actions cache"], "a": "actions/cache speeds installs by reusing dependencies between runs."},
+  {"k": ["github actions secrets"], "a": "Store tokens in repo/org secrets; never commit them."},
+  {"k": ["github actions matrix"], "a": "strategy.matrix tests multiple versions/OS in parallel."},
+  {"k": ["github actions artifact"], "a": "upload-artifact shares build outputs between jobs or for download."},
+  {"k": ["pre commit hooks"], "a": "Pre-commit hooks run linters/tests before a commit is created."},
+  {"k": ["conventional commit ci"], "a": "CI can enforce conventional commit messages for changelogs."},
+  {"k": ["branch protection"], "a": "Branch protection requires reviews and green checks before merge."},
+  {"k": ["dependabot"], "a": "Dependabot opens PRs to update vulnerable or outdated dependencies."},
+  {"k": ["ci fail fast"], "a": "Fail fast stops the pipeline early when critical checks fail."}
+]
