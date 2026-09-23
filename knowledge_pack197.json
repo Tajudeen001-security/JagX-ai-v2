@@ -1,0 +1,12 @@
+[
+  {"k": ["ssrf definition"], "a": "SSRF makes your server request attacker-chosen URLs, often hitting internal systems."},
+  {"k": ["ssrf block list weak"], "a": "Blocklists miss aliases; prefer allowlists of hosts."},
+  {"k": ["ssrf dns rebinding"], "a": "Resolve DNS and validate IPs again at connect time to reduce rebinding."},
+  {"k": ["ssrf metadata cloud"], "a": "Block cloud metadata IPs like 169.254.169.254."},
+  {"k": ["ssrf redirect follow"], "a": "Validate every redirect hop destination."},
+  {"k": ["ssrf schemes"], "a": "Allow only https (and http if required); block file/gopher/etc."},
+  {"k": ["ssrf network segment"], "a": "Put egress-capable workers in restricted networks."},
+  {"k": ["ssrf response handling"], "a": "Do not reflect raw internal responses to users."},
+  {"k": ["ssrf timeouts"], "a": "Short timeouts and size limits reduce damage."},
+  {"k": ["ssrf testing"], "a": "Test with internal IPs, DNS tricks, and redirect chains in staging."}
+]
