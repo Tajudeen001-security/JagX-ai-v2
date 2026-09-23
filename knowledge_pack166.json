@@ -1,0 +1,12 @@
+[
+  {"k": ["write it down"], "a": "Prefer written updates so async teammates can catch up."},
+  {"k": ["decision log"], "a": "Record decisions, options considered, and owners."},
+  {"k": ["meeting agenda"], "a": "No agenda, no meeting — share goals and prep in advance."},
+  {"k": ["status update format"], "a": "Done / Doing / Blockers keeps standups short and useful."},
+  {"k": ["overcommunicate changes"], "a": "Announce breaking changes early in multiple channels."},
+  {"k": ["feedback private public"], "a": "Praise publicly, critique privately and specifically."},
+  {"k": ["timezone respect"], "a": "Schedule across overlapping hours; record for others."},
+  {"k": ["rfc process"], "a": "RFCs invite comment before large technical changes land."},
+  {"k": ["handoff checklist"], "a": "Handoffs include context, risks, links, and next steps."},
+  {"k": ["psychological safety"], "a": "Teams ship better when people can raise risks without fear."}
+]
