@@ -1,0 +1,12 @@
+[
+  {"k": ["tcp reliable delivery"], "a": "TCP uses seq/ack numbers, retransmits, and checksums for reliability."},
+  {"k": ["tcp flow control"], "a": "Receiver window limits sender to what the receiver can buffer."},
+  {"k": ["tcp congestion control"], "a": "Algorithms like Reno/CUBIC probe bandwidth and react to loss."},
+  {"k": ["tcp slow start"], "a": "Slow start grows the congestion window exponentially at first."},
+  {"k": ["tcp fast retransmit"], "a": "Triple duplicate ACKs trigger fast retransmit without waiting RTO."},
+  {"k": ["tcp keepalive"], "a": "Keepalives detect dead peers on idle connections."},
+  {"k": ["tcp nodelay"], "a": "TCP_NODELAY disables Nagle for latency-sensitive small writes."},
+  {"k": ["head of line tcp"], "a": "Lost packets block later data in the same TCP stream."},
+  {"k": ["tcp time wait"], "a": "TIME_WAIT holds closed sockets to handle delayed packets."},
+  {"k": ["syn flood"], "a": "SYN floods exhaust half-open connection state; SYN cookies help."}
+]
