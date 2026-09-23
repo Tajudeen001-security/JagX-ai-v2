@@ -1,0 +1,12 @@
+[
+  {"k": ["cookie secure flag"], "a": "Secure cookies are only sent over HTTPS."},
+  {"k": ["cookie httponly"], "a": "HttpOnly blocks document.cookie access, reducing XSS impact."},
+  {"k": ["samesite strict lax none"], "a": "Strict is tightest; Lax allows top-level GETs; None needs Secure."},
+  {"k": ["cookie domain path"], "a": "Scope cookies narrowly by Domain and Path."},
+  {"k": ["cookie prefixes host"], "a": "__Host- requires Secure, Path=/, no Domain."},
+  {"k": ["session cookie vs persistent"], "a": "Session cookies die with the browser; persistent use Max-Age/Expires."},
+  {"k": ["cookie size limits"], "a": "Browsers limit cookie count and size per domain."},
+  {"k": ["cookie theft mitigations"], "a": "HttpOnly + Secure + short TTL + rotation + CSP."},
+  {"k": ["third party cookies"], "a": "Third-party cookies are being phased down; design without relying on them."},
+  {"k": ["set cookie multiple"], "a": "Set-Cookie headers set cookies; do not expose them to untrusted JS."}
+]
