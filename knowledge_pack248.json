@@ -1,0 +1,12 @@
+[
+  {"k": ["problem details rfc"], "a": "RFC 7807 problem+json standardizes error bodies."},
+  {"k": ["error code stable"], "a": "Machine-readable error codes should stay stable across versions."},
+  {"k": ["validation error list"], "a": "Return field-level validation errors in a list."},
+  {"k": ["do not leak internals"], "a": "Hide stack traces and SQL from clients."},
+  {"k": ["correlation id error"], "a": "Include request/correlation ids in error responses."},
+  {"k": ["401 vs 403"], "a": "401 unauthenticated; 403 authenticated but not allowed."},
+  {"k": ["404 vs 410"], "a": "404 unknown; 410 gone permanently."},
+  {"k": ["409 conflict use"], "a": "409 for version conflicts and unique constraint violations."},
+  {"k": ["retryable errors"], "a": "Indicate whether clients should retry (e.g. 503)."},
+  {"k": ["localization errors"], "a": "Message text may localize; codes remain constant."}
+]
