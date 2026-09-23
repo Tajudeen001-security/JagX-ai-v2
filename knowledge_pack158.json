@@ -1,0 +1,12 @@
+[
+  {"k": ["local vs global state"], "a": "Keep state local unless many distant components need the same data."},
+  {"k": ["redux toolkit"], "a": "Redux Toolkit simplifies Redux with slices and immutable updates helpers."},
+  {"k": ["zustand"], "a": "Zustand is a minimal React state library with hooks."},
+  {"k": ["jotai"], "a": "Jotai uses atomic state pieces that components subscribe to selectively."},
+  {"k": ["server state vs ui state"], "a": "Server state belongs in query libraries; UI state in component/store."},
+  {"k": ["normalized state"], "a": "Normalize entities by id to avoid deeply nested duplication."},
+  {"k": ["derived state"], "a": "Derive values with selectors/computed instead of storing duplicates."},
+  {"k": ["state machines ui"], "a": "State machines (XState) model complex UI flows explicitly."},
+  {"k": ["url as state"], "a": "Filters/pagination in the URL make views shareable and back-button friendly."},
+  {"k": ["optimistic updates ui"], "a": "Update UI immediately, roll back if the server rejects the change."}
+]
