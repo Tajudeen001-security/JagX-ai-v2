@@ -1,0 +1,12 @@
+[
+  {"k": ["inline validation"], "a": "Validate after blur or submit; avoid yelling on first keystroke."},
+  {"k": ["accessible labels forms"], "a": "Every input needs a visible label associated via for/id."},
+  {"k": ["error summary"], "a": "Summarize errors at top and move focus on submit failure."},
+  {"k": ["password show toggle"], "a": "Allow showing passwords; do not block paste."},
+  {"k": ["disabled submit reason"], "a": "If submit is disabled, explain what is missing."},
+  {"k": ["autosave drafts"], "a": "Autosave long forms to reduce data loss."},
+  {"k": ["confirm destructive"], "a": "Confirm irreversible actions with clear consequences."},
+  {"k": ["mobile input types"], "a": "Use type=email/tel/number for better mobile keyboards."},
+  {"k": ["progress multi step"], "a": "Show step progress and allow going back."},
+  {"k": ["success feedback"], "a": "Confirm successful submits with clear next steps."}
+]
