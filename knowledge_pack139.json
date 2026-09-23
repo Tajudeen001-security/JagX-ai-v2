@@ -1,0 +1,12 @@
+[
+  {"k": ["paystack api"], "a": "Paystack provides APIs for payments, transfers, and webhooks popular in Nigeria."},
+  {"k": ["flutterwave api"], "a": "Flutterwave APIs support multi-country African payment methods."},
+  {"k": ["termii"], "a": "Termii and similar providers offer SMS/OTP services used in Nigeria."},
+  {"k": ["dojah"], "a": "Identity/KYC APIs (e.g. Dojah and peers) verify NIN/BVN-style checks for apps."},
+  {"k": ["monnify"], "a": "Monnify is a Nigerian payment infrastructure provider for businesses."},
+  {"k": ["kuda api ecosystem"], "a": "Digital banks and neobanks increasingly offer APIs and business tools."},
+  {"k": ["nigeria hosting options"], "a": "Teams deploy on Render, Railway, AWS, GCP, Azure, or local VPS providers."},
+  {"k": ["ussd app design"], "a": "USSD flows are menu-driven, short, and must handle session timeouts."},
+  {"k": ["low bandwidth ux"], "a": "Optimize for slow networks: small payloads, offline hints, and compression."},
+  {"k": ["naira formatting"], "a": "Format NGN with proper grouping and ₦ symbol for user-facing amounts."}
+]
