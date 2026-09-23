@@ -1,0 +1,12 @@
+[
+  {"k": ["log levels usage"], "a": "DEBUG dev detail; INFO normal events; WARN recoverable issues; ERROR failures."},
+  {"k": ["structured json logs"], "a": "JSON logs are queryable: level, msg, request_id, user_id, duration_ms."},
+  {"k": ["avoid secret logs"], "a": "Never log passwords, tokens, or full card numbers."},
+  {"k": ["log sampling"], "a": "Sample high-volume debug logs; keep all errors."},
+  {"k": ["contextual logging"], "a": "Bind request context so every line includes correlation ids."},
+  {"k": ["log aggregation"], "a": "Ship logs to a central store (ELK, Loki, CloudWatch)."},
+  {"k": ["retention logs"], "a": "Set retention by sensitivity and cost; comply with policy."},
+  {"k": ["error with stack"], "a": "Log stack traces once at the boundary; avoid duplicate noise."},
+  {"k": ["audit vs debug logs"], "a": "Audit logs are immutable security records; debug logs are operational."},
+  {"k": ["log injection"], "a": "Sanitize user input in logs to prevent forged log lines."}
+]
