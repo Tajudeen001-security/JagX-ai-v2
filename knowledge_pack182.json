@@ -1,0 +1,12 @@
+[
+  {"k": ["tenant isolation"], "a": "Isolate tenants by schema, row-level security, or separate databases."},
+  {"k": ["shared db separate schema"], "a": "One DB, schema per tenant balances isolation and operational cost."},
+  {"k": ["row level security"], "a": "RLS enforces tenant_id filters in the database layer."},
+  {"k": ["tenant context"], "a": "Resolve tenant from subdomain, header, or token claims early."},
+  {"k": ["noisy neighbor"], "a": "Quotas and rate limits prevent one tenant from starving others."},
+  {"k": ["per tenant config"], "a": "Feature flags and settings should be tenant-scoped."},
+  {"k": ["tenant offboarding"], "a": "Export and delete tenant data on cancellation per policy."},
+  {"k": ["billing meter"], "a": "Meter usage per tenant for seats, API calls, or storage."},
+  {"k": ["custom domains saas"], "a": "Map customer domains with TLS certificates automatically."},
+  {"k": ["tenant admin roles"], "a": "Provide tenant-level admin distinct from platform superadmin."}
+]
