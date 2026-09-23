@@ -1,0 +1,12 @@
+[
+  {"k": ["cache control public private"], "a": "public may be stored by shared caches; private is for browsers only."},
+  {"k": ["max age vs s maxage"], "a": "max-age is for browsers; s-maxage is for shared caches/CDNs."},
+  {"k": ["etag validation"], "a": "ETag enables conditional requests returning 304 when unchanged."},
+  {"k": ["last modified"], "a": "Last-Modified works with If-Modified-Since for revalidation."},
+  {"k": ["vary header"], "a": "Vary tells caches which request headers affect the response."},
+  {"k": ["stale while revalidate"], "a": "Serve stale content while refreshing in the background."},
+  {"k": ["stale if error"], "a": "Serve stale if origin errors, improving resilience."},
+  {"k": ["cache purge"], "a": "CDN purge/invalidate by URL or surrogate keys after publishes."},
+  {"k": ["no store sensitive"], "a": "Use Cache-Control: no-store for personal or secret responses."},
+  {"k": ["immutable assets"], "a": "Fingerprinted static assets can use long max-age and immutable."}
+]
