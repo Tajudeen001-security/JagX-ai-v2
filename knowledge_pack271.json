@@ -1,0 +1,12 @@
+[
+  {"k": ["user data respect"], "a": "Collect less, protect always, delete when done."},
+  {"k": ["dark patterns avoid"], "a": "Do not trick users into consent or purchases."},
+  {"k": ["accessibility is ethics"], "a": "Excluding users with disabilities is a product failure."},
+  {"k": ["security is ethics"], "a": "Negligent security harms real people."},
+  {"k": ["honest status pages"], "a": "Do not hide outages from paying customers."},
+  {"k": ["ai disclosure"], "a": "Be clear when outputs are machine-generated if it matters."},
+  {"k": ["bias awareness"], "a": "Models and data can encode bias; test and mitigate."},
+  {"k": ["whistle boundaries"], "a": "Know escalation paths for serious ethical concerns."},
+  {"k": ["dual use caution"], "a": "Consider how tools could be misused and add safeguards."},
+  {"k": ["craft pride"], "a": "Ship work you would trust for your own family."}
+]
