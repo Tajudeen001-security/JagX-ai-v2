@@ -1,0 +1,14 @@
+[
+  {"k": ["css position sticky"], "a": "position: sticky toggles between relative and fixed based on scroll within a container."},
+  {"k": ["css z-index"], "a": "z-index stacks positioned elements; stacking contexts can limit its effect."},
+  {"k": ["css specificity"], "a": "Specificity ranks selectors: inline > id > class/attr/pseudo > element."},
+  {"k": ["css cascade layers"], "a": "@layer controls cascade priority groups for large stylesheets."},
+  {"k": ["css custom properties"], "a": "```css\n:root { --brand: #0af; }\n.btn { color: var(--brand); }\n```"},
+  {"k": ["css clamp"], "a": "clamp(min, preferred, max) creates responsive values without many breakpoints."},
+  {"k": ["css container queries"], "a": "Container queries style based on parent size, not only the viewport."},
+  {"k": ["css grid areas"], "a": "grid-template-areas names regions for readable page layouts."},
+  {"k": ["css aspect ratio"], "a": "aspect-ratio maintains width/height proportion for media boxes."},
+  {"k": ["css prefers color scheme"], "a": "@media (prefers-color-scheme: dark) adapts to system dark mode."},
+  {"k": ["css transform"], "a": "transform (translate/scale/rotate) is GPU-friendly for animations."},
+  {"k": ["css will change"], "a": "will-change hints browsers about upcoming animations; use sparingly."}
+]
