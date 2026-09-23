@@ -1,0 +1,12 @@
+[
+  {"k": ["celery task"], "a": "Celery runs Python tasks asynchronously via brokers like Redis or RabbitMQ."},
+  {"k": ["celery beat"], "a": "Celery Beat schedules periodic tasks (cron-like)."},
+  {"k": ["task idempotency"], "a": "Background jobs should be safe to retry without duplicating side effects."},
+  {"k": ["job queue visibility timeout"], "a": "Visibility timeouts hide in-flight messages until ack or expiry."},
+  {"k": ["dead letter jobs"], "a": "Failed jobs after max retries go to a dead-letter queue for inspection."},
+  {"k": ["sidekiq"], "a": "Sidekiq is a popular background job processor for Ruby."},
+  {"k": ["bullmq"], "a": "BullMQ is a Redis-based job queue for Node.js."},
+  {"k": ["at least once jobs"], "a": "Most queues are at-least-once; design consumers to be idempotent."},
+  {"k": ["job priority"], "a": "Priority queues process urgent work before bulk/batch jobs."},
+  {"k": ["long running job"], "a": "Heartbeat/extend locks for long jobs so they are not requeued early."}
+]
