@@ -1,0 +1,12 @@
+[
+  {"k": ["prometheus metrics types"], "a": "Counter, Gauge, Histogram, and Summary are core Prometheus metric types."},
+  {"k": ["promql"], "a": "PromQL queries time-series metrics in Prometheus."},
+  {"k": ["opentelemetry"], "a": "OpenTelemetry standardizes traces, metrics, and logs instrumentation."},
+  {"k": ["jaeger"], "a": "Jaeger is a distributed tracing system."},
+  {"k": ["elk stack"], "a": "ELK is Elasticsearch, Logstash, and Kibana for log search and dashboards."},
+  {"k": ["loki"], "a": "Loki is a log aggregation system designed to work with Grafana."},
+  {"k": ["slo burn rate"], "a": "Burn rate alerts fire when error budget is being consumed too fast."},
+  {"k": ["cardinality metrics"], "a": "High cardinality labels explode time series and can overload metrics systems."},
+  {"k": ["structured log fields"], "a": "Include request_id, user_id, route, status, latency_ms in logs."},
+  {"k": ["sampling traces"], "a": "Trace sampling reduces cost while keeping representative performance data."}
+]
