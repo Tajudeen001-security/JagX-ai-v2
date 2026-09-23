@@ -1,0 +1,12 @@
+[
+  {"k": ["title meta description"], "a": "Unique titles and meta descriptions improve CTR from search."},
+  {"k": ["canonical url"], "a": "Canonical tags prevent duplicate content issues."},
+  {"k": ["ssr for seo"], "a": "Server-rendered HTML helps crawlers index content reliably."},
+  {"k": ["sitemap robots"], "a": "Provide sitemap.xml and a correct robots.txt."},
+  {"k": ["structured data jsonld"], "a": "JSON-LD structured data enables rich results when eligible."},
+  {"k": ["core web vitals seo"], "a": "Page experience signals include CWV metrics."},
+  {"k": ["clean urls"], "a": "Readable URLs with keywords help users and SEO."},
+  {"k": ["internal linking"], "a": "Internal links distribute authority and aid discovery."},
+  {"k": ["hreflang"], "a": "hreflang marks language/region variants."},
+  {"k": ["avoid cloaking"], "a": "Show search engines and users the same primary content."}
+]
