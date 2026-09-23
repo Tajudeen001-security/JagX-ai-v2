@@ -1,0 +1,12 @@
+[
+  {"k": ["incident commander"], "a": "IC coordinates response, not necessarily the deepest technical fixer."},
+  {"k": ["comms lead incident"], "a": "Comms lead updates stakeholders on a cadence."},
+  {"k": ["scribe incident"], "a": "Scribe keeps a timeline of actions and findings."},
+  {"k": ["severity levels"], "a": "SEV definitions align urgency and response expectations."},
+  {"k": ["war room"], "a": "A dedicated channel/call reduces noise and speeds coordination."},
+  {"k": ["mitigate first"], "a": "Stop the bleeding before perfect root-cause analysis."},
+  {"k": ["status page updates"], "a": "Update external status honestly with next check-in time."},
+  {"k": ["incident roles rotate"], "a": "Rotate roles to avoid burnout and bus factor."},
+  {"k": ["declare incident early"], "a": "Better a false start than a silent growing outage."},
+  {"k": ["incident close criteria"], "a": "Close when mitigated, monitored, and follow-ups owned."}
+]
