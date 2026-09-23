@@ -1,0 +1,12 @@
+[
+  {"k": ["jwt alg none"], "a": "Reject alg=none; enforce expected algorithms server-side."},
+  {"k": ["jwt secret confusion"], "a": "Do not mix HMAC secrets and public-key verification carelessly."},
+  {"k": ["jwt in localstorage"], "a": "XSS can steal tokens in localStorage; prefer HttpOnly cookies when possible."},
+  {"k": ["jwt revocation"], "a": "Stateless JWTs are hard to revoke early; use short TTL + refresh or blocklists."},
+  {"k": ["jwt claims bloat"], "a": "Keep payloads small; avoid sensitive PII in claims."},
+  {"k": ["jwt clock skew"], "a": "Allow small clock skew when validating exp/nbf."},
+  {"k": ["jwt kid header"], "a": "kid selects keys; validate against a trusted JWKS only."},
+  {"k": ["jwt access vs id token"], "a": "Access tokens authorize APIs; ID tokens prove identity to the client."},
+  {"k": ["jwt audience check"], "a": "Always verify aud matches your API."},
+  {"k": ["jwt logout"], "a": "Clear client tokens and revoke refresh tokens on logout."}
+]
