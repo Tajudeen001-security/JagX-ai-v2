@@ -1,0 +1,12 @@
+[
+  {"k": ["token bucket"], "a": "Token bucket allows bursts up to capacity while refilling tokens at a steady rate."},
+  {"k": ["leaky bucket"], "a": "Leaky bucket smooths traffic to a constant outflow rate."},
+  {"k": ["fixed window counter"], "a": "Fixed window counts requests per interval; simple but can burst at boundaries."},
+  {"k": ["sliding window log"], "a": "Sliding window log stores timestamps for precise limiting at higher memory cost."},
+  {"k": ["sliding window counter"], "a": "Sliding window counter approximates sliding behavior with less memory."},
+  {"k": ["distributed rate limit"], "a": "Use Redis or similar so limits are shared across all app instances."},
+  {"k": ["quota vs rate limit"], "a": "Rate limits control short-term speed; quotas control longer-term total usage."},
+  {"k": ["429 too many requests"], "a": "HTTP 429 signals the client should slow down; include Retry-After when possible."},
+  {"k": ["per key limiting"], "a": "Limit by API key, IP, user id, or a combination depending on abuse mode."},
+  {"k": ["graceful rate limit response"], "a": "Return clear JSON errors and remaining quota headers for good DX."}
+]
