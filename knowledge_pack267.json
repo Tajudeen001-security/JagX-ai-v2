@@ -1,0 +1,12 @@
+[
+  {"k": ["north star examples"], "a": "Examples: weekly active teams, successful API calls, completed rides."},
+  {"k": ["input vs output metrics"], "a": "Input metrics are controllable levers; outputs are results."},
+  {"k": ["lagging leading"], "a": "Leading metrics predict; lagging metrics confirm."},
+  {"k": ["guardrail metric"], "a": "Guardrails catch negative side effects of optimizations."},
+  {"k": ["activation metric eng"], "a": "Track time-to-first-value for new users."},
+  {"k": ["reliability as metric"], "a": "Error rate and latency are product features too."},
+  {"k": ["funnel drop analysis"], "a": "Find the step with the largest drop and investigate why."},
+  {"k": ["cohort retention curve"], "a": "Plot retention by signup week to see product stickiness."},
+  {"k": ["qual + quant"], "a": "Pair metrics with user interviews for insight."},
+  {"k": ["metric gaming"], "a": "Watch for metrics that teams optimize while hurting real value."}
+]
