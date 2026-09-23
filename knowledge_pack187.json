@@ -1,0 +1,12 @@
+[
+  {"k": ["expand contract migration"], "a": "Add new fields first, dual-write, switch reads, then remove old fields."},
+  {"k": ["lock timeouts migration"], "a": "Set lock timeouts so migrations fail fast instead of blocking traffic."},
+  {"k": ["online index create"], "a": "Create indexes concurrently when the engine supports it."},
+  {"k": ["not null carefully"], "a": "Add nullable column, backfill, then set NOT NULL."},
+  {"k": ["default values deploy"], "a": "Avoid heavy table rewrites; prefer application defaults during rollout."},
+  {"k": ["migration rollback"], "a": "Prefer forward fixes; true down migrations can be dangerous on large data."},
+  {"k": ["schema drift detect"], "a": "Compare live schema to migrations in CI to catch drift."},
+  {"k": ["seed vs migrate"], "a": "Migrations change structure; seeds load reference/demo data."},
+  {"k": ["multi service schema"], "a": "Avoid multiple services owning the same tables when possible."},
+  {"k": ["migration review"], "a": "Review migrations like code: locks, time, and data backfills."}
+]
