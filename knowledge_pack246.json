@@ -1,0 +1,12 @@
+[
+  {"k": ["find recent files"], "a": "find . -type f -mtime -1"},
+  {"k": ["grep recursive"], "a": "grep -RIn 'pattern' ."},
+  {"k": ["disk usage sort"], "a": "du -sh * | sort -h"},
+  {"k": ["watch command"], "a": "watch -n 2 'curl -s localhost:8000/health'"},
+  {"k": ["xargs parallel"], "a": "... | xargs -P 4 -n 1 command"},
+  {"k": ["jq filter json"], "a": "curl -s url | jq '.key'"},
+  {"k": ["sed in place"], "a": "sed -i 's/old/new/g' file"},
+  {"k": ["awk column"], "a": "awk '{print $1}' file"},
+  {"k": ["tar extract"], "a": "tar -xzf archive.tar.gz"},
+  {"k": ["chmod scripts"], "a": "chmod +x script.sh"}
+]
