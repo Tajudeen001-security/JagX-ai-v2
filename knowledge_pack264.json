@@ -1,0 +1,12 @@
+[
+  {"k": ["code verifier"], "a": "High-entropy secret created by the client for PKCE."},
+  {"k": ["code challenge"], "a": "Usually S256(hash of verifier) sent in the authorize request."},
+  {"k": ["pkce why"], "a": "Stops attackers who intercept the auth code from exchanging it."},
+  {"k": ["public client oauth"], "a": "SPAs and mobile apps cannot keep client secrets; use PKCE."},
+  {"k": ["auth code intercept"], "a": "Without PKCE, stolen redirect codes can be redeemed by attackers."},
+  {"k": ["state and pkce"], "a": "Use both state (CSRF) and PKCE (code theft) together."},
+  {"k": ["token endpoint pkce"], "a": "Token request includes the original code_verifier."},
+  {"k": ["pkce plain discouraged"], "a": "plain method is weaker; prefer S256."},
+  {"k": ["mobile app links oauth"], "a": "Use claimed HTTPS app links / universal links for redirects."},
+  {"k": ["refresh with rotation"], "a": "Rotate refresh tokens and detect reuse."}
+]
