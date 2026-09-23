@@ -1,0 +1,12 @@
+[
+  {"k": ["feature flag types"], "a": "Release, experiment, ops, and permission flags serve different purposes."},
+  {"k": ["flag targeting"], "a": "Target by user id, percentage rollout, plan, or attributes."},
+  {"k": ["flag sticky bucketing"], "a": "Sticky assignment keeps a user in the same variant for consistency."},
+  {"k": ["flag cleanup"], "a": "Remove stale flags after full rollout to reduce complexity."},
+  {"k": ["flag defaults"], "a": "Fail closed or open intentionally when the flag service is down."},
+  {"k": ["flag evaluation point"], "a": "Evaluate flags server-side for security-sensitive features."},
+  {"k": ["multivariate flag"], "a": "Multivariate flags test more than two variants."},
+  {"k": ["flag change audit"], "a": "Audit who changed flags and when for incident response."},
+  {"k": ["config vs flag"], "a": "Flags toggle behavior; config holds non-boolean settings."},
+  {"k": ["kill switch flag"], "a": "Kill switches instantly disable risky features in production."}
+]
