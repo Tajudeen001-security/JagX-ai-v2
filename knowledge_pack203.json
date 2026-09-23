@@ -1,0 +1,12 @@
+[
+  {"k": ["quicksort idea"], "a": "Partition around a pivot; average O(n log n), worst O(n²)."},
+  {"k": ["mergesort idea"], "a": "Divide, sort halves, merge; stable O(n log n) time, O(n) space."},
+  {"k": ["heapsort idea"], "a": "Build a heap then extract max repeatedly; O(n log n) in-place."},
+  {"k": ["counting sort"], "a": "Sort integers in a limited range by counting occurrences."},
+  {"k": ["radix sort"], "a": "Sort by digits/passes for fixed-length keys."},
+  {"k": ["binary search variant"], "a": "Binary search finds boundaries (first true, lower_bound) carefully."},
+  {"k": ["ternary search"], "a": "Ternary search optimizes unimodal functions."},
+  {"k": ["stable sort meaning"], "a": "Stable sorts keep equal keys in original relative order."},
+  {"k": ["comparison lower bound"], "a": "Comparison sorts need Ω(n log n) comparisons worst-case."},
+  {"k": ["timsort"], "a": "TimSort is a hybrid stable sort used in Python and Java."}
+]
