@@ -1,0 +1,12 @@
+[
+  {"k": ["pure function fp"], "a": "A pure function has no side effects and returns the same output for the same inputs."},
+  {"k": ["immutability fp"], "a": "Immutable data is never changed in place; updates create new values."},
+  {"k": ["higher order function"], "a": "A higher-order function takes or returns functions (map, filter, reduce)."},
+  {"k": ["map filter reduce"], "a": "map transforms; filter selects; reduce aggregates a collection."},
+  {"k": ["currying"], "a": "Currying turns a multi-arg function into a chain of single-arg functions."},
+  {"k": ["function composition"], "a": "Composition pipelines functions: (f ∘ g)(x) = f(g(x))."},
+  {"k": ["monad idea"], "a": "Monads structure computations with context (Maybe, IO) via bind/return."},
+  {"k": ["lazy evaluation"], "a": "Lazy evaluation computes values only when needed."},
+  {"k": ["referential transparency"], "a": "An expression is referentially transparent if it can be replaced by its value safely."},
+  {"k": ["fp languages"], "a": "Haskell, Elixir, and parts of Scala/F#/JS/Python support functional style."}
+]
