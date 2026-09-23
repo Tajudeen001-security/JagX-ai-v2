@@ -1,0 +1,17 @@
+[
+  {"k": ["api versioning"], "a": "Version APIs via URL (/v1), headers, or media types to avoid breaking clients."},
+  {"k": ["api deprecation"], "a": "Deprecate with clear timelines, docs, and alternate endpoints before removal."},
+  {"k": ["developer experience"], "a": "DX means clear docs, predictable errors, sandboxes, and fast onboarding for API users."},
+  {"k": ["api status page"], "a": "A status page communicates incidents and uptime to customers."},
+  {"k": ["sla slo sli"], "a": "SLI measures; SLO targets; SLA is the contractual commitment."},
+  {"k": ["feature flag"], "a": "Feature flags toggle features without redeploying, enabling gradual rollout."},
+  {"k": ["dark launch"], "a": "Dark launching runs new code/paths without exposing them fully to users."},
+  {"k": ["a/b test"], "a": "A/B tests compare variants with real traffic to measure impact."},
+  {"k": ["telemetry"], "a": "Telemetry is automated data about system behavior (metrics, logs, traces)."},
+  {"k": ["on call"], "a": "On-call engineers respond to production incidents on a rotation."},
+  {"k": ["postmortem"], "a": "A blameless postmortem documents incidents, causes, and prevention steps."},
+  {"k": ["runbook"], "a": "A runbook is a step-by-step guide to operate or recover a system."},
+  {"k": ["api key rotation"], "a": "Rotate API keys periodically and after suspected leaks; support multiple active keys during transition."},
+  {"k": ["quota management"], "a": "Quotas limit usage per customer to protect shared systems and enable fair pricing."},
+  {"k": ["webhook security"], "a": "Sign webhook payloads and verify signatures; use secrets and retries carefully."}
+]
