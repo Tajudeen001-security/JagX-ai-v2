@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 150"], "a": "JagX has reached ~150 knowledge packs covering engineering, math, Nigeria, and product ops."},
+  {"k": ["jagx knowledge strategy"], "a": "Local packs for speed on known topics; cloud LLM for open-ended reasoning."},
+  {"k": ["jagx continuous growth"], "a": "Add knowledge_packN.json anytime; loader picks new files after redeploy."},
+  {"k": ["jagx coding strength"], "a": "Strong coverage of Python, JS/TS, SQL, APIs, DevOps, and system design."},
+  {"k": ["jagx math strength"], "a": "Packs include calculus, linear algebra, probability, and applied ML math."},
+  {"k": ["jagx nigeria strength"], "a": "Includes fintech, payments, culture, and career context for Nigeria builders."},
+  {"k": ["jagx ops strength"], "a": "Render keep-alive, API keys, debug endpoints, and deployment checklists included."},
+  {"k": ["jagx built by credit"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["jagx api still same"], "a": "POST /chat with x-api-key remains the main interface."},
+  {"k": ["jagx next goals"], "a": "More domain packs, better retrieval, optional DB memory, and fine-tuning later."}
+]
