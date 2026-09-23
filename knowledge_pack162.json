@@ -1,0 +1,12 @@
+[
+  {"k": ["n+1 api"], "a": "Avoid per-item downstream calls; batch or join instead."},
+  {"k": ["pagination cursor vs offset"], "a": "Cursors scale better than large OFFSET on big tables."},
+  {"k": ["async io bound"], "a": "Async helps IO-bound workloads; CPU-bound needs processes/workers."},
+  {"k": ["connection pool sizing"], "a": "Pool size ≈ concurrent queries the DB can handle, not unlimited."},
+  {"k": ["response compression"], "a": "Enable gzip/brotli for JSON/text responses when CPU allows."},
+  {"k": ["hot key cache"], "a": "Hot keys can overload one cache shard; replicate or split keys."},
+  {"k": ["bulk endpoints"], "a": "Bulk APIs reduce chatty mobile/web clients."},
+  {"k": ["read replicas routing"], "a": "Send read-only queries to replicas; keep writes on primary."},
+  {"k": ["timeout budgets"], "a": "Set timeouts smaller than upstream so failures fail fast."},
+  {"k": ["profiling backend"], "a": "Profile CPU, allocations, and DB before optimizing guesses."}
+]
