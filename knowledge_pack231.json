@@ -1,0 +1,12 @@
+[
+  {"k": ["upload size limit"], "a": "Enforce max body size at proxy and app layers."},
+  {"k": ["magic byte check"], "a": "Verify file signatures, not only client-provided Content-Type."},
+  {"k": ["randomize filenames"], "a": "Store objects under random keys; never trust user filenames as paths."},
+  {"k": ["content disposition attachment"], "a": "Serve untrusted files as attachments when possible."},
+  {"k": ["virus scan async"], "a": "Scan asynchronously; quarantine until clean."},
+  {"k": ["image re encode"], "a": "Re-encode images to strip active content."},
+  {"k": ["separate upload domain"], "a": "Serve user content from a different domain/origin."},
+  {"k": ["presigned upload"], "a": "Client uploads directly to object storage with short-lived credentials."},
+  {"k": ["zip bomb"], "a": "Limit decompression ratios for archives."},
+  {"k": ["svg upload risk"], "a": "SVG can contain scripts; sanitize or block."}
+]
