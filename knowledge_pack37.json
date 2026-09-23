@@ -1,0 +1,18 @@
+[
+  {"k": ["singleton pattern"], "a": "Singleton ensures a class has only one instance with a global access point."},
+  {"k": ["factory pattern"], "a": "Factory creates objects without exposing the exact class to the caller."},
+  {"k": ["observer pattern"], "a": "Observer lets objects subscribe to events and get notified on changes."},
+  {"k": ["mvc pattern"], "a": "MVC separates Model (data), View (UI), and Controller (input/logic)."},
+  {"k": ["restful resource"], "a": "RESTful design models resources with nouns and uses HTTP verbs for actions."},
+  {"k": ["dry principle"], "a": "DRY: Don't Repeat Yourself — avoid duplicating knowledge/logic."},
+  {"k": ["kiss principle"], "a": "KISS: Keep It Simple, Stupid — prefer simple solutions."},
+  {"k": ["solid principles"], "a": "SOLID: Single responsibility, Open-closed, Liskov, Interface segregation, Dependency inversion."},
+  {"k": ["pure function"], "a": "A pure function returns the same output for the same inputs and has no side effects."},
+  {"k": ["immutability"], "a": "Immutable data is not changed in place; updates create new values (safer concurrency)."},
+  {"k": ["debounce"], "a": "Debounce delays handling until events stop firing for a quiet period (e.g. search input)."},
+  {"k": ["throttle"], "a": "Throttle limits how often a function runs during continuous events (e.g. scroll)."},
+  {"k": ["memoization"], "a": "Memoization caches function results for repeated inputs to avoid recomputation."},
+  {"k": ["recursion vs iteration"], "a": "Recursion uses function calls and a stack; iteration uses loops. Both can solve many problems."},
+  {"k": ["off by one error"], "a": "Off-by-one errors are boundary mistakes (loops, indexes, inclusive/exclusive ranges)."},
+  {"k": ["null safety"], "a": "Null safety means the type system or checks prevent unexpected null/None access."}
+]
