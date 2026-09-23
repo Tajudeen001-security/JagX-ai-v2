@@ -1,0 +1,19 @@
+[
+  {"k": ["what is big o", "big o notation"], "a": "Big O describes how runtime or memory grows as input size grows (e.g. O(1), O(n), O(n log n), O(n^2))."},
+  {"k": ["time complexity"], "a": "Time complexity estimates how many steps an algorithm takes as input size increases."},
+  {"k": ["space complexity"], "a": "Space complexity estimates extra memory an algorithm needs as input size increases."},
+  {"k": ["two sum"], "a": "```python\ndef two_sum(nums, target):\n    seen = {}\n    for i, n in enumerate(nums):\n        need = target - n\n        if need in seen:\n            return [seen[need], i]\n        seen[n] = i\n    return []\n```"},
+  {"k": ["valid parentheses"], "a": "```python\ndef is_valid(s):\n    stack, pairs = [], {')':'(', ']':'[', '}':'{'}
+    for c in s:\n        if c in pairs.values():\n            stack.append(c)\n        elif not stack or stack.pop() != pairs.get(c):\n            return False\n    return not stack\n```"},
+  {"k": ["max subarray", "kadane"], "a": "```python\ndef max_subarray(nums):\n    best = cur = nums[0]\n    for n in nums[1:]:\n        cur = max(n, cur + n)\n        best = max(best, cur)\n    return best\n```"},
+  {"k": ["bfs graph"], "a": "BFS explores level by level using a queue. Good for shortest path in unweighted graphs."},
+  {"k": ["dfs graph"], "a": "DFS explores as deep as possible using a stack or recursion. Good for path finding and connectivity."},
+  {"k": ["hash table"], "a": "A hash table maps keys to values with average O(1) lookup using a hash function and buckets."},
+  {"k": ["binary tree"], "a": "A binary tree is a tree where each node has at most two children (left and right)."},
+  {"k": ["bst", "binary search tree"], "a": "In a BST, left subtree values are smaller and right subtree values are larger than the node."},
+  {"k": ["heap data structure"], "a": "A heap is a tree-based structure used for priority queues. Min-heap: parent <= children."},
+  {"k": ["dynamic programming"], "a": "Dynamic programming solves problems by combining solutions to overlapping subproblems and storing results."},
+  {"k": ["greedy algorithm"], "a": "A greedy algorithm makes the best local choice at each step hoping for a global optimum."},
+  {"k": ["sliding window"], "a": "Sliding window maintains a subarray/substring range that moves over the data for O(n) solutions."},
+  {"k": ["two pointers"], "a": "Two pointers walk from ends or same side of an array to find pairs, partitions, or windows efficiently."}
+]
