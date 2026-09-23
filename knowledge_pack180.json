@@ -1,0 +1,12 @@
+[
+  {"k": ["instant search"], "a": "Debounced queries update results as the user types."},
+  {"k": ["search suggestions"], "a": "Suggest queries and entities from popular and personalized terms."},
+  {"k": ["recent searches"], "a": "Show recent searches for faster repeat access."},
+  {"k": ["empty state search"], "a": "Offer popular categories and tips when the box is empty."},
+  {"k": ["no results recovery"], "a": "Suggest spelling fixes, broader filters, and related categories."},
+  {"k": ["filter chips"], "a": "Chips show active filters and allow one-click removal."},
+  {"k": ["sort relevance"], "a": "Default to relevance; allow sort by price/date when useful."},
+  {"k": ["search analytics"], "a": "Track queries, clicks, and zero-result rates to improve relevance."},
+  {"k": ["voice search"], "a": "Voice input needs strong speech-to-text and forgiving matching."},
+  {"k": ["search keyboard shortcuts"], "a": "/ or Ctrl+K often focuses global search in apps."}
+]
