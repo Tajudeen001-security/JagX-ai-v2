@@ -1,0 +1,12 @@
+[
+  {"k": ["nginx reverse proxy"], "a": "proxy_pass forwards requests to upstream app servers."},
+  {"k": ["nginx upstream"], "a": "upstream blocks define backend pools and load balancing."},
+  {"k": ["nginx ssl termination"], "a": "Terminate TLS in Nginx with certificate and key paths."},
+  {"k": ["nginx gzip"], "a": "Enable gzip for text assets to reduce bandwidth."},
+  {"k": ["nginx rate limit"], "a": "limit_req_zone can throttle abusive clients."},
+  {"k": ["nginx static files"], "a": "Serve static files efficiently with root/alias and caching headers."},
+  {"k": ["nginx websocket proxy"], "a": "Upgrade headers required for WebSocket proxying."},
+  {"k": ["nginx client max body"], "a": "client_max_body_size limits upload size."},
+  {"k": ["nginx access logs"], "a": "Access logs help debug status codes and latency."},
+  {"k": ["nginx reload"], "a": "nginx -s reload applies config without dropping connections."}
+]
