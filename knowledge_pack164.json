@@ -1,0 +1,12 @@
+[
+  {"k": ["test pyramid ci"], "a": "Run many fast unit tests, fewer integration tests, selective e2e in CI."},
+  {"k": ["flaky quarantine"], "a": "Quarantine flaky tests, fix them, do not ignore forever."},
+  {"k": ["test parallelization"], "a": "Shard tests across CI workers to cut wall time."},
+  {"k": ["test containers"], "a": "Testcontainers spin real DBs/brokers in Docker for integration tests."},
+  {"k": ["snapshot review"], "a": "Treat snapshot changes as intentional reviews, not auto-accept."},
+  {"k": ["coverage gates"], "a": "Coverage gates prevent large untested drops but are not a quality guarantee."},
+  {"k": ["contract test ci"], "a": "Run consumer-driven contracts so providers do not break clients."},
+  {"k": ["smoke tests deploy"], "a": "Post-deploy smoke tests verify critical paths in the real environment."},
+  {"k": ["seed data tests"], "a": "Deterministic seeds make integration tests stable and readable."},
+  {"k": ["time freezes tests"], "a": "Freeze time in tests that depend on clocks and schedules."}
+]
