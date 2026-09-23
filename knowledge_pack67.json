@@ -1,0 +1,14 @@
+[
+  {"k": ["bash shebang"], "a": "#!/usr/bin/env bash is a portable shebang for bash scripts."},
+  {"k": ["bash set euo"], "a": "set -euo pipefail makes scripts fail on errors, unset vars, and pipeline failures."},
+  {"k": ["bash variables"], "a": "```bash\nname=\"JagX\"\necho \"$name\"\n```"},
+  {"k": ["bash if"], "a": "```bash\nif [[ -f file.txt ]]; then echo yes; fi\n```"},
+  {"k": ["bash for files"], "a": "```bash\nfor f in *.log; do echo \"$f\"; done\n```"},
+  {"k": ["bash functions"], "a": "```bash\ngreet() { echo \"hi $1\"; }\ngreet world\n```"},
+  {"k": ["bash exit codes"], "a": "Exit code 0 means success; non-zero means failure."},
+  {"k": ["bash pipes and filters"], "a": "Connect commands with | — e.g. cat app.log | grep ERROR | wc -l"},
+  {"k": ["bash redirection"], "a": "> overwrites a file; >> appends; 2> redirects stderr."},
+  {"k": ["bash command substitution"], "a": "```bash\ntoday=$(date +%F)\n```"},
+  {"k": ["bash arrays"], "a": "```bash\narr=(a b c); echo \"${arr[1]}\"\n```"},
+  {"k": ["bash trap"], "a": "trap runs cleanup on EXIT/INT signals."}
+]
