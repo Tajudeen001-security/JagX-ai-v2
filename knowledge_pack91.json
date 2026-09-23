@@ -1,0 +1,12 @@
+[
+  {"k": ["bandwidth vs latency"], "a": "Bandwidth is capacity (bits/sec); latency is delay (time)."},
+  {"k": ["throughput"], "a": "Throughput is actual successful data transfer rate."},
+  {"k": ["rtt"], "a": "RTT is round-trip time — time for a signal to go and acknowledgment to return."},
+  {"k": ["mtu"], "a": "MTU is maximum transmission unit — largest packet size for a link."},
+  {"k": ["tcp window"], "a": "TCP window controls how much data can be in flight before ACK."},
+  {"k": ["congestion control"], "a": "Congestion control slows senders when the network is overloaded."},
+  {"k": ["packet loss"], "a": "Packet loss drops data in transit; TCP retransmits, UDP does not."},
+  {"k": ["jitter network"], "a": "Jitter is variation in packet delay — harmful for voice/video."},
+  {"k": ["qos networking"], "a": "QoS prioritizes certain traffic types for better service quality."},
+  {"k": ["anycast"], "a": "Anycast routes a request to the nearest or best of several destinations sharing an IP."}
+]
