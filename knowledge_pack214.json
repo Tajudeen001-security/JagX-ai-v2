@@ -1,0 +1,12 @@
+[
+  {"k": ["bounded context"], "a": "A bounded context is an explicit boundary where a domain model applies."},
+  {"k": ["ubiquitous language"], "a": "Shared language between engineers and domain experts in a context."},
+  {"k": ["aggregate root"], "a": "Aggregate root is the entry point enforcing invariants for a cluster of entities."},
+  {"k": ["entity vs value object"], "a": "Entities have identity; value objects are defined by attributes."},
+  {"k": ["domain event ddd"], "a": "Domain events record something meaningful that happened in the domain."},
+  {"k": ["anti corruption layer ddd"], "a": "Translate external models so they do not corrupt your domain."},
+  {"k": ["context mapping"], "a": "Maps relationships between bounded contexts (customer-supplier, conformist)."},
+  {"k": ["domain service"], "a": "Domain services hold domain logic that does not naturally fit an entity."},
+  {"k": ["application service"], "a": "Application services orchestrate use cases and transactions."},
+  {"k": ["strategic design"], "a": "Strategic DDD focuses on context boundaries and team alignment."}
+]
