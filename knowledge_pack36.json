@@ -1,0 +1,18 @@
+[
+  {"k": ["osi model"], "a": "OSI layers: Physical, Data Link, Network, Transport, Session, Presentation, Application."},
+  {"k": ["tcp vs udp"], "a": "TCP is reliable and ordered; UDP is faster but unreliable and unordered."},
+  {"k": ["what is tcp handshake"], "a": "TCP handshake: SYN → SYN-ACK → ACK establishes a connection."},
+  {"k": ["what is ip packet"], "a": "An IP packet has a header (addresses, TTL, etc.) and a payload."},
+  {"k": ["what is port number"], "a": "Ports identify applications on a host (e.g. 80 HTTP, 443 HTTPS, 22 SSH)."},
+  {"k": ["what is nat"], "a": "NAT translates private IPs to public IPs so many devices share one public address."},
+  {"k": ["what is dhcp"], "a": "DHCP automatically assigns IP addresses and network config to devices."},
+  {"k": ["what is arp"], "a": "ARP maps IP addresses to MAC addresses on a local network."},
+  {"k": ["what is icmp"], "a": "ICMP carries network diagnostics (e.g. ping echo request/reply)."},
+  {"k": ["what is tls handshake"], "a": "TLS handshake negotiates keys and certificates before encrypted application data."},
+  {"k": ["what is http2"], "a": "HTTP/2 multiplexes streams over one connection for better performance."},
+  {"k": ["what is http3"], "a": "HTTP/3 runs over QUIC (UDP) for faster connection setup and better loss recovery."},
+  {"k": ["what is dns resolution"], "a": "DNS resolution queries resolvers and name servers to translate a domain to an IP."},
+  {"k": ["what is subnet"], "a": "A subnet is a logical subdivision of an IP network defined by a mask/CIDR."},
+  {"k": ["what is cidr"], "a": "CIDR notation like 192.168.1.0/24 specifies network prefix length."},
+  {"k": ["what is proxy server"], "a": "A proxy forwards client requests and can cache, filter, or anonymize traffic."}
+]
