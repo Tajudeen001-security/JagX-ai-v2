@@ -1,0 +1,12 @@
+[
+  {"k": ["protobuf"], "a": "Protocol Buffers serialize structured data efficiently with a schema (.proto)."},
+  {"k": ["grpc unary"], "a": "Unary RPC is one request and one response."},
+  {"k": ["grpc streaming"], "a": "gRPC supports client, server, and bidirectional streaming."},
+  {"k": ["grpc status codes"], "a": "Uses codes like OK, NOT_FOUND, INVALID_ARGUMENT, UNAVAILABLE."},
+  {"k": ["grpc deadlines"], "a": "Deadlines/timeouts cancel RPCs that take too long."},
+  {"k": ["grpc interceptors"], "a": "Interceptors add auth, logging, and metrics around handlers."},
+  {"k": ["grpc load balancing"], "a": "Clients can load-balance across backends with resolvers and policies."},
+  {"k": ["grpc vs rest"], "a": "gRPC is great service-to-service; REST/JSON is more universal for public APIs."},
+  {"k": ["proto versioning"], "a": "Evolve protos carefully: avoid reusing field numbers; prefer additive changes."},
+  {"k": ["grpcurl"], "a": "grpcurl is a CLI for exploring and calling gRPC services."}
+]
