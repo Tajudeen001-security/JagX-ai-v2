@@ -1,0 +1,12 @@
+[
+  {"k": ["content type nosniff"], "a": "X-Content-Type-Options: nosniff stops MIME sniffing attacks."},
+  {"k": ["referrer policy"], "a": "Referrer-Policy limits sensitive URL data sent in Referer headers."},
+  {"k": ["permissions policy"], "a": "Permissions-Policy restricts browser features like camera and geolocation."},
+  {"k": ["cross origin opener policy"], "a": "COOP helps isolate browsing contexts against cross-origin attacks."},
+  {"k": ["cross origin resource policy"], "a": "CORP controls which origins can load your resources."},
+  {"k": ["strict transport security"], "a": "HSTS forces HTTPS for a domain for a set max-age."},
+  {"k": ["csp report only"], "a": "CSP report-only logs violations without blocking while you tune policy."},
+  {"k": ["frame ancestors"], "a": "CSP frame-ancestors replaces X-Frame-Options for clickjacking defense."},
+  {"k": ["cookie prefixes"], "a": "__Host- and __Secure- cookie prefixes enforce secure cookie attributes."},
+  {"k": ["security.txt"], "a": "security.txt tells researchers how to report vulnerabilities."}
+]
