@@ -1,0 +1,12 @@
+[
+  {"k": ["compose services"], "a": "services define containers; networks and volumes connect them."},
+  {"k": ["compose env file"], "a": "Use .env for local variables; do not commit secrets."},
+  {"k": ["compose depends health"], "a": "depends_on with condition: service_healthy waits for readiness."},
+  {"k": ["compose override"], "a": "docker-compose.override.yml customizes local dev without editing base."},
+  {"k": ["compose profiles"], "a": "Profiles enable optional services (e.g. debug tools)."},
+  {"k": ["compose build args"], "a": "build.args pass build-time variables into Dockerfiles."},
+  {"k": ["compose volumes named"], "a": "Named volumes persist data across container recreation."},
+  {"k": ["compose logs follow"], "a": "docker compose logs -f service tails logs."},
+  {"k": ["compose scale"], "a": "Scale stateless services with docker compose up --scale."},
+  {"k": ["compose production caution"], "a": "Compose is great for dev; production often needs orchestrators."}
+]
