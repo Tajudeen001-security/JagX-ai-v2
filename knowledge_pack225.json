@@ -1,0 +1,12 @@
+[
+  {"k": ["localstorage limits"], "a": "localStorage is synchronous, string-only, and size-limited (~5MB typical)."},
+  {"k": ["sessionstorage"], "a": "sessionStorage lasts for the tab session only."},
+  {"k": ["indexeddb"], "a": "IndexedDB is async structured storage for larger client data."},
+  {"k": ["cookies vs storage"], "a": "Cookies are sent with requests; web storage is not."},
+  {"k": ["cache api sw"], "a": "Cache API stores Response objects for offline/PWA use."},
+  {"k": ["quota browser storage"], "a": "Browsers enforce storage quotas; handle QuotaExceededError."},
+  {"k": ["secure context storage"], "a": "Some storage features require HTTPS secure contexts."},
+  {"k": ["storage partition"], "a": "Modern browsers partition storage to reduce cross-site tracking."},
+  {"k": ["clear site data"], "a": "Users or Clear-Site-Data headers can wipe storage."},
+  {"k": ["sensitive data client"], "a": "Do not store secrets or long-lived tokens in accessible web storage."}
+]
