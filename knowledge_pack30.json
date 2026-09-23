@@ -1,0 +1,17 @@
+[
+  {"k": ["derivative of x^n"], "a": "d/dx x^n = n x^(n-1)"},
+  {"k": ["derivative of sin"], "a": "d/dx sin(x) = cos(x)"},
+  {"k": ["derivative of cos"], "a": "d/dx cos(x) = -sin(x)"},
+  {"k": ["derivative of e^x"], "a": "d/dx e^x = e^x"},
+  {"k": ["derivative of ln"], "a": "d/dx ln(x) = 1/x for x > 0"},
+  {"k": ["integral of x^n"], "a": "∫ x^n dx = x^(n+1)/(n+1) + C for n ≠ -1"},
+  {"k": ["integral of 1/x"], "a": "∫ (1/x) dx = ln|x| + C"},
+  {"k": ["integral of e^x"], "a": "∫ e^x dx = e^x + C"},
+  {"k": ["fundamental theorem calculus"], "a": "If F' = f, then ∫_a^b f = F(b) - F(a)."},
+  {"k": ["critical point"], "a": "Critical points occur where f'(x) = 0 or f' is undefined (candidates for max/min)."},
+  {"k": ["second derivative test"], "a": "If f'(c)=0 and f''(c)>0 local min; f''(c)<0 local max."},
+  {"k": ["related rates"], "a": "Related rates use differentiation of equations linking changing quantities with respect to time."},
+  {"k": ["optimization calculus"], "a": "To optimize: model with a function, take derivative, solve f'=0, check endpoints/second derivative."},
+  {"k": ["partial derivative"], "a": "∂f/∂x treats other variables as constant while differentiating with respect to x."},
+  {"k": ["double integral"], "a": "∬_D f(x,y) dA integrates over a region in the plane (volume under a surface)."}
+]
