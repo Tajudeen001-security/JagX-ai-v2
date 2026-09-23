@@ -1,0 +1,12 @@
+[
+  {"k": ["graphql depth limit"], "a": "Limit query depth to prevent deeply nested expensive queries."},
+  {"k": ["graphql complexity limit"], "a": "Assign cost scores to fields and reject overly complex queries."},
+  {"k": ["graphql introspection prod"], "a": "Disable or restrict introspection in production if not needed publicly."},
+  {"k": ["graphql authz field"], "a": "Authorize at the field/resolver level, not only at the HTTP gateway."},
+  {"k": ["graphql batching attack"], "a": "Batched operations can amplify abuse; rate-limit and cap batch size."},
+  {"k": ["graphql persisted queries"], "a": "Persisted/allowlisted queries reduce arbitrary query attack surface."},
+  {"k": ["graphql dataloader"], "a": "DataLoader batches and caches per-request DB lookups to fix N+1."},
+  {"k": ["graphql error leaking"], "a": "Do not leak stack traces or internal paths in GraphQL errors to clients."},
+  {"k": ["graphql upload limits"], "a": "Cap upload size and validate file types for GraphQL multipart uploads."},
+  {"k": ["graphql public schema"], "a": "Treat public schemas as API surface: version carefully and monitor usage."}
+]
