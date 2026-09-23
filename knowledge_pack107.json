@@ -1,0 +1,12 @@
+[
+  {"k": ["sre meaning"], "a": "Site Reliability Engineering applies software engineering to operations/reliability."},
+  {"k": ["toil"], "a": "Toil is manual, repetitive, automatable operational work."},
+  {"k": ["error budget policy"], "a": "Error budgets define how much unreliability is acceptable for a period."},
+  {"k": ["blameless culture"], "a": "Blameless postmortems focus on systems and process, not personal blame."},
+  {"k": ["infrastructure testing"], "a": "Test IaC and deployment pipelines like application code."},
+  {"k": ["gitops"], "a": "GitOps uses Git as the source of truth for declarative cluster state."},
+  {"k": ["progressive delivery"], "a": "Progressive delivery rolls out gradually (canary/blue-green) with metrics."},
+  {"k": ["platform engineering"], "a": "Platform teams build internal developer platforms to reduce cognitive load."},
+  {"k": ["oncall hygiene"], "a": "Good on-call: clear ownership, actionable alerts, runbooks, and handoffs."},
+  {"k": ["capacity planning"], "a": "Capacity planning forecasts resources needed for growth and peaks."}
+]
