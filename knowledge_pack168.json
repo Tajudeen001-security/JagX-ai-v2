@@ -1,0 +1,12 @@
+[
+  {"k": ["status 301"], "a": "301 Moved Permanently — update bookmarks; method may change on redirect."},
+  {"k": ["status 302"], "a": "302 Found — temporary redirect; historical method handling varies."},
+  {"k": ["status 304"], "a": "304 Not Modified — cached copy is still valid."},
+  {"k": ["status 307"], "a": "307 Temporary Redirect — preserve the HTTP method."},
+  {"k": ["status 308"], "a": "308 Permanent Redirect — permanent and preserve method."},
+  {"k": ["status 405"], "a": "405 Method Not Allowed — resource exists but method is not supported."},
+  {"k": ["status 408"], "a": "408 Request Timeout — server timed out waiting for the request."},
+  {"k": ["status 415"], "a": "415 Unsupported Media Type — Content-Type not acceptable."},
+  {"k": ["status 429"], "a": "429 Too Many Requests — slow down; respect Retry-After."},
+  {"k": ["status 501"], "a": "501 Not Implemented — server does not support the requested feature."}
+]
