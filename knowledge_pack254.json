@@ -1,0 +1,12 @@
+[
+  {"k": ["array map filter reduce"], "a": "Core FP tools for transforming, selecting, and aggregating arrays."},
+  {"k": ["immutable update js"], "a": "Use spread/map to copy instead of mutating objects/arrays."},
+  {"k": ["pure components idea"], "a": "Same props → same render output without side effects."},
+  {"k": ["compose functions js"], "a": "compose(f,g)(x) = f(g(x))."},
+  {"k": ["partial application js"], "a": "Bind some arguments now, accept the rest later."},
+  {"k": ["option maybe pattern"], "a": "Represent missing values explicitly instead of null chains."},
+  {"k": ["pipeline operator mental"], "a": "Think of data flowing through transformation steps."},
+  {"k": ["avoid shared mutable state"], "a": "Shared mutation is a top source of UI bugs."},
+  {"k": ["declarative ui"], "a": "Describe what UI should look like for state, not how to mutate DOM step by step."},
+  {"k": ["referential transparency js"], "a": "Expressions replaceable by their values without changing behavior."}
+]
