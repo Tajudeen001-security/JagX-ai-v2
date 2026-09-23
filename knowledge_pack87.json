@@ -1,0 +1,12 @@
+[
+  {"k": ["what is php"], "a": "PHP is a server-side scripting language widely used for web backends."},
+  {"k": ["php composer"], "a": "Composer is PHP's dependency manager (composer.json)."},
+  {"k": ["what is laravel"], "a": "Laravel is a popular PHP web framework with elegant routing, ORM, and tooling."},
+  {"k": ["laravel artisan"], "a": "Artisan is Laravel's CLI for migrations, controllers, and more."},
+  {"k": ["laravel eloquent"], "a": "Eloquent is Laravel's ActiveRecord-style ORM."},
+  {"k": ["laravel blade"], "a": "Blade is Laravel's templating engine."},
+  {"k": ["laravel middleware"], "a": "Middleware filters HTTP requests (auth, logging, CORS)."},
+  {"k": ["php array"], "a": "PHP arrays are ordered maps that can hold any values."},
+  {"k": ["php session"], "a": "$_SESSION stores server-side session data across requests."},
+  {"k": ["php pdo"], "a": "PDO is a secure database abstraction supporting prepared statements."}
+]
