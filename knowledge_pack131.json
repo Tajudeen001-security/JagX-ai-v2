@@ -1,0 +1,12 @@
+[
+  {"k": ["amortized analysis"], "a": "Amortized analysis averages costly operations over a sequence (e.g. dynamic array resize)."},
+  {"k": ["master theorem"], "a": "Master theorem solves many divide-and-conquer recurrences of form T(n)=aT(n/b)+f(n)."},
+  {"k": ["np complete"], "a": "NP-complete problems are hard; no known polynomial algorithm for all, but verifiable quickly."},
+  {"k": ["approximation algorithm"], "a": "Approximation algorithms find near-optimal answers for hard optimization problems."},
+  {"k": ["greedy choice property"], "a": "Greedy works when local optimal choices lead to a global optimum."},
+  {"k": ["optimal substructure"], "a": "A problem has optimal substructure if optimal solutions contain optimal subsolutions."},
+  {"k": ["memoization vs tabulation"], "a": "Memoization is top-down caching; tabulation is bottom-up DP tables."},
+  {"k": ["time space tradeoff"], "a": "Using more memory can reduce time (and vice versa)."},
+  {"k": ["lower bound sorting"], "a": "Comparison sorting requires Ω(n log n) comparisons in the worst case."},
+  {"k": ["hashing expected time"], "a": "Good hash tables give expected O(1) average operations."}
+]
