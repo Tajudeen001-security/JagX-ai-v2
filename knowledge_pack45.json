@@ -1,0 +1,17 @@
+[
+  {"k": ["content security policy"], "a": "CSP restricts which scripts/resources can load, reducing XSS impact."},
+  {"k": ["hsts"], "a": "HSTS tells browsers to use HTTPS only for a site for a period of time."},
+  {"k": ["x frame options"], "a": "X-Frame-Options / frame-ancestors help prevent clickjacking."},
+  {"k": ["same site cookie"], "a": "SameSite cookie attribute limits cross-site sending of cookies (Lax/Strict/None)."},
+  {"k": ["http only cookie"], "a": "HttpOnly cookies cannot be read by JavaScript, reducing XSS token theft."},
+  {"k": ["secure cookie"], "a": "Secure cookies are only sent over HTTPS."},
+  {"k": ["oauth authorization code"], "a": "Authorization Code flow redirects users to log in and returns a code the app exchanges for tokens."},
+  {"k": ["pkce"], "a": "PKCE protects public OAuth clients by binding the code exchange to a secret verifier."},
+  {"k": ["refresh token"], "a": "A refresh token obtains new access tokens without re-login; store it carefully."},
+  {"k": ["access token"], "a": "An access token authorizes API calls for a limited time."},
+  {"k": ["session fixation"], "a": "Session fixation forces a user into an attacker-known session ID — rotate IDs on login."},
+  {"k": ["open redirect"], "a": "Open redirects send users to untrusted URLs; validate redirect targets."},
+  {"k": ["ssrf"], "a": "SSRF tricks a server into requesting internal resources on the attacker's behalf."},
+  {"k": ["path traversal"], "a": "Path traversal uses ../ sequences to access files outside the intended directory."},
+  {"k": ["security headers checklist"], "a": "Use HTTPS, CSP, HSTS, X-Content-Type-Options, frame protection, and careful CORS."}
+]
