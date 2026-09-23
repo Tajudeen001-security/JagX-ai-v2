@@ -1,0 +1,12 @@
+[
+  {"k": ["connect timeout"], "a": "Fail fast if TCP connect cannot complete."},
+  {"k": ["read timeout"], "a": "Fail if the server stops sending response data."},
+  {"k": ["total timeout"], "a": "Cap overall request duration including retries."},
+  {"k": ["retry only idempotent"], "a": "Do not blindly retry POST without idempotency keys."},
+  {"k": ["circuit break http"], "a": "Stop calling a failing dependency for a cooldown period."},
+  {"k": ["connection pool http"], "a": "Reuse connections; size pools to match concurrency."},
+  {"k": ["dns cache clients"], "a": "Be aware of DNS TTLs and refresh behavior in long-lived processes."},
+  {"k": ["tls verification"], "a": "Never disable TLS verify in production."},
+  {"k": ["proxy awareness"], "a": "Honor HTTP_PROXY/HTTPS_PROXY when required by environment."},
+  {"k": ["user agent identify"], "a": "Set a clear User-Agent for support and allowlisting."}
+]
