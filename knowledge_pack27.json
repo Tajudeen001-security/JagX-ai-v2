@@ -1,0 +1,18 @@
+[
+  {"k": ["what is unit test"], "a": "A unit test checks a small piece of code (function/class) in isolation."},
+  {"k": ["what is integration test"], "a": "An integration test checks that multiple parts work together (e.g. API + database)."},
+  {"k": ["what is e2e test"], "a": "End-to-end tests simulate real user flows through the whole system."},
+  {"k": ["what is tdd"], "a": "TDD means write a failing test first, then code until it passes, then refactor."},
+  {"k": ["what is mock"], "a": "A mock replaces a dependency with a controlled fake for testing."},
+  {"k": ["what is stub"], "a": "A stub returns canned responses so tests do not call real services."},
+  {"k": ["what is coverage"], "a": "Test coverage measures how much of the code is executed by tests."},
+  {"k": ["pytest example"], "a": "```python\ndef test_add():\n    assert 1 + 1 == 2\n```"},
+  {"k": ["jest example"], "a": "```javascript\ntest('adds', () => { expect(1 + 1).toBe(2); });\n```"},
+  {"k": ["what is regression"], "a": "A regression is a bug that reappears after something that used to work breaks."},
+  {"k": ["what is smoke test"], "a": "A smoke test is a quick check that the main paths still work after a deploy."},
+  {"k": ["what is load test"], "a": "Load testing measures how a system behaves under expected or high traffic."},
+  {"k": ["what is stress test"], "a": "Stress testing pushes a system beyond normal limits to find breaking points."},
+  {"k": ["what is flaky test"], "a": "A flaky test sometimes passes and sometimes fails without code changes."},
+  {"k": ["assertion"], "a": "An assertion checks that a condition is true in a test; failure fails the test."},
+  {"k": ["what is qa"], "a": "QA (Quality Assurance) processes aim to prevent and catch defects before users do."}
+]
