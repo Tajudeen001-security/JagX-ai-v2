@@ -1,0 +1,16 @@
+[
+  {"k": ["what is flask"], "a": "Flask is a lightweight Python web framework for APIs and small apps."},
+  {"k": ["what is django"], "a": "Django is a full-featured Python web framework with ORM, admin, and batteries included."},
+  {"k": ["fastapi route"], "a": "```python\nfrom fastapi import FastAPI\napp = FastAPI()\n@app.get('/hello')\ndef hello():\n    return {'msg': 'hi'}\n```"},
+  {"k": ["fastapi path param"], "a": "```python\n@app.get('/users/{user_id}')\ndef get_user(user_id: int):\n    return {'id': user_id}\n```"},
+  {"k": ["fastapi query param"], "a": "```python\n@app.get('/search')\ndef search(q: str = ''):\n    return {'q': q}\n```"},
+  {"k": ["pydantic model"], "a": "```python\nfrom pydantic import BaseModel\nclass User(BaseModel):\n    name: str\n    age: int\n```"},
+  {"k": ["what is wsgi"], "a": "WSGI is the classic Python interface between web servers and synchronous apps (e.g. Flask, Django)."},
+  {"k": ["what is asgi"], "a": "ASGI is the async Python interface for modern apps (FastAPI, Starlette, Django async)."},
+  {"k": ["asyncio gather"], "a": "```python\nimport asyncio\nasync def main():\n    await asyncio.gather(task1(), task2())\n```"},
+  {"k": ["python requests post"], "a": "```python\nimport requests\nr = requests.post(url, json={'a': 1}, timeout=10)\nprint(r.status_code, r.json())\n```"},
+  {"k": ["httpx python"], "a": "httpx is a modern Python HTTP client with sync and async support."},
+  {"k": ["python logging"], "a": "```python\nimport logging\nlogging.basicConfig(level=logging.INFO)\nlogger = logging.getLogger(__name__)\nlogger.info('hello')\n```"},
+  {"k": ["python dotenv"], "a": "```python\nfrom dotenv import load_dotenv\nload_dotenv()\n```"},
+  {"k": ["python middleware"], "a": "Middleware wraps requests/responses for logging, auth, CORS, and rate limits."}
+]
