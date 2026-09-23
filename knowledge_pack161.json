@@ -1,0 +1,12 @@
+[
+  {"k": ["ttfb"], "a": "TTFB is time to first byte from the server."},
+  {"k": ["fcp"], "a": "FCP is First Contentful Paint — first text/image rendered."},
+  {"k": ["tti"], "a": "TTI estimates when the page becomes reliably interactive."},
+  {"k": ["inp metric"], "a": "INP (Interaction to Next Paint) measures responsiveness to user input."},
+  {"k": ["total blocking time"], "a": "TBT sums long tasks that block the main thread between FCP and TTI."},
+  {"k": ["code splitting react"], "a": "React.lazy and dynamic import() split bundles by route/component."},
+  {"k": ["preconnect preload"], "a": "preconnect warms connections; preload fetches critical assets early."},
+  {"k": ["font loading display"], "a": "font-display: swap reduces invisible text during font load."},
+  {"k": ["hydration cost"], "a": "Hydration attaches JS to server HTML; large trees increase delay."},
+  {"k": ["lighthouse ci"], "a": "Lighthouse CI tracks performance scores on every pull request."}
+]
