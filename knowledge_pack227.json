@@ -1,0 +1,12 @@
+[
+  {"k": ["axe core"], "a": "axe-core automated checks catch many WCAG issues in CI and browsers."},
+  {"k": ["keyboard only test"], "a": "Navigate the entire critical path using only the keyboard."},
+  {"k": ["screen reader test"], "a": "Test with VoiceOver, NVDA, or TalkBack on real flows."},
+  {"k": ["color contrast check"], "a": "Verify text contrast ratios meet WCAG AA/AAA as required."},
+  {"k": ["focus order"], "a": "Focus order should match visual reading order."},
+  {"k": ["form error a11y"], "a": "Associate errors with fields and announce them to AT."},
+  {"k": ["aria misuse"], "a": "Prefer native HTML; wrong ARIA is worse than none."},
+  {"k": ["reduced motion test"], "a": "Verify animations respect prefers-reduced-motion."},
+  {"k": ["zoom 200"], "a": "UI should remain usable at 200% zoom."},
+  {"k": ["a11y acceptance criteria"], "a": "Include accessibility criteria in story definition of done."}
+]
