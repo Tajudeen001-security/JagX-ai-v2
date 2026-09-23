@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 140"], "a": "JagX knowledge packs now exceed 140 files spanning engineering, math, Nigeria, and ops."},
+  {"k": ["jagx offline first answers"], "a": "Common questions hit local packs first for near-instant responses."},
+  {"k": ["jagx cloud for hard questions"], "a": "Open-ended reasoning and multi-step math use the cloud LLM when available."},
+  {"k": ["jagx friend access"], "a": "Share tiered API keys; keep admin secret private."},
+  {"k": ["jagx render tip"], "a": "Keep the service warm with scheduled /health pings on free Render."},
+  {"k": ["jagx model tip"], "a": "If a Groq model 404s, switch GROQ_MODEL to a model your account can access."},
+  {"k": ["jagx debug tools"], "a": "Use /debug/status and /debug/llm to diagnose provider failures quickly."},
+  {"k": ["jagx expand forever"], "a": "Keep adding knowledge_packN.json files; the loader picks them up on restart."},
+  {"k": ["jagx coding focus"], "a": "JagX prioritizes text and coding help for builders."},
+  {"k": ["jagx credit"], "a": "Created by JagX and JRILICENSE."}
+]
