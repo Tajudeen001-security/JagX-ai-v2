@@ -1,0 +1,14 @@
+[
+  {"k": ["what is blocker"], "a": "A blocker is an issue that stops progress until it is resolved."},
+  {"k": ["what is spike agile"], "a": "A spike is time-boxed research to reduce uncertainty before implementation."},
+  {"k": ["what is regression bug"], "a": "A regression is when a previously working feature breaks after a change."},
+  {"k": ["what is hotfix"], "a": "A hotfix is an urgent production fix outside the normal release train."},
+  {"k": ["what is tech spec"], "a": "A tech spec describes how a feature will be built and why key choices were made."},
+  {"k": ["what is acceptance criteria"], "a": "Acceptance criteria define conditions that must be true for a story to be done."},
+  {"k": ["what is definition of done"], "a": "Definition of Done is the team checklist for quality before calling work complete."},
+  {"k": ["what is handoff"], "a": "A handoff transfers ownership of work between people or teams with context."},
+  {"k": ["what is repro steps"], "a": "Repro steps are the exact actions to reproduce a bug."},
+  {"k": ["what is root cause"], "a": "Root cause is the underlying reason a defect happened, not just the symptom."},
+  {"k": ["what is workaround"], "a": "A workaround temporarily avoids a problem without a full fix."},
+  {"k": ["what is rollout"], "a": "A rollout is the controlled release of a change to users."}
+]
