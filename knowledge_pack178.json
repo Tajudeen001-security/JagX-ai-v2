@@ -1,0 +1,12 @@
+[
+  {"k": ["image resize"], "a": "Resize server-side to max dimensions before storage to save bandwidth."},
+  {"k": ["thumbnail generation"], "a": "Generate multiple sizes (sm/md/lg) for responsive delivery."},
+  {"k": ["exif strip"], "a": "Strip EXIF GPS/metadata from user uploads for privacy."},
+  {"k": ["image format choose"], "a": "Photos: JPEG/WebP/AVIF; graphics with transparency: PNG/WebP."},
+  {"k": ["sharp node"], "a": "sharp is a fast Node image processing library."},
+  {"k": ["pillow python"], "a": "Pillow is the common Python imaging library."},
+  {"k": ["content aware crop"], "a": "Smart crop keeps faces/subjects centered when aspect ratios change."},
+  {"k": ["image moderation"], "a": "Scan uploads for NSFW/illegal content when required by policy."},
+  {"k": ["cdn image transform"], "a": "Some CDNs transform images on the fly via URL parameters."},
+  {"k": ["color space"], "a": "sRGB is standard for web; convert CMYK scans before display."}
+]
