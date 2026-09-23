@@ -1,0 +1,12 @@
+[
+  {"k": ["postgres vacuum analyze"], "a": "Autovacuum keeps tables healthy; ANALYZE updates planner stats."},
+  {"k": ["postgres sequential scan"], "a": "Seq scans are fine for small tables; indexes help selective filters."},
+  {"k": ["postgres bitmap scan"], "a": "Bitmap scans combine multiple indexes efficiently."},
+  {"k": ["postgres work mem"], "a": "work_mem affects sort/hash operations; too high can OOM under concurrency."},
+  {"k": ["postgres connection pooling"], "a": "Prefer PgBouncer transaction pooling for many app workers."},
+  {"k": ["postgres prepared statements"], "a": "Prepared statements avoid re-planning and prevent SQL injection."},
+  {"k": ["postgres partial indexes use"], "a": "Index only active rows: WHERE deleted_at IS NULL."},
+  {"k": ["postgres bloat check"], "a": "Bloated tables/indexes waste IO; monitor and reindex as needed."},
+  {"k": ["postgres hot updates"], "a": "HOT updates avoid index maintenance when indexed columns stay unchanged."},
+  {"k": ["postgres explain buffers"], "a": "EXPLAIN (ANALYZE, BUFFERS) shows IO and cache behavior."}
+]
