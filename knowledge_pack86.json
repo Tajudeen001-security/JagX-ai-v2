@@ -1,0 +1,12 @@
+[
+  {"k": ["what is c language"], "a": "C is a low-level systems language foundational to operating systems and embedded software."},
+  {"k": ["c pointer"], "a": "A pointer stores a memory address; dereference with * to access the value."},
+  {"k": ["c stack vs heap"], "a": "Stack holds local frames; heap is manually managed dynamic memory (malloc/free)."},
+  {"k": ["c undefined behavior"], "a": "Undefined behavior means the language does not define the result — avoid it."},
+  {"k": ["what is c++"], "a": "C++ extends C with classes, templates, RAII, and the STL."},
+  {"k": ["c++ raII"], "a": "RAII binds resource lifetime to object lifetime (constructors/destructors)."},
+  {"k": ["c++ smart pointer"], "a": "unique_ptr/shared_ptr manage memory automatically and safely."},
+  {"k": ["c++ stl"], "a": "The Standard Template Library provides vectors, maps, algorithms, etc."},
+  {"k": ["c++ move semantics"], "a": "Move semantics transfer resources instead of deep-copying (std::move)."},
+  {"k": ["c header guards"], "a": "#ifdef/#define/#endif or #pragma once prevent double inclusion of headers."}
+]
