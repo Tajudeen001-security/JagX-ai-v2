@@ -1,0 +1,12 @@
+[
+  {"k": ["pyproject toml"], "a": "pyproject.toml is the modern standard for Python project metadata and build."},
+  {"k": ["pip uv poetry"], "a": "pip is standard; Poetry/uv improve dependency workflows."},
+  {"k": ["virtualenv why"], "a": "Isolate project dependencies from the system Python."},
+  {"k": ["editable install"], "a": "pip install -e . links the package for active development."},
+  {"k": ["entry points console"], "a": "Define CLI scripts in package metadata."},
+  {"k": ["wheel vs sdist"], "a": "Wheels are built artifacts; sdists are source distributions."},
+  {"k": ["python version classifiers"], "a": "Declare supported Python versions in packaging metadata."},
+  {"k": ["lock files python"], "a": "Lock files freeze exact versions for reproducible installs."},
+  {"k": ["namespace packages"], "a": "Namespace packages split a logical package across distributions."},
+  {"k": ["publish pypi"], "a": "Build and upload with twine/trusted publishing; protect API tokens."}
+]
