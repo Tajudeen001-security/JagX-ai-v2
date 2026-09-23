@@ -1,0 +1,12 @@
+[
+  {"k": ["what is rust"], "a": "Rust is a systems language focused on safety, speed, and concurrency without a garbage collector."},
+  {"k": ["rust ownership"], "a": "Ownership means each value has one owner; when the owner goes out of scope, the value is dropped."},
+  {"k": ["rust borrowing"], "a": "Borrowing lets you reference data without taking ownership, with either shared or mutable borrows."},
+  {"k": ["rust lifetimes"], "a": "Lifetimes ensure references remain valid for as long as needed."},
+  {"k": ["rust cargo"], "a": "Cargo is Rust's build system and package manager."},
+  {"k": ["rust result type"], "a": "Result<T, E> represents success (Ok) or failure (Err) without exceptions."},
+  {"k": ["rust option type"], "a": "Option<T> is Some(value) or None — Rust's null-safe optional."},
+  {"k": ["rust match"], "a": "match is exhaustive pattern matching for enums and other types."},
+  {"k": ["rust trait"], "a": "Traits define shared behavior, similar to interfaces."},
+  {"k": ["rust async"], "a": "async/await in Rust uses futures; runtimes like Tokio execute them."}
+]
