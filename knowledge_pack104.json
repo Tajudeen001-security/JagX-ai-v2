@@ -1,0 +1,12 @@
+[
+  {"k": ["svd"], "a": "SVD factors A = UΣVᵀ with orthogonal U,V and singular values in Σ."},
+  {"k": ["pca"], "a": "PCA finds orthogonal directions of maximum variance, often via SVD/eigenvectors."},
+  {"k": ["orthogonality"], "a": "Vectors are orthogonal if their dot product is zero."},
+  {"k": ["orthonormal basis"], "a": "An orthonormal basis has unit orthogonal vectors spanning the space."},
+  {"k": ["projection vector"], "a": "proj_b(a) = ((a·b)/(b·b)) b"},
+  {"k": ["null space"], "a": "Null space is all x with Ax = 0."},
+  {"k": ["column space"], "a": "Column space is the span of A's columns (range of the linear map)."},
+  {"k": ["positive definite"], "a": "A symmetric matrix is positive definite if xᵀAx > 0 for all nonzero x."},
+  {"k": ["condition number"], "a": "Condition number measures sensitivity of solutions to input perturbations."},
+  {"k": ["least squares"], "a": "Least squares minimizes ||Ax - b||₂, solved via normal equations or QR/SVD."}
+]
