@@ -1,0 +1,12 @@
+[
+  {"k": ["offset pagination issues"], "a": "Large offsets are slow and unstable under inserts."},
+  {"k": ["cursor pagination"], "a": "Cursors encode position using indexed sort keys."},
+  {"k": ["keyset pagination"], "a": "WHERE (sort,id) > (:s,:id) ORDER BY sort,id LIMIT n."},
+  {"k": ["opaque cursor"], "a": "Make cursors opaque tokens so clients cannot invent positions."},
+  {"k": ["total count expensive"], "a": "Exact totals can be costly; offer estimates or omit."},
+  {"k": ["stable sort pagination"], "a": "Always include a unique tie-breaker column."},
+  {"k": ["bidirectional pagination"], "a": "Support next/prev cursors for infinite scroll UX."},
+  {"k": ["pagination and filters"], "a": "Cursors must incorporate the active filter set."},
+  {"k": ["graphql connection model"], "a": "Relay connections use edges, nodes, and pageInfo."},
+  {"k": ["page size limits"], "a": "Cap page size to protect the database."}
+]
