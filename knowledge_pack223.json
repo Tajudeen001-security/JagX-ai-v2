@@ -1,0 +1,12 @@
+[
+  {"k": ["vector index hnsw"], "a": "HNSW is a popular graph-based approximate nearest neighbor index."},
+  {"k": ["ivf index"], "a": "IVF partitions vectors into coarse clusters for faster search."},
+  {"k": ["embedding dimensions"], "a": "Dimension count affects storage, speed, and model compatibility."},
+  {"k": ["cosine vs l2"], "a": "Cosine focuses on angle; L2 on Euclidean distance — normalize when needed."},
+  {"k": ["metadata filtering vectors"], "a": "Filter by tenant/tags before or during ANN search."},
+  {"k": ["vector db examples"], "a": "Examples include pgvector, Pinecone, Weaviate, Qdrant, Milvus."},
+  {"k": ["upsert embeddings"], "a": "Upsert updates vectors when documents change."},
+  {"k": ["hybrid search vector"], "a": "Combine keyword BM25 with vector similarity for better recall/precision."},
+  {"k": ["embedding model choice"], "a": "Match embedding model to domain and keep it consistent at query time."},
+  {"k": ["reindex embeddings"], "a": "Changing embedding models requires re-embedding the corpus."}
+]
