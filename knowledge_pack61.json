@@ -1,0 +1,14 @@
+[
+  {"k": ["dijkstra"], "a": "Dijkstra finds shortest paths from a source in graphs with non-negative weights."},
+  {"k": ["bellman ford"], "a": "Bellman-Ford handles negative edges and detects negative cycles."},
+  {"k": ["topological sort"], "a": "Topological sort orders nodes in a DAG so edges go forward."},
+  {"k": ["union find mst"], "a": "Kruskal uses Union-Find to build a Minimum Spanning Tree."},
+  {"k": ["knapsack dp"], "a": "0/1 knapsack uses DP over capacity and items for optimal value."},
+  {"k": ["lis algorithm"], "a": "Longest Increasing Subsequence can be solved with DP or patience sorting (O(n log n))."},
+  {"k": ["edit distance"], "a": "Levenshtein edit distance counts insertions/deletions/substitutions between strings."},
+  {"k": ["kmp algorithm"], "a": "KMP searches substrings in linear time using a prefix table."},
+  {"k": ["trie autocomplete"], "a": "Tries power autocomplete by walking shared prefixes."},
+  {"k": ["backtracking"], "a": "Backtracking explores candidates and reverts choices (sudoku, N-queens)."},
+  {"k": ["bitmask dp"], "a": "Bitmask DP tracks subsets as bits for combinatorial problems (n ≤ ~20)."},
+  {"k": ["two sum sorted"], "a": "On a sorted array, two pointers find a target sum in O(n)."}
+]
