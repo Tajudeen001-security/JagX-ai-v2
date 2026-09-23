@@ -1,0 +1,12 @@
+[
+  {"k": ["raster vs vector"], "a": "Raster images are pixels (PNG/JPEG); vector images are shapes (SVG) that scale cleanly."},
+  {"k": ["jpeg vs png"], "a": "JPEG is lossy good for photos; PNG is lossless and supports transparency."},
+  {"k": ["webp"], "a": "WebP is a modern image format with strong compression for the web."},
+  {"k": ["svg"], "a": "SVG is XML-based vector graphics ideal for icons and illustrations."},
+  {"k": ["responsive images"], "a": "srcset and sizes serve different image resolutions based on device."},
+  {"k": ["video codecs"], "a": "Codecs like H.264/AV1 compress video; containers (MP4/WebM) hold streams."},
+  {"k": ["cdn for media"], "a": "Serve media via CDN for lower latency and offloaded bandwidth."},
+  {"k": ["image optimization"], "a": "Compress, resize, lazy-load, and choose modern formats for faster pages."},
+  {"k": ["exif data"], "a": "EXIF metadata can include camera settings and GPS — strip if privacy-sensitive."},
+  {"k": ["ocr"], "a": "OCR extracts text from images of documents."}
+]
