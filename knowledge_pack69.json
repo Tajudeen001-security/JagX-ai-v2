@@ -1,0 +1,14 @@
+[
+  {"k": ["pii"], "a": "PII is Personally Identifiable Information (names, emails, phone numbers, etc.)."},
+  {"k": ["data minimization"], "a": "Collect only the data you need for a stated purpose."},
+  {"k": ["purpose limitation"], "a": "Use personal data only for the purposes disclosed to the user."},
+  {"k": ["right to erasure"], "a": "Users may request deletion of their personal data under some privacy laws."},
+  {"k": ["consent management"], "a": "Store when/how consent was given and allow withdrawal where required."},
+  {"k": ["data retention"], "a": "Define how long data is kept and delete or anonymize when expired."},
+  {"k": ["encryption in transit"], "a": "Use TLS so data cannot be read while moving across networks."},
+  {"k": ["encryption at rest"], "a": "Encrypt stored data so disk theft does not expose plaintext."},
+  {"k": ["access control lists"], "a": "ACLs define who can read/write which resources."},
+  {"k": ["audit log"], "a": "Audit logs record security-relevant actions for forensics and compliance."},
+  {"k": ["gdpr idea"], "a": "GDPR is the EU data protection regulation with strict rules on personal data."},
+  {"k": ["ndpr idea"], "a": "Nigeria's NDPR framework sets rules for processing personal data in Nigeria."}
+]
