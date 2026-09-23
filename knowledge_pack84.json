@@ -1,0 +1,12 @@
+[
+  {"k": ["what is golang"], "a": "Go is a statically typed language by Google, known for simplicity and strong concurrency."},
+  {"k": ["go goroutine"], "a": "A goroutine is a lightweight concurrent function managed by the Go runtime."},
+  {"k": ["go channel"], "a": "Channels communicate between goroutines: ch := make(chan int)"},
+  {"k": ["go interface"], "a": "Interfaces in Go are satisfied implicitly by implementing methods."},
+  {"k": ["go error handling"], "a": "Functions often return (value, error); check errors explicitly."},
+  {"k": ["go modules"], "a": "Go modules (go.mod) manage dependencies and versions."},
+  {"k": ["go defer"], "a": "defer schedules a call to run when the surrounding function returns."},
+  {"k": ["go struct"], "a": "Structs group fields; methods can have value or pointer receivers."},
+  {"k": ["go context"], "a": "context.Context carries deadlines, cancelation, and request-scoped values."},
+  {"k": ["go http server"], "a": "net/http provides a production-ready HTTP server in the standard library."}
+]
