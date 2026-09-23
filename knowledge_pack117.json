@@ -1,0 +1,12 @@
+[
+  {"k": ["what is vue"], "a": "Vue is a progressive JavaScript framework for building UIs."},
+  {"k": ["vue composition api"], "a": "Composition API organizes logic with setup(), ref, and reactive."},
+  {"k": ["vue options api"], "a": "Options API uses data, methods, computed, and lifecycle hooks objects."},
+  {"k": ["vue router"], "a": "Vue Router maps URLs to components in SPA navigation."},
+  {"k": ["pinia"], "a": "Pinia is the official state management library for Vue."},
+  {"k": ["what is svelte"], "a": "Svelte compiles components to efficient vanilla JS at build time."},
+  {"k": ["svelte stores"], "a": "Stores hold reactive shared state in Svelte apps."},
+  {"k": ["sveltekit"], "a": "SvelteKit is the full-stack framework for Svelte apps."},
+  {"k": ["vue vs react"], "a": "Both are component UIs; Vue is often simpler to start, React has a larger ecosystem."},
+  {"k": ["reactivity"], "a": "Reactivity updates the UI when underlying state changes."}
+]
