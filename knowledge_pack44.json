@@ -1,0 +1,17 @@
+[
+  {"k": ["linked list vs array"], "a": "Arrays give O(1) index access; linked lists give O(1) insert/delete at known nodes but O(n) access."},
+  {"k": ["doubly linked list"], "a": "Each node has next and prev pointers, enabling bidirectional traversal."},
+  {"k": ["circular buffer"], "a": "A ring buffer reuses a fixed array with head/tail indices for queues."},
+  {"k": ["hash collision"], "a": "A collision is when two keys hash to the same bucket; resolved by chaining or open addressing."},
+  {"k": ["bloom filter"], "a": "A Bloom filter is a probabilistic set: may false-positive, never false-negative (for membership)."},
+  {"k": ["trie"], "a": "A trie (prefix tree) stores strings by shared prefixes for fast prefix search."},
+  {"k": ["graph adjacency list"], "a": "Adjacency lists store neighbors per vertex — efficient for sparse graphs."},
+  {"k": ["graph adjacency matrix"], "a": "Adjacency matrices use a V×V matrix — efficient for dense graphs and O(1) edge checks."},
+  {"k": ["priority queue"], "a": "A priority queue serves the highest (or lowest) priority element first, often via a heap."},
+  {"k": ["avl tree"], "a": "AVL is a self-balancing BST keeping height difference at most 1."},
+  {"k": ["red black tree"], "a": "Red-black trees are self-balancing BSTs used in many language standard libraries."},
+  {"k": ["b tree"], "a": "B-trees are multi-way balanced trees optimized for disk/database indexes."},
+  {"k": ["skip list"], "a": "A skip list uses layered linked lists for probabilistic logarithmic search."},
+  {"k": ["union find"], "a": "Union-Find (DSU) tracks disjoint sets with near-O(1) union and find."},
+  {"k": ["segment tree"], "a": "A segment tree answers range queries and updates efficiently (e.g. range sum)."}
+]
