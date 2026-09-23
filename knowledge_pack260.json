@@ -1,0 +1,12 @@
+[
+  {"k": ["mobile cpu budget"], "a": "Mobile CPUs are weaker; reduce JS main-thread work."},
+  {"k": ["image weight mobile"], "a": "Serve appropriately sized images; prefer modern formats."},
+  {"k": ["bundle size mobile"], "a": "Code-split and tree-shake; watch third-party scripts."},
+  {"k": ["battery network"], "a": "Batch requests; avoid chatty polling when push/SSE works."},
+  {"k": ["touch latency"], "a": "Respond to touches within a frame; avoid long tasks."},
+  {"k": ["offline resilience mobile"], "a": "Cache critical data; show offline banners honestly."},
+  {"k": ["startup time app"], "a": "Defer non-critical work until after first interactive screen."},
+  {"k": ["memory warnings"], "a": "Handle low-memory signals; release caches."},
+  {"k": ["animation 60fps"], "a": "Prefer transform/opacity; avoid layout thrash."},
+  {"k": ["field testing devices"], "a": "Test on mid-tier Android devices common in your market."}
+]
