@@ -1,0 +1,18 @@
+[
+  {"k": ["softmax"], "a": "softmax(z)_i = e^(z_i) / Σ_j e^(z_j) turns logits into a probability distribution."},
+  {"k": ["sigmoid"], "a": "sigmoid(x) = 1 / (1 + e^(-x)) maps reals to (0,1)."},
+  {"k": ["relu"], "a": "ReLU(x) = max(0, x) is a common neural network activation."},
+  {"k": ["cross entropy"], "a": "Cross-entropy measures the difference between true labels and predicted probabilities."},
+  {"k": ["gradient descent"], "a": "Gradient descent updates parameters opposite the gradient to minimize a loss."},
+  {"k": ["learning rate"], "a": "Learning rate is the step size in optimization; too large diverges, too small is slow."},
+  {"k": ["cosine similarity"], "a": "cosine(a,b) = (a·b) / (|a||b|) measures angle similarity of vectors."},
+  {"k": ["euclidean distance"], "a": "Euclidean distance = sqrt(Σ (a_i - b_i)²)"},
+  {"k": ["normalization vs standardization"], "a": "Normalization often scales to [0,1]; standardization centers mean 0 and scales by std dev."},
+  {"k": ["logarithm base 2"], "a": "log2(n) is common in CS for binary splits and complexity (e.g. binary search)."},
+  {"k": ["bit operations"], "a": "AND &, OR |, XOR ^, NOT ~, shifts << >> operate on binary representations."},
+  {"k": ["mod in programming"], "a": "a % n is the remainder after dividing a by n (language-specific for negatives)."},
+  {"k": ["floating point"], "a": "Floating point approximates reals with finite precision; expect rounding error."},
+  {"k": ["numerical stability"], "a": "Numerically stable algorithms avoid catastrophic cancellation and overflow/underflow."},
+  {"k": ["interpolation"], "a": "Interpolation estimates values between known data points."},
+  {"k": ["linear regression idea"], "a": "Linear regression fits a line (or hyperplane) minimizing squared error to predict continuous targets."}
+]
