@@ -1,0 +1,12 @@
+[
+  {"k": ["what is blockchain"], "a": "A blockchain is a distributed ledger of blocks linked by cryptographic hashes."},
+  {"k": ["what is smart contract"], "a": "A smart contract is code that runs on a blockchain and enforces rules automatically."},
+  {"k": ["what is ethereum"], "a": "Ethereum is a blockchain platform for smart contracts and decentralized apps."},
+  {"k": ["what is gas fee"], "a": "Gas is the fee paid to execute operations on networks like Ethereum."},
+  {"k": ["what is wallet crypto"], "a": "A crypto wallet holds keys that control blockchain addresses and assets."},
+  {"k": ["what is private key crypto"], "a": "A private key must stay secret; it authorizes transactions from an address."},
+  {"k": ["what is nft"], "a": "An NFT is a unique token on a blockchain representing ownership of a digital item."},
+  {"k": ["what is defi"], "a": "DeFi is decentralized finance — lending, trading, and more without traditional banks."},
+  {"k": ["what is consensus mechanism"], "a": "Consensus mechanisms (PoW, PoS) agree on the valid chain state across nodes."},
+  {"k": ["what is solidity"], "a": "Solidity is the main language for Ethereum smart contracts."}
+]
