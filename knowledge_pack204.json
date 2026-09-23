@@ -1,0 +1,12 @@
+[
+  {"k": ["kmp prefix table"], "a": "KMP builds an LPS table to skip characters efficiently."},
+  {"k": ["rabin karp"], "a": "Rabin-Karp uses rolling hashes for substring search."},
+  {"k": ["z algorithm"], "a": "Z-array stores longest substrings matching the prefix at each position."},
+  {"k": ["trie insert search"], "a": "Tries insert/search strings by character nodes."},
+  {"k": ["suffix array idea"], "a": "Suffix arrays sort all suffixes for powerful string queries."},
+  {"k": ["edit distance dp"], "a": "Levenshtein DP uses insert/delete/replace costs."},
+  {"k": ["anagram check"], "a": "Count characters or sort both strings."},
+  {"k": ["palindrome check"], "a": "Two pointers from ends, or DP for substrings."},
+  {"k": ["string hashing"], "a": "Polynomial rolling hash enables fast equality checks with care for collisions."},
+  {"k": ["regex engine backtracking"], "a": "Naive regex can explode on pathological inputs; bound complexity."}
+]
