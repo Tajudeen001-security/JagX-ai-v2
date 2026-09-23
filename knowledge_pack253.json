@@ -1,0 +1,12 @@
+[
+  {"k": ["race condition example"], "a": "Two threads read-modify-write the same counter without locks → lost updates."},
+  {"k": ["deadlock four conditions"], "a": "Mutual exclusion, hold-and-wait, no preemption, circular wait."},
+  {"k": ["livelock"], "a": "Threads keep changing state in response to each other but make no progress."},
+  {"k": ["starvation concurrency"], "a": "A thread never gets resources because others keep taking them."},
+  {"k": ["priority inversion"], "a": "A low-priority task holds a lock needed by a high-priority task."},
+  {"k": ["atomic compare swap"], "a": "CAS updates a value only if it still matches an expected old value."},
+  {"k": ["memory visibility"], "a": "Without barriers/volatiles, writes may not be visible across threads promptly."},
+  {"k": ["false sharing"], "a": "Threads invalidate each other's cache lines by writing adjacent data."},
+  {"k": ["thread safe collections"], "a": "Use concurrent collections or external synchronization deliberately."},
+  {"k": ["happens before"], "a": "Happens-before relationships define visibility guarantees in memory models."}
+]
