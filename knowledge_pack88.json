@@ -1,0 +1,12 @@
+[
+  {"k": ["what is ruby"], "a": "Ruby is a dynamic, object-oriented language emphasizing developer happiness."},
+  {"k": ["what is rails"], "a": "Ruby on Rails is a full-stack web framework following convention over configuration."},
+  {"k": ["rails mvc"], "a": "Rails organizes apps into Models, Views, and Controllers."},
+  {"k": ["rails active record"], "a": "Active Record maps tables to classes and rows to objects."},
+  {"k": ["rails routes"], "a": "config/routes.rb maps URLs to controller actions."},
+  {"k": ["rails migration"], "a": "Migrations version and apply database schema changes."},
+  {"k": ["ruby gem"], "a": "Gems are reusable Ruby libraries managed with Bundler."},
+  {"k": ["ruby block"], "a": "Blocks are anonymous chunks of code passed to methods (do...end or {})."},
+  {"k": ["ruby symbol"], "a": "Symbols are immutable identifiers often used as hash keys (:name)."},
+  {"k": ["rails console"], "a": "rails console opens an interactive shell with the app environment loaded."}
+]
