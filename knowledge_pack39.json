@@ -1,0 +1,18 @@
+[
+  {"k": ["concurrency vs parallelism"], "a": "Concurrency manages many tasks at once; parallelism runs them truly simultaneously on multiple cores."},
+  {"k": ["race condition"], "a": "A race condition is when result depends on uncontrolled timing of concurrent access to shared data."},
+  {"k": ["critical section"], "a": "A critical section is code that must not run concurrently on the same shared resource."},
+  {"k": ["lock contention"], "a": "Lock contention is when threads wait a lot for the same lock, hurting performance."},
+  {"k": ["async await idea"], "a": "async/await writes asynchronous code in a sequential style without blocking the thread."},
+  {"k": ["callback hell"], "a": "Callback hell is deeply nested callbacks that are hard to read; promises/async help."},
+  {"k": ["promise javascript"], "a": "A Promise represents a future value: pending, fulfilled, or rejected."},
+  {"k": ["thread pool"], "a": "A thread pool reuses a fixed set of worker threads to run tasks."},
+  {"k": ["process vs thread"], "a": "Processes isolate memory; threads share memory within a process and are lighter-weight."},
+  {"k": ["gil python"], "a": "CPython's GIL allows only one thread to execute Python bytecode at a time; use multiprocessing for CPU parallelism."},
+  {"k": ["message passing"], "a": "Message passing shares data by sending messages instead of shared memory (safer concurrency)."},
+  {"k": ["actor model"], "a": "The actor model uses isolated actors that communicate only via messages."},
+  {"k": ["atomic operation"], "a": "An atomic operation completes indivisibly — no intermediate state is visible to others."},
+  {"k": ["event driven"], "a": "Event-driven systems react to events (I/O, clicks, messages) instead of tight polling loops."},
+  {"k": ["backpressure"], "a": "Backpressure slows producers when consumers cannot keep up."},
+  {"k": ["fan out fan in"], "a": "Fan-out splits work to many workers; fan-in merges their results."}
+]
