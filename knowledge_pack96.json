@@ -1,0 +1,12 @@
+[
+  {"k": ["twelve factor app"], "a": "12-factor is a methodology for SaaS apps: config in env, disposability, logs as streams, etc."},
+  {"k": ["health check endpoint"], "a": "Expose /health for orchestrators to know if the instance can take traffic."},
+  {"k": ["graceful shutdown"], "a": "On SIGTERM, stop new work, finish in-flight requests, then exit."},
+  {"k": ["stateless service"], "a": "Stateless services store session/state externally so any replica can handle a request."},
+  {"k": ["config from environment"], "a": "Read configuration from environment variables, not baked-in files, for 12-factor compliance."},
+  {"k": ["secret management cloud"], "a": "Use secret managers (not source control) for API keys and credentials."},
+  {"k": ["horizontal pod scaling"], "a": "Add more instances under load rather than only bigger machines."},
+  {"k": ["circuit breaker cloud"], "a": "Fail fast on broken dependencies and recover after a cooldown."},
+  {"k": ["bulkhead pattern"], "a": "Bulkheads isolate resources so one failure does not sink the whole ship."},
+  {"k": ["retry with jitter"], "a": "Add random jitter to retries to avoid thundering herds."}
+]
