@@ -1,0 +1,14 @@
+[
+  {"k": ["database backup"], "a": "Take regular backups and test restores — untested backups are risky."},
+  {"k": ["point in time recovery"], "a": "PITR restores a database to a specific timestamp using base backup + WAL."},
+  {"k": ["read replica"], "a": "Read replicas serve read traffic and improve scalability, with possible lag."},
+  {"k": ["connection limit"], "a": "DB max connections can be exhausted; use pooling (PgBouncer, etc.)."},
+  {"k": ["slow query log"], "a": "Slow query logs identify expensive SQL for indexing and rewrite."},
+  {"k": ["schema migration safety"], "a": "Prefer expand/contract migrations to avoid long locks and downtime."},
+  {"k": ["online ddl"], "a": "Online DDL changes schema with minimal locking when supported."},
+  {"k": ["database vacuum analyze"], "a": "ANALYZE updates planner stats; VACUUM reclaims dead tuples (Postgres)."},
+  {"k": ["hot standby"], "a": "Hot standby servers can serve reads while replaying replication."},
+  {"k": ["failover"], "a": "Failover promotes a replica when the primary fails."},
+  {"k": ["rpo rto"], "a": "RPO is max acceptable data loss; RTO is max acceptable downtime."},
+  {"k": ["database encryption at rest"], "a": "Encrypt data files/disks so stolen media is unreadable without keys."}
+]
