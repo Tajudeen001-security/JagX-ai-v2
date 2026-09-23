@@ -1,0 +1,12 @@
+[
+  {"k": ["event envelope"], "a": "Event envelopes include id, type, timestamp, producer, and payload."},
+  {"k": ["cloud events"], "a": "CloudEvents is a standard format for event metadata across systems."},
+  {"k": ["event versioning"], "a": "Version event types and keep consumers backward compatible when possible."},
+  {"k": ["outbox pattern"], "a": "Transactional outbox writes events with DB changes, then publishes reliably."},
+  {"k": ["inbox pattern"], "a": "Inbox tables de-duplicate received messages for idempotent consumers."},
+  {"k": ["exactly once illusion"], "a": "True end-to-end exactly-once is rare; aim for effective exactly-once via idempotency."},
+  {"k": ["schema compatibility"], "a": "Backward/forward compatible schema changes protect producers and consumers."},
+  {"k": ["event naming"], "a": "Name events as past facts: OrderPlaced, PaymentCaptured."},
+  {"k": ["command vs event"], "a": "Commands request work; events record that something happened."},
+  {"k": ["cdc change data capture"], "a": "CDC streams database row changes into event pipelines."}
+]
