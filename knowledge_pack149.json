@@ -1,0 +1,12 @@
+[
+  {"k": ["asyncio taskgroup"], "a": "TaskGroup manages multiple tasks with structured concurrency (Python 3.11+)."},
+  {"k": ["asyncio gather return exceptions"], "a": "return_exceptions=True collects errors instead of failing the whole gather."},
+  {"k": ["asyncio semaphore"], "a": "Semaphore limits concurrent access to a resource."},
+  {"k": ["asyncio queue"], "a": "asyncio.Queue coordinates producers and consumers without threads."},
+  {"k": ["async context manager"], "a": "async with runs setup/teardown for async resources."},
+  {"k": ["async generator"], "a": "async def with yield produces values asynchronously."},
+  {"k": ["uvloop"], "a": "uvloop is a fast event loop implementation alternative for asyncio."},
+  {"k": ["blocking in async"], "a": "Never call blocking IO in async handlers; use to_thread or async drivers."},
+  {"k": ["httpx async"], "a": "httpx.AsyncClient provides async HTTP with connection pooling."},
+  {"k": ["starlette background"], "a": "BackgroundTasks run work after the response is sent."}
+]
