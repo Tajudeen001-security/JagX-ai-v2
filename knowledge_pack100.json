@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx milestone 100"], "a": "JagX local knowledge has reached 100+ pack files covering coding, math, systems, Nigeria, and product ops."},
+  {"k": ["jagx can code"], "a": "JagX can help with Python, JavaScript, SQL, APIs, debugging, and algorithms."},
+  {"k": ["jagx can explain"], "a": "JagX can explain CS concepts, system design, and security fundamentals."},
+  {"k": ["jagx can math"], "a": "JagX can solve calculus, linear algebra, probability, and applied math with steps via cloud LLM."},
+  {"k": ["jagx nigeria context"], "a": "JagX includes Nigeria/WAT/fintech/local knowledge for region-relevant answers."},
+  {"k": ["jagx permanent api key"], "a": "Generate keys via /create-key; permanent keys do not expire."},
+  {"k": ["jagx speed strategy"], "a": "Local packs answer instantly; cloud LLM handles open-ended questions."},
+  {"k": ["jagx keep alive tip"], "a": "Use UptimeRobot on /health every 5 minutes on Render free tier."},
+  {"k": ["jagx built by"], "a": "Built by JagX and JRILICENSE under a single-developer project."},
+  {"k": ["jagx expand knowledge"], "a": "Add knowledge_packN.json files to grow offline capabilities without rewriting the server."}
+]
