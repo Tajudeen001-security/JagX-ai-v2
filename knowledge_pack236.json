@@ -1,0 +1,12 @@
+[
+  {"k": ["review for correctness"], "a": "First question: does it do what it claims safely?"},
+  {"k": ["review for readability"], "a": "Will a teammate understand this in six months?"},
+  {"k": ["small prs"], "a": "Small PRs get faster, better reviews."},
+  {"k": ["pr description"], "a": "State why, what, test plan, and risks."},
+  {"k": ["nits vs blockers"], "a": "Label nits clearly; do not block on pure style if CI formats."},
+  {"k": ["suggest alternatives"], "a": "Propose concrete alternatives, not only problems."},
+  {"k": ["security review checklist"], "a": "Authz, validation, secrets, injection, and SSRF checks."},
+  {"k": ["approve with comments"], "a": "Approve when remaining comments are optional improvements."},
+  {"k": ["learn from reviews"], "a": "Capture repeated feedback into docs/linters."},
+  {"k": ["kindness in review"], "a": "Critique code, not people."}
+]
