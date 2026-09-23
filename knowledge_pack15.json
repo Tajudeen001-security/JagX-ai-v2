@@ -1,0 +1,20 @@
+[
+  {"k": ["primary key"], "a": "A primary key uniquely identifies each row in a table."},
+  {"k": ["foreign key"], "a": "A foreign key references a primary key in another table to link related rows."},
+  {"k": ["normalization"], "a": "Normalization organizes tables to reduce duplication and improve integrity."},
+  {"k": ["denormalization"], "a": "Denormalization adds controlled duplication for faster reads at the cost of write complexity."},
+  {"k": ["sql where"], "a": "```sql\nSELECT * FROM users WHERE active = true;\n```"},
+  {"k": ["sql group by"], "a": "```sql\nSELECT country, COUNT(*) FROM users GROUP BY country;\n```"},
+  {"k": ["sql order by"], "a": "```sql\nSELECT * FROM users ORDER BY created_at DESC LIMIT 10;\n```"},
+  {"k": ["sql left join"], "a": "```sql\nSELECT u.name, o.id FROM users u LEFT JOIN orders o ON o.user_id = u.id;\n```"},
+  {"k": ["sql inner join"], "a": "INNER JOIN returns only rows that match in both tables."},
+  {"k": ["sql transaction"], "a": "A transaction groups statements so they all commit or all roll back together."},
+  {"k": ["acid"], "a": "ACID means Atomicity, Consistency, Isolation, Durability — properties of reliable databases."},
+  {"k": ["what is orm"], "a": "An ORM maps objects in code to database tables (e.g. SQLAlchemy, Prisma, Django ORM)."},
+  {"k": ["what is migration"], "a": "A migration is a versioned change to the database schema."},
+  {"k": ["what is index database"], "a": "An index speeds up lookups on columns at the cost of extra storage and slower writes."},
+  {"k": ["n+1 query"], "a": "The N+1 problem runs one query plus one per row. Fix with joins or eager loading."},
+  {"k": ["what is connection pool"], "a": "A connection pool reuses DB connections so apps do not open a new one per request."},
+  {"k": ["what is nosql"], "a": "NoSQL databases store data as documents, key-value, wide-column, or graphs instead of only tables."},
+  {"k": ["what is redis used for"], "a": "Redis is often used for caching, sessions, rate limits, and real-time leaderboards."}
+]
