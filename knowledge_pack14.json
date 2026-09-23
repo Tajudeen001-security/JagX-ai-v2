@@ -1,0 +1,22 @@
+[
+  {"k": ["http get"], "a": "GET retrieves data. Should not change server state. Safe and idempotent."},
+  {"k": ["http post"], "a": "POST creates a resource or triggers an action. Body usually carries JSON data."},
+  {"k": ["http put"], "a": "PUT replaces a resource at a known URL. Often idempotent."},
+  {"k": ["http patch"], "a": "PATCH partially updates a resource."},
+  {"k": ["http delete"], "a": "DELETE removes a resource."},
+  {"k": ["status code 201"], "a": "201 Created means a new resource was successfully created."},
+  {"k": ["status code 204"], "a": "204 No Content means success with an empty body (common for DELETE)."},
+  {"k": ["status code 400"], "a": "400 Bad Request means the client sent invalid input."},
+  {"k": ["status code 401"], "a": "401 Unauthorized means authentication is missing or invalid."},
+  {"k": ["status code 409"], "a": "409 Conflict means the request clashes with current server state (e.g. duplicate)."},
+  {"k": ["status code 422"], "a": "422 Unprocessable Entity often means validation failed."},
+  {"k": ["status code 502"], "a": "502 Bad Gateway means a proxy/upstream server returned an invalid response."},
+  {"k": ["status code 503"], "a": "503 Service Unavailable means the server is temporarily overloaded or down."},
+  {"k": ["bearer token"], "a": "Authorization: Bearer <token> is a common way to send API keys or JWTs."},
+  {"k": ["pagination"], "a": "Pagination returns data in pages (limit/offset or cursor) so large lists stay fast."},
+  {"k": ["webhook"], "a": "A webhook is an HTTP callback your server receives when an external event happens."},
+  {"k": ["idempotency key"], "a": "Clients send a unique key so retries of the same POST do not create duplicates."},
+  {"k": ["openapi", "swagger"], "a": "OpenAPI (Swagger) describes REST APIs so tools can generate docs and clients."},
+  {"k": ["what is grpc"], "a": "gRPC is a high-performance RPC framework using HTTP/2 and Protocol Buffers."},
+  {"k": ["what is soap"], "a": "SOAP is an older XML-based web service protocol; most new APIs prefer REST or gRPC."}
+]
