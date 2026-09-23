@@ -1,0 +1,17 @@
+[
+  {"k": ["symmetric encryption"], "a": "Symmetric encryption uses the same key to encrypt and decrypt (e.g. AES)."},
+  {"k": ["asymmetric encryption"], "a": "Asymmetric encryption uses a public/private key pair (e.g. RSA, ECC)."},
+  {"k": ["aes encryption"], "a": "AES is a widely used symmetric block cipher (128/192/256-bit keys)."},
+  {"k": ["rsa encryption"], "a": "RSA is a public-key algorithm used for encryption and digital signatures."},
+  {"k": ["sha256"], "a": "SHA-256 is a cryptographic hash function producing a 256-bit digest."},
+  {"k": ["hmac"], "a": "HMAC is a keyed hash for message authenticity and integrity."},
+  {"k": ["digital signature"], "a": "A digital signature proves a message was signed by a private key holder and was not altered."},
+  {"k": ["certificate authority"], "a": "A CA issues digital certificates that bind public keys to identities."},
+  {"k": ["public key infrastructure"], "a": "PKI is the system of certificates, CAs, and policies for managing public keys."},
+  {"k": ["nonce cryptography"], "a": "A nonce is a number used once to prevent replay attacks."},
+  {"k": ["salt password"], "a": "A salt is random data mixed into a password before hashing so identical passwords differ."},
+  {"k": ["bcrypt"], "a": "bcrypt is a password hashing algorithm designed to be slow against brute force."},
+  {"k": ["argon2"], "a": "Argon2 is a modern password hashing algorithm (winner of the Password Hashing Competition)."},
+  {"k": ["perfect forward secrecy"], "a": "PFS means compromising a long-term key does not expose past session keys."},
+  {"k": ["side channel attack"], "a": "Side-channel attacks exploit timing, power, or other physical leakage — not pure math breaks."}
+]
