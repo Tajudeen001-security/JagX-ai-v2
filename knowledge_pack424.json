@@ -1,0 +1,12 @@
+[
+  {"k": ["python httpx"], "a": "httpx is a modern HTTP client supporting async and HTTP/2."},
+  {"k": ["python poetry"], "a": "Poetry manages dependencies and packaging for Python projects."},
+  {"k": ["python ruff"], "a": "Ruff is a fast Python linter and formatter."},
+  {"k": ["python mypy"], "a": "mypy checks type annotations statically."},
+  {"k": ["python celery"], "a": "Celery runs distributed background task queues."},
+  {"k": ["python sqlalchemy"], "a": "SQLAlchemy is a popular Python SQL toolkit and ORM."},
+  {"k": ["python alembic"], "a": "Alembic handles database migrations for SQLAlchemy."},
+  {"k": ["python pydantic"], "a": "Pydantic validates data using Python type hints."},
+  {"k": ["python fastapi depends"], "a": "Depends injects shared dependencies into path operations."},
+  {"k": ["python uvicorn workers"], "a": "Multiple Uvicorn workers can increase concurrency for CPU-bound limits carefully."}
+]

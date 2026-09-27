@@ -1,0 +1,12 @@
+[
+  {"k": ["physics kinetic molecular"], "a": "Temperature relates to average kinetic energy of particles."},
+  {"k": ["physics latent heat"], "a": "Latent heat is energy absorbed/released during phase change without temperature change."},
+  {"k": ["physics reflection"], "a": "Angle of incidence equals angle of reflection."},
+  {"k": ["physics refraction"], "a": "Refraction is the bending of waves when speed changes between media."},
+  {"k": ["physics Doppler"], "a": "Doppler effect changes observed frequency when source/observer move."},
+  {"k": ["physics magnetic field"], "a": "Moving charges and currents produce magnetic fields."},
+  {"k": ["physics induction"], "a": "Changing magnetic flux induces emf (Faraday's law)."},
+  {"k": ["physics half life"], "a": "Half-life is the time for half of a radioactive sample to decay."},
+  {"k": ["physics work power"], "a": "Power is the rate of doing work: P = W/t."},
+  {"k": ["physics efficiency"], "a": "Efficiency = useful output energy / input energy."}
+]

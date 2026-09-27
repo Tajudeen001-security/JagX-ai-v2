@@ -1,0 +1,12 @@
+[
+  {"k": ["db index btree"], "a": "B-tree indexes support equality and range lookups efficiently."},
+  {"k": ["db index hash"], "a": "Hash indexes are good for equality but not ranges."},
+  {"k": ["db vacuum full"], "a": "VACUUM FULL rewrites tables and can lock; use carefully."},
+  {"k": ["db connection leak"], "a": "Always return connections to the pool; leaks exhaust the DB."},
+  {"k": ["db read replica"], "a": "Read replicas serve read traffic and improve scale."},
+  {"k": ["db write heavy"], "a": "Write-heavy workloads need careful indexing and batching."},
+  {"k": ["db json column"], "a": "JSON columns store flexible documents inside relational DBs."},
+  {"k": ["db full text search"], "a": "Full-text search indexes words for document retrieval."},
+  {"k": ["db migration expand contract"], "a": "Expand/contract migrations avoid downtime during schema changes."},
+  {"k": ["db backup test restore"], "a": "Untested backups are risky; practice restores."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["react query"], "a": "React Query (TanStack Query) manages server state, caching, and refetching."},
+  {"k": ["react context"], "a": "Context passes data through the tree without prop drilling."},
+  {"k": ["react reducer"], "a": "useReducer manages complex state transitions with pure reducers."},
+  {"k": ["react ref"], "a": "useRef holds mutable values that do not trigger re-renders."},
+  {"k": ["react strict mode"], "a": "Strict Mode highlights potential problems in development."},
+  {"k": ["react suspense"], "a": "Suspense coordinates loading states for lazy components and data."},
+  {"k": ["react portal"], "a": "Portals render children into a different DOM node."},
+  {"k": ["react error boundary"], "a": "Error boundaries catch render errors in the component tree."},
+  {"k": ["react suspense list"], "a": "Coordinate multiple loading indicators carefully for UX."},
+  {"k": ["react server components"], "a": "Server Components render on the server and reduce client JS."}
+]

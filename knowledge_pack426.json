@@ -1,0 +1,12 @@
+[
+  {"k": ["ml transformer"], "a": "Transformers use attention to model relationships across sequences."},
+  {"k": ["ml attention"], "a": "Attention weights how much each token influences another."},
+  {"k": ["ml embedding layer"], "a": "Embedding layers map discrete tokens to dense vectors."},
+  {"k": ["ml softmax"], "a": "Softmax turns scores into a probability distribution."},
+  {"k": ["ml relu"], "a": "ReLU activation is max(0, x)."},
+  {"k": ["ml batch norm"], "a": "Batch normalization stabilizes training by normalizing layer inputs."},
+  {"k": ["ml learning rate schedule"], "a": "Schedules change learning rate during training for better convergence."},
+  {"k": ["ml early stopping"], "a": "Early stopping ends training when validation performance stops improving."},
+  {"k": ["ml data augmentation"], "a": "Augmentation creates varied training examples from existing data."},
+  {"k": ["ml transfer learning"], "a": "Transfer learning reuses a model trained on one task for another."}
+]

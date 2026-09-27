@@ -1,0 +1,12 @@
+[
+  {"k": ["security zero trust"], "a": "Zero trust assumes no implicit trust based on network location."},
+  {"k": ["security defense in depth"], "a": "Multiple layers of controls reduce single points of failure."},
+  {"k": ["security threat model"], "a": "Threat modeling identifies what can go wrong and mitigations."},
+  {"k": ["security secrets manager"], "a": "Secret managers store and rotate credentials centrally."},
+  {"k": ["security wAF"], "a": "A WAF filters malicious web traffic before it hits the app."},
+  {"k": ["security ddos"], "a": "DDoS overwhelms a service with traffic; mitigate with capacity and filtering."},
+  {"k": ["security supply chain"], "a": "Supply-chain attacks compromise dependencies or build systems."},
+  {"k": ["security sbom"], "a": "An SBOM lists software components for vulnerability tracking."},
+  {"k": ["security pentest"], "a": "Penetration tests simulate attacks to find weaknesses."},
+  {"k": ["security incident response"], "a": "Incident response plans detect, contain, eradicate, and recover."}
+]

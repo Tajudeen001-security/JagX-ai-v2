@@ -1,0 +1,12 @@
+[
+  {"k": ["product discovery"], "a": "Discovery reduces risk by learning before building large features."},
+  {"k": ["product experiment"], "a": "Experiments test hypotheses with measurable outcomes."},
+  {"k": ["product activation"], "a": "Activation is when a new user reaches the first meaningful success."},
+  {"k": ["product engagement"], "a": "Engagement measures how actively users interact over time."},
+  {"k": ["product monetization"], "a": "Monetization is how the product captures value."},
+  {"k": ["product pricing"], "a": "Pricing should reflect value, willingness to pay, and costs."},
+  {"k": ["product customer interview"], "a": "Interview for problems and behaviors, not feature wishlists only."},
+  {"k": ["product prioritization rice"], "a": "RICE scores Reach, Impact, Confidence, Effort."},
+  {"k": ["product tech debt tradeoff"], "a": "Balance shipping features with paying down tech debt."},
+  {"k": ["product launch checklist"], "a": "Launch checklists cover monitoring, rollback, support, and docs."}
+]

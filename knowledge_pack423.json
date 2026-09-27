@@ -1,0 +1,12 @@
+[
+  {"k": ["translate tagalog who are you"], "a": "Sino ka? means Who are you? in Tagalog."},
+  {"k": ["translate tagalog my name is"], "a": "Ang pangalan ko ay... means My name is..."},
+  {"k": ["translate tagalog where"], "a": "Saan means where."},
+  {"k": ["translate tagalog when"], "a": "Kailan means when."},
+  {"k": ["translate tagalog why"], "a": "Bakit means why."},
+  {"k": ["translate tagalog how much"], "a": "Magkano means how much."},
+  {"k": ["translate tagalog delicious"], "a": "Masarap means delicious."},
+  {"k": ["translate tagalog beautiful"], "a": "Maganda means beautiful."},
+  {"k": ["translate tagalog wait"], "a": "Sandali or Te means wait a moment."},
+  {"k": ["translate tagalog understand"], "a": "Naiintindihan ko means I understand."}
+]

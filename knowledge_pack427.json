@@ -1,0 +1,12 @@
+[
+  {"k": ["finance compound formula"], "a": "A = P(1+r/n)^(nt) for compound interest with n compounds per year."},
+  {"k": ["finance rule 72"], "a": "Rule of 72 estimates doubling time ≈ 72 / interest rate percent."},
+  {"k": ["finance diversification"], "a": "Diversification spreads risk across assets."},
+  {"k": ["finance liquidity"], "a": "Liquidity is how quickly an asset can be sold without large price impact."},
+  {"k": ["finance asset liability"], "a": "Assets are what you own; liabilities are what you owe."},
+  {"k": ["finance equity"], "a": "Equity is assets minus liabilities."},
+  {"k": ["finance interest rate"], "a": "Interest rate is the cost of borrowing or return on lending."},
+  {"k": ["finance exchange rate"], "a": "Exchange rates convert one currency into another."},
+  {"k": ["finance inflation impact"], "a": "Inflation reduces purchasing power of money over time."},
+  {"k": ["finance emergency fund"], "a": "An emergency fund covers unexpected expenses without high-interest debt."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["testing property based"], "a": "Property-based tests check invariants across many generated inputs."},
+  {"k": ["testing mutation"], "a": "Mutation testing evaluates whether tests catch intentional code faults."},
+  {"k": ["testing flaky"], "a": "Flaky tests pass/fail nondeterministically; quarantine and fix."},
+  {"k": ["testing test data builders"], "a": "Builders create readable, flexible test fixtures."},
+  {"k": ["testing hermetic"], "a": "Hermetic tests avoid external network and shared mutable state."},
+  {"k": ["testing golden file"], "a": "Golden-file tests compare output to a stored expected file."},
+  {"k": ["testing chaos"], "a": "Chaos testing injects failures to verify resilience."},
+  {"k": ["testing canary analysis"], "a": "Canary analysis compares metrics between old and new versions."},
+  {"k": ["testing accessibility"], "a": "a11y tests check keyboard use, labels, and contrast basics."},
+  {"k": ["testing performance budget"], "a": "Performance budgets set limits on size and timing metrics."}
+]

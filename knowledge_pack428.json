@@ -1,0 +1,12 @@
+[
+  {"k": ["writing email clear"], "a": "Lead with the ask, then give context, then next steps."},
+  {"k": ["writing bullet points"], "a": "Bullets help readers scan key facts quickly."},
+  {"k": ["writing subject specific"], "a": "Specific subjects beat vague ones like 'Update'."},
+  {"k": ["writing avoid jargon"], "a": "Explain terms if the audience may not know them."},
+  {"k": ["writing proofread"], "a": "Read once for structure and once for typos."},
+  {"k": ["writing feedback request"], "a": "Ask for specific feedback, not just 'any thoughts'."},
+  {"k": ["writing meeting notes"], "a": "Capture decisions, owners, and deadlines."},
+  {"k": ["writing status update"], "a": "Status: progress, blockers, next actions."},
+  {"k": ["writing documentation"], "a": "Docs should include purpose, setup, usage, and examples."},
+  {"k": ["writing changelog"], "a": "Changelogs list user-facing changes by version."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 430"], "a": "Local knowledge packs have reached pack 430."},
+  {"k": ["jagx credit 430"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["git conventional commits"], "a": "Conventional commits use types like feat:, fix:, docs:."},
+  {"k": ["git semantic version"], "a": "SemVer: MAJOR.MINOR.PATCH for breaking, feature, fix."},
+  {"k": ["git release notes"], "a": "Release notes summarize user-visible changes."},
+  {"k": ["git code owners"], "a": "CODEOWNERS assigns review ownership for paths."},
+  {"k": ["git protected branch"], "a": "Protected branches require reviews before merge."},
+  {"k": ["git signed commit"], "a": "Signed commits verify author authenticity with GPG/SSH."},
+  {"k": ["git sparse index"], "a": "Sparse index helps performance in very large repos."},
+  {"k": ["git maintenance"], "a": "git maintenance can run background cleanup tasks."}
+]

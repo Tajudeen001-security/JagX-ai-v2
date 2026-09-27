@@ -1,0 +1,12 @@
+[
+  {"k": ["math probability independent"], "a": "Independent events: P(A and B) = P(A)P(B)."},
+  {"k": ["math probability conditional"], "a": "P(A|B) = P(A and B) / P(B) when P(B) > 0."},
+  {"k": ["math expected value"], "a": "Expected value is the probability-weighted average of outcomes."},
+  {"k": ["math variance formula"], "a": "Var(X) = E[X²] - (E[X])²."},
+  {"k": ["math bayes simple"], "a": "Bayes updates prior beliefs with evidence to get posteriors."},
+  {"k": ["math combination formula"], "a": "C(n,k) = n! / (k!(n-k)!)."},
+  {"k": ["math permutation formula"], "a": "P(n,k) = n! / (n-k)!."},
+  {"k": ["math normal approx"], "a": "Many sums of random variables approach a normal distribution."},
+  {"k": ["math z score"], "a": "z = (x - mean) / standard deviation."},
+  {"k": ["math linear regression"], "a": "Linear regression fits a line minimizing squared errors."}
+]

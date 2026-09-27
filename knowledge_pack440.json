@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 440"], "a": "Local knowledge packs have reached pack 440."},
+  {"k": ["jagx credit 440"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 120"], "a": "About 120 packs added toward the 300 expansion goal."},
+  {"k": ["design pattern singleton"], "a": "Singleton restricts a class to one instance; use sparingly."},
+  {"k": ["design pattern factory"], "a": "Factory methods create objects without exposing construction logic."},
+  {"k": ["design pattern observer"], "a": "Observer notifies dependents when state changes."},
+  {"k": ["design pattern strategy"], "a": "Strategy swaps algorithms behind a common interface."},
+  {"k": ["design pattern adapter"], "a": "Adapter translates one interface into another."},
+  {"k": ["design pattern decorator"], "a": "Decorator adds behavior without modifying the original class."},
+  {"k": ["design pattern repository"], "a": "Repository abstracts data access behind a collection-like interface."}
+]

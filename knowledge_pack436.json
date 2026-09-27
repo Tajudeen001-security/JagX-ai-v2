@@ -1,0 +1,12 @@
+[
+  {"k": ["chem stoichiometry"], "a": "Stoichiometry uses balanced equations to relate amounts of reactants/products."},
+  {"k": ["chem limiting reagent"], "a": "The limiting reagent is fully consumed and limits product amount."},
+  {"k": ["chem mole ratio"], "a": "Coefficients give mole ratios between species in a reaction."},
+  {"k": ["chem concentration"], "a": "Concentration measures amount of solute per amount of solution."},
+  {"k": ["chem solubility"], "a": "Solubility is how much solute dissolves under given conditions."},
+  {"k": ["chem equilibrium"], "a": "At equilibrium, forward and reverse rates are equal."},
+  {"k": ["chem le chatelier"], "a": "Systems at equilibrium shift to counteract imposed changes."},
+  {"k": ["chem buffer"], "a": "Buffers resist pH changes when small amounts of acid/base are added."},
+  {"k": ["chem electrolysis"], "a": "Electrolysis uses electricity to drive non-spontaneous reactions."},
+  {"k": ["chem organic hydrocarbon"], "a": "Hydrocarbons contain primarily carbon and hydrogen."}
+]

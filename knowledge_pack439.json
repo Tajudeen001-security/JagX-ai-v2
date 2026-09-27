@@ -1,0 +1,12 @@
+[
+  {"k": ["api pagination cursor"], "a": "Cursor pagination uses opaque tokens instead of large offsets."},
+  {"k": ["api hypermedia"], "a": "HATEOAS includes links in responses to guide clients."},
+  {"k": ["api grpc"], "a": "gRPC is a high-performance RPC framework using HTTP/2 and protobuf."},
+  {"k": ["api openapi swagger"], "a": "OpenAPI describes REST APIs; Swagger UI visualizes them."},
+  {"k": ["api webhook retry"], "a": "Webhook deliverers should retry with backoff on failure."},
+  {"k": ["api idempotency post"], "a": "POST can be made idempotent with client keys for safe retries."},
+  {"k": ["api version header"], "a": "Some APIs version via headers instead of URL paths."},
+  {"k": ["api rate limit 429"], "a": "Respond 429 with Retry-After when rate limited."},
+  {"k": ["api health live ready"], "a": "Liveness means process up; readiness means able to take traffic."},
+  {"k": ["api deprecation"], "a": "Deprecate old versions with timelines and migration guides."}
+]

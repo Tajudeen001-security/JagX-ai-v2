@@ -1,0 +1,12 @@
+[
+  {"k": ["linux systemd service"], "a": "systemctl enable --now service starts and enables on boot."},
+  {"k": ["linux journalctl follow"], "a": "journalctl -fu service follows logs for a unit."},
+  {"k": ["linux ss"], "a": "ss -tulpn shows listening sockets and processes."},
+  {"k": ["linux lsof"], "a": "lsof lists open files and the processes using them."},
+  {"k": ["linux strace"], "a": "strace traces system calls made by a process."},
+  {"k": ["linux niceness"], "a": "nice/renice adjust process scheduling priority."},
+  {"k": ["linux ulimit"], "a": "ulimit controls resource limits for a shell session."},
+  {"k": ["linux cron @reboot"], "a": "@reboot runs a cron job at system startup."},
+  {"k": ["linux scp recursive"], "a": "scp -r copies directories recursively."},
+  {"k": ["linux rsync delete"], "a": "rsync --delete makes the destination match source exactly."}
+]

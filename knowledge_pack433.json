@@ -1,0 +1,12 @@
+[
+  {"k": ["js typescript strict"], "a": "strict mode enables stronger type checking defaults."},
+  {"k": ["js eslint"], "a": "ESLint finds problems and enforces code style rules."},
+  {"k": ["js prettier"], "a": "Prettier formats code consistently."},
+  {"k": ["js vitest"], "a": "Vitest is a fast unit test runner popular with Vite projects."},
+  {"k": ["js playwright"], "a": "Playwright automates browsers for end-to-end tests."},
+  {"k": ["js cypress"], "a": "Cypress is a popular end-to-end testing tool for web apps."},
+  {"k": ["js webpack"], "a": "Webpack bundles modules for the browser."},
+  {"k": ["js vite"], "a": "Vite provides fast dev servers and optimized production builds."},
+  {"k": ["js nextjs"], "a": "Next.js is a React framework with routing and rendering options."},
+  {"k": ["js node eventemitter"], "a": "EventEmitter implements the observer pattern in Node."}
+]
