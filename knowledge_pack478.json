@@ -1,0 +1,12 @@
+[
+  {"k": ["css has selector"], "a": ":has() selects an element based on its descendants."},
+  {"k": ["css focus within"], "a": ":focus-within styles a parent when a descendant is focused."},
+  {"k": ["css scroll timeline"], "a": "Scroll-driven animations link animation progress to scroll."},
+  {"k": ["css anchor positioning"], "a": "Anchor positioning can place elements relative to anchors."},
+  {"k": ["css color contrast"], "a": "Check contrast ratios for readable text."},
+  {"k": ["css fluid type"], "a": "Fluid typography scales with viewport using clamp."},
+  {"k": ["css logical margin"], "a": "margin-inline-start adapts to writing direction."},
+  {"k": ["css aspect ratio boxes"], "a": "aspect-ratio keeps media and cards proportional."},
+  {"k": ["css reduced motion"], "a": "prefers-reduced-motion respects users who need less animation."},
+  {"k": ["css print page breaks"], "a": "page-break and break-* control printed pagination."}
+]

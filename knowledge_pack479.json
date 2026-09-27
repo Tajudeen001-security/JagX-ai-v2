@@ -1,0 +1,12 @@
+[
+  {"k": ["security cve"], "a": "A CVE is a public identifier for a known vulnerability."},
+  {"k": ["security cvss"], "a": "CVSS scores rate severity of vulnerabilities."},
+  {"k": ["security patch management"], "a": "Patch management applies security updates in a controlled way."},
+  {"k": ["security least privilege tokens"], "a": "Tokens should have minimal scopes and short lifetimes."},
+  {"k": ["security secure sdlc"], "a": "Secure SDLC builds security into design, code, and release."},
+  {"k": ["security threat intelligence"], "a": "Threat intel informs defenses about active attack patterns."},
+  {"k": ["security phishing training"], "a": "Training helps people recognize phishing attempts."},
+  {"k": ["security backup offline"], "a": "Offline/immutable backups help recover from ransomware."},
+  {"k": ["security secrets in ci"], "a": "CI secrets must be masked and restricted to needed jobs."},
+  {"k": ["security dependency lockfile"], "a": "Lockfiles pin exact versions for reproducible secure builds."}
+]

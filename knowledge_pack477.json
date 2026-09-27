@@ -1,0 +1,12 @@
+[
+  {"k": ["js array flatmap"], "a": "flatMap maps then flattens one level."},
+  {"k": ["js array tosorted"], "a": "toSorted returns a sorted copy without mutating."},
+  {"k": ["js array toreversed"], "a": "toReversed returns a reversed copy."},
+  {"k": ["js object groupby"], "a": "Object.groupBy groups items by a key function."},
+  {"k": ["js promise withresolvers"], "a": "Promise.withResolvers exposes resolve/reject externally."},
+  {"k": ["js array findlast"], "a": "findLast finds the last matching element."},
+  {"k": ["js string replaceall"], "a": "replaceAll replaces every match, not just the first."},
+  {"k": ["js intl"], "a": "Intl APIs format dates, numbers, and lists by locale."},
+  {"k": ["js url api"], "a": "URL and URLSearchParams parse and build URLs safely."},
+  {"k": ["js abortcontroller"], "a": "AbortController cancels fetch and other async operations."}
+]

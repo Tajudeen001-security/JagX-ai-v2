@@ -1,0 +1,12 @@
+[
+  {"k": ["pidgin how body"], "a": "How body means how are you."},
+  {"k": ["pidgin i fine"], "a": "I fine means I'm fine."},
+  {"k": ["pidgin wetin"], "a": "Wetin means what."},
+  {"k": ["pidgin where you dey"], "a": "Where you dey means where are you."},
+  {"k": ["pidgin i dey come"], "a": "I dey come means I'm coming."},
+  {"k": ["pidgin e good"], "a": "E good means it's good / that's fine."},
+  {"k": ["pidgin no vex"], "a": "No vex means don't be angry."},
+  {"k": ["pidgin later"], "a": "Later is a casual goodbye."},
+  {"k": ["pidgin as e dey"], "a": "As e dey means as it is / currently."},
+  {"k": ["pidgin arrange"], "a": "Arrange can mean organize or sort something out."}
+]

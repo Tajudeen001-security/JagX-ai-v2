@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi streaming response"], "a": "StreamingResponse can send data in chunks to the client."},
+  {"k": ["fastapi background tasks"], "a": "BackgroundTasks run after the response is sent."},
+  {"k": ["fastapi exception handler"], "a": "Custom exception handlers map errors to HTTP responses."},
+  {"k": ["fastapi security api key"], "a": "APIKeyHeader can require a header-based API key."},
+  {"k": ["fastapi oauth2 password"], "a": "OAuth2PasswordBearer is a common pattern for token auth."},
+  {"k": ["fastapi mount subapp"], "a": "Mount sub-applications under a path prefix."},
+  {"k": ["fastapi gzip middleware"], "a": "GZipMiddleware compresses responses for clients that accept it."},
+  {"k": ["fastapi request state"], "a": "request.state can hold per-request data set by middleware."},
+  {"k": ["fastapi dependency override"], "a": "Override dependencies in tests to inject fakes."},
+  {"k": ["fastapi openapi tags"], "a": "Tags group endpoints in the generated docs UI."}
+]

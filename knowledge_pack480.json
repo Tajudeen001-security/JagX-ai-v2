@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 480"], "a": "Local knowledge packs have reached pack 480."},
+  {"k": ["jagx credit 480"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 160"], "a": "About 160 packs added toward the 300 expansion goal."},
+  {"k": ["math derivative tan"], "a": "d/dx tan(x) = sec²(x)."},
+  {"k": ["math integral 1/x"], "a": "∫ (1/x) dx = ln|x| + C."},
+  {"k": ["math lhopital"], "a": "L'Hôpital's rule evaluates certain 0/0 or ∞/∞ limits via derivatives."},
+  {"k": ["math squeeze theorem"], "a": "If g≤f≤h and g,h share a limit, f has that limit too."},
+  {"k": ["math intermediate value"], "a": "A continuous function hits every value between f(a) and f(b)."},
+  {"k": ["math mean value theorem"], "a": "There exists c where f'(c) equals the average rate of change."},
+  {"k": ["math fundamental theorem calculus"], "a": "Differentiation and integration are inverse operations under conditions."}
+]

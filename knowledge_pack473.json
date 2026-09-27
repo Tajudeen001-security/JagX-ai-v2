@@ -1,0 +1,12 @@
+[
+  {"k": ["business unit economics ltv cac"], "a": "Healthy businesses often aim for LTV significantly above CAC."},
+  {"k": ["business gross margin"], "a": "Gross margin is revenue minus cost of goods, over revenue."},
+  {"k": ["business burn rate"], "a": "Burn rate is how fast a company spends cash."},
+  {"k": ["business runway months"], "a": "Runway months ≈ cash / monthly burn."},
+  {"k": ["business conversion rate"], "a": "Conversion rate is conversions divided by visitors or leads."},
+  {"k": ["business arpu"], "a": "ARPU is average revenue per user."},
+  {"k": ["business nrr"], "a": "Net revenue retention tracks expansion minus churn."},
+  {"k": ["business saas metrics"], "a": "SaaS tracks MRR/ARR, churn, CAC, LTV, and NRR."},
+  {"k": ["business pricing experiments"], "a": "Test pricing carefully; it strongly affects conversion and revenue."},
+  {"k": ["business competitive advantage"], "a": "Advantage can come from cost, brand, network effects, or unique tech."}
+]

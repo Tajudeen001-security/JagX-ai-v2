@@ -1,0 +1,12 @@
+[
+  {"k": ["ml confusion precision recall"], "a": "Precision cares about false positives; recall cares about false negatives."},
+  {"k": ["ml roc auc"], "a": "ROC AUC summarizes ranking quality across thresholds."},
+  {"k": ["ml class imbalance"], "a": "Imbalanced classes can make accuracy misleading."},
+  {"k": ["ml cross entropy loss"], "a": "Cross-entropy is common for classification probability outputs."},
+  {"k": ["ml mse loss"], "a": "Mean squared error is common for regression."},
+  {"k": ["ml overfitting signs"], "a": "Training loss falls while validation loss rises."},
+  {"k": ["ml data leakage"], "a": "Leakage uses information not available at prediction time."},
+  {"k": ["ml feature scaling"], "a": "Scaling features helps many optimizers and distance-based models."},
+  {"k": ["ml one hot"], "a": "One-hot encoding represents categories as binary vectors."},
+  {"k": ["ml embedding categorical"], "a": "Embeddings map categories to dense vectors learned from data."}
+]

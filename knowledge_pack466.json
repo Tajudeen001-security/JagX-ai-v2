@@ -1,0 +1,12 @@
+[
+  {"k": ["git bisect run"], "a": "git bisect run can automate finding the first bad commit."},
+  {"k": ["git worktree add"], "a": "git worktree add creates a linked working tree for another branch."},
+  {"k": ["git sparse checkout set"], "a": "Sparse checkout limits which paths are in the working tree."},
+  {"k": ["git notes"], "a": "Git notes attach extra data to objects without changing hashes."},
+  {"k": ["git replace"], "a": "git replace can substitute objects for history surgery (advanced)."},
+  {"k": ["git filter repo"], "a": "git-filter-repo is the modern tool to rewrite history safely."},
+  {"k": ["git large file strategy"], "a": "Use Git LFS or external storage for large binaries."},
+  {"k": ["git commit template"], "a": "Commit templates remind authors of message structure."},
+  {"k": ["git hooks precommit"], "a": "Pre-commit hooks run checks before a commit is created."},
+  {"k": ["git ignore global"], "a": "A global gitignore covers OS junk across all repos."}
+]

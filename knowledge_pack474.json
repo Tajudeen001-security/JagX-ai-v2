@@ -1,0 +1,12 @@
+[
+  {"k": ["design accessibility alt"], "a": "Meaningful alt text describes image purpose for screen readers."},
+  {"k": ["design keyboard nav"], "a": "All interactive controls should be reachable by keyboard."},
+  {"k": ["design focus visible"], "a": "Visible focus indicators help keyboard users know where they are."},
+  {"k": ["design color not only"], "a": "Do not convey information by color alone."},
+  {"k": ["design form labels"], "a": "Inputs need associated labels for accessibility."},
+  {"k": ["design empty states"], "a": "Empty states should explain what to do next."},
+  {"k": ["design loading states"], "a": "Show progress so users know the app is working."},
+  {"k": ["design error messages"], "a": "Errors should say what happened and how to fix it."},
+  {"k": ["design responsive images"], "a": "Serve appropriately sized images for different screens."},
+  {"k": ["design design system"], "a": "A design system standardizes components and patterns."}
+]

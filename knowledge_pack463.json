@@ -1,0 +1,12 @@
+[
+  {"k": ["tagalog good afternoon"], "a": "Magandang hapon means good afternoon."},
+  {"k": ["tagalog good evening"], "a": "Magandang gabi means good evening/night greeting."},
+  {"k": ["tagalog excuse me"], "a": "Excuse me / sorry to interrupt is often Mawalang-galang or excuse me."},
+  {"k": ["tagalog how much is this"], "a": "Magkano ito? means How much is this?"},
+  {"k": ["tagalog where is bathroom"], "a": "Nasaan ang banyo? means Where is the bathroom?"},
+  {"k": ["tagalog i don't know"], "a": "Hindi ko alam means I don't know."},
+  {"k": ["tagalog see you"], "a": "See you is often Kita tayo or See you."},
+  {"k": ["tagalog congratulations"], "a": "Congratulations is Binabati kita or Congrats."},
+  {"k": ["tagalog happy birthday"], "a": "Maligayang kaarawan means Happy birthday."},
+  {"k": ["tagalog welcome"], "a": "Welcome is Maligayang pagdating."}
+]

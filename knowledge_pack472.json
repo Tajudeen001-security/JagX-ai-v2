@@ -1,0 +1,12 @@
+[
+  {"k": ["llm rag chunk size"], "a": "Chunk size balances context quality vs retrieval precision."},
+  {"k": ["llm vector database"], "a": "Vector DBs store embeddings for similarity search."},
+  {"k": ["llm cosine similarity"], "a": "Cosine similarity measures angle between vectors."},
+  {"k": ["llm hybrid search"], "a": "Hybrid search combines keyword and vector retrieval."},
+  {"k": ["llm reranking"], "a": "Rerankers reorder retrieved candidates for better relevance."},
+  {"k": ["llm tool calling schema"], "a": "Tool schemas describe functions the model can invoke."},
+  {"k": ["llm structured output"], "a": "Structured output constrains responses to JSON or schemas."},
+  {"k": ["llm eval harness"], "a": "Evaluation harnesses run fixed tasks to track model quality."},
+  {"k": ["llm prompt injection"], "a": "Prompt injection tries to override system instructions via user content."},
+  {"k": ["llm grounding"], "a": "Grounding ties answers to retrieved or provided sources."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["network dhcp"], "a": "DHCP assigns IP configuration to hosts automatically."},
+  {"k": ["network arp"], "a": "ARP maps IP addresses to MAC addresses on a LAN."},
+  {"k": ["network icmp"], "a": "ICMP carries diagnostics like ping echo requests."},
+  {"k": ["network mtu"], "a": "MTU is the maximum packet size for a network link."},
+  {"k": ["network tcp congestion"], "a": "TCP congestion control adapts send rate to network conditions."},
+  {"k": ["network dns recursion"], "a": "Recursive resolvers fetch answers on behalf of clients."},
+  {"k": ["network anycast"], "a": "Anycast routes to the nearest of many locations sharing an IP."},
+  {"k": ["network bgp idea"], "a": "BGP exchanges routing information between autonomous systems."},
+  {"k": ["network tls handshake"], "a": "TLS handshake negotiates keys and authenticates the server."},
+  {"k": ["network http3 quic"], "a": "HTTP/3 runs over QUIC for improved multiplexed transport."}
+]

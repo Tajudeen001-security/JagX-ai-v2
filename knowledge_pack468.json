@@ -1,0 +1,12 @@
+[
+  {"k": ["docker buildkit"], "a": "BuildKit speeds builds with better caching and parallelism."},
+  {"k": ["docker build args"], "a": "ARG passes build-time variables into a Dockerfile."},
+  {"k": ["docker secrets compose"], "a": "Compose can inject secrets without baking them into images."},
+  {"k": ["docker healthcheck cmd"], "a": "HEALTHCHECK CMD defines how Docker probes container health."},
+  {"k": ["docker restart policy"], "a": "Restart policies like unless-stopped control crash recovery."},
+  {"k": ["docker resource limits"], "a": "Limit CPU and memory so one container cannot starve others."},
+  {"k": ["docker multi arch"], "a": "Multi-arch images support amd64 and arm64 with manifests."},
+  {"k": ["docker layer caching tips"], "a": "Copy dependency files before source to maximize cache hits."},
+  {"k": ["docker distroless"], "a": "Distroless images reduce attack surface by omitting shells/package managers."},
+  {"k": ["docker sbom images"], "a": "Generate SBOMs for container images to track vulnerabilities."}
+]

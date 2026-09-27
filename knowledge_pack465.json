@@ -1,0 +1,12 @@
+[
+  {"k": ["math log change base"], "a": "log_b a = log_k a / log_k b for positive k ≠ 1."},
+  {"k": ["math inverse functions"], "a": "Inverse functions undo each other: f(f^{-1}(x)) = x."},
+  {"k": ["math domain range"], "a": "Domain is valid inputs; range is possible outputs."},
+  {"k": ["math asymptote"], "a": "An asymptote is a line a graph approaches."},
+  {"k": ["math parabola"], "a": "A parabola is the graph of a quadratic function."},
+  {"k": ["math vertex form"], "a": "y = a(x-h)^2 + k has vertex (h,k)."},
+  {"k": ["math completing square"], "a": "Completing the square rewrites quadratics into vertex form."},
+  {"k": ["math rationalize denominator"], "a": "Multiply by conjugates to remove roots from denominators."},
+  {"k": ["math radians degrees"], "a": "π radians = 180 degrees."},
+  {"k": ["math unit circle"], "a": "The unit circle has radius 1 centered at the origin."}
+]

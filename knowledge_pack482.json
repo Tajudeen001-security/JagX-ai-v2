@@ -1,0 +1,12 @@
+[
+  {"k": ["chem periodic trends"], "a": "Atomic radius, ionization energy, and electronegativity show periodic trends."},
+  {"k": ["chem electronegativity"], "a": "Electronegativity is the tendency to attract electrons in a bond."},
+  {"k": ["chem ionization energy"], "a": "Ionization energy is energy to remove an electron from an atom."},
+  {"k": ["chem valence electrons"], "a": "Valence electrons are the outermost electrons involved in bonding."},
+  {"k": ["chem lewis structure"], "a": "Lewis structures show valence electrons as dots and bonds."},
+  {"k": ["chem vsepr"], "a": "VSEPR predicts molecular shapes from electron pair repulsion."},
+  {"k": ["chem hybrid orbitals"], "a": "Hybridization models mixing of atomic orbitals for bonding."},
+  {"k": ["chem redox balancing"], "a": "Balance redox by atoms and charge, often via half-reactions."},
+  {"k": ["chem equilibrium constant"], "a": "K relates equilibrium concentrations/pressures of products and reactants."},
+  {"k": ["chem ph calculation"], "a": "For strong acids, pH ≈ -log10[H+]."}
+]

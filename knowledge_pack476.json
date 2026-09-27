@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio taskgroup"], "a": "TaskGroup manages multiple tasks with structured concurrency (3.11+)."},
+  {"k": ["python typing self"], "a": "Self annotates methods that return the same class type."},
+  {"k": ["python pathlib write text"], "a": "Path.write_text writes a string to a file."},
+  {"k": ["python concurrent futures"], "a": "concurrent.futures runs pools of threads or processes."},
+  {"k": ["python queue module"], "a": "queue provides thread-safe queues."},
+  {"k": ["python signal handling"], "a": "signal module handles OS signals like SIGINT."},
+  {"k": ["python argparse subcommands"], "a": "Subparsers create CLI subcommands."},
+  {"k": ["python logging config"], "a": "dictConfig/fileConfig set up structured logging."},
+  {"k": ["python warnings"], "a": "warnings module issues non-fatal warning messages."},
+  {"k": ["python dataclasses asdict"], "a": "asdict converts dataclass instances to dictionaries."}
+]

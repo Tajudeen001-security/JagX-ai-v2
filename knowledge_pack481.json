@@ -1,0 +1,12 @@
+[
+  {"k": ["physics work energy theorem"], "a": "Net work equals change in kinetic energy."},
+  {"k": ["physics power average"], "a": "Average power is work divided by time."},
+  {"k": ["physics density pressure depth"], "a": "In a fluid, pressure increases with depth: P = ρgh."},
+  {"k": ["physics ideal gas micro"], "a": "Ideal gas molecules are point particles with elastic collisions."},
+  {"k": ["physics interference"], "a": "Interference is the superposition of waves."},
+  {"k": ["physics diffraction"], "a": "Diffraction is spreading of waves around obstacles/openings."},
+  {"k": ["physics capacitance"], "a": "Capacitance C = Q/V for a capacitor."},
+  {"k": ["physics magnetic force"], "a": "F = qvB sinθ for a charge in a magnetic field."},
+  {"k": ["physics lens converging"], "a": "Converging lenses can form real or virtual images."},
+  {"k": ["physics nuclear binding"], "a": "Binding energy relates to mass defect in nuclei."}
+]

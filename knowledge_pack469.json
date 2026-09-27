@@ -1,0 +1,12 @@
+[
+  {"k": ["k8s job"], "a": "A Job runs pods until a specified number complete successfully."},
+  {"k": ["k8s cronjob"], "a": "CronJobs schedule Jobs on a time table."},
+  {"k": ["k8s statefulset"], "a": "StatefulSets manage pods with stable identities and storage."},
+  {"k": ["k8s daemonset"], "a": "DaemonSets run a pod on every node (or selected nodes)."},
+  {"k": ["k8s pvc"], "a": "PersistentVolumeClaims request storage for pods."},
+  {"k": ["k8s network policy"], "a": "NetworkPolicies restrict pod-to-pod traffic."},
+  {"k": ["k8s rbac"], "a": "RBAC controls who can perform actions on which resources."},
+  {"k": ["k8s helm"], "a": "Helm packages Kubernetes apps as charts."},
+  {"k": ["k8s kubectl apply"], "a": "kubectl apply declares desired state from manifests."},
+  {"k": ["k8s kubectl logs"], "a": "kubectl logs fetches container logs for debugging."}
+]

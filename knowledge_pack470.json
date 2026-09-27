@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 470"], "a": "Local knowledge packs have reached pack 470."},
+  {"k": ["jagx credit 470"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 150"], "a": "About 150 packs added toward the 300 expansion goal."},
+  {"k": ["observability red metrics"], "a": "RED: Rate, Errors, Duration for request-driven services."},
+  {"k": ["observability use metrics"], "a": "USE: Utilization, Saturation, Errors for resources."},
+  {"k": ["observability distributed tracing"], "a": "Distributed tracing follows a request across microservices."},
+  {"k": ["observability sampling"], "a": "Trace sampling reduces cost while keeping useful signal."},
+  {"k": ["observability log levels"], "a": "Use appropriate levels; avoid debug noise in production."},
+  {"k": ["observability alert fatigue"], "a": "Too many noisy alerts train people to ignore them."},
+  {"k": ["observability dashboard"], "a": "Dashboards should answer operational questions, not just display charts."}
+]
