@@ -1,0 +1,12 @@
+[
+  {"k": ["health hydration"], "a": "Drinking enough water supports basic body functions; needs vary by person."},
+  {"k": ["health sleep"], "a": "Most adults need roughly 7–9 hours of sleep for health."},
+  {"k": ["health exercise"], "a": "Regular physical activity supports heart, muscles, and mental health."},
+  {"k": ["health balanced diet"], "a": "A balanced diet includes varied foods: proteins, carbs, fats, fiber, micronutrients."},
+  {"k": ["health hand wash"], "a": "Washing hands with soap reduces spread of many infections."},
+  {"k": ["health not medical advice"], "a": "General health facts are not a substitute for a doctor's advice."},
+  {"k": ["health bmi limit"], "a": "BMI is a rough screening tool and does not measure health fully."},
+  {"k": ["health mental"], "a": "Mental health matters; seek professional help when struggling."},
+  {"k": ["health vaccine"], "a": "Vaccines train the immune system to recognize specific diseases."},
+  {"k": ["health first aid cpr"], "a": "CPR is emergency care for cardiac arrest; trained responders should lead."}
+]

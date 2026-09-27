@@ -1,0 +1,12 @@
+[
+  {"k": ["sort bubble"], "a": "Bubble sort repeatedly swaps adjacent out-of-order pairs; simple but slow O(n²)."},
+  {"k": ["sort insertion"], "a": "Insertion sort builds a sorted prefix by inserting each next element."},
+  {"k": ["sort merge"], "a": "Mergesort divides, sorts halves, and merges; O(n log n) stable."},
+  {"k": ["sort quick"], "a": "Quicksort partitions around a pivot; average O(n log n)."},
+  {"k": ["sort heap"], "a": "Heapsort uses a binary heap for O(n log n) time in place."},
+  {"k": ["sort stable"], "a": "A stable sort keeps equal keys in original relative order."},
+  {"k": ["search linear"], "a": "Linear search checks each element until it finds the target."},
+  {"k": ["data structure array"], "a": "Arrays store elements in contiguous memory with O(1) index access."},
+  {"k": ["data structure linked list"], "a": "Linked lists store nodes with pointers; inserts are easy, random access is not."},
+  {"k": ["data structure tree"], "a": "Trees organize hierarchical data with parent-child links."}
+]

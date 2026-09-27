@@ -1,0 +1,12 @@
+[
+  {"k": ["node express route"], "a": "app.get('/path', handler) registers a route in Express."},
+  {"k": ["node middleware"], "a": "Middleware functions run in order before the final handler."},
+  {"k": ["node env"], "a": "process.env reads environment variables."},
+  {"k": ["node package json"], "a": "package.json lists dependencies and scripts."},
+  {"k": ["node npm install"], "a": "npm install installs dependencies from package.json."},
+  {"k": ["node require vs import"], "a": "require is CommonJS; import is ES modules."},
+  {"k": ["node fs read"], "a": "fs.promises.readFile reads a file asynchronously."},
+  {"k": ["node path join"], "a": "path.join builds filesystem paths safely across OSes."},
+  {"k": ["node event loop"], "a": "The event loop handles async callbacks without blocking the main thread."},
+  {"k": ["node rest api"], "a": "REST APIs expose resources over HTTP with standard methods."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["logic and"], "a": "AND is true only if both inputs are true."},
+  {"k": ["logic or"], "a": "OR is true if at least one input is true."},
+  {"k": ["logic not"], "a": "NOT flips true to false and false to true."},
+  {"k": ["logic xor"], "a": "XOR is true when inputs differ."},
+  {"k": ["binary bit"], "a": "A bit is a binary digit: 0 or 1."},
+  {"k": ["binary byte"], "a": "A byte is typically 8 bits."},
+  {"k": ["binary to decimal"], "a": "1010₂ = 10₁₀ because 8+0+2+0."},
+  {"k": ["hex color"], "a": "#FF0000 is pure red in hex RGB."},
+  {"k": ["ascii"], "a": "ASCII maps numbers to basic English characters and controls."},
+  {"k": ["unicode"], "a": "Unicode assigns code points for characters across languages."}
+]

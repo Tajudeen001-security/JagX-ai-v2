@@ -1,0 +1,12 @@
+[
+  {"k": ["world capital france"], "a": "The capital of France is Paris."},
+  {"k": ["world capital japan"], "a": "The capital of Japan is Tokyo."},
+  {"k": ["world capital kenya"], "a": "The capital of Kenya is Nairobi."},
+  {"k": ["world capital egypt"], "a": "The capital of Egypt is Cairo."},
+  {"k": ["world capital brazil"], "a": "The capital of Brazil is Brasília."},
+  {"k": ["world capital canada"], "a": "The capital of Canada is Ottawa."},
+  {"k": ["world capital india"], "a": "The capital of India is New Delhi."},
+  {"k": ["world capital china"], "a": "The capital of China is Beijing."},
+  {"k": ["world capital ghana"], "a": "The capital of Ghana is Accra."},
+  {"k": ["world capital south africa"], "a": "South Africa has three capitals: Pretoria, Cape Town, Bloemfontein."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["finance interest simple"], "a": "Simple interest = principal × rate × time."},
+  {"k": ["finance compound"], "a": "Compound interest grows on principal plus accumulated interest."},
+  {"k": ["finance profit"], "a": "Profit = revenue − costs."},
+  {"k": ["finance percentage"], "a": "x% of y is (x/100)*y."},
+  {"k": ["finance break even"], "a": "Break-even is where total revenue equals total costs."},
+  {"k": ["finance budget"], "a": "A budget plans expected income and expenses."},
+  {"k": ["finance inflation"], "a": "Inflation is a general rise in prices over time."},
+  {"k": ["finance currency pair"], "a": "A currency pair shows how much of one currency buys another."},
+  {"k": ["finance roi"], "a": "ROI = (gain − cost) / cost, often shown as a percentage."},
+  {"k": ["finance cash flow"], "a": "Cash flow tracks money moving in and out over a period."}
+]

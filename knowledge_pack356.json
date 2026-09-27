@@ -1,0 +1,12 @@
+[
+  {"k": ["geography equator"], "a": "The equator is 0° latitude and divides Earth into Northern and Southern hemispheres."},
+  {"k": ["geography prime meridian"], "a": "The prime meridian is 0° longitude, running through Greenwich."},
+  {"k": ["geography continent count"], "a": "There are seven continents in the common school model."},
+  {"k": ["geography largest ocean"], "a": "The Pacific is the largest ocean."},
+  {"k": ["geography largest desert"], "a": "Antarctica is the largest desert; Sahara is the largest hot desert."},
+  {"k": ["geography longest river debate"], "a": "Nile and Amazon are both cited depending on measurement method."},
+  {"k": ["geography africa location"], "a": "Africa lies mainly between the Atlantic and Indian Oceans."},
+  {"k": ["geography time zones"], "a": "Time zones roughly follow longitude, adjusted by politics."},
+  {"k": ["geography climate vs weather"], "a": "Weather is short-term; climate is long-term average patterns."},
+  {"k": ["geography map scale"], "a": "Map scale relates distance on the map to distance on the ground."}
+]

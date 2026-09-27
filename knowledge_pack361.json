@@ -1,0 +1,12 @@
+[
+  {"k": ["python decorators"], "a": "Decorators wrap functions to add behavior without changing their code."},
+  {"k": ["python lambda"], "a": "lambda x: x+1 is a small anonymous function."},
+  {"k": ["python map filter"], "a": "map applies a function; filter keeps items that pass a test."},
+  {"k": ["python *args"], "a": "*args collects extra positional arguments as a tuple."},
+  {"k": ["python **kwargs"], "a": "**kwargs collects extra keyword arguments as a dict."},
+  {"k": ["python list vs tuple"], "a": "Lists are mutable; tuples are immutable."},
+  {"k": ["python is vs =="], "a": "== compares values; is compares object identity."},
+  {"k": ["python mutable default"], "a": "Never use a mutable default argument like def f(a=[]); use None."},
+  {"k": ["python gil"], "a": "CPython's GIL allows one thread to execute Python bytecode at a time."},
+  {"k": ["python multiprocessing"], "a": "multiprocessing uses processes to bypass the GIL for CPU work."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 360"], "a": "Local knowledge packs have reached pack 360."},
+  {"k": ["jagx credit 360"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["design solid s"], "a": "Single Responsibility: a module should have one reason to change."},
+  {"k": ["design solid o"], "a": "Open/Closed: open for extension, closed for modification."},
+  {"k": ["design solid l"], "a": "Liskov Substitution: subtypes must be usable where the base type is expected."},
+  {"k": ["design solid i"], "a": "Interface Segregation: prefer small focused interfaces."},
+  {"k": ["design solid d"], "a": "Dependency Inversion: depend on abstractions, not concretions."},
+  {"k": ["design dry"], "a": "DRY: Don't Repeat Yourself — extract shared logic carefully."},
+  {"k": ["design kiss"], "a": "KISS: Keep It Simple, Stupid — prefer simple solutions."},
+  {"k": ["design yagni"], "a": "YAGNI: You Aren't Gonna Need It — avoid speculative features."}
+]

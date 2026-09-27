@@ -1,0 +1,12 @@
+[
+  {"k": ["js promise"], "a": "A Promise represents a future value; use then/catch or async/await."},
+  {"k": ["js async await"], "a": "await pauses an async function until a Promise settles."},
+  {"k": ["js try catch"], "a": "try/catch handles thrown errors in synchronous or awaited code."},
+  {"k": ["js json parse"], "a": "JSON.parse turns a JSON string into an object; JSON.stringify does the reverse."},
+  {"k": ["js array filter"], "a": "arr.filter(fn) returns items for which fn returns true."},
+  {"k": ["js array reduce"], "a": "arr.reduce((acc,x)=>..., init) folds a list into one value."},
+  {"k": ["js set timeout"], "a": "setTimeout(fn, ms) runs fn once after a delay."},
+  {"k": ["js set interval"], "a": "setInterval(fn, ms) runs fn repeatedly until cleared."},
+  {"k": ["js module export"], "a": "export and import share values between ES modules."},
+  {"k": ["js strict equality"], "a": "=== compares value and type without coercion."}
+]

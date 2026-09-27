@@ -1,0 +1,12 @@
+[
+  {"k": ["english synonym big"], "a": "Synonyms for big include large, huge, enormous, vast."},
+  {"k": ["english antonym hot"], "a": "Antonym of hot is cold."},
+  {"k": ["english plural child"], "a": "The plural of child is children."},
+  {"k": ["english past go"], "a": "Past tense of go is went; past participle is gone."},
+  {"k": ["english article a an"], "a": "Use a before consonant sounds; an before vowel sounds."},
+  {"k": ["english subject verb"], "a": "Singular subjects take singular verbs: she runs."},
+  {"k": ["english there their"], "a": "There is a place; their shows possession; they're means they are."},
+  {"k": ["english its it's"], "a": "Its is possessive; it's means it is."},
+  {"k": ["english fewer less"], "a": "Fewer is for countable items; less for uncountable amounts."},
+  {"k": ["english affect effect"], "a": "Affect is usually a verb; effect is usually a noun."}
+]

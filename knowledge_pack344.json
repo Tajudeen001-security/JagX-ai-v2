@@ -1,0 +1,12 @@
+[
+  {"k": ["typescript type"], "a": "TypeScript adds static types on top of JavaScript."},
+  {"k": ["typescript interface"], "a": "interface describes the shape of an object."},
+  {"k": ["typescript optional prop"], "a": "prop?: string means the property may be undefined."},
+  {"k": ["typescript union"], "a": "string | number means the value can be either type."},
+  {"k": ["typescript generic"], "a": "Generics parameterize types, e.g. Array<T>."},
+  {"k": ["typescript any"], "a": "any disables checking; prefer unknown for safer unknowns."},
+  {"k": ["typescript enum"], "a": "Enums name a set of related constants."},
+  {"k": ["typescript as const"], "a": "as const narrows to literal types."},
+  {"k": ["typescript utility partial"], "a": "Partial<T> makes all properties of T optional."},
+  {"k": ["typescript never"], "a": "never means a value that should not occur."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 350"], "a": "Local knowledge packs have reached pack 350."},
+  {"k": ["jagx credit 350"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["unit length meter"], "a": "The SI unit of length is the meter (m)."},
+  {"k": ["unit mass kg"], "a": "The SI unit of mass is the kilogram (kg)."},
+  {"k": ["unit time second"], "a": "The SI unit of time is the second (s)."},
+  {"k": ["unit current amp"], "a": "The SI unit of electric current is the ampere (A)."},
+  {"k": ["unit temperature kelvin"], "a": "The SI unit of thermodynamic temperature is the kelvin (K)."},
+  {"k": ["unit energy joule"], "a": "Energy is measured in joules (J)."},
+  {"k": ["unit power watt"], "a": "Power is measured in watts (W); 1 W = 1 J/s."},
+  {"k": ["unit force newton"], "a": "Force is measured in newtons (N); 1 N = 1 kg·m/s²."}
+]

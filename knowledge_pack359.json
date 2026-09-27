@@ -1,0 +1,12 @@
+[
+  {"k": ["api rest vs graphql"], "a": "REST exposes fixed endpoints; GraphQL lets clients ask for specific fields."},
+  {"k": ["api idempotent"], "a": "Idempotent means repeating the same request has the same effect."},
+  {"k": ["api versioning"], "a": "Version APIs (/v1) to avoid breaking old clients."},
+  {"k": ["api pagination"], "a": "Pagination returns results in pages with limit and cursor or offset."},
+  {"k": ["api auth bearer"], "a": "Bearer tokens are sent in the Authorization header."},
+  {"k": ["api webhook"], "a": "Webhooks let a server push events to your URL."},
+  {"k": ["api rate limit header"], "a": "APIs often return remaining quota in response headers."},
+  {"k": ["api json error"], "a": "Return structured JSON errors with a clear message and code."},
+  {"k": ["api timeout client"], "a": "Clients should set timeouts so hung requests fail fast."},
+  {"k": ["api documentation"], "a": "Good docs show auth, examples, errors, and rate limits."}
+]

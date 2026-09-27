@@ -1,0 +1,12 @@
+[
+  {"k": ["html semantic"], "a": "Semantic tags like header, main, article describe meaning, not just layout."},
+  {"k": ["html a href"], "a": "<a href=\"url\"> creates a hyperlink."},
+  {"k": ["html img alt"], "a": "alt text describes images for accessibility and when images fail."},
+  {"k": ["html form method"], "a": "form method=get/post controls how data is sent."},
+  {"k": ["html input types"], "a": "input types include text, email, password, number, checkbox, radio."},
+  {"k": ["html meta viewport"], "a": "viewport meta tag is required for responsive mobile layouts."},
+  {"k": ["html defer script"], "a": "script defer downloads in parallel and runs after HTML is parsed."},
+  {"k": ["html accessibility"], "a": "Use labels, roles, and keyboard focus for accessible pages."},
+  {"k": ["html canvas"], "a": "canvas provides a drawing surface controlled by JavaScript."},
+  {"k": ["html local storage"], "a": "localStorage persists key-value strings in the browser."}
+]

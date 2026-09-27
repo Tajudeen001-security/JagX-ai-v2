@@ -1,0 +1,12 @@
+[
+  {"k": ["devops ci"], "a": "CI automatically builds and tests on every push."},
+  {"k": ["devops cd"], "a": "CD automatically deploys verified builds to environments."},
+  {"k": ["devops blue green"], "a": "Blue-green keeps two environments and switches traffic for safe releases."},
+  {"k": ["devops canary"], "a": "Canary releases send a small percent of traffic to the new version first."},
+  {"k": ["devops rollback"], "a": "A rollback restores the previous known-good version quickly."},
+  {"k": ["devops observability"], "a": "Logs, metrics, and traces help you understand production behavior."},
+  {"k": ["devops sla"], "a": "SLA is a promised service level, often uptime percentage."},
+  {"k": ["devops incident"], "a": "Incidents are unplanned disruptions; document timeline and fixes."},
+  {"k": ["devops infra as code"], "a": "IaC defines infrastructure in versioned config files."},
+  {"k": ["devops secrets rotation"], "a": "Rotate secrets regularly and after any leak."}
+]

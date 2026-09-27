@@ -1,0 +1,12 @@
+[
+  {"k": ["db postgres"], "a": "PostgreSQL is a powerful open-source relational database."},
+  {"k": ["db sqlite"], "a": "SQLite is a file-based SQL database good for small apps and tests."},
+  {"k": ["db mongodb"], "a": "MongoDB stores flexible JSON-like documents."},
+  {"k": ["db redis"], "a": "Redis is an in-memory store used for cache, queues, and sessions."},
+  {"k": ["db migration"], "a": "Migrations version schema changes in a controlled way."},
+  {"k": ["db connection pool"], "a": "Pools reuse DB connections to avoid open/close overhead."},
+  {"k": ["db orm"], "a": "ORMs map tables to objects; still learn SQL for hard queries."},
+  {"k": ["db backup"], "a": "Regular backups and restore tests protect against data loss."},
+  {"k": ["db index tradeoff"], "a": "Indexes speed reads but slow writes and use disk."},
+  {"k": ["db n plus one"], "a": "N+1 queries fetch a list then one query per row; batch or join instead."}
+]

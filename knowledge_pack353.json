@@ -1,0 +1,12 @@
+[
+  {"k": ["regex email rough"], "a": "A rough email pattern is .+@.+\..+ but real validation is stricter."},
+  {"k": ["regex phone digits"], "a": "\\d{10,15} matches a run of 10 to 15 digits."},
+  {"k": ["regex whitespace trim"], "a": "^\\s+|\\s+$ matches leading or trailing whitespace."},
+  {"k": ["regex word boundary"], "a": "\\b marks a word boundary between word and non-word chars."},
+  {"k": ["regex alternation"], "a": "cat|dog matches either cat or dog."},
+  {"k": ["regex quantifier"], "a": "{2,5} means between 2 and 5 repeats."},
+  {"k": ["regex escape dot"], "a": "\\. matches a literal dot, not any character."},
+  {"k": ["regex multiline"], "a": "Flag m makes ^ and $ match line starts/ends."},
+  {"k": ["regex case insensitive"], "a": "Flag i ignores case when matching."},
+  {"k": ["regex replace"], "a": "Most languages offer a regex replace for substitutions."}
+]

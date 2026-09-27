@@ -1,0 +1,12 @@
+[
+  {"k": ["oop class"], "a": "A class is a blueprint for creating objects."},
+  {"k": ["oop object"], "a": "An object is an instance of a class with state and behavior."},
+  {"k": ["oop encapsulation"], "a": "Encapsulation hides internal state and exposes a controlled interface."},
+  {"k": ["oop inheritance"], "a": "Inheritance lets a class reuse and extend another class."},
+  {"k": ["oop polymorphism"], "a": "Polymorphism lets different types respond to the same interface."},
+  {"k": ["oop abstraction"], "a": "Abstraction focuses on essential features and hides details."},
+  {"k": ["oop method"], "a": "A method is a function defined on a class or object."},
+  {"k": ["oop constructor"], "a": "A constructor initializes a new object."},
+  {"k": ["oop interface"], "a": "An interface specifies methods a type must implement."},
+  {"k": ["oop composition"], "a": "Composition builds complex types from smaller objects (has-a)."}
+]
