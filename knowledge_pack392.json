@@ -1,0 +1,12 @@
+[
+  {"k": ["llm prompt engineering"], "a": "Prompt engineering crafts inputs to get better model outputs."},
+  {"k": ["llm few shot"], "a": "Few-shot prompting includes examples in the prompt."},
+  {"k": ["llm chain of thought"], "a": "Chain-of-thought asks the model to reason step by step."},
+  {"k": ["llm tool use"], "a": "Tool-using models call functions like search or code execution."},
+  {"k": ["llm embedding search"], "a": "Embedding search finds similar text by vector distance."},
+  {"k": ["llm chunking"], "a": "Chunking splits long documents for retrieval and context limits."},
+  {"k": ["llm evaluation"], "a": "Evaluate with held-out tasks, human review, and automated checks."},
+  {"k": ["llm safety"], "a": "Safety layers reduce harmful or disallowed outputs."},
+  {"k": ["llm latency"], "a": "Latency is time to first token or full response."},
+  {"k": ["llm cost tokens"], "a": "API cost often scales with input and output tokens."}
+]

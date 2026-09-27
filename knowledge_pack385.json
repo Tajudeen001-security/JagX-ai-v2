@@ -1,0 +1,12 @@
+[
+  {"k": ["chem periodic table"], "a": "The periodic table organizes elements by atomic number and properties."},
+  {"k": ["chem atomic number"], "a": "Atomic number is the number of protons in the nucleus."},
+  {"k": ["chem isotope"], "a": "Isotopes have the same protons but different neutrons."},
+  {"k": ["chem catalyst"], "a": "A catalyst speeds a reaction without being consumed."},
+  {"k": ["chem endothermic"], "a": "Endothermic reactions absorb heat."},
+  {"k": ["chem exothermic"], "a": "Exothermic reactions release heat."},
+  {"k": ["chem oxidation"], "a": "Oxidation is loss of electrons; reduction is gain."},
+  {"k": ["chem acid base"], "a": "Acids donate protons; bases accept protons (Brønsted)."},
+  {"k": ["chem molarity"], "a": "Molarity is moles of solute per liter of solution."},
+  {"k": ["chem gas ideal"], "a": "Ideal gas law: PV = nRT."}
+]

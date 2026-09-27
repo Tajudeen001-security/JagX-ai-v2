@@ -1,0 +1,12 @@
+[
+  {"k": ["ml accuracy"], "a": "Accuracy is correct predictions / total predictions."},
+  {"k": ["ml precision"], "a": "Precision is true positives / predicted positives."},
+  {"k": ["ml recall"], "a": "Recall is true positives / actual positives."},
+  {"k": ["ml f1"], "a": "F1 is the harmonic mean of precision and recall."},
+  {"k": ["ml confusion matrix"], "a": "A confusion matrix counts true/false positives and negatives."},
+  {"k": ["ml regularization"], "a": "Regularization penalizes complexity to reduce overfitting."},
+  {"k": ["ml learning rate"], "a": "Learning rate controls the step size of weight updates."},
+  {"k": ["ml batch size"], "a": "Batch size is how many examples are used per update step."},
+  {"k": ["ml epoch"], "a": "An epoch is one full pass over the training dataset."},
+  {"k": ["ml dropout"], "a": "Dropout randomly disables units during training to reduce overfitting."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["physics wavelength"], "a": "v = fλ: wave speed equals frequency times wavelength."},
+  {"k": ["physics frequency"], "a": "Frequency is cycles per second, measured in hertz (Hz)."},
+  {"k": ["physics density"], "a": "Density = mass / volume."},
+  {"k": ["physics pressure"], "a": "Pressure = force / area."},
+  {"k": ["physics snell"], "a": "Snell's law relates angles and indices when light refracts."},
+  {"k": ["physics conservation energy"], "a": "In an isolated system, total energy is conserved."},
+  {"k": ["physics charge coulomb"], "a": "Electric charge is measured in coulombs (C)."},
+  {"k": ["physics series resistors"], "a": "Series resistances add: R = R1 + R2 + ..."},
+  {"k": ["physics parallel resistors"], "a": "Parallel: 1/R = 1/R1 + 1/R2 + ..."},
+  {"k": ["physics power electrical"], "a": "Electrical power P = VI = I²R = V²/R."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["network osi"], "a": "The OSI model has seven layers from physical to application."},
+  {"k": ["network tcp handshake"], "a": "TCP uses a three-way handshake to establish a connection."},
+  {"k": ["network dns ttl"], "a": "DNS TTL controls how long a record may be cached."},
+  {"k": ["network nat"], "a": "NAT maps private internal addresses to public ones."},
+  {"k": ["network vpn"], "a": "A VPN encrypts traffic over a public network to a private network."},
+  {"k": ["network traceroute"], "a": "traceroute shows the path packets take to a host."},
+  {"k": ["network ping"], "a": "ping measures reachability and round-trip time with ICMP."},
+  {"k": ["network ipv4 vs ipv6"], "a": "IPv6 provides a much larger address space than IPv4."},
+  {"k": ["network subnet"], "a": "Subnets divide networks into smaller address ranges."},
+  {"k": ["network ssl tls"], "a": "TLS secures data in transit; SSL is the obsolete predecessor name."}
+]

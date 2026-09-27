@@ -1,0 +1,12 @@
+[
+  {"k": ["design ux"], "a": "UX is the overall experience a person has using a product."},
+  {"k": ["design ui"], "a": "UI is the visual and interactive interface of a product."},
+  {"k": ["design wireframe"], "a": "Wireframes are low-fidelity layouts of screens."},
+  {"k": ["design prototype"], "a": "Prototypes simulate interaction before full implementation."},
+  {"k": ["design accessibility a11y"], "a": "Accessibility ensures people with disabilities can use the product."},
+  {"k": ["design contrast"], "a": "Sufficient color contrast improves readability."},
+  {"k": ["design affordance"], "a": "Affordances suggest how an element can be used."},
+  {"k": ["design feedback"], "a": "UI feedback confirms that an action worked or failed."},
+  {"k": ["design consistency"], "a": "Consistent patterns reduce the need for users to relearn."},
+  {"k": ["design mobile first"], "a": "Mobile-first designs the small screen first, then expands."}
+]

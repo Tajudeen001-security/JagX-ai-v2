@@ -1,0 +1,12 @@
+[
+  {"k": ["http cache control"], "a": "Cache-Control headers tell browsers and proxies how to cache responses."},
+  {"k": ["http etag"], "a": "ETags help clients revalidate cached resources efficiently."},
+  {"k": ["http cookie"], "a": "Cookies store small data the browser sends back on later requests."},
+  {"k": ["http session"], "a": "Sessions associate multiple requests with one logged-in user."},
+  {"k": ["http cors preflight"], "a": "Browsers send OPTIONS preflight for some cross-origin requests."},
+  {"k": ["http gzip"], "a": "Gzip compression reduces response size over the network."},
+  {"k": ["http websocket"], "a": "WebSockets provide full-duplex communication over a long-lived connection."},
+  {"k": ["http http2"], "a": "HTTP/2 multiplexes streams over one connection for efficiency."},
+  {"k": ["http idempotency key"], "a": "Clients can send idempotency keys so retries do not double-charge."},
+  {"k": ["http content type"], "a": "Content-Type declares the media type of the body."}
+]

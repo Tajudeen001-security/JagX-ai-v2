@@ -1,0 +1,12 @@
+[
+  {"k": ["business kpi"], "a": "KPIs are key performance indicators used to track goals."},
+  {"k": ["business revenue"], "a": "Revenue is income from selling goods or services."},
+  {"k": ["business margin"], "a": "Margin is profit as a share of revenue."},
+  {"k": ["business cash vs profit"], "a": "Profit is accounting; cash is actual money movement."},
+  {"k": ["business unit economics"], "a": "Unit economics studies profit per customer or unit sold."},
+  {"k": ["business churn"], "a": "Churn is the rate at which customers leave."},
+  {"k": ["business ltv"], "a": "LTV estimates total value of a customer over the relationship."},
+  {"k": ["business cac"], "a": "CAC is the cost to acquire a customer."},
+  {"k": ["business runway"], "a": "Runway is how long cash lasts at the current burn rate."},
+  {"k": ["business pivot"], "a": "A pivot is a significant change in product or business model."}
+]

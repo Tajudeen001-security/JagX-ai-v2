@@ -1,0 +1,12 @@
+[
+  {"k": ["math sin cos"], "a": "sin²θ + cos²θ = 1 for all angles θ."},
+  {"k": ["math derivative sin"], "a": "d/dx sin(x) = cos(x)."},
+  {"k": ["math derivative cos"], "a": "d/dx cos(x) = -sin(x)."},
+  {"k": ["math derivative e^x"], "a": "d/dx e^x = e^x."},
+  {"k": ["math derivative ln"], "a": "d/dx ln(x) = 1/x for x > 0."},
+  {"k": ["math integral e^x"], "a": "∫ e^x dx = e^x + C."},
+  {"k": ["math limit definition derivative"], "a": "f'(x) = lim h→0 [f(x+h)-f(x)]/h when the limit exists."},
+  {"k": ["math matrix multiply"], "a": "(AB)_ij is the dot product of row i of A and column j of B."},
+  {"k": ["math identity matrix"], "a": "The identity matrix I satisfies AI = IA = A."},
+  {"k": ["math determinant 2x2"], "a": "det([[a,b],[c,d]]) = ad - bc."}
+]

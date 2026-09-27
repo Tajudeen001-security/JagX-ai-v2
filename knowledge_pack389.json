@@ -1,0 +1,12 @@
+[
+  {"k": ["linux docker ps"], "a": "docker ps lists running containers."},
+  {"k": ["linux docker logs"], "a": "docker logs container shows container output."},
+  {"k": ["linux docker exec"], "a": "docker exec -it container sh opens a shell in a running container."},
+  {"k": ["linux docker compose"], "a": "docker compose up runs multi-container apps from a compose file."},
+  {"k": ["linux nginx"], "a": "Nginx is a common reverse proxy and static web server."},
+  {"k": ["linux certbot"], "a": "Certbot obtains free TLS certificates from Let's Encrypt."},
+  {"k": ["linux ufw"], "a": "ufw is a simple firewall front-end on many Ubuntu systems."},
+  {"k": ["linux htop"], "a": "htop is an interactive process viewer."},
+  {"k": ["linux tmux"], "a": "tmux keeps terminal sessions alive and supports split panes."},
+  {"k": ["linux rsync"], "a": "rsync efficiently syncs files and directories, often over SSH."}
+]

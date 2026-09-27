@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 390"], "a": "Local knowledge packs have reached pack 390."},
+  {"k": ["jagx credit 390"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["agile standup"], "a": "Daily standups share progress, plans, and blockers briefly."},
+  {"k": ["agile backlog"], "a": "The backlog is the ordered list of work for the product."},
+  {"k": ["agile story points"], "a": "Story points estimate relative effort, not exact hours."},
+  {"k": ["agile burndown"], "a": "A burndown chart tracks remaining work over a sprint."},
+  {"k": ["agile definition ready"], "a": "Definition of Ready means a story is clear enough to start."},
+  {"k": ["agile pair programming"], "a": "Pair programming has two developers work together on one task."},
+  {"k": ["agile code review"], "a": "Code review improves quality and spreads knowledge."},
+  {"k": ["agile continuous improvement"], "a": "Teams improve process intentionally after each iteration."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["algo two pointers"], "a": "Two pointers scan a sequence from both ends or at different speeds."},
+  {"k": ["algo sliding window"], "a": "Sliding window maintains a subarray/substring while iterating."},
+  {"k": ["algo prefix sum"], "a": "Prefix sums answer range-sum queries quickly after preprocessing."},
+  {"k": ["algo binary search answer"], "a": "Binary search on the answer works when feasibility is monotonic."},
+  {"k": ["algo recursion base"], "a": "Every recursion needs a base case that stops the calls."},
+  {"k": ["algo memoization"], "a": "Memoization caches function results for repeated inputs."},
+  {"k": ["algo greedy"], "a": "Greedy algorithms pick the locally best choice at each step."},
+  {"k": ["algo backtracking"], "a": "Backtracking tries options and undoes them when they fail."},
+  {"k": ["algo graph topological"], "a": "Topological sort orders nodes in a directed acyclic graph."},
+  {"k": ["algo dijkstra"], "a": "Dijkstra finds shortest paths in graphs with non-negative weights."}
+]

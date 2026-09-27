@@ -1,0 +1,12 @@
+[
+  {"k": ["biology cell"], "a": "The cell is the basic unit of life."},
+  {"k": ["biology dna"], "a": "DNA stores genetic information in a double helix."},
+  {"k": ["biology rna"], "a": "RNA helps express genetic information, including as messenger RNA."},
+  {"k": ["biology protein"], "a": "Proteins are polymers of amino acids that do most cellular work."},
+  {"k": ["biology mitosis"], "a": "Mitosis divides a cell's nucleus into two identical nuclei."},
+  {"k": ["biology meiosis"], "a": "Meiosis produces gametes with half the chromosome number."},
+  {"k": ["biology photosynthesis"], "a": "Photosynthesis converts light energy into chemical energy in plants."},
+  {"k": ["biology respiration"], "a": "Cellular respiration releases energy from food molecules."},
+  {"k": ["biology evolution"], "a": "Evolution is change in heritable traits of populations over generations."},
+  {"k": ["biology ecosystem"], "a": "An ecosystem includes living organisms and their physical environment."}
+]

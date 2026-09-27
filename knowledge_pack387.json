@@ -1,0 +1,12 @@
+[
+  {"k": ["sql group by"], "a": "GROUP BY aggregates rows that share the same values."},
+  {"k": ["sql having"], "a": "HAVING filters groups after aggregation."},
+  {"k": ["sql order by"], "a": "ORDER BY sorts the result set."},
+  {"k": ["sql count"], "a": "COUNT(*) counts rows in the group or result."},
+  {"k": ["sql sum avg"], "a": "SUM and AVG aggregate numeric columns."},
+  {"k": ["sql null"], "a": "NULL means unknown/missing; use IS NULL, not = NULL."},
+  {"k": ["sql distinct on"], "a": "SELECT DISTINCT removes duplicate rows from the result."},
+  {"k": ["sql subquery"], "a": "A subquery is a query nested inside another query."},
+  {"k": ["sql window function"], "a": "Window functions compute values across related rows without collapsing them."},
+  {"k": ["sql upsert"], "a": "UPSERT inserts or updates when a conflict key already exists."}
+]

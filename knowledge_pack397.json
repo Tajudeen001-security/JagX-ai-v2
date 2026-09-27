@@ -1,0 +1,12 @@
+[
+  {"k": ["js fetch error"], "a": "fetch only rejects on network failure; check response.ok for HTTP errors."},
+  {"k": ["js localstorage limit"], "a": "localStorage is synchronous and limited in size; avoid large data."},
+  {"k": ["js service worker"], "a": "Service workers can intercept network requests for offline support."},
+  {"k": ["js web worker"], "a": "Web Workers run scripts off the main thread."},
+  {"k": ["js cors browser"], "a": "Browsers enforce CORS; servers must allow the origin."},
+  {"k": ["js debounced search"], "a": "Debounce search input to avoid a request per keystroke."},
+  {"k": ["js infinite scroll"], "a": "Infinite scroll loads more items as the user nears the bottom."},
+  {"k": ["js spa routing"], "a": "SPA routing changes views without full page reloads."},
+  {"k": ["js css modules"], "a": "CSS modules scope class names to avoid global collisions."},
+  {"k": ["js bundler"], "a": "Bundlers package modules into files browsers can load efficiently."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["security hashing password"], "a": "Store passwords with slow hashes like Argon2 or bcrypt, never plain text."},
+  {"k": ["security session fixation"], "a": "Regenerate session ids after login to prevent session fixation."},
+  {"k": ["security clickjacking"], "a": "X-Frame-Options or CSP frame-ancestors help block clickjacking."},
+  {"k": ["security ssrf"], "a": "SSRF tricks a server into requesting internal resources."},
+  {"k": ["security path traversal"], "a": "Path traversal uses ../ to escape intended directories."},
+  {"k": ["security command injection"], "a": "Never pass unsanitized input into shell commands."},
+  {"k": ["security secrets scanning"], "a": "Scan repos for accidentally committed secrets."},
+  {"k": ["security dependency pin"], "a": "Pin dependency versions and review updates."},
+  {"k": ["security least privilege db"], "a": "App DB users should only have needed table permissions."},
+  {"k": ["security https hsts"], "a": "HSTS tells browsers to always use HTTPS for a site."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["system design load"], "a": "Estimate QPS, payload size, and growth before designing."},
+  {"k": ["system design cache"], "a": "Caches reduce load on primary databases for hot reads."},
+  {"k": ["system design queue"], "a": "Queues absorb spikes and enable async processing."},
+  {"k": ["system design cdn static"], "a": "CDNs serve static assets close to users."},
+  {"k": ["system design rate limit"], "a": "Rate limiting protects services from abuse and overload."},
+  {"k": ["system design idempotency"], "a": "Idempotent APIs make safe client retries."},
+  {"k": ["system design monitoring"], "a": "Monitor latency, errors, saturation, and traffic."},
+  {"k": ["system design graceful degrade"], "a": "Degrade non-critical features when dependencies fail."},
+  {"k": ["system design multi region"], "a": "Multi-region designs reduce latency and improve disaster recovery."},
+  {"k": ["system design consistent hash"], "a": "Consistent hashing helps distribute keys with minimal reshuffling."}
+]

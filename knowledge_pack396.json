@@ -1,0 +1,12 @@
+[
+  {"k": ["python slice"], "a": "s[a:b:c] slices from a to b with step c."},
+  {"k": ["python enumerate zip"], "a": "enumerate adds indices; zip pairs multiple iterables."},
+  {"k": ["python fstring debug"], "a": "f'{value=}' includes the name and value in the string."},
+  {"k": ["python match case"], "a": "match/case provides structural pattern matching in modern Python."},
+  {"k": ["python type alias"], "a": "Type aliases name complex types for readability."},
+  {"k": ["python enum class"], "a": "Enum creates named constant sets."},
+  {"k": ["python logging levels"], "a": "Levels include DEBUG, INFO, WARNING, ERROR, CRITICAL."},
+  {"k": ["python unittest"], "a": "unittest is the standard library testing framework."},
+  {"k": ["python venv activate"], "a": "source venv/bin/activate activates a virtual environment on Unix."},
+  {"k": ["python wheel"], "a": "Wheels are built package distributions for faster installs."}
+]
