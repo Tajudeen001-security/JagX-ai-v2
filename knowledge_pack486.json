@@ -1,0 +1,12 @@
+[
+  {"k": ["design pattern facade"], "a": "Facade provides a simple interface to a complex subsystem."},
+  {"k": ["design pattern proxy"], "a": "Proxy controls access to another object."},
+  {"k": ["design pattern command"], "a": "Command encapsulates a request as an object."},
+  {"k": ["design pattern state"], "a": "State pattern changes behavior when internal state changes."},
+  {"k": ["design pattern template method"], "a": "Template method defines algorithm skeleton with overridable steps."},
+  {"k": ["design pattern iterator"], "a": "Iterator provides sequential access without exposing structure."},
+  {"k": ["design pattern mediator"], "a": "Mediator centralizes communication between colleagues."},
+  {"k": ["design pattern memento"], "a": "Memento captures and restores object state."},
+  {"k": ["design pattern chain of responsibility"], "a": "Handlers pass a request along a chain until one handles it."},
+  {"k": ["design pattern builder"], "a": "Builder constructs complex objects step by step."}
+]

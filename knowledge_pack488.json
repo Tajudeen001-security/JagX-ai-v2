@@ -1,0 +1,12 @@
+[
+  {"k": ["product okrs"], "a": "OKRs set Objectives and measurable Key Results."},
+  {"k": ["product ice score"], "a": "ICE prioritizes by Impact, Confidence, Ease."},
+  {"k": ["product kano model"], "a": "Kano classifies features as basic, performance, or delighters."},
+  {"k": ["product user journey"], "a": "Journey maps show steps, emotions, and pain points."},
+  {"k": ["product personas"], "a": "Personas summarize target user types from research."},
+  {"k": ["product beta program"], "a": "Betas gather feedback before wide release."},
+  {"k": ["product analytics events"], "a": "Track meaningful events, not vanity clicks alone."},
+  {"k": ["product experimentation ethics"], "a": "Experiments should respect users and avoid harmful manipulation."},
+  {"k": ["product sunsetting"], "a": "Communicate timelines and migrations when removing features."},
+  {"k": ["product stakeholder align"], "a": "Align stakeholders on goals before large builds."}
+]

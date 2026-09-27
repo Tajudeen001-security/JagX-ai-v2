@@ -1,0 +1,12 @@
+[
+  {"k": ["testing contract pact"], "a": "Pact-style contract tests verify consumer-provider agreements."},
+  {"k": ["testing visual regression"], "a": "Visual regression detects unintended UI appearance changes."},
+  {"k": ["testing load k6"], "a": "k6 is a popular tool for load testing APIs."},
+  {"k": ["testing synthetic monitoring"], "a": "Synthetic checks probe critical user flows from outside."},
+  {"k": ["testing chaos engineering"], "a": "Chaos engineering injects failures to build confidence in resilience."},
+  {"k": ["testing test env parity"], "a": "Keep test environments close to production to reduce surprises."},
+  {"k": ["testing data privacy"], "a": "Use anonymized data in non-production environments."},
+  {"k": ["testing flake quarantine"], "a": "Quarantine flaky tests while fixing root causes."},
+  {"k": ["testing shift left"], "a": "Shift-left testing finds issues earlier in development."},
+  {"k": ["testing continuous testing"], "a": "Continuous testing runs automated checks throughout the pipeline."}
+]

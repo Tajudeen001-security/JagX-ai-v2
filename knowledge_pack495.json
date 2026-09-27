@@ -1,0 +1,12 @@
+[
+  {"k": ["css container query units"], "a": "cqw/cqh units are relative to the query container size."},
+  {"k": ["css nesting ampersand"], "a": "& in nested CSS refers to the parent selector."},
+  {"k": ["css scope"], "a": "@scope limits how far selectors can match."},
+  {"k": ["css starting style"], "a": "@starting-style helps define entry transitions for new elements."},
+  {"k": ["css light dark"], "a": "light-dark() picks colors based on color scheme."},
+  {"k": ["css relative color"], "a": "Relative colors derive new colors from existing ones."},
+  {"k": ["css text wrap balance"], "a": "text-wrap: balance can improve multi-line headings."},
+  {"k": ["css masonry experimental"], "a": "Masonry layouts are experimental in some browsers."},
+  {"k": ["css view transition name"], "a": "view-transition-name marks elements for shared transitions."},
+  {"k": ["css accent color"], "a": "accent-color styles native form controls."}
+]

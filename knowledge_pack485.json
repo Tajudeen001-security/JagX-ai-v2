@@ -1,0 +1,12 @@
+[
+  {"k": ["api rate limit headers"], "a": "Common headers: X-RateLimit-Limit, Remaining, Reset."},
+  {"k": ["api problem details"], "a": "RFC 7807 problem+json standardizes error response bodies."},
+  {"k": ["api content negotiation"], "a": "Clients use Accept headers to request formats."},
+  {"k": ["api conditional requests"], "a": "If-None-Match / If-Modified-Since enable efficient caching."},
+  {"k": ["api bulkheads"], "a": "Isolate dependencies so one slow service does not block all."},
+  {"k": ["api timeout budget"], "a": "Assign timeout budgets across multi-service calls."},
+  {"k": ["api idempotency store"], "a": "Store idempotency keys with responses to dedupe retries."},
+  {"k": ["api webhook signature"], "a": "Sign webhook payloads so receivers can verify authenticity."},
+  {"k": ["api deprecation header"], "a": "Deprecation and Sunset headers communicate API lifecycle."},
+  {"k": ["api sdk generation"], "a": "OpenAPI specs can generate client SDKs."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["devops gitops"], "a": "GitOps uses git as the source of truth for cluster state."},
+  {"k": ["devops progressive delivery"], "a": "Progressive delivery gradually shifts traffic to new versions."},
+  {"k": ["devops chaos mesh"], "a": "Chaos tools inject failures in Kubernetes environments."},
+  {"k": ["devops slo error budget"], "a": "Error budgets quantify allowed unreliability for a period."},
+  {"k": ["devops toil"], "a": "Toil is manual, repetitive operational work to automate away."},
+  {"k": ["devops platform engineering"], "a": "Platform teams build internal developer platforms."},
+  {"k": ["devops golden paths"], "a": "Golden paths are supported default ways to build and deploy."},
+  {"k": ["devops policy as code"], "a": "Policy-as-code enforces rules in automated pipelines."},
+  {"k": ["devops cost anomaly"], "a": "Alert on unusual cloud spend spikes."},
+  {"k": ["devops disaster recovery rto rpo"], "a": "RTO is recovery time objective; RPO is recovery point objective."}
+]

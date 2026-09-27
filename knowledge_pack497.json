@@ -1,0 +1,12 @@
+[
+  {"k": ["sql explain buffers"], "a": "EXPLAIN (ANALYZE, BUFFERS) shows I/O during query execution."},
+  {"k": ["sql sequential scan"], "a": "Seq scans read whole tables; fine for small tables, costly for large."},
+  {"k": ["sql index only scan"], "a": "Index-only scans avoid heap fetches when visibility allows."},
+  {"k": ["sql vacuum analyze schedule"], "a": "Autovacuum keeps tables healthy; monitor bloat."},
+  {"k": ["sql partition table"], "a": "Partitioning splits large tables for manageability and performance."},
+  {"k": ["sql foreign data wrapper"], "a": "FDWs query external data sources from SQL."},
+  {"k": ["sql row level security"], "a": "RLS restricts which rows a user can access."},
+  {"k": ["sql generated columns"], "a": "Generated columns compute values from other columns."},
+  {"k": ["sql lateral join"], "a": "LATERAL allows subqueries to reference preceding FROM items."},
+  {"k": ["sql merge statement"], "a": "MERGE performs insert/update/delete based on match conditions."}
+]

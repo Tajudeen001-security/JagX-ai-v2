@@ -1,0 +1,12 @@
+[
+  {"k": ["python uv package"], "a": "uv is a fast Python package installer and resolver."},
+  {"k": ["python ruff format"], "a": "Ruff can lint and format code quickly."},
+  {"k": ["python pyproject toml"], "a": "pyproject.toml is the standard config for modern Python projects."},
+  {"k": ["python src layout"], "a": "src/ layout helps avoid importing the wrong package during tests."},
+  {"k": ["python entry points"], "a": "Entry points expose CLI scripts from packages."},
+  {"k": ["python typing overload"], "a": "@overload declares multiple call signatures for type checkers."},
+  {"k": ["python protocols runtime"], "a": "@runtime_checkable allows isinstance checks on Protocols."},
+  {"k": ["python annotated"], "a": "Annotated attaches metadata to types for validation tools."},
+  {"k": ["python dataclass slots"], "a": "slots=True on dataclasses can reduce memory use."},
+  {"k": ["python tomllib stdlib"], "a": "tomllib is read-only TOML support in the standard library."}
+]

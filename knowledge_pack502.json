@@ -1,0 +1,12 @@
+[
+  {"k": ["biology meiosis purpose"], "a": "Meiosis creates genetic diversity and halves chromosome number for sexual reproduction."},
+  {"k": ["biology crossing over"], "a": "Crossing over exchanges DNA between homologous chromosomes."},
+  {"k": ["biology dominant recessive"], "a": "Dominant alleles mask recessive ones in heterozygotes."},
+  {"k": ["biology punnett square"], "a": "Punnett squares predict genotype probabilities from crosses."},
+  {"k": ["biology pedigree"], "a": "Pedigrees track traits across family generations."},
+  {"k": ["biology speciation"], "a": "Speciation is the formation of new species."},
+  {"k": ["biology fossil record"], "a": "Fossils provide evidence of past life and change over time."},
+  {"k": ["biology carbon cycle"], "a": "The carbon cycle moves carbon among atmosphere, organisms, and earth."},
+  {"k": ["biology nitrogen cycle"], "a": "The nitrogen cycle converts nitrogen among usable chemical forms."},
+  {"k": ["biology carrying capacity"], "a": "Carrying capacity is the population size an environment can sustain."}
+]

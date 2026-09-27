@@ -1,0 +1,12 @@
+[
+  {"k": ["english collocation make decision"], "a": "Common collocation: make a decision (not do a decision)."},
+  {"k": ["english collocation heavy rain"], "a": "Heavy rain is preferred over strong rain."},
+  {"k": ["english collocation pay attention"], "a": "Pay attention is the standard collocation."},
+  {"k": ["english collocation take responsibility"], "a": "Take responsibility for something."},
+  {"k": ["english formal request"], "a": "Could you please... is a polite formal request."},
+  {"k": ["english soften disagreement"], "a": "I see your point, however... softens disagreement."},
+  {"k": ["english clarify meaning"], "a": "Just to clarify... helps avoid misunderstanding."},
+  {"k": ["english summarize meeting"], "a": "To summarize, we decided X, Y owns Z by date."},
+  {"k": ["english concise status"], "a": "Done / Doing / Blocked is a simple status format."},
+  {"k": ["english active listening phrases"], "a": "What I'm hearing is... checks understanding."}
+]

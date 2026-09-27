@@ -1,0 +1,12 @@
+[
+  {"k": ["chem organic functional groups"], "a": "Functional groups like OH, COOH, NH2 define organic reactivity."},
+  {"k": ["chem alkane alkene"], "a": "Alkanes are single-bonded; alkenes have C=C double bonds."},
+  {"k": ["chem aromatic benzene"], "a": "Benzene is a classic aromatic ring structure."},
+  {"k": ["chem isomer"], "a": "Isomers share formula but differ in structure or arrangement."},
+  {"k": ["chem polymer"], "a": "Polymers are long chains of repeating monomer units."},
+  {"k": ["chem amino acid"], "a": "Amino acids are building blocks of proteins."},
+  {"k": ["chem carbohydrate"], "a": "Carbohydrates are sugars and polymers like starch and cellulose."},
+  {"k": ["chem lipid"], "a": "Lipids include fats and oils; often hydrophobic."},
+  {"k": ["chem enzyme specificity"], "a": "Enzymes typically catalyze specific substrates and reactions."},
+  {"k": ["chem ph scale"], "a": "Each pH unit is a tenfold change in [H+]."}
+]

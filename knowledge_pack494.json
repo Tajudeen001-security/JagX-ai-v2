@@ -1,0 +1,12 @@
+[
+  {"k": ["js node native test"], "a": "node:test is the built-in test runner in modern Node."},
+  {"k": ["js fetch undici"], "a": "Node's fetch is powered by Undici under the hood."},
+  {"k": ["js esm cjs interop"], "a": "ESM and CommonJS interop needs care with default exports."},
+  {"k": ["js package exports"], "a": "package.json exports map controls public entrypoints."},
+  {"k": ["js conditional exports"], "a": "Conditional exports select builds for import vs require."},
+  {"k": ["js worker threads"], "a": "worker_threads run JS in parallel threads."},
+  {"k": ["js stream pipeline"], "a": "stream.pipeline properly forwards errors and cleans up."},
+  {"k": ["js event loop phases"], "a": "Timers, pending, poll, check, close are key phases."},
+  {"k": ["js microtasks"], "a": "Promise callbacks queue as microtasks."},
+  {"k": ["js diagnostic channel"], "a": "diagnostics_channel enables low-overhead instrumentation."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["algo kadane"], "a": "Kadane's algorithm finds maximum subarray sum in linear time."},
+  {"k": ["algo dutch national flag"], "a": "Three-way partition sorts three categories in one pass."},
+  {"k": ["algo moore voting"], "a": "Boyer-Moore voting finds a majority element efficiently."},
+  {"k": ["algo kmp"], "a": "KMP string search uses a prefix table to avoid re-checks."},
+  {"k": ["algo rabin karp"], "a": "Rabin-Karp uses hashing for string matching."},
+  {"k": ["algo topological kahn"], "a": "Kahn's algorithm does topological sort via indegrees."},
+  {"k": ["algo prim"], "a": "Prim's algorithm grows a minimum spanning tree from a start node."},
+  {"k": ["algo kruskal"], "a": "Kruskal's algorithm builds an MST by sorting edges and union-find."},
+  {"k": ["algo bellman ford"], "a": "Bellman-Ford finds shortest paths and detects negative cycles."},
+  {"k": ["algo a star"], "a": "A* uses heuristics to guide shortest-path search."}
+]

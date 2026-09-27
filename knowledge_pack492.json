@@ -1,0 +1,12 @@
+[
+  {"k": ["system design chat delivery"], "a": "At-least-once delivery needs idempotent consumers."},
+  {"k": ["system design unread counts"], "a": "Unread counters are often maintained with caches and careful increments."},
+  {"k": ["system design presence"], "a": "Presence systems track online status with heartbeats and TTLs."},
+  {"k": ["system design media upload"], "a": "Upload to object storage, process async, serve via CDN."},
+  {"k": ["system design search index"], "a": "Keep search indexes updated via change streams or batch jobs."},
+  {"k": ["system design leaderboard"], "a": "Leaderboards often use sorted sets for ranking."},
+  {"k": ["system design rate limit distributed"], "a": "Distributed rate limits need shared stores like Redis."},
+  {"k": ["system design config service"], "a": "Central config enables runtime feature and limit changes."},
+  {"k": ["system design audit trail"], "a": "Audit trails record sensitive actions for compliance."},
+  {"k": ["system design multi region active"], "a": "Active-active multi-region needs conflict strategies."}
+]

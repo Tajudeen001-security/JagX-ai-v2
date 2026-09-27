@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 500"], "a": "Local knowledge packs have reached pack 500."},
+  {"k": ["jagx credit 500"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["milestone 500 packs"], "a": "Pack 500 is a major milestone for JagX local knowledge."},
+  {"k": ["batch progress 180"], "a": "About 180 packs added toward the 300 expansion goal."},
+  {"k": ["physics simple harmonic period"], "a": "For a mass-spring, T = 2π sqrt(m/k)."},
+  {"k": ["physics pendulum small angle"], "a": "Small-angle pendulum period T ≈ 2π sqrt(L/g)."},
+  {"k": ["physics escape velocity"], "a": "Escape velocity is the speed to leave a gravity well without further propulsion."},
+  {"k": ["physics orbital period"], "a": "Kepler's third law relates orbital period and semi-major axis."},
+  {"k": ["physics blackbody"], "a": "Blackbodies absorb all radiation; emit based on temperature."},
+  {"k": ["physics stefan boltzmann"], "a": "Radiated power is proportional to T^4 for a blackbody."}
+]

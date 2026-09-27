@@ -1,0 +1,12 @@
+[
+  {"k": ["security passkeys"], "a": "Passkeys use public-key credentials instead of passwords."},
+  {"k": ["security webauthn"], "a": "WebAuthn is the web standard behind passkeys and hardware keys."},
+  {"k": ["security totp"], "a": "TOTP generates time-based one-time passwords for MFA."},
+  {"k": ["security session binding"], "a": "Bind sessions to context to reduce token theft usefulness."},
+  {"k": ["security csrf double submit"], "a": "Double-submit cookies are one CSRF defense pattern."},
+  {"k": ["security ssrf metadata"], "a": "Block cloud metadata IPs to reduce SSRF impact."},
+  {"k": ["security log injection"], "a": "Sanitize log inputs to prevent forged log entries."},
+  {"k": ["security xml external entity"], "a": "Disable external entity resolution in XML parsers."},
+  {"k": ["security deserialization"], "a": "Unsafe deserialization can execute attacker-controlled objects."},
+  {"k": ["security secure headers checklist"], "a": "CSP, HSTS, X-Content-Type-Options, Referrer-Policy are common."}
+]

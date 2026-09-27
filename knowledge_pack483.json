@@ -1,0 +1,12 @@
+[
+  {"k": ["biology cell membrane"], "a": "The cell membrane controls what enters and leaves the cell."},
+  {"k": ["biology nucleus"], "a": "The nucleus holds most of a eukaryotic cell's DNA."},
+  {"k": ["biology mitochondria"], "a": "Mitochondria produce ATP through cellular respiration."},
+  {"k": ["biology chloroplast"], "a": "Chloroplasts perform photosynthesis in plant cells."},
+  {"k": ["biology ribosome"], "a": "Ribosomes synthesize proteins."},
+  {"k": ["biology osmosis"], "a": "Osmosis is water diffusion across a semipermeable membrane."},
+  {"k": ["biology diffusion"], "a": "Diffusion is net movement from high to low concentration."},
+  {"k": ["biology active transport"], "a": "Active transport moves substances against gradients using energy."},
+  {"k": ["biology ecosystem producer"], "a": "Producers make organic compounds, often via photosynthesis."},
+  {"k": ["biology consumer"], "a": "Consumers obtain energy by eating other organisms."}
+]

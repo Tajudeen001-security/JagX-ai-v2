@@ -1,0 +1,12 @@
+[
+  {"k": ["math series geometric sum"], "a": "Sum of infinite geometric series |r|<1 is a/(1-r)."},
+  {"k": ["math binomial expand"], "a": "(a+b)^n expands with binomial coefficients."},
+  {"k": ["math pascal triangle"], "a": "Pascal's triangle entries are binomial coefficients."},
+  {"k": ["math complex conjugate"], "a": "Conjugate of a+bi is a-bi."},
+  {"k": ["math modulus complex"], "a": "|a+bi| = sqrt(a²+b²)."},
+  {"k": ["math de moivre"], "a": "De Moivre's theorem powers complex numbers in polar form."},
+  {"k": ["math matrix rank"], "a": "Rank is the dimension of the column space."},
+  {"k": ["math null space"], "a": "Null space is solutions to Ax = 0."},
+  {"k": ["math linear independence"], "a": "Vectors are independent if none is a linear combination of others."},
+  {"k": ["math basis"], "a": "A basis spans a space and is linearly independent."}
+]
