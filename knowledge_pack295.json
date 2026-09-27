@@ -1,0 +1,12 @@
+[
+  {"k": ["system design clarify"], "a": "Clarify requirements, constraints, and scale before drawing boxes."},
+  {"k": ["estimate qps"], "a": "Estimate peak queries/sec from users × actions × seasonality."},
+  {"k": ["choose sql nosql design"], "a": "Pick based on access patterns, consistency needs, and query shapes."},
+  {"k": ["cache layer design"], "a": "Add cache for hot reads; plan invalidation carefully."},
+  {"k": ["queue for async design"], "a": "Offload slow work to queues to keep APIs responsive."},
+  {"k": ["shard carefully"], "a": "Shard when a single primary cannot hold load; pick a good shard key."},
+  {"k": ["cdn static design"], "a": "Serve static assets from CDN close to users."},
+  {"k": ["rate limit public apis"], "a": "Protect public APIs with per-key and per-IP limits."},
+  {"k": ["observability design"], "a": "Plan logs, metrics, and traces from day one."},
+  {"k": ["failure modes design"], "a": "Document what happens when each dependency fails."}
+]

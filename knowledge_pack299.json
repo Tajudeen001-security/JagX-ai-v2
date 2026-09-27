@@ -1,0 +1,12 @@
+[
+  {"k": ["observability three pillars"], "a": "Logs, metrics, and traces complement each other for debugging."},
+  {"k": ["structured logging"], "a": "Log JSON fields for queryable events, not only free text."},
+  {"k": ["red metrics"], "a": "Rate, Errors, Duration for request-driven services."},
+  {"k": ["use metrics"], "a": "Utilization, Saturation, Errors for resources like CPU and queues."},
+  {"k": ["distributed tracing"], "a": "Follow a request across services with a shared trace id."},
+  {"k": ["alert fatigue"], "a": "Too many noisy alerts train people to ignore pages."},
+  {"k": ["slo based alerts"], "a": "Alert on error budget burn, not every CPU blip."},
+  {"k": ["cardinality explosion"], "a": "High-cardinality labels can overwhelm metrics systems."},
+  {"k": ["exemplars"], "a": "Link metric spikes to example traces for faster debugging."},
+  {"k": ["dashboard hierarchy"], "a": "Overview → service → dependency for efficient incident navigation."}
+]

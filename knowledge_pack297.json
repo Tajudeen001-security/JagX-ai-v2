@@ -1,0 +1,12 @@
+[
+  {"k": ["product discovery"], "a": "Talk to users and test assumptions before building large features."},
+  {"k": ["mvp definition"], "a": "Smallest product that delivers value and learning."},
+  {"k": ["activation metric"], "a": "The moment a new user first experiences core value."},
+  {"k": ["retention cohort"], "a": "Measure whether groups of users return over weeks."},
+  {"k": ["north star metric"], "a": "The metric that best captures delivered customer value."},
+  {"k": ["experiment ethics"], "a": "Do not run experiments that harm users or hide material risks."},
+  {"k": ["pricing experiments"], "a": "Test carefully; pricing changes affect trust and revenue."},
+  {"k": ["support as product"], "a": "Support tickets reveal product gaps and roadmap priorities."},
+  {"k": ["ship to learn"], "a": "Prefer shipping thin slices over perfect unreleased work."},
+  {"k": ["kill features"], "a": "Remove unused features to reduce complexity and cost."}
+]

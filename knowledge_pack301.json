@@ -1,0 +1,12 @@
+[
+  {"k": ["kaggle gpu tips"], "a": "Enable GPU, save often, and download outputs before the session expires."},
+  {"k": ["colab disconnect"], "a": "Colab can disconnect idle sessions — checkpoint to Drive continuously."},
+  {"k": ["torch save checkpoint"], "a": "Save model, optimizer, step, and RNG state for true resume."},
+  {"k": ["gradient accumulation"], "a": "Accumulate gradients over micro-batches to simulate larger batch sizes."},
+  {"k": ["mixed precision train"], "a": "FP16/BF16 training speeds GPUs and reduces memory with care for stability."},
+  {"k": ["learning rate warmup"], "a": "Warm up LR early to stabilize training of transformers."},
+  {"k": ["tokenizer freeze"], "a": "Freeze a good tokenizer vocab before long training runs."},
+  {"k": ["eval during train"], "a": "Run periodic eval to catch overfitting and divergence."},
+  {"k": ["data shuffle epochs"], "a": "Shuffle training data each epoch for better generalization."},
+  {"k": ["overfit single batch"], "a": "A healthy model should be able to overfit a tiny batch during debugging."}
+]

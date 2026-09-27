@@ -1,0 +1,12 @@
+[
+  {"k": ["render free sleep"], "a": "Free web services sleep after idle time; scheduled pings reduce cold starts."},
+  {"k": ["render env vars"], "a": "Set GROQ_API_KEY, GROQ_MODEL, JAGX_ADMIN_SECRET, JAGX_PERMANENT_KEYS in the dashboard."},
+  {"k": ["render logs"], "a": "Check Logs for import errors, model_not_found, and timeout issues."},
+  {"k": ["render deploy hook"], "a": "Deploy hooks can trigger redeploys from CI after pack updates."},
+  {"k": ["render disk ephemeral"], "a": "Filesystem can reset; do not rely on local keys.json alone."},
+  {"k": ["health endpoint design"], "a": "/health should be cheap and independent of external LLM providers."},
+  {"k": ["debug llm endpoint"], "a": "/debug/llm verifies provider connectivity and model availability."},
+  {"k": ["max tokens cap"], "a": "Cap max_tokens to control latency and cost on free tiers."},
+  {"k": ["timeout balance"], "a": "Timeouts around 10–15s balance user wait vs provider failures."},
+  {"k": ["fallback chain models"], "a": "Try multiple model IDs when one returns model_not_found."}
+]

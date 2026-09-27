@@ -1,0 +1,12 @@
+[
+  {"k": ["floating point money bug"], "a": "Binary floats cannot represent many decimals exactly — use integers/decimals for money."},
+  {"k": ["off by one error"], "a": "Loop bounds and inclusive/exclusive ranges often cause off-by-one bugs."},
+  {"k": ["timezone bug"], "a": "Storing local time without zone causes DST and region errors — store UTC."},
+  {"k": ["null pointer classic"], "a": "Assume values may be missing; validate before dereference."},
+  {"k": ["race condition bug"], "a": "Concurrent read-modify-write without synchronization loses updates."},
+  {"k": ["cache invalidation hard"], "a": "Stale caches serve wrong data; define TTLs and explicit invalidation."},
+  {"k": ["encoding bug utf8"], "a": "Mismatched encodings corrupt text — standardize on UTF-8."},
+  {"k": ["path traversal bug"], "a": "Unvalidated paths allow ../ access to sensitive files."},
+  {"k": ["csrf bug"], "a": "Missing anti-CSRF tokens let other sites trigger authenticated actions."},
+  {"k": ["resource leak"], "a": "Unclosed files/connections exhaust limits — use finally/context managers."}
+]

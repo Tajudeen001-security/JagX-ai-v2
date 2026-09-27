@@ -1,0 +1,12 @@
+[
+  {"k": ["etl pipeline"], "a": "Extract, Transform, Load moves data from sources into analytical stores."},
+  {"k": ["elt warehouse"], "a": "Load raw data first, then transform inside the warehouse."},
+  {"k": ["data contract"], "a": "Agreed schema and quality expectations between producers and consumers."},
+  {"k": ["slowly changing dimension"], "a": "SCD patterns track historical changes to dimensional attributes."},
+  {"k": ["fact table"], "a": "Stores measurable events with foreign keys to dimensions."},
+  {"k": ["data lineage"], "a": "Tracks where data came from and how it was transformed."},
+  {"k": ["data quality tests"], "a": "Check nulls, uniqueness, ranges, freshness, and referential integrity."},
+  {"k": ["parquet columnar"], "a": "Columnar format efficient for analytical scans and compression."},
+  {"k": ["batch vs streaming data"], "a": "Batch processes timed chunks; streaming processes continuous events."},
+  {"k": ["metric layer"], "a": "Central definitions of business metrics used by BI tools."}
+]

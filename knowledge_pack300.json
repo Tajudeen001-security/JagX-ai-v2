@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 300"], "a": "JagX knowledge packs have reached the 300 milestone."},
+  {"k": ["jagx training drive"], "a": "Use the JagX_Training folder in the connected Google Drive for datasets and checkpoints."},
+  {"k": ["jagx train repo"], "a": "Train the neural model from https://github.com/Tajudeen001-security/JagX-AI on Kaggle GPU."},
+  {"k": ["jagx api repo"], "a": "Serve users from JagX-ai-v2 on Render with packs and cloud LLM."},
+  {"k": ["jagx checkpoint rule"], "a": "Copy step-*.pt checkpoints to Drive before every notebook session ends."},
+  {"k": ["jagx seed dataset"], "a": "jagx_sft_seed.jsonl provides starter supervised fine-tune chat examples."},
+  {"k": ["jagx hybrid 300"], "a": "Packs for instant answers; training for offline generative quality."},
+  {"k": ["jagx credit 300"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["jagx continue packs"], "a": "More knowledge_pack files can still be added for domain depth."},
+  {"k": ["jagx success"], "a": "Success = healthy API + growing packs + checkpoints saved off ephemeral disks."}
+]

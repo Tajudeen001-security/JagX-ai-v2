@@ -1,0 +1,12 @@
+[
+  {"k": ["resume bullet impact"], "a": "Write bullets as action + scope + measurable result."},
+  {"k": ["portfolio live demo"], "a": "A deployed demo often beats a private-only repository."},
+  {"k": ["interview star"], "a": "Situation, Task, Action, Result for behavioral answers."},
+  {"k": ["leetcode pattern practice"], "a": "Practice arrays, hashes, two pointers, trees, graphs, DP patterns."},
+  {"k": ["system design interview"], "a": "Requirements → API → data → high-level → deep dives → trade-offs."},
+  {"k": ["open source signal"], "a": "Meaningful PRs show collaboration better than toy apps alone."},
+  {"k": ["learning in public"], "a": "Sharing progress builds network and feedback loops."},
+  {"k": ["negotiate offer"], "a": "Research market rates; discuss total compensation, not only salary."},
+  {"k": ["junior to mid"], "a": "Own features end-to-end and reduce need for constant guidance."},
+  {"k": ["senior signal"], "a": "Raise quality bar, unblock others, and handle ambiguity."}
+]

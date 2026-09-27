@@ -1,0 +1,12 @@
+[
+  {"k": ["zero trust"], "a": "Never trust by network location alone; authenticate and authorize every request."},
+  {"k": ["least privilege access"], "a": "Grant the minimum permissions required for a role or workload."},
+  {"k": ["defense in depth"], "a": "Layer controls so one failure does not cause total compromise."},
+  {"k": ["secrets rotation"], "a": "Rotate credentials regularly and immediately after suspected leaks."},
+  {"k": ["security headers list"], "a": "HSTS, CSP, X-Content-Type-Options, Referrer-Policy, Permissions-Policy."},
+  {"k": ["dependency scanning"], "a": "Scan lockfiles for known CVEs in CI and production images."},
+  {"k": ["sast dast"], "a": "SAST analyzes source; DAST probes running apps for vulnerabilities."},
+  {"k": ["waf purpose"], "a": "A WAF filters common web attacks at the edge or reverse proxy."},
+  {"k": ["security.txt"], "a": "Publish security contact and policy at /.well-known/security.txt."},
+  {"k": ["bug bounty basics"], "a": "Invite researchers to report vulnerabilities under clear rules and rewards."}
+]
