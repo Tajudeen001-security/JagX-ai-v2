@@ -1,0 +1,12 @@
+[
+  {"k": ["biology ecology food web"], "a": "Food webs show interconnected feeding relationships."},
+  {"k": ["biology trophic level"], "a": "Trophic levels classify organisms by feeding position."},
+  {"k": ["biology keystone species"], "a": "Keystone species have outsized effects on community structure."},
+  {"k": ["biology invasive species"], "a": "Invasive species can disrupt ecosystems they enter."},
+  {"k": ["biology carrying capacity limits"], "a": "Resources and conditions set carrying capacity."},
+  {"k": ["biology climate adaptation"], "a": "Adaptation is heritable trait change; acclimation is individual adjustment."},
+  {"k": ["biology conservation"], "a": "Conservation aims to protect species and habitats."},
+  {"k": ["biology photosynthesis equation"], "a": "Roughly: CO2 + H2O + light → sugars + O2."},
+  {"k": ["biology respiration equation"], "a": "Cellular respiration oxidizes sugars to release ATP, CO2, and water."},
+  {"k": ["biology dna replication"], "a": "DNA replication is semiconservative: each new helix keeps one old strand."}
+]

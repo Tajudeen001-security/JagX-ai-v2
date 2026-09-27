@@ -1,0 +1,12 @@
+[
+  {"k": ["testing shift right"], "a": "Shift-right testing continues validation in production carefully."},
+  {"k": ["testing production probe"], "a": "Probes check live dependencies without harming users."},
+  {"k": ["testing shadow traffic"], "a": "Shadow traffic copies requests to a new system without affecting users."},
+  {"k": ["testing canary percentage"], "a": "Increase canary percentage gradually as confidence grows."},
+  {"k": ["testing automated rollback"], "a": "Auto-rollback when canary metrics breach thresholds."},
+  {"k": ["testing experiment analysis"], "a": "Predefine metrics and stop rules before A/B tests."},
+  {"k": ["testing privacy in analytics"], "a": "Minimize PII in test and analytics data."},
+  {"k": ["testing accessibility automation"], "a": "Automated a11y checks catch many issues early."},
+  {"k": ["testing visual baselines"], "a": "Update visual baselines intentionally after UI changes."},
+  {"k": ["testing flaky quarantine sla"], "a": "Set SLAs to fix quarantined flaky tests quickly."}
+]

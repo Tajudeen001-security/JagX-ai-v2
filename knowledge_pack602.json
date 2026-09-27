@@ -1,0 +1,12 @@
+[
+  {"k": ["biology dna transcription translation central dogma"], "a": "Central dogma: DNA → RNA → protein (with known exceptions)."},
+  {"k": ["biology codon table"], "a": "The genetic code maps codons to amino acids and stop signals."},
+  {"k": ["biology mutation silent"], "a": "Silent mutations change DNA but not the amino acid."},
+  {"k": ["biology mutation missense"], "a": "Missense mutations change one amino acid."},
+  {"k": ["biology mutation nonsense"], "a": "Nonsense mutations create a premature stop codon."},
+  {"k": ["biology natural selection types"], "a": "Directional, stabilizing, and disruptive selection shift trait distributions differently."},
+  {"k": ["biology genetic drift"], "a": "Genetic drift is random change in allele frequencies."},
+  {"k": ["biology gene flow"], "a": "Gene flow is movement of alleles between populations."},
+  {"k": ["biology bottleneck effect"], "a": "Bottlenecks reduce genetic variation after population crashes."},
+  {"k": ["biology founder effect"], "a": "Founder effects occur when a small group starts a new population."}
+]

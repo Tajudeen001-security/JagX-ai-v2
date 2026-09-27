@@ -1,0 +1,12 @@
+[
+  {"k": ["observability trace context"], "a": "Trace context propagates trace and span IDs across services."},
+  {"k": ["observability baggage"], "a": "Baggage carries selected key-value context across process boundaries."},
+  {"k": ["observability span attributes"], "a": "Span attributes describe operations with useful dimensions."},
+  {"k": ["observability metric labels careful"], "a": "Avoid high-cardinality labels that explode time series."},
+  {"k": ["observability log sampling"], "a": "Sample verbose logs under high load."},
+  {"k": ["observability error budget policy"], "a": "Error budget policies decide when to slow feature work."},
+  {"k": ["observability slo multiwindow"], "a": "Multi-window burn alerts catch both fast and slow burns."},
+  {"k": ["observability dashboard hierarchy"], "a": "Top dashboards show health; drilldowns show detail."},
+  {"k": ["observability alert routing"], "a": "Route alerts to teams that own the failing component."},
+  {"k": ["observability post-incident metrics"], "a": "Track incident count, MTTR, and recurring causes."}
+]

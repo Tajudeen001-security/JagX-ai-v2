@@ -1,0 +1,12 @@
+[
+  {"k": ["english concise bullet"], "a": "One idea per bullet; start with a strong verb when listing actions."},
+  {"k": ["english avoid filler"], "a": "Cut phrases like 'in order to' when 'to' works."},
+  {"k": ["english prefer active"], "a": "Active voice is usually clearer than passive."},
+  {"k": ["english define acronyms"], "a": "Define acronyms on first use for mixed audiences."},
+  {"k": ["english numbers style"], "a": "Be consistent with numerals vs words in formal writing."},
+  {"k": ["english cite data"], "a": "Attribute statistics to sources when accuracy matters."},
+  {"k": ["english call to action"], "a": "End with a clear next step when you need a response."},
+  {"k": ["english subject line urgency"], "a": "Use urgency honestly; fake urgency erodes trust."},
+  {"k": ["english inclusive language"], "a": "Prefer inclusive language that does not exclude groups."},
+  {"k": ["english plain language"], "a": "Plain language improves understanding for more readers."}
+]

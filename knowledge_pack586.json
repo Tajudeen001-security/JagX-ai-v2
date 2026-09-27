@@ -1,0 +1,12 @@
+[
+  {"k": ["design ddd ubiquitous language"], "a": "Ubiquitous language is shared vocabulary between domain experts and developers."},
+  {"k": ["design ddd aggregate root"], "a": "Aggregate roots are the entry points for modifying aggregates."},
+  {"k": ["design ddd domain service"], "a": "Domain services hold domain logic that does not fit an entity."},
+  {"k": ["design ddd application service"], "a": "Application services orchestrate use cases."},
+  {"k": ["design event driven coupling"], "a": "Events reduce direct coupling between services."},
+  {"k": ["design eventual consistency ui"], "a": "UIs may need to handle briefly stale data gracefully."},
+  {"k": ["design idempotent handlers"], "a": "Handlers should tolerate duplicate events."},
+  {"k": ["design schema registry"], "a": "Schema registries manage evolving event schemas."},
+  {"k": ["design dead letter queue"], "a": "DLQs hold messages that failed processing repeatedly."},
+  {"k": ["design poison message"], "a": "Poison messages consistently fail and need special handling."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["security zero trust continuous verify"], "a": "Continuously verify identity and device posture, not just once at login."},
+  {"k": ["security device posture"], "a": "Device posture checks OS version, disk encryption, and compliance."},
+  {"k": ["security just in time access"], "a": "JIT access grants temporary elevated permissions."},
+  {"k": ["security privileged access management"], "a": "PAM controls and audits privileged credentials."},
+  {"k": ["security secrets scanning git history"], "a": "Scan full git history when secrets may have been committed."},
+  {"k": ["security rotate after leak"], "a": "Rotate credentials immediately after any suspected leak."},
+  {"k": ["security least privilege cloud iam"], "a": "Grant only required actions on required resources."},
+  {"k": ["security encrypt data at rest"], "a": "Encrypt sensitive data at rest with managed keys when possible."},
+  {"k": ["security encrypt data in transit"], "a": "Use TLS for data in transit on public networks."},
+  {"k": ["security backup immutability"], "a": "Immutable backups resist ransomware modification."}
+]

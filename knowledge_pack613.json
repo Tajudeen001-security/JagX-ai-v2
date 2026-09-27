@@ -1,0 +1,12 @@
+[
+  {"k": ["ml bias variance"], "a": "Bias is error from wrong assumptions; variance is sensitivity to training data."},
+  {"k": ["ml cross validation kfold"], "a": "K-fold CV rotates validation folds for more robust estimates."},
+  {"k": ["ml stratified split"], "a": "Stratified splits preserve class proportions."},
+  {"k": ["ml early stopping patience"], "a": "Patience is how many epochs to wait without improvement."},
+  {"k": ["ml learning rate warmup"], "a": "Warmup gradually increases learning rate at the start."},
+  {"k": ["ml weight decay"], "a": "Weight decay penalizes large weights (L2-style)."},
+  {"k": ["ml dropout rate"], "a": "Dropout rate is the probability a unit is dropped in training."},
+  {"k": ["ml batch norm train eval"], "a": "BatchNorm behaves differently in train vs eval modes."},
+  {"k": ["ml data shuffle"], "a": "Shuffle training data to avoid order bias."},
+  {"k": ["ml reproducibility seed"], "a": "Set seeds for partial reproducibility; GPUs may still vary."}
+]

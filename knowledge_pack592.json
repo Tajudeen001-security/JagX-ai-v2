@@ -1,0 +1,12 @@
+[
+  {"k": ["system design unique id uuid"], "a": "UUIDs are 128-bit identifiers unlikely to collide."},
+  {"k": ["system design ulid"], "a": "ULIDs are sortable time-based identifiers."},
+  {"k": ["system design snowflake composition"], "a": "Snowflake IDs typically pack timestamp, worker id, and sequence."},
+  {"k": ["system design sequence gap"], "a": "DB sequences can have gaps after rollbacks; that is normal."},
+  {"k": ["system design idempotency key store ttl"], "a": "Store idempotency keys with TTLs matching retry windows."},
+  {"k": ["system design outbox transaction"], "a": "Write business rows and outbox events in the same transaction."},
+  {"k": ["system design inbox dedupe"], "a": "Inbox tables record processed message IDs for deduplication."},
+  {"k": ["system design exactly once illusion"], "a": "Exactly-once is hard; aim for effectively-once with idempotency."},
+  {"k": ["system design backlog monitoring"], "a": "Monitor queue depth and age to detect consumer lag."},
+  {"k": ["system design poison pill"], "a": "Route poison messages to a DLQ after max retries."}
+]

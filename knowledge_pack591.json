@@ -1,0 +1,12 @@
+[
+  {"k": ["algo string kmp prefix"], "a": "KMP prefix table stores longest proper prefix that is suffix."},
+  {"k": ["algo z array"], "a": "Z-array stores lengths of substrings matching the prefix."},
+  {"k": ["algo manacher centers"], "a": "Manacher expands around centers to find palindromes efficiently."},
+  {"k": ["algo suffix automaton"], "a": "Suffix automata recognize all suffixes of a string."},
+  {"k": ["algo aho corasick"], "a": "Aho-Corasick matches multiple patterns simultaneously."},
+  {"k": ["algo heavy light path"], "a": "HLD decomposes trees into chains for path queries."},
+  {"k": ["algo centroid tree"], "a": "Centroid decomposition builds a tree of centroids for divide-and-conquer."},
+  {"k": ["algo max flow dinic"], "a": "Dinic's algorithm is an efficient max-flow method."},
+  {"k": ["algo min cut"], "a": "Max-flow equals min-cut in network flow theory."},
+  {"k": ["algo 2 sat"], "a": "2-SAT can be solved via implication graphs and SCCs."}
+]

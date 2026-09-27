@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 620"], "a": "Local knowledge packs have reached pack 620."},
+  {"k": ["jagx credit 620"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 300 done"], "a": "About 300 packs have been added in this expansion batch."},
+  {"k": ["css cascade layer recommend"], "a": "Use layers to separate resets, tokens, components, and utilities."},
+  {"k": ["css container query card"], "a": "Cards can switch layout based on container width, not only viewport."},
+  {"k": ["css color mix theme"], "a": "color-mix helps derive hover/active colors from base tokens."},
+  {"k": ["css nesting bem reduce"], "a": "Nesting can reduce repetition but keep selectors readable."},
+  {"k": ["css view transition list"], "a": "View transitions can animate list reordering in supporting browsers."},
+  {"k": ["css anchor tooltip"], "a": "Anchor positioning is useful for tooltips and popovers."},
+  {"k": ["css reduced motion default"], "a": "Provide reduced-motion alternatives by default for accessibility."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["sql vacuum freeze monitor"], "a": "Monitor oldest transaction IDs to avoid wraparound crises."},
+  {"k": ["sql bloat query"], "a": "Use statistics views to estimate table and index bloat."},
+  {"k": ["sql hot update benefit"], "a": "HOT updates reduce index maintenance when columns allow it."},
+  {"k": ["sql fillfactor tune"], "a": "Lower fillfactor on update-heavy tables to reduce page splits."},
+  {"k": ["sql toast strategy"], "a": "Large values may be compressed or stored out-of-line via TOAST."},
+  {"k": ["sql stats target column"], "a": "Raise statistics targets for skewed columns used in filters."},
+  {"k": ["sql plan cache"], "a": "Prepared statement plans may be generic or custom."},
+  {"k": ["sql pooler transaction mode"], "a": "Transaction pooling limits session features but scales connections."},
+  {"k": ["sql read replica lag"], "a": "Check replica lag before routing strong-consistency reads."},
+  {"k": ["sql online schema change tools"], "a": "Tools exist to perform online DDL with reduced locking."}
+]

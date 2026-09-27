@@ -1,0 +1,12 @@
+[
+  {"k": ["llm retrieval quality"], "a": "Better chunking and embeddings improve RAG quality more than prompt tweaks alone."},
+  {"k": ["llm citation required"], "a": "Require citations when answers must be grounded in sources."},
+  {"k": ["llm tool timeout"], "a": "Tool calls need timeouts and fallbacks."},
+  {"k": ["llm agent max steps"], "a": "Cap agent steps to prevent infinite loops."},
+  {"k": ["llm memory summarize"], "a": "Summarize old turns to keep context within limits."},
+  {"k": ["llm eval human loop"], "a": "Human review remains essential for high-stakes domains."},
+  {"k": ["llm prompt injection defense"], "a": "Treat retrieved and user content as untrusted data."},
+  {"k": ["llm output filter"], "a": "Filter outputs for secrets and policy violations."},
+  {"k": ["llm cost cache prompts"], "a": "Cache stable system prompts and frequent retrieval results."},
+  {"k": ["llm latency streaming"], "a": "Streaming tokens improves perceived latency."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["tagalog please polite"], "a": "Use po and opo to show respect in Tagalog."},
+  {"k": ["tagalog yes polite"], "a": "Opo is polite yes."},
+  {"k": ["tagalog no polite"], "a": "Hindi po is polite no."},
+  {"k": ["tagalog thank you polite"], "a": "Salamat po is polite thank you."},
+  {"k": ["tagalog good luck"], "a": "Good luck can be said as Good luck or Suwerte."},
+  {"k": ["tagalog take care"], "a": "Ingat means take care."},
+  {"k": ["tagalog let's go"], "a": "Tayo na means let's go."},
+  {"k": ["tagalog delicious food"], "a": "Ang sarap means how delicious."},
+  {"k": ["tagalog i am fine"], "a": "Ayos lang ako or Mabuti naman means I'm fine."},
+  {"k": ["tagalog what is your name"], "a": "Ano ang pangalan mo? means What is your name?"}
+]

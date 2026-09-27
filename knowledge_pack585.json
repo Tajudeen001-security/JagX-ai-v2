@@ -1,0 +1,12 @@
+[
+  {"k": ["api openapi 3"], "a": "OpenAPI 3 is a widely used specification for HTTP APIs."},
+  {"k": ["api swagger ui"], "a": "Swagger UI renders interactive docs from OpenAPI specs."},
+  {"k": ["api redoc"], "a": "ReDoc is another popular OpenAPI documentation renderer."},
+  {"k": ["api mock servers"], "a": "Mock servers let clients integrate before backends are ready."},
+  {"k": ["api contract first"], "a": "Contract-first design writes the API spec before implementation."},
+  {"k": ["api code first"], "a": "Code-first generates specs from implementation annotations."},
+  {"k": ["api semantic errors"], "a": "Use consistent error codes and human-readable messages."},
+  {"k": ["api rate limit response"], "a": "Include retry guidance when returning 429."},
+  {"k": ["api deprecation timeline"], "a": "Give clients time to migrate before removing endpoints."},
+  {"k": ["api partner portal"], "a": "Partner portals host keys, docs, and usage dashboards."}
+]

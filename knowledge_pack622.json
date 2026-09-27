@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 622"], "a": "Local knowledge packs have reached pack 622."},
+  {"k": ["jagx credit 622"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["expansion complete 300"], "a": "The requested ~300 pack expansion is complete (packs 323-622)."},
+  {"k": ["jagx total packs now"], "a": "JagX-ai-v2 now includes knowledge packs through 622."},
+  {"k": ["redeploy note"], "a": "Render will load new packs after the next deploy."},
+  {"k": ["keep alive still"], "a": "Continue pinging /health to reduce free-tier sleep."},
+  {"k": ["friends still use chat"], "a": "Friends still call POST /chat with x-api-key."},
+  {"k": ["wakai still offline"], "a": "Wakai 10k remains offline on Drive; not required for live chat."},
+  {"k": ["speed still good"], "a": "Warm service answers often under one second."},
+  {"k": ["jagx done batch"], "a": "Batch finished. Built by JagX and JRILICENSE."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["network tcp retransmission"], "a": "Retransmissions recover lost TCP segments."},
+  {"k": ["network congestion window"], "a": "cwnd limits how much data TCP sends before ACK."},
+  {"k": ["network flow control"], "a": "Flow control prevents overwhelming a slow receiver."},
+  {"k": ["network head of line blocking"], "a": "HoL blocking delays later messages behind an earlier stalled one."},
+  {"k": ["network quic benefits"], "a": "QUIC reduces connection latency and avoids TCP HoL on streams."},
+  {"k": ["network dns caching"], "a": "DNS caching speeds lookups but can delay record updates."},
+  {"k": ["network anycast failover"], "a": "Anycast can fail over by routing to another announcement."},
+  {"k": ["network bgp hijack risk"], "a": "BGP hijacks misroute traffic; monitoring and RPKI help."},
+  {"k": ["network tls 1.3"], "a": "TLS 1.3 simplifies the handshake and removes old ciphers."},
+  {"k": ["network certificate transparency"], "a": "CT logs public certificates to detect mis-issuance."}
+]

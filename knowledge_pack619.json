@@ -1,0 +1,12 @@
+[
+  {"k": ["js set isDisjointFrom"], "a": "isDisjointFrom is true when two sets share no elements."},
+  {"k": ["js array with method"], "a": "with(index, value) returns a copy with one index changed."},
+  {"k": ["js promise try proposal"], "a": "Promise.try runs sync/async functions uniformly as promises."},
+  {"k": ["js iterator map filter"], "a": "Iterator helpers add lazy map/filter pipelines."},
+  {"k": ["js import attributes json"], "a": "Import attributes can declare JSON module imports."},
+  {"k": ["js decorators usage"], "a": "Decorators annotate classes and members when supported."},
+  {"k": ["js temporal duration"], "a": "Temporal.Duration represents time lengths."},
+  {"k": ["js temporal zoned datetime"], "a": "ZonedDateTime combines instant, time zone, and calendar."},
+  {"k": ["js abortsignal any"], "a": "AbortSignal.any aborts when any of several signals abort."},
+  {"k": ["js structured clone transfer"], "a": "Transferable objects can move memory without copying."}
+]

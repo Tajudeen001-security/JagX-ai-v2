@@ -1,0 +1,12 @@
+[
+  {"k": ["css accessibility prefers reduced motion"], "a": "Respect prefers-reduced-motion for users sensitive to animation."},
+  {"k": ["css accessibility forced colors"], "a": "forced-colors mode adapts to high-contrast OS settings."},
+  {"k": ["css print orphans widows"], "a": "orphans/widows control leftover lines at page breaks."},
+  {"k": ["css multi column"], "a": "column-count and column-width create multi-column text layouts."},
+  {"k": ["css shapes"], "a": "CSS shapes can wrap text around custom contours."},
+  {"k": ["css filter effects"], "a": "filter applies visual effects like blur and brightness."},
+  {"k": ["css backdrop filter"], "a": "backdrop-filter blurs content behind an element."},
+  {"k": ["css mix blend mode"], "a": "mix-blend-mode controls how an element blends with backdrop."},
+  {"k": ["css isolation stacking"], "a": "isolation creates a stacking context affecting blends."},
+  {"k": ["css contain intrinsic size"], "a": "contain-intrinsic-size provides sizes when content is skipped."}
+]

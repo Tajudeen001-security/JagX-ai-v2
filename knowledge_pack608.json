@@ -1,0 +1,12 @@
+[
+  {"k": ["git commit message body"], "a": "Use the body to explain why, not just what."},
+  {"k": ["git bisect good bad"], "a": "Mark commits good/bad so bisect can narrow the regression."},
+  {"k": ["git worktree list"], "a": "git worktree list shows linked working trees."},
+  {"k": ["git sparse checkout cone"], "a": "Cone mode simplifies sparse checkout patterns."},
+  {"k": ["git partial clone filter"], "a": "Blob filters reduce initial clone size."},
+  {"k": ["git maintenance start"], "a": "git maintenance start enables background maintenance."},
+  {"k": ["git interpret trailers"], "a": "Trailers add structured footers like Reviewed-by."},
+  {"k": ["git range-diff"], "a": "range-diff compares rewritten commit series."},
+  {"k": ["git switch detach"], "a": "Detached HEAD points directly at a commit, not a branch."},
+  {"k": ["git restore staged"], "a": "git restore --staged unstages without discarding worktree changes."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["math linear regression residual"], "a": "Residuals are differences between observed and predicted values."},
+  {"k": ["math r squared"], "a": "R² measures fraction of variance explained by a regression model."},
+  {"k": ["math correlation vs causation"], "a": "Correlation does not imply causation."},
+  {"k": ["math conditional probability"], "a": "P(A|B) is probability of A given B."},
+  {"k": ["math bayes theorem formula"], "a": "P(H|E) = P(E|H)P(H)/P(E)."},
+  {"k": ["math expected value linearity"], "a": "E[aX+bY] = aE[X]+bE[Y] even without independence."},
+  {"k": ["math variance independent sum"], "a": "For independent X,Y: Var(X+Y)=Var(X)+Var(Y)."},
+  {"k": ["math central limit theorem"], "a": "Sample means approach normality under broad conditions."},
+  {"k": ["math hypothesis null"], "a": "The null hypothesis is the default statement being tested."},
+  {"k": ["math p value caution"], "a": "A p-value is not the probability the null is true."}
+]

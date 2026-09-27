@@ -1,0 +1,12 @@
+[
+  {"k": ["design accessibility keyboard trap"], "a": "Avoid keyboard traps that prevent leaving a component."},
+  {"k": ["design aria label"], "a": "aria-label provides accessible names when visible text is insufficient."},
+  {"k": ["design skip link"], "a": "Skip links let keyboard users jump to main content."},
+  {"k": ["design focus order"], "a": "Focus order should match visual reading order."},
+  {"k": ["design error identification"], "a": "Identify errors clearly and suggest fixes."},
+  {"k": ["design touch spacing"], "a": "Space touch targets to reduce mis-taps."},
+  {"k": ["design loading announcement"], "a": "Announce important loading/completion states to assistive tech."},
+  {"k": ["design color contrast ui"], "a": "Check contrast for text and meaningful icons."},
+  {"k": ["design responsive images srcset"], "a": "srcset and sizes serve appropriate image resolutions."},
+  {"k": ["design design tokens"], "a": "Design tokens store shared colors, spacing, and typography values."}
+]

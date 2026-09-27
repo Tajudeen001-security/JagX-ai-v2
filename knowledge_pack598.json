@@ -1,0 +1,12 @@
+[
+  {"k": ["devops incident severity sev1"], "a": "Sev1 usually means critical user-facing outage."},
+  {"k": ["devops incident severity sev2"], "a": "Sev2 is major degradation with significant impact."},
+  {"k": ["devops incident severity sev3"], "a": "Sev3 is limited impact or workaround exists."},
+  {"k": ["devops status communication"], "a": "Share impact, status, and next update time during outages."},
+  {"k": ["devops postmortem template"], "a": "Include summary, timeline, root cause, and action items."},
+  {"k": ["devops action item tracking"], "a": "Track postmortem actions to completion with owners."},
+  {"k": ["devops oncall rotation"], "a": "Fair rotations and handoffs prevent burnout."},
+  {"k": ["devops alert quality"], "a": "Alerts should be actionable, not merely informational."},
+  {"k": ["devops runbook first line"], "a": "Runbooks start with symptoms and immediate checks."},
+  {"k": ["devops game day learnings"], "a": "Capture learnings from game days into improved runbooks."}
+]

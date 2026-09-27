@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi dependency caching"], "a": "Dependencies can cache results per request with use_cache."},
+  {"k": ["fastapi response model by alias"], "a": "response_model_by_alias controls alias serialization."},
+  {"k": ["fastapi openapi extra"], "a": "openapi_extra can inject custom OpenAPI fields."},
+  {"k": ["fastapi json compatible encoder"], "a": "jsonable_encoder handles datetime, UUID, and more."},
+  {"k": ["fastapi websocket disconnect"], "a": "Handle WebSocketDisconnect when clients leave."},
+  {"k": ["fastapi mount static"], "a": "Mount StaticFiles for assets under a path."},
+  {"k": ["fastapi cors expose headers"], "a": "expose_headers lists headers JS may read cross-origin."},
+  {"k": ["fastapi trusted host"], "a": "TrustedHostMiddleware blocks unexpected Host headers."},
+  {"k": ["fastapi proxy headers"], "a": "Configure proxy headers when behind a reverse proxy."},
+  {"k": ["fastapi testing overrides"], "a": "dependency_overrides swap real deps for fakes in tests."}
+]

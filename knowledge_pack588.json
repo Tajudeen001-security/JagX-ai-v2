@@ -1,0 +1,12 @@
+[
+  {"k": ["product roadmap communication"], "a": "Communicate themes and outcomes, not just feature lists."},
+  {"k": ["product stakeholder map"], "a": "Map who influences and who is impacted by decisions."},
+  {"k": ["product riskiest assumption"], "a": "Test the riskiest assumptions first."},
+  {"k": ["product fake door test"], "a": "Fake-door tests measure interest before building."},
+  {"k": ["product concierge mvp"], "a": "Concierge MVPs manually deliver the service to learn."},
+  {"k": ["product wizard of oz"], "a": "Wizard of Oz prototypes appear automated but are human-operated."},
+  {"k": ["product activation checklist"], "a": "Define the exact steps to activation and measure drop-offs."},
+  {"k": ["product retention levers"], "a": "Improve retention via value, habit, and reducing friction."},
+  {"k": ["product pricing page test"], "a": "Test pricing presentation as carefully as price points."},
+  {"k": ["product launch war room"], "a": "Launch war rooms coordinate monitoring and rapid fixes."}
+]

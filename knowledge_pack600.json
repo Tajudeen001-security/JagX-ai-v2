@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 600"], "a": "Local knowledge packs have reached pack 600."},
+  {"k": ["jagx credit 600"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["milestone 600 packs"], "a": "Pack 600 is a major milestone in JagX local knowledge."},
+  {"k": ["batch progress 280"], "a": "About 280 packs added toward the 300 expansion goal."},
+  {"k": ["physics energy conservation reminder"], "a": "Energy transforms between forms but total is conserved in isolated systems."},
+  {"k": ["physics momentum reminder"], "a": "Momentum is conserved when external forces are negligible."},
+  {"k": ["physics charge conservation"], "a": "Electric charge is conserved in isolated systems."},
+  {"k": ["physics wave speed string"], "a": "Wave speed on a string depends on tension and linear density."},
+  {"k": ["physics snell reminder"], "a": "n1 sinθ1 = n2 sinθ2 for refraction."},
+  {"k": ["physics ohm reminder"], "a": "V = IR for ohmic resistors."}
+]

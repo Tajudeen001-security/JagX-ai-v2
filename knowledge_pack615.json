@@ -1,0 +1,12 @@
+[
+  {"k": ["business unit economics payback"], "a": "Payback period is months to recover CAC from contribution margin."},
+  {"k": ["business magic number"], "a": "SaaS magic number estimates sales efficiency from ARR growth vs spend."},
+  {"k": ["business rule of 40"], "a": "Rule of 40: growth rate + profit margin as a health heuristic."},
+  {"k": ["business gross retention"], "a": "Gross retention ignores expansion; net retention includes it."},
+  {"k": ["business logo churn"], "a": "Logo churn counts customers lost; revenue churn counts revenue lost."},
+  {"k": ["business expansion mrr"], "a": "Expansion MRR comes from upgrades and added seats."},
+  {"k": ["business contraction mrr"], "a": "Contraction MRR is revenue lost from downgrades."},
+  {"k": ["business cohort revenue"], "a": "Revenue cohorts show how customer groups monetize over time."},
+  {"k": ["business pricing value metric"], "a": "A value metric ties price to the value customers receive."},
+  {"k": ["business competitive positioning"], "a": "Positioning defines how you differ in the customer's mind."}
+]

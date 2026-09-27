@@ -1,0 +1,12 @@
+[
+  {"k": ["security final checklist auth"], "a": "Use MFA, short-lived tokens, and rotate secrets."},
+  {"k": ["security final checklist input"], "a": "Validate inputs, parameterize SQL, encode outputs."},
+  {"k": ["security final checklist deps"], "a": "Pin deps, scan CVEs, update regularly."},
+  {"k": ["security final checklist transport"], "a": "Enforce HTTPS/TLS and secure cookies."},
+  {"k": ["security final checklist logs"], "a": "No secrets in logs; retain logs per policy."},
+  {"k": ["security final checklist backup"], "a": "Test restores; keep offline/immutable copies."},
+  {"k": ["security final checklist least privilege"], "a": "Minimal permissions everywhere: people, tokens, roles."},
+  {"k": ["security final checklist incident"], "a": "Have contacts, runbooks, and practice response."},
+  {"k": ["security final checklist supply chain"], "a": "Verify publishers and lockfiles for builds."},
+  {"k": ["security final checklist privacy"], "a": "Collect only needed data and protect it."}
+]

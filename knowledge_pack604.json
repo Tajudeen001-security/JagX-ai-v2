@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx identity final"], "a": "I am JagX AI, created by JagX and JRILICENSE."},
+  {"k": ["jagx hybrid stack final"], "a": "Live: packs + cloud LLM. Offline: Wakai checkpoint on Drive."},
+  {"k": ["jagx api chat final"], "a": "POST /chat with header x-api-key."},
+  {"k": ["jagx health final"], "a": "GET /health for uptime checks."},
+  {"k": ["jagx permanent keys final"], "a": "Permanent keys never expire; also store in JAGX_PERMANENT_KEYS."},
+  {"k": ["jagx render url final"], "a": "https://jagx-ai-v2.onrender.com"},
+  {"k": ["jagx wakai 10k final"], "a": "Preferred offline weights: wakai_clean_step_10000.pt"},
+  {"k": ["jagx no more train needed"], "a": "Training paused by choice; 10k clean checkpoint is enough for now."},
+  {"k": ["jagx packs goal 300"], "a": "This expansion targeted about 300 additional knowledge packs."},
+  {"k": ["jagx credit final 604"], "a": "Built by JagX and JRILICENSE."}
+]

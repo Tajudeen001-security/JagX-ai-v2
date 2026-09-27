@@ -1,0 +1,12 @@
+[
+  {"k": ["chem stoichiometry mole bridge"], "a": "Use mole ratios from balanced equations as the bridge between substances."},
+  {"k": ["chem limiting reagent identify"], "a": "Convert to moles and compare to required ratios to find the limiting reagent."},
+  {"k": ["chem percent yield"], "a": "Percent yield = (actual/theoretical)×100%."},
+  {"k": ["chem empirical formula"], "a": "Empirical formula is the simplest whole-number ratio of atoms."},
+  {"k": ["chem molecular formula"], "a": "Molecular formula is the actual number of atoms in a molecule."},
+  {"k": ["chem gas stoichiometry"], "a": "At STP, 1 mole of ideal gas occupies about 22.4 L."},
+  {"k": ["chem concentration dilute"], "a": "M1V1 = M2V2 for dilution of solutions."},
+  {"k": ["chem titration equivalence"], "a": "Equivalence point is when stoichiometrically equivalent amounts have reacted."},
+  {"k": ["chem buffer capacity"], "a": "Buffer capacity is how much acid/base a buffer can absorb before pH shifts a lot."},
+  {"k": ["chem kinetics half life first order"], "a": "For first-order reactions, t1/2 = ln2 / k."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["js node diagnostics channel"], "a": "diagnostics_channel enables low-overhead instrumentation hooks."},
+  {"k": ["js node async hooks"], "a": "async_hooks track async resource lifetimes (advanced)."},
+  {"k": ["js node perf hooks"], "a": "perf_hooks measure performance timings."},
+  {"k": ["js node worker message"], "a": "Worker threads communicate via postMessage."},
+  {"k": ["js node cluster"], "a": "cluster module runs multiple processes sharing ports."},
+  {"k": ["js node child process"], "a": "child_process spawns external processes."},
+  {"k": ["js node fs promises"], "a": "fs.promises provides promise-based filesystem APIs."},
+  {"k": ["js node path posix"], "a": "path.posix ensures POSIX-style paths even on Windows."},
+  {"k": ["js node url fileurl"], "a": "fileURLToPath converts file URLs to paths."},
+  {"k": ["js node assert strict"], "a": "assert/strict provides strict equality assertions."}
+]

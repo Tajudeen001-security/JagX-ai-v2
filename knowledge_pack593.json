@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio queue"], "a": "asyncio.Queue coordinates producers and consumers in async code."},
+  {"k": ["python asyncio event"], "a": "asyncio.Event signals between tasks."},
+  {"k": ["python asyncio lock"], "a": "asyncio.Lock provides mutual exclusion for async tasks."},
+  {"k": ["python asyncio semaphore"], "a": "Semaphores limit concurrent access to a resource."},
+  {"k": ["python contextlib suppress"], "a": "suppress ignores specified exceptions in a block."},
+  {"k": ["python contextlib closing"], "a": "closing ensures close() is called on a resource."},
+  {"k": ["python typing typeddict total"], "a": "total=False makes TypedDict keys optional."},
+  {"k": ["python dataclasses field default factory"], "a": "default_factory avoids shared mutable defaults."},
+  {"k": ["python enum unique"], "a": "@unique ensures no duplicate enum values."},
+  {"k": ["python functools partial"], "a": "partial freezes some arguments of a function."}
+]

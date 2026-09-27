@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 610"], "a": "Local knowledge packs have reached pack 610."},
+  {"k": ["jagx credit 610"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 290"], "a": "About 290 packs added toward the 300 expansion goal."},
+  {"k": ["docker compose healthcheck"], "a": "Compose healthchecks gate depends_on conditions."},
+  {"k": ["docker build secret"], "a": "Build secrets mount credentials without leaving layers."},
+  {"k": ["docker attestations"], "a": "Attestations document provenance of image builds."},
+  {"k": ["docker multi platform build"], "a": "buildx can produce multi-platform images."},
+  {"k": ["docker ignore patterns"], "a": ".dockerignore keeps build context small and safe."},
+  {"k": ["docker nonroot user"], "a": "Create and use a non-root USER in production images."},
+  {"k": ["docker read only root"], "a": "Read-only root filesystems reduce container attack surface."}
+]

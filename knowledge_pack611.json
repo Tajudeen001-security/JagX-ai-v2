@@ -1,0 +1,12 @@
+[
+  {"k": ["k8s probes startup"], "a": "Startup probes delay liveness checks for slow-starting apps."},
+  {"k": ["k8s resource quota"], "a": "ResourceQuotas limit total resources in a namespace."},
+  {"k": ["k8s limit range"], "a": "LimitRanges set default and max request/limit ranges."},
+  {"k": ["k8s priority class"], "a": "PriorityClasses influence scheduling and preemption."},
+  {"k": ["k8s topology spread"], "a": "Topology spread constraints distribute pods across zones."},
+  {"k": ["k8s pdb min available"], "a": "minAvailable keeps a minimum number of pods during disruptions."},
+  {"k": ["k8s network policy ingress egress"], "a": "Policies can restrict both ingress and egress traffic."},
+  {"k": ["k8s ingress tls"], "a": "Ingress can terminate TLS with secrets."},
+  {"k": ["k8s helm values"], "a": "values.yaml customizes chart deployments."},
+  {"k": ["k8s kubectl rollout status"], "a": "kubectl rollout status watches deployment progress."}
+]

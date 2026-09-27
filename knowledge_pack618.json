@@ -1,0 +1,12 @@
+[
+  {"k": ["python itertools product"], "a": "product computes Cartesian products of input iterables."},
+  {"k": ["python itertools permutations"], "a": "permutations yields ordered arrangements."},
+  {"k": ["python itertools combinations"], "a": "combinations yields unordered selections without replacement."},
+  {"k": ["python collections namedtuple rename"], "a": "rename=True fixes invalid field names automatically."},
+  {"k": ["python heapq nlargest"], "a": "nlargest returns the n largest items from an iterable."},
+  {"k": ["python bisect insort"], "a": "insort inserts into a list while keeping it sorted."},
+  {"k": ["python functools reduce"], "a": "reduce cumulatively applies a function to items."},
+  {"k": ["python operator itemgetter"], "a": "itemgetter builds fast key functions for sorting."},
+  {"k": ["python pathlib resolve"], "a": "resolve makes a path absolute and resolves symlinks."},
+  {"k": ["python zoneinfo ZoneInfo"], "a": "ZoneInfo('Africa/Lagos') provides Nigeria's time zone."}
+]
