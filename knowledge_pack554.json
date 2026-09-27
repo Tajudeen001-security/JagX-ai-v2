@@ -1,0 +1,12 @@
+[
+  {"k": ["system design rate limit token bucket"], "a": "Token bucket allows bursts while enforcing average rate."},
+  {"k": ["system design leaky bucket"], "a": "Leaky bucket smooths traffic to a constant drain rate."},
+  {"k": ["system design sliding window log"], "a": "Sliding window logs track request timestamps for precise limits."},
+  {"k": ["system design sliding window counter"], "a": "Sliding window counters approximate rate with less storage."},
+  {"k": ["system design distributed lock"], "a": "Distributed locks coordinate exclusive access across nodes."},
+  {"k": ["system design fencing token"], "a": "Fencing tokens prevent stale lock holders from corrupting state."},
+  {"k": ["system design single flight"], "a": "Single-flight coalesces identical concurrent requests."},
+  {"k": ["system design request coalescing"], "a": "Coalescing reduces stampedes on shared expensive work."},
+  {"k": ["system design cache stampede"], "a": "Stampedes happen when many clients miss cache together."},
+  {"k": ["system design probabilistic early expiration"], "a": "Early expiration recomputes cache values before hard expiry."}
+]

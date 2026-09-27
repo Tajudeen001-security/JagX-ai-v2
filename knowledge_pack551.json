@@ -1,0 +1,12 @@
+[
+  {"k": ["english idiom once in blue moon"], "a": "Once in a blue moon means very rarely."},
+  {"k": ["english idiom bite bullet"], "a": "Bite the bullet means face something difficult."},
+  {"k": ["english idiom spill beans"], "a": "Spill the beans means reveal a secret."},
+  {"k": ["english idiom hit nail head"], "a": "Hit the nail on the head means be exactly right."},
+  {"k": ["english idiom under pressure"], "a": "Under pressure means stressed by demands."},
+  {"k": ["english formal decline"], "a": "I'm afraid I must decline is a polite refusal."},
+  {"k": ["english request deadline"], "a": "Could you please share this by Friday? is a clear ask."},
+  {"k": ["english escalate politely"], "a": "I wanted to flag a blocker that needs input is a calm escalation."},
+  {"k": ["english confirm understanding"], "a": "To confirm, we will... restates the plan."},
+  {"k": ["english close email action"], "a": "End with the next action and owner."}
+]

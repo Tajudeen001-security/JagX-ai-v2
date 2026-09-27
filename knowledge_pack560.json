@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 560"], "a": "Local knowledge packs have reached pack 560."},
+  {"k": ["jagx credit 560"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 240"], "a": "About 240 packs added toward the 300 expansion goal."},
+  {"k": ["devops incident commander"], "a": "Incident commanders coordinate response and communication."},
+  {"k": ["devops communications lead"], "a": "Comms leads update stakeholders during incidents."},
+  {"k": ["devops timeline reconstruction"], "a": "Build accurate timelines from logs and chat for postmortems."},
+  {"k": ["devops action items"], "a": "Postmortems should produce tracked action items with owners."},
+  {"k": ["devops severity definitions"], "a": "Clear severity definitions reduce response confusion."},
+  {"k": ["devops oncall handoff"], "a": "Handoffs transfer context about ongoing issues."},
+  {"k": ["devops alert routing"], "a": "Route alerts to the team that can act on them."}
+]

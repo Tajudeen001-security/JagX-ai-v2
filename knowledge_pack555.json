@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio runner"], "a": "asyncio.run is the main entry for async programs."},
+  {"k": ["python taskgroup exceptions"], "a": "TaskGroup raises an ExceptionGroup if tasks fail."},
+  {"k": ["python typing typealias"], "a": "TypeAlias marks explicit type aliases."},
+  {"k": ["python typing assert type"], "a": "assert_type helps type checkers verify inferred types."},
+  {"k": ["python pathlib match"], "a": "Path.match tests a path against a glob pattern."},
+  {"k": ["python dataclasses asdict nested"], "a": "asdict recursively converts nested dataclasses."},
+  {"k": ["python enum auto"], "a": "enum.auto() assigns values automatically."},
+  {"k": ["python functools lru cache"], "a": "lru_cache memoizes with a size limit."},
+  {"k": ["python itertools pairwise"], "a": "pairwise yields consecutive overlapping pairs."},
+  {"k": ["python itertools batched"], "a": "batched groups an iterable into fixed-size tuples."}
+]

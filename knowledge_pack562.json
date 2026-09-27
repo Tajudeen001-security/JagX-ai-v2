@@ -1,0 +1,12 @@
+[
+  {"k": ["physics capacitors energy"], "a": "Energy in a capacitor is (1/2)CV²."},
+  {"k": ["physics inductors"], "a": "Inductors store energy in magnetic fields."},
+  {"k": ["physics rl rc circuits"], "a": "RL and RC circuits have exponential time constants."},
+  {"k": ["physics resonance"], "a": "Resonance occurs when a system is driven at natural frequency."},
+  {"k": ["physics standing waves"], "a": "Standing waves form from interfering opposite traveling waves."},
+  {"k": ["physics doppler medical"], "a": "Doppler ultrasound estimates blood flow speeds."},
+  {"k": ["physics greenhouse effect"], "a": "Greenhouse gases trap outgoing infrared radiation."},
+  {"k": ["physics specific heat"], "a": "Specific heat is energy to raise temperature of unit mass by one degree."},
+  {"k": ["physics latent heat fusion"], "a": "Latent heat of fusion is energy to change solid to liquid at melting point."},
+  {"k": ["physics calorimetry"], "a": "Calorimetry measures heat transfer in physical and chemical processes."}
+]

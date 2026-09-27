@@ -1,0 +1,12 @@
+[
+  {"k": ["css color contrast ratio"], "a": "WCAG recommends contrast ratios like 4.5:1 for normal text."},
+  {"k": ["css focus visible polyfill"], "a": ":focus-visible styles keyboard focus without mouse focus rings when supported."},
+  {"k": ["css container style queries"], "a": "Style queries can respond to container custom property values."},
+  {"k": ["css scoped styles"], "a": "@scope limits selector matching to a subtree."},
+  {"k": ["css nested declarations"], "a": "Native nesting reduces repetition in stylesheets."},
+  {"k": ["css logical border"], "a": "border-inline and border-block adapt to writing modes."},
+  {"k": ["css safe area"], "a": "safe-area-inset_* env vars avoid notches and home indicators."},
+  {"k": ["css dynamic viewport"], "a": "dvh units track dynamic viewport height on mobile."},
+  {"k": ["css small large viewport"], "a": "svh/lvh represent small and large viewport heights."},
+  {"k": ["css text wrap pretty"], "a": "text-wrap: pretty improves wrapping for readability."}
+]

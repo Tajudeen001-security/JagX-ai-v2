@@ -1,0 +1,12 @@
+[
+  {"k": ["sql cdc"], "a": "Change Data Capture streams row-level database changes."},
+  {"k": ["sql logical replication lag"], "a": "Monitor lag so replicas do not serve very stale data."},
+  {"k": ["sql vacuum progress"], "a": "pg_stat_progress_vacuum shows vacuum progress."},
+  {"k": ["sql index usage stats"], "a": "Track unused indexes to reduce write overhead."},
+  {"k": ["sql sequential vs index"], "a": "Planner chooses seq or index scans based on costs and stats."},
+  {"k": ["sql prepared statement thrashing"], "a": "Too many unique SQL strings can bloat plan caches."},
+  {"k": ["sql connection pool fair"], "a": "Fair queuing in pools prevents one client from starving others."},
+  {"k": ["sql statement timeout"], "a": "statement_timeout cancels runaway queries."},
+  {"k": ["sql lock timeout"], "a": "lock_timeout fails fast when locks cannot be acquired."},
+  {"k": ["sql idle in transaction"], "a": "Idle-in-transaction sessions can hold locks; monitor and kill carefully."}
+]

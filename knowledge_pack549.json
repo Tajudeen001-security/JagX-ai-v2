@@ -1,0 +1,12 @@
+[
+  {"k": ["testing synthetic transactions"], "a": "Synthetic transactions continuously exercise critical user journeys."},
+  {"k": ["testing chaos blast radius"], "a": "Limit blast radius so experiments do not take down everything."},
+  {"k": ["testing game day"], "a": "Game days rehearse incident response with planned failures."},
+  {"k": ["testing canary analysis automated"], "a": "Automated canary analysis compares metrics before promoting."},
+  {"k": ["testing load test realistic"], "a": "Use realistic traffic shapes, not only constant RPS."},
+  {"k": ["testing soak test"], "a": "Soak tests run for long periods to find leaks and degradation."},
+  {"k": ["testing spike test"], "a": "Spike tests suddenly increase load to test elasticity."},
+  {"k": ["testing data factories"], "a": "Factories generate varied valid test entities."},
+  {"k": ["testing contract evolution"], "a": "Evolve contracts with additive changes when possible."},
+  {"k": ["testing observability in tests"], "a": "Assert on logs/metrics in integration tests when useful."}
+]

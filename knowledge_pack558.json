@@ -1,0 +1,12 @@
+[
+  {"k": ["security stride spoofing"], "a": "Spoofing is pretending to be something or someone else."},
+  {"k": ["security stride tampering"], "a": "Tampering is unauthorized modification of data or code."},
+  {"k": ["security stride repudiation"], "a": "Repudiation is denying actions without adequate proof."},
+  {"k": ["security stride info disclosure"], "a": "Information disclosure is exposing data to unauthorized parties."},
+  {"k": ["security stride dos"], "a": "Denial of service makes a system unavailable."},
+  {"k": ["security stride elevation"], "a": "Elevation of privilege gains unauthorized higher rights."},
+  {"k": ["security abuse cases"], "a": "Abuse cases describe how features can be misused."},
+  {"k": ["security secure defaults"], "a": "Default configurations should be safe out of the box."},
+  {"k": ["security fail secure"], "a": "Systems should fail in a secure state when possible."},
+  {"k": ["security defense diversity"], "a": "Diverse controls reduce shared failure modes."}
+]

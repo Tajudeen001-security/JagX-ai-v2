@@ -1,0 +1,12 @@
+[
+  {"k": ["api sdk versioning"], "a": "SDK versions should track supported API versions clearly."},
+  {"k": ["api breaking change policy"], "a": "Document breaking changes and provide migration windows."},
+  {"k": ["api idempotency key header"], "a": "Clients often send Idempotency-Key on POST requests."},
+  {"k": ["api request id"], "a": "Request IDs help correlate logs across services."},
+  {"k": ["api optimistic concurrency"], "a": "ETags/version fields prevent lost updates."},
+  {"k": ["api bulkheads thread pools"], "a": "Separate thread pools isolate slow dependencies."},
+  {"k": ["api graceful shutdown"], "a": "Stop accepting new work, drain in-flight requests, then exit."},
+  {"k": ["api health vs ready"], "a": "Liveness ≠ readiness; a process can be up but not ready."},
+  {"k": ["api schema evolution"], "a": "Add optional fields first; avoid removing fields without versioning."},
+  {"k": ["api partner webhooks"], "a": "Verify signatures and retry with backoff for partner webhooks."}
+]

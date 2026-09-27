@@ -1,0 +1,12 @@
+[
+  {"k": ["physics quantum idea"], "a": "Quantum physics describes nature at atomic and subatomic scales."},
+  {"k": ["physics photon"], "a": "A photon is a quantum of electromagnetic radiation."},
+  {"k": ["physics uncertainty principle"], "a": "Heisenberg uncertainty limits simultaneous knowledge of certain pairs of properties."},
+  {"k": ["physics wave particle"], "a": "Matter and light can show both wave and particle behavior."},
+  {"k": ["physics energy level"], "a": "Electrons in atoms occupy discrete energy levels."},
+  {"k": ["physics nuclear fission"], "a": "Fission splits heavy nuclei and can release energy."},
+  {"k": ["physics nuclear fusion"], "a": "Fusion combines light nuclei and powers stars."},
+  {"k": ["physics special relativity"], "a": "Special relativity links space and time for inertial frames."},
+  {"k": ["physics time dilation"], "a": "Moving clocks run slow relative to a stationary observer."},
+  {"k": ["physics mass energy"], "a": "E = mc² relates mass and energy."}
+]

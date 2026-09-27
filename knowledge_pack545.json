@@ -1,0 +1,12 @@
+[
+  {"k": ["biology speciation allopatric"], "a": "Allopatric speciation occurs with geographic isolation."},
+  {"k": ["biology homologous structures"], "a": "Homologous structures share common ancestry."},
+  {"k": ["biology analogous structures"], "a": "Analogous structures have similar function but different ancestry."},
+  {"k": ["biology vestigial"], "a": "Vestigial structures are reduced remnants of ancestral features."},
+  {"k": ["biology phylogenetic tree"], "a": "Phylogenetic trees depict evolutionary relationships."},
+  {"k": ["biology domain archaea"], "a": "Archaea are single-celled organisms distinct from bacteria and eukaryotes."},
+  {"k": ["biology prokaryote"], "a": "Prokaryotes lack a membrane-bound nucleus."},
+  {"k": ["biology eukaryote"], "a": "Eukaryotes have a nucleus and membrane-bound organelles."},
+  {"k": ["biology virus"], "a": "Viruses require host cells to replicate."},
+  {"k": ["biology antibiotic resistance"], "a": "Antibiotic resistance evolves under selective pressure of antibiotic use."}
+]

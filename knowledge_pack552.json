@@ -1,0 +1,12 @@
+[
+  {"k": ["world capital belgium"], "a": "The capital of Belgium is Brussels."},
+  {"k": ["world capital netherlands"], "a": "The capital of the Netherlands is Amsterdam (government in The Hague)."},
+  {"k": ["world capital switzerland"], "a": "Bern is the federal city of Switzerland."},
+  {"k": ["world capital czechia"], "a": "The capital of Czechia is Prague."},
+  {"k": ["world capital hungary"], "a": "The capital of Hungary is Budapest."},
+  {"k": ["world capital romania"], "a": "The capital of Romania is Bucharest."},
+  {"k": ["world capital ukraine"], "a": "The capital of Ukraine is Kyiv."},
+  {"k": ["world capital israel"], "a": "Israel's seat of government is Jerusalem (complex international status)."},
+  {"k": ["world capital iran"], "a": "The capital of Iran is Tehran."},
+  {"k": ["world capital iraq"], "a": "The capital of Iraq is Baghdad."}
+]

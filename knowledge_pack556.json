@@ -1,0 +1,12 @@
+[
+  {"k": ["js promise withResolvers"], "a": "Promise.withResolvers returns {promise, resolve, reject}."},
+  {"k": ["js array toSorted locale"], "a": "toSorted can take compare functions for custom order."},
+  {"k": ["js object groupBy"], "a": "Object.groupBy groups items by callback keys."},
+  {"k": ["js map groupBy"], "a": "Map.groupBy returns a Map of grouped items."},
+  {"k": ["js set union"], "a": "Set.prototype.union returns a set of all elements in either set."},
+  {"k": ["js set intersection"], "a": "Set.prototype.intersection returns common elements."},
+  {"k": ["js set difference"], "a": "Set.prototype.difference returns elements in one set not the other."},
+  {"k": ["js set symmetricDifference"], "a": "symmetricDifference returns elements in either set but not both."},
+  {"k": ["js set isSubsetOf"], "a": "isSubsetOf checks whether all elements are in another set."},
+  {"k": ["js set isSupersetOf"], "a": "isSupersetOf checks whether a set contains another set."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["chem kinetics collision theory"], "a": "Reactions require collisions with enough energy and proper orientation."},
+  {"k": ["chem activated complex"], "a": "The activated complex is a high-energy transition state."},
+  {"k": ["chem catalysts enzymes"], "a": "Biological catalysts are enzymes."},
+  {"k": ["chem equilibrium expression"], "a": "K is written from the balanced equation with activities/concentrations."},
+  {"k": ["chem reaction quotient"], "a": "Q uses current concentrations; compare Q to K for shift direction."},
+  {"k": ["chem solubility product"], "a": "Ksp is the equilibrium constant for dissolving a sparingly soluble salt."},
+  {"k": ["chem common ion effect"], "a": "Common ions reduce solubility of sparingly soluble salts."},
+  {"k": ["chem buffer henderson"], "a": "Henderson-Hasselbalch relates pH to pKa and acid/base ratios."},
+  {"k": ["chem titration curve"], "a": "Titration curves plot pH versus added titrant volume."},
+  {"k": ["chem electrochemical cell"], "a": "Galvanic cells produce electricity from spontaneous redox."}
+]

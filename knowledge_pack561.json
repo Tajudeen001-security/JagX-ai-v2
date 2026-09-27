@@ -1,0 +1,12 @@
+[
+  {"k": ["math multivariable gradient"], "a": "Gradient is the vector of partial derivatives."},
+  {"k": ["math directional derivative"], "a": "Directional derivative is the rate of change in a direction."},
+  {"k": ["math hessian"], "a": "Hessian is the matrix of second partial derivatives."},
+  {"k": ["math jacobian"], "a": "Jacobian matrix contains first partials of a vector function."},
+  {"k": ["math lagrange multipliers"], "a": "Lagrange multipliers optimize with equality constraints."},
+  {"k": ["math line integral"], "a": "Line integrals integrate along a curve."},
+  {"k": ["math surface integral"], "a": "Surface integrals integrate over a surface."},
+  {"k": ["math divergence"], "a": "Divergence measures outward flux density of a vector field."},
+  {"k": ["math curl"], "a": "Curl measures local rotation of a vector field."},
+  {"k": ["math green theorem"], "a": "Green's theorem relates a line integral around a curve to a double integral."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["design pattern repository unit of work"], "a": "Unit of Work tracks changes and commits them as one transaction."},
+  {"k": ["design pattern dto"], "a": "DTOs transfer data across process boundaries without domain behavior."},
+  {"k": ["design pattern anti corruption"], "a": "Anti-corruption layers translate external models into domain models."},
+  {"k": ["design pattern saga choreography"], "a": "Choreographed sagas let services react to events without a central orchestrator."},
+  {"k": ["design pattern saga orchestration"], "a": "Orchestrated sagas use a coordinator to drive steps."},
+  {"k": ["design pattern outbox inbox"], "a": "Outbox/inbox patterns make event publishing and consumption reliable."},
+  {"k": ["design pattern cqrs read model"], "a": "Read models are optimized views for queries."},
+  {"k": ["design pattern event sourcing snapshot"], "a": "Snapshots speed rebuilding state from long event streams."},
+  {"k": ["design pattern strangler fig"], "a": "Strangler fig incrementally replaces a legacy system."},
+  {"k": ["design pattern backend for frontend"], "a": "BFF APIs tailor responses to specific client types."}
+]

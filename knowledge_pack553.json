@@ -1,0 +1,12 @@
+[
+  {"k": ["algo binary lifting"], "a": "Binary lifting answers ancestor queries on trees quickly."},
+  {"k": ["algo lca"], "a": "Lowest common ancestor is the deepest shared ancestor of two nodes."},
+  {"k": ["algo mo algorithm"], "a": "Mo's algorithm answers offline range queries efficiently."},
+  {"k": ["algo sqrt decomposition"], "a": "Sqrt decomposition splits arrays into blocks of size ~sqrt(n)."},
+  {"k": ["algo policy based data"], "a": "Some libraries provide ordered statistics policy data structures."},
+  {"k": ["algo convex hull"], "a": "Convex hull is the smallest convex polygon containing points."},
+  {"k": ["algo sweep line"], "a": "Sweep line algorithms process geometric events in order."},
+  {"k": ["algo string z algorithm"], "a": "Z-algorithm computes pattern matching prefix lengths."},
+  {"k": ["algo manacher"], "a": "Manacher's algorithm finds longest palindromic substrings in linear time."},
+  {"k": ["algo hopcroft karp"], "a": "Hopcroft–Karp finds maximum bipartite matching efficiently."}
+]
