@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi route"], "a": "@app.get("/path") defines a GET endpoint in FastAPI."},
+  {"k": ["fastapi pydantic"], "a": "Pydantic models validate request and response bodies."},
+  {"k": ["fastapi dependency"], "a": "Depends() injects shared logic like auth into endpoints."},
+  {"k": ["fastapi cors"], "a": "CORSMiddleware allows browser clients from other origins."},
+  {"k": ["fastapi uvicorn"], "a": "Uvicorn is an ASGI server commonly used to run FastAPI."},
+  {"k": ["fastapi status code"], "a": "Raise HTTPException(status_code=404, detail='...') for errors."},
+  {"k": ["fastapi header"], "a": "Use Header() to read custom headers like x-api-key."},
+  {"k": ["fastapi background"], "a": "BackgroundTasks run work after the response is sent."},
+  {"k": ["fastapi openapi"], "a": "FastAPI auto-generates OpenAPI docs at /docs."},
+  {"k": ["fastapi async def"], "a": "async def endpoints can await non-blocking I/O."}
+]

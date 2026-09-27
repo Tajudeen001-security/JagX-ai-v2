@@ -1,0 +1,12 @@
+[
+  {"k": ["react useState"], "a": "useState returns [value, setValue] for local component state."},
+  {"k": ["react useEffect"], "a": "useEffect runs side effects after render; dependency array controls when."},
+  {"k": ["react key prop"], "a": "Keys help React match list items across renders; use stable unique ids."},
+  {"k": ["react props"], "a": "Props pass data from parent to child and should be treated as read-only."},
+  {"k": ["react conditional render"], "a": "Use && or ternary to render UI based on a condition."},
+  {"k": ["react fragment"], "a": "<>...</> groups children without adding a DOM node."},
+  {"k": ["react controlled input"], "a": "Value comes from state and onChange updates state."},
+  {"k": ["react lift state"], "a": "Move shared state up to the nearest common parent."},
+  {"k": ["react memo"], "a": "React.memo skips re-render when props are shallow-equal."},
+  {"k": ["react router link"], "a": "Use Link or NavLink for client-side navigation without full reload."}
+]

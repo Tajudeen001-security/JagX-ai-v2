@@ -1,0 +1,12 @@
+[
+  {"k": ["math pythagoras"], "a": "In a right triangle, a^2 + b^2 = c^2 where c is the hypotenuse."},
+  {"k": ["math quadratic"], "a": "x = [-b ± sqrt(b^2-4ac)] / (2a) for ax^2+bx+c=0."},
+  {"k": ["math derivative power"], "a": "d/dx[x^n] = n x^{n-1}."},
+  {"k": ["math integral power"], "a": "∫ x^n dx = x^{n+1}/(n+1) + C for n ≠ -1."},
+  {"k": ["math chain rule"], "a": "(f(g(x)))' = f'(g(x)) g'(x)."},
+  {"k": ["math product rule"], "a": "(uv)' = u'v + uv'."},
+  {"k": ["math mean"], "a": "The arithmetic mean is the sum of values divided by count."},
+  {"k": ["math median"], "a": "The median is the middle value after sorting."},
+  {"k": ["math variance"], "a": "Variance measures how far values spread from the mean."},
+  {"k": ["math standard deviation"], "a": "Standard deviation is the square root of variance."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["physics newton1"], "a": "An object stays at rest or in uniform motion unless a net force acts."},
+  {"k": ["physics newton2"], "a": "F = ma: force equals mass times acceleration."},
+  {"k": ["physics newton3"], "a": "For every action there is an equal and opposite reaction."},
+  {"k": ["physics kinetic energy"], "a": "KE = 1/2 m v^2."},
+  {"k": ["physics potential gravity"], "a": "Near Earth, PE ≈ mgh."},
+  {"k": ["physics ohm"], "a": "V = IR: voltage equals current times resistance."},
+  {"k": ["physics speed light"], "a": "c ≈ 3×10^8 m/s in vacuum."},
+  {"k": ["physics gravity g"], "a": "g ≈ 9.8 m/s^2 near Earth's surface."},
+  {"k": ["physics momentum"], "a": "p = mv; momentum is conserved in isolated systems."},
+  {"k": ["physics work energy"], "a": "Work done by net force equals change in kinetic energy."}
+]

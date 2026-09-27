@@ -1,0 +1,12 @@
+[
+  {"k": ["sql primary key"], "a": "A primary key uniquely identifies each row and is never null."},
+  {"k": ["sql foreign key"], "a": "A foreign key references a primary key in another table."},
+  {"k": ["sql inner join"], "a": "INNER JOIN returns only rows with matches in both tables."},
+  {"k": ["sql left join"], "a": "LEFT JOIN returns all left rows and matching right rows (or nulls)."},
+  {"k": ["sql index"], "a": "Indexes speed up lookups but add write cost and storage."},
+  {"k": ["sql transaction"], "a": "A transaction groups statements that should all succeed or all fail."},
+  {"k": ["sql acid"], "a": "ACID: Atomicity, Consistency, Isolation, Durability."},
+  {"k": ["sql normalize"], "a": "Normalization reduces redundancy by organizing data into related tables."},
+  {"k": ["sql denormalize"], "a": "Denormalization trades some redundancy for faster reads."},
+  {"k": ["sql explain"], "a": "EXPLAIN shows the query plan so you can find slow scans."}
+]

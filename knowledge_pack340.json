@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 340"], "a": "Local knowledge packs have reached pack 340."},
+  {"k": ["jagx credit 340"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["jagx hybrid 340"], "a": "Online: packs + cloud LLM. Offline trained: Wakai on Drive."},
+  {"k": ["jagx api url"], "a": "Live API: https://jagx-ai-v2.onrender.com"},
+  {"k": ["jagx chat header"], "a": "Send header x-api-key with your permanent key."},
+  {"k": ["jagx health"], "a": "GET /health returns status ok when the service is up."},
+  {"k": ["jagx create key"], "a": "POST /create-key with admin_secret to mint a permanent key."},
+  {"k": ["jagx fast tip"], "a": "Warm service answers often under 1 second."},
+  {"k": ["jagx cold start"], "a": "After free-tier sleep, first request can be slower."},
+  {"k": ["jagx wakai 10k"], "a": "Recommended offline checkpoint: wakai_clean_step_10000.pt on Drive."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["yoruba hello"], "a": "Hello in Yoruba is Bawo or E kaaro (morning)."},
+  {"k": ["hausa hello"], "a": "Hello in Hausa is Sannu or Ina kwana."},
+  {"k": ["igbo hello"], "a": "Hello in Igbo is Ndewo or Kedu."},
+  {"k": ["pidgin how far"], "a": "How far in Nigerian Pidgin means how are you / what's up."},
+  {"k": ["pidgin abeg"], "a": "Abeg means please / I beg you in Pidgin."},
+  {"k": ["pidgin wahala"], "a": "Wahala means trouble or problem."},
+  {"k": ["pidgin sharp"], "a": "Sharp can mean okay, fine, or got it."},
+  {"k": ["pidgin oyibo"], "a": "Oyibo often means a white person or foreigner."},
+  {"k": ["pidgin jollof"], "a": "Jollof is a popular West African rice dish; Nigeria and Ghana debate who does it best."},
+  {"k": ["naija slang"], "a": "Naija is informal for Nigeria / Nigerian."}
+]

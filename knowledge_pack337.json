@@ -1,0 +1,12 @@
+[
+  {"k": ["chem atom"], "a": "An atom is the smallest unit of an element that retains its identity."},
+  {"k": ["chem molecule"], "a": "A molecule is two or more atoms bonded together."},
+  {"k": ["chem proton"], "a": "Protons are positive particles in the nucleus; the number defines the element."},
+  {"k": ["chem electron"], "a": "Electrons are negative particles that occupy shells around the nucleus."},
+  {"k": ["chem neutron"], "a": "Neutrons are neutral nuclear particles that add mass."},
+  {"k": ["chem ph"], "a": "pH measures acidity; 7 is neutral, lower is acidic, higher is basic."},
+  {"k": ["chem mole"], "a": "A mole is 6.022×10^23 particles (Avogadro's number)."},
+  {"k": ["chem reaction balance"], "a": "Balanced equations conserve atoms on both sides."},
+  {"k": ["chem covalent"], "a": "Covalent bonds share electron pairs between atoms."},
+  {"k": ["chem ionic"], "a": "Ionic bonds form by transfer of electrons between ions."}
+]

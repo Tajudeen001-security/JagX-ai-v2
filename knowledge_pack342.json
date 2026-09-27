@@ -1,0 +1,12 @@
+[
+  {"k": ["llm token"], "a": "A token is a chunk of text the model reads or generates."},
+  {"k": ["llm context window"], "a": "Context window is how many tokens the model can see at once."},
+  {"k": ["llm temperature"], "a": "Higher temperature makes sampling more random; lower is more deterministic."},
+  {"k": ["llm system prompt"], "a": "A system prompt steers overall behavior and identity."},
+  {"k": ["llm hallucination"], "a": "Hallucination is confident-sounding false output; verify critical facts."},
+  {"k": ["llm rag"], "a": "RAG retrieves documents and feeds them into the prompt for grounded answers."},
+  {"k": ["llm embedding"], "a": "Embeddings map text to vectors for search and similarity."},
+  {"k": ["llm fine tune"], "a": "Fine-tuning continues training on domain data to adapt a base model."},
+  {"k": ["llm inference"], "a": "Inference is running a trained model to produce outputs."},
+  {"k": ["llm rate limit"], "a": "Provider rate limits cap requests or tokens per minute/day."}
+]

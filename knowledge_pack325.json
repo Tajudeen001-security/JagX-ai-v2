@@ -1,0 +1,12 @@
+[
+  {"k": ["http 301"], "a": "301 Moved Permanently means the resource has a new permanent URL."},
+  {"k": ["http 302"], "a": "302 Found is a temporary redirect."},
+  {"k": ["http 304"], "a": "304 Not Modified means the client can use its cached copy."},
+  {"k": ["http 400"], "a": "400 Bad Request means the server could not understand the request."},
+  {"k": ["http 401"], "a": "401 Unauthorized means authentication is required or failed."},
+  {"k": ["http 403"], "a": "403 Forbidden means the server understood but refuses access."},
+  {"k": ["http 404"], "a": "404 Not Found means no resource at that path."},
+  {"k": ["http 405"], "a": "405 Method Not Allowed means that HTTP method is not supported for the resource."},
+  {"k": ["http 500"], "a": "500 Internal Server Error is a generic server-side failure."},
+  {"k": ["http 503"], "a": "503 Service Unavailable means the server is temporarily overloaded or down."}
+]

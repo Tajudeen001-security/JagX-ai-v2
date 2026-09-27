@@ -1,0 +1,12 @@
+[
+  {"k": ["ml supervised"], "a": "Supervised learning trains on labeled input-output pairs."},
+  {"k": ["ml unsupervised"], "a": "Unsupervised learning finds structure without labels (e.g. clustering)."},
+  {"k": ["ml overfitting"], "a": "Overfitting fits training data too closely and fails on new data."},
+  {"k": ["ml underfitting"], "a": "Underfitting is too simple to capture the real pattern."},
+  {"k": ["ml train test split"], "a": "Hold out a test set to estimate generalization."},
+  {"k": ["ml cross validation"], "a": "Cross-validation rotates folds to get a more stable score."},
+  {"k": ["ml feature"], "a": "A feature is an input variable used by a model."},
+  {"k": ["ml label"], "a": "A label is the target value the model should predict."},
+  {"k": ["ml loss"], "a": "Loss measures how wrong predictions are during training."},
+  {"k": ["ml gradient descent"], "a": "Gradient descent updates weights in the direction that reduces loss."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["python list comp"], "a": "[x*2 for x in nums if x>0] builds a list in one expression."},
+  {"k": ["python dict comp"], "a": "{k:v for k,v in pairs} builds a dictionary."},
+  {"k": ["python generator"], "a": "Generators yield items lazily with yield, saving memory."},
+  {"k": ["python with open"], "a": "with open(path) as f: ensures the file is closed."},
+  {"k": ["python pathlib"], "a": "pathlib.Path is the modern way to handle filesystem paths."},
+  {"k": ["python dataclass"], "a": "@dataclass auto-generates init and repr for simple data holders."},
+  {"k": ["python virtualenv"], "a": "A venv isolates project dependencies from the system Python."},
+  {"k": ["python pip freeze"], "a": "pip freeze > requirements.txt snapshots installed packages."},
+  {"k": ["python argparse"], "a": "argparse builds clean CLI argument parsing."},
+  {"k": ["python typing optional"], "a": "Optional[str] means str or None."}
+]

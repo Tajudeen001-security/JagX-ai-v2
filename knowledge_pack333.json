@@ -1,0 +1,12 @@
+[
+  {"k": ["security xss"], "a": "XSS injects scripts into pages other users see; escape output and use CSP."},
+  {"k": ["security csrf"], "a": "CSRF tricks a logged-in browser into unwanted actions; use tokens and SameSite cookies."},
+  {"k": ["security sqli"], "a": "SQL injection alters queries via input; use parameterized queries."},
+  {"k": ["security idor"], "a": "IDOR accesses objects by guessing ids without authorization checks."},
+  {"k": ["security secrets"], "a": "Never commit API keys; use env vars and secret managers."},
+  {"k": ["security https"], "a": "HTTPS encrypts traffic in transit with TLS."},
+  {"k": ["security least privilege"], "a": "Grant only the minimum permissions needed."},
+  {"k": ["security rate limit"], "a": "Rate limits slow brute force and abuse."},
+  {"k": ["security input validate"], "a": "Validate and constrain all untrusted input on the server."},
+  {"k": ["security dependency scan"], "a": "Scan dependencies for known vulnerabilities regularly."}
+]

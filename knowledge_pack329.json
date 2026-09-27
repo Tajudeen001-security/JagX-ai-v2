@@ -1,0 +1,12 @@
+[
+  {"k": ["big o o1"], "a": "O(1) means constant time regardless of input size."},
+  {"k": ["big o on"], "a": "O(n) means time grows linearly with input size."},
+  {"k": ["big o onlogn"], "a": "O(n log n) is typical of efficient comparison sorts like mergesort."},
+  {"k": ["big o on2"], "a": "O(n^2) often appears in nested loops over the same data."},
+  {"k": ["binary search"], "a": "Binary search finds a target in a sorted array in O(log n) time."},
+  {"k": ["hash map average"], "a": "Average lookup in a hash map is O(1); worst case can be O(n)."},
+  {"k": ["stack lilo"], "a": "Stack is LIFO: last in, first out."},
+  {"k": ["queue fifo"], "a": "Queue is FIFO: first in, first out."},
+  {"k": ["bfs vs dfs"], "a": "BFS explores level by level; DFS goes deep along one path first."},
+  {"k": ["dynamic programming"], "a": "DP solves overlapping subproblems by storing results of smaller problems."}
+]

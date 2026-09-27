@@ -1,0 +1,12 @@
+[
+  {"k": ["linux find name"], "a": "find . -name '*.py' lists Python files under the current tree."},
+  {"k": ["linux xargs"], "a": "xargs passes stdin items as arguments to another command."},
+  {"k": ["linux pipe"], "a": "cmd1 | cmd2 sends stdout of cmd1 to stdin of cmd2."},
+  {"k": ["linux redirect"], "a": "> overwrites a file; >> appends; 2> redirects stderr."},
+  {"k": ["linux chmod +x"], "a": "chmod +x script.sh makes a script executable."},
+  {"k": ["linux ssh"], "a": "ssh user@host opens a secure shell session."},
+  {"k": ["linux scp"], "a": "scp file user@host:path copies over SSH."},
+  {"k": ["linux tar czf"], "a": "tar -czf archive.tar.gz dir packs and compresses a directory."},
+  {"k": ["linux journalctl"], "a": "journalctl -u service shows logs for a systemd unit."},
+  {"k": ["linux systemctl"], "a": "systemctl status|start|stop|restart manages services."}
+]

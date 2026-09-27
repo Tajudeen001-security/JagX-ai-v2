@@ -1,0 +1,12 @@
+[
+  {"k": ["tagalog hello"], "a": "Hello in Tagalog is Kumusta or Magandang araw."},
+  {"k": ["tagalog thank you"], "a": "Thank you in Tagalog is Salamat; more polite is Maraming salamat."},
+  {"k": ["tagalog goodbye"], "a": "Goodbye in Tagalog is Paalam."},
+  {"k": ["tagalog yes no"], "a": "Yes is Oo; no is Hindi."},
+  {"k": ["tagalog please"], "a": "Please is often Pakiusap or use po for respect."},
+  {"k": ["tagalog i love you"], "a": "I love you in Tagalog is Mahal kita."},
+  {"k": ["tagalog how are you"], "a": "How are you? is Kumusta ka?"},
+  {"k": ["tagalog good morning"], "a": "Good morning is Magandang umaga."},
+  {"k": ["tagalog good night"], "a": "Good night is Magandang gabi."},
+  {"k": ["tagalog water"], "a": "Water in Tagalog is Tubig."}
+]

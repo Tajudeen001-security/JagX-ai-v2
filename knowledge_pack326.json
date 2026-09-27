@@ -1,0 +1,12 @@
+[
+  {"k": ["css flex center"], "a": "display:flex; justify-content:center; align-items:center centers a child."},
+  {"k": ["css grid basic"], "a": "display:grid; grid-template-columns:repeat(3,1fr) makes three equal columns."},
+  {"k": ["css rem vs em"], "a": "rem is relative to the root font size; em is relative to the parent."},
+  {"k": ["css box sizing"], "a": "box-sizing:border-box includes padding and border in the element's width."},
+  {"k": ["css media query"], "a": "@media (max-width:600px){...} applies styles on small screens."},
+  {"k": ["css z index"], "a": "z-index only works on positioned or flex/grid items; higher draws on top."},
+  {"k": ["css overflow"], "a": "overflow:hidden clips content; auto adds scrollbars when needed."},
+  {"k": ["css position sticky"], "a": "position:sticky toggles between relative and fixed based on scroll."},
+  {"k": ["css gap"], "a": "gap sets spacing between flex or grid items without margin hacks."},
+  {"k": ["css variables"], "a": "Custom properties like --color: #333; are used via var(--color)."}
+]

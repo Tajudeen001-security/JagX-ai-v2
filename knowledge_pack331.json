@@ -1,0 +1,12 @@
+[
+  {"k": ["git commit message"], "a": "Write a short imperative subject: Fix rate limit on chat endpoint."},
+  {"k": ["git branch"], "a": "git branch name creates a branch; git switch name checks it out."},
+  {"k": ["git merge"], "a": "git merge branch combines that branch into the current one."},
+  {"k": ["git rebase"], "a": "Rebase replays commits on top of another base for a linear history."},
+  {"k": ["git stash"], "a": "git stash temporarily shelves uncommitted changes."},
+  {"k": ["git cherry pick"], "a": "Cherry-pick applies a specific commit onto the current branch."},
+  {"k": ["git tag"], "a": "Tags mark releases; annotated tags store message and author."},
+  {"k": ["git ignore"], "a": ".gitignore lists files Git should not track."},
+  {"k": ["git conflict"], "a": "Resolve conflicts by editing markers, then add and commit."},
+  {"k": ["git force push warn"], "a": "Avoid force-pushing to shared main branches; it rewrites history."}
+]

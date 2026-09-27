@@ -1,0 +1,12 @@
+[
+  {"k": ["network ip"], "a": "An IP address identifies a host on a network."},
+  {"k": ["network dns"], "a": "DNS maps domain names to IP addresses."},
+  {"k": ["network tcp"], "a": "TCP is reliable, ordered, connection-oriented transport."},
+  {"k": ["network udp"], "a": "UDP is connectionless and fast but does not guarantee delivery."},
+  {"k": ["network http"], "a": "HTTP is the application protocol for web requests and responses."},
+  {"k": ["network port"], "a": "Ports distinguish services on the same host (e.g. 443 for HTTPS)."},
+  {"k": ["network firewall"], "a": "A firewall allows or blocks traffic by rules."},
+  {"k": ["network latency"], "a": "Latency is the delay for a packet or request to travel."},
+  {"k": ["network bandwidth"], "a": "Bandwidth is how much data can transfer per unit time."},
+  {"k": ["network cdn"], "a": "A CDN caches content closer to users to reduce latency."}
+]
