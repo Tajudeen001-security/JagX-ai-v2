@@ -1,0 +1,12 @@
+[
+  {"k": ["chem organic reaction types"], "a": "Common types include addition, substitution, elimination, and rearrangement."},
+  {"k": ["chem nucleophile electrophile"], "a": "Nucleophiles donate electrons; electrophiles accept electrons."},
+  {"k": ["chem isomer stereo"], "a": "Stereoisomers differ in spatial arrangement."},
+  {"k": ["chem chirality"], "a": "Chiral molecules are not superimposable on their mirror images."},
+  {"k": ["chem polymer addition"], "a": "Addition polymers form by adding monomers without byproducts."},
+  {"k": ["chem polymer condensation"], "a": "Condensation polymers form with loss of small molecules like water."},
+  {"k": ["chem biochemistry enzyme lock"], "a": "Lock-and-key and induced-fit models describe enzyme-substrate binding."},
+  {"k": ["chem dna base pairs"], "a": "A pairs with T; G pairs with C in DNA."},
+  {"k": ["chem rna base pairs"], "a": "In RNA, A pairs with U; G pairs with C."},
+  {"k": ["chem protein structure levels"], "a": "Primary, secondary, tertiary, and quaternary describe protein structure."}
+]

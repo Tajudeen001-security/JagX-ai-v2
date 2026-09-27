@@ -1,0 +1,12 @@
+[
+  {"k": ["css cascade layers tips"], "a": "Put resets in low layers and components in higher layers."},
+  {"k": ["css nesting media"], "a": "You can nest @media rules inside selectors with native nesting."},
+  {"k": ["css color mix space"], "a": "Specify color space in color-mix for predictable blends."},
+  {"k": ["css relative color syntax"], "a": "Relative colors derive channels from a base color."},
+  {"k": ["css light dark function"], "a": "light-dark(light, dark) picks based on color-scheme."},
+  {"k": ["css container name"], "a": "Name containers to target specific query contexts."},
+  {"k": ["css style queries"], "a": "Style queries react to computed custom properties on containers."},
+  {"k": ["css scroll driven animations"], "a": "Tie animation progress to scroll position."},
+  {"k": ["css view transitions same document"], "a": "Same-document view transitions animate DOM updates."},
+  {"k": ["css anchor positioning fallback"], "a": "Provide fallbacks when anchor positioning is unsupported."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["product discovery cadence"], "a": "A steady discovery cadence beats occasional big research projects."},
+  {"k": ["product assumption mapping"], "a": "Map assumptions by importance and uncertainty to prioritize tests."},
+  {"k": ["product prototype fidelity"], "a": "Match prototype fidelity to the risk you need to reduce."},
+  {"k": ["product usability test"], "a": "Watch users attempt tasks; note where they struggle."},
+  {"k": ["product aha moment"], "a": "The aha moment is when users first understand core value."},
+  {"k": ["product activation path"], "a": "Shorten the path from signup to aha moment."},
+  {"k": ["product habit loops"], "a": "Habit loops combine cue, action, and reward."},
+  {"k": ["product monetization fit"], "a": "Monetization should align with the value users receive."},
+  {"k": ["product expansion revenue"], "a": "Expansion revenue comes from upgrades and increased usage."},
+  {"k": ["product churn analysis"], "a": "Analyze why users leave and which segments churn most."}
+]

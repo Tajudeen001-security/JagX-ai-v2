@@ -1,0 +1,12 @@
+[
+  {"k": ["algo fenwick update"], "a": "Fenwick trees support point updates and prefix queries in log time."},
+  {"k": ["algo segment tree lazy"], "a": "Lazy propagation delays updates in segment trees for efficiency."},
+  {"k": ["algo trie autocomplete"], "a": "Tries power prefix search and autocomplete."},
+  {"k": ["algo union find path compression"], "a": "Path compression flattens trees for near-constant finds."},
+  {"k": ["algo kruskal sort edges"], "a": "Kruskal sorts edges by weight then adds non-cycle edges."},
+  {"k": ["algo dijkstra heap"], "a": "Dijkstra with a heap is efficient for non-negative weights."},
+  {"k": ["algo a star heuristic"], "a": "Admissible heuristics never overestimate true cost."},
+  {"k": ["algo topological cycle detect"], "a": "If topological sort cannot order all nodes, a cycle exists."},
+  {"k": ["algo bipartite color"], "a": "A graph is bipartite iff it is 2-colorable."},
+  {"k": ["algo scc"], "a": "Strongly connected components are maximal mutually reachable sets in digraphs."}
+]

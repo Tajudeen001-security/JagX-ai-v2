@@ -1,0 +1,12 @@
+[
+  {"k": ["security stride checklist"], "a": "Use STRIDE per component during threat modeling sessions."},
+  {"k": ["security abuse case login"], "a": "Abuse cases for login include credential stuffing and MFA fatigue."},
+  {"k": ["security rate limit auth"], "a": "Rate-limit authentication endpoints aggressively."},
+  {"k": ["security account lockout careful"], "a": "Lockouts can enable denial of service; prefer soft delays."},
+  {"k": ["security session fixation fix"], "a": "Rotate session identifiers after privilege changes."},
+  {"k": ["security csrf same site"], "a": "SameSite cookies reduce CSRF risk for many flows."},
+  {"k": ["security xss output encode"], "a": "Encode output for the correct context (HTML, JS, URL)."},
+  {"k": ["security sqli parameterized"], "a": "Parameterized queries are the primary SQLi defense."},
+  {"k": ["security secrets rotation drills"], "a": "Practice key rotation so emergencies are routine."},
+  {"k": ["security dependency update cadence"], "a": "Update dependencies regularly and review changelogs."}
+]

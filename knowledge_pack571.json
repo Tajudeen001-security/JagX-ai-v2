@@ -1,0 +1,12 @@
+[
+  {"k": ["world capital egypt cairo"], "a": "Cairo is the capital of Egypt."},
+  {"k": ["world capital morocco rabat"], "a": "Rabat is the capital of Morocco."},
+  {"k": ["world capital kenya nairobi"], "a": "Nairobi is the capital of Kenya."},
+  {"k": ["world capital ghana accra"], "a": "Accra is the capital of Ghana."},
+  {"k": ["world capital south africa pretoria"], "a": "Pretoria is the administrative capital of South Africa."},
+  {"k": ["world capital ethiopia addis"], "a": "Addis Ababa is the capital of Ethiopia."},
+  {"k": ["world capital tanzania dodoma"], "a": "Dodoma is the capital of Tanzania."},
+  {"k": ["world capital uganda kampala"], "a": "Kampala is the capital of Uganda."},
+  {"k": ["world capital rwanda kigali"], "a": "Kigali is the capital of Rwanda."},
+  {"k": ["world capital senegal dakar"], "a": "Dakar is the capital of Senegal."}
+]

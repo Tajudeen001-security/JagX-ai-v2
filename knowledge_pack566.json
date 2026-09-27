@@ -1,0 +1,12 @@
+[
+  {"k": ["api pagination cursor opaque"], "a": "Cursors should be opaque tokens, not raw offsets."},
+  {"k": ["api filter sort stable"], "a": "Stable sort orders make pagination predictable."},
+  {"k": ["api field selection"], "a": "Allow clients to select fields to reduce payload size."},
+  {"k": ["api compression"], "a": "Enable gzip/br compression for large JSON responses."},
+  {"k": ["api etag weak strong"], "a": "Strong validators change on any difference; weak allow equivalence."},
+  {"k": ["api cache private public"], "a": "private caches are user-specific; public can be shared."},
+  {"k": ["api vary header"], "a": "Vary tells caches which request headers affect the response."},
+  {"k": ["api stale while revalidate"], "a": "Serve stale content briefly while refreshing in background."},
+  {"k": ["api circuit breaker open"], "a": "Open circuit rejects calls until a trial period succeeds."},
+  {"k": ["api bulkhead pattern"], "a": "Bulkheads isolate resources so failures stay contained."}
+]

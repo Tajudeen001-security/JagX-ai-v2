@@ -1,0 +1,12 @@
+[
+  {"k": ["biology immune innate"], "a": "Innate immunity is the fast, general first line of defense."},
+  {"k": ["biology immune adaptive"], "a": "Adaptive immunity is specific and forms memory."},
+  {"k": ["biology antigen"], "a": "Antigens are molecules recognized by the immune system."},
+  {"k": ["biology antibody"], "a": "Antibodies bind antigens with high specificity."},
+  {"k": ["biology vaccine boosters"], "a": "Boosters reinforce immune memory over time."},
+  {"k": ["biology antibiotic vs antiviral"], "a": "Antibiotics target bacteria; antivirals target viruses."},
+  {"k": ["biology microbiome"], "a": "The microbiome is the community of microbes living on/in a host."},
+  {"k": ["biology homeostasis feedback"], "a": "Negative feedback loops stabilize internal conditions."},
+  {"k": ["biology circadian"], "a": "Circadian rhythms are roughly 24-hour biological cycles."},
+  {"k": ["biology ecology succession"], "a": "Ecological succession is community change over time after disturbance."}
+]

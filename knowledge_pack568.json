@@ -1,0 +1,12 @@
+[
+  {"k": ["testing property based hypothesis"], "a": "Hypothesis is a popular property-based testing library for Python."},
+  {"k": ["testing fuzz coverage"], "a": "Coverage-guided fuzzers prioritize inputs that explore new paths."},
+  {"k": ["testing differential testing"], "a": "Differential testing compares outputs of two implementations."},
+  {"k": ["testing metamorphic"], "a": "Metamorphic testing uses relations between inputs and outputs."},
+  {"k": ["testing fault injection"], "a": "Fault injection deliberately triggers error paths."},
+  {"k": ["testing canary users"], "a": "Canary users receive new versions first for real-world signal."},
+  {"k": ["testing dark launch"], "a": "Dark launches run new code without exposing results to users."},
+  {"k": ["testing feature flag test"], "a": "Test both flag on and flag off paths."},
+  {"k": ["testing observability assertions"], "a": "Assert that critical operations emit expected metrics/logs."},
+  {"k": ["testing production traffic replay"], "a": "Traffic replay tests new versions against recorded requests carefully."}
+]

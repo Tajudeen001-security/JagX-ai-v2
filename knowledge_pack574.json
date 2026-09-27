@@ -1,0 +1,12 @@
+[
+  {"k": ["python itertools chain"], "a": "chain connects multiple iterables end to end."},
+  {"k": ["python itertools cycle"], "a": "cycle repeats an iterable endlessly."},
+  {"k": ["python itertools islice"], "a": "islice slices an iterator without converting to a list."},
+  {"k": ["python itertools compress"], "a": "compress filters items using a selector iterable."},
+  {"k": ["python itertools accumulate"], "a": "accumulate yields running totals or other binary reductions."},
+  {"k": ["python collections deque"], "a": "deque supports fast appends/pops from both ends."},
+  {"k": ["python collections chainmap"], "a": "ChainMap groups multiple mappings into one view."},
+  {"k": ["python heapq"], "a": "heapq implements a binary heap priority queue."},
+  {"k": ["python bisect"], "a": "bisect maintains sorted lists via binary search insertion."},
+  {"k": ["python array module"], "a": "array stores compact typed numeric sequences."}
+]

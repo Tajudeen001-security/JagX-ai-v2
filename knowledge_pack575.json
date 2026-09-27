@@ -1,0 +1,12 @@
+[
+  {"k": ["js node permissions"], "a": "Permission models can restrict filesystem and network access."},
+  {"k": ["js node test runner"], "a": "node --test runs the built-in test runner."},
+  {"k": ["js node watch mode"], "a": "node --watch restarts on file changes."},
+  {"k": ["js package.json type module"], "a": "\"type\": \"module\" enables ESM by default in a package."},
+  {"k": ["js dual package hazard"], "a": "Shipping both CJS and ESM needs careful export design."},
+  {"k": ["js fetch keepalive"], "a": "keepalive allows requests to outlive a page briefly."},
+  {"k": ["js streams api"], "a": "WHATWG Streams handle incremental data processing."},
+  {"k": ["js compression streams"], "a": "CompressionStream can gzip/deflate data in browsers/runtimes."},
+  {"k": ["js webcrypto"], "a": "Web Crypto provides cryptographic operations in JS environments."},
+  {"k": ["js indexeddb"], "a": "IndexedDB is a browser database for larger structured data."}
+]

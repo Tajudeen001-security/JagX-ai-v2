@@ -1,0 +1,12 @@
+[
+  {"k": ["design pattern ports adapters"], "a": "Ports define interfaces; adapters implement them for external systems."},
+  {"k": ["design pattern domain events"], "a": "Domain events record meaningful business state changes."},
+  {"k": ["design pattern aggregate"], "a": "Aggregates are consistency boundaries in domain-driven design."},
+  {"k": ["design pattern value object"], "a": "Value objects are defined by attributes, not identity."},
+  {"k": ["design pattern entity"], "a": "Entities have identity that persists through attribute changes."},
+  {"k": ["design pattern bounded context"], "a": "Bounded contexts define model boundaries in large systems."},
+  {"k": ["design pattern context map"], "a": "Context maps show relationships between bounded contexts."},
+  {"k": ["design pattern acl"], "a": "Anti-corruption layers protect a model from external models."},
+  {"k": ["design pattern modular monolith"], "a": "Modular monoliths keep modules separate inside one deployable."},
+  {"k": ["design pattern service template"], "a": "Service templates standardize new microservice scaffolding."}
+]

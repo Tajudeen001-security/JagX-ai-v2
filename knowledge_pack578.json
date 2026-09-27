@@ -1,0 +1,12 @@
+[
+  {"k": ["sql explain analyze buffers"], "a": "BUFFERS shows shared hits/reads for I/O insight."},
+  {"k": ["sql sequential scan large"], "a": "Large seq scans may indicate missing indexes."},
+  {"k": ["sql index only scan heap fetches"], "a": "Heap fetches happen when visibility info is insufficient."},
+  {"k": ["sql autovacuum tuning"], "a": "Tune autovacuum for high-churn tables carefully."},
+  {"k": ["sql partition pruning"], "a": "Partition pruning skips irrelevant partitions at plan time."},
+  {"k": ["sql declarative partitioning"], "a": "Declarative partitioning is preferred over inheritance hacks."},
+  {"k": ["sql foreign keys indexes"], "a": "Index foreign key columns to speed joins and cascades."},
+  {"k": ["sql covering index include"], "a": "INCLUDE columns can enable index-only scans."},
+  {"k": ["sql concurrent index"], "a": "CREATE INDEX CONCURRENTLY avoids long exclusive locks."},
+  {"k": ["sql replication slots"], "a": "Replication slots prevent WAL removal still needed by replicas."}
+]

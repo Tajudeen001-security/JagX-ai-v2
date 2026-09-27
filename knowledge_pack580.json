@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 580"], "a": "Local knowledge packs have reached pack 580."},
+  {"k": ["jagx credit 580"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 260"], "a": "About 260 packs added toward the 300 expansion goal."},
+  {"k": ["math series taylor remainder"], "a": "Remainder terms bound the error of Taylor approximations."},
+  {"k": ["math power series radius"], "a": "Radius of convergence is the distance to the nearest singularity."},
+  {"k": ["math fourier series"], "a": "Fourier series expand periodic functions as sinusoid sums."},
+  {"k": ["math pde heat"], "a": "The heat equation models diffusion of temperature."},
+  {"k": ["math pde wave"], "a": "The wave equation models vibrating strings and similar systems."},
+  {"k": ["math numerical methods"], "a": "Numerical methods approximate solutions when closed forms are hard."},
+  {"k": ["math monte carlo"], "a": "Monte Carlo methods use random sampling to estimate quantities."}
+]

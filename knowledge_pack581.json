@@ -1,0 +1,12 @@
+[
+  {"k": ["physics semiconductors doping"], "a": "Doping adds impurities to control semiconductor charge carriers."},
+  {"k": ["physics p n junction"], "a": "P-N junctions are the basis of diodes."},
+  {"k": ["physics led"], "a": "LEDs emit light when electrons recombine across a junction."},
+  {"k": ["physics solar cell"], "a": "Solar cells convert light into electrical energy."},
+  {"k": ["physics transistor switch"], "a": "Transistors can act as electronic switches."},
+  {"k": ["physics logic cmos"], "a": "CMOS logic uses complementary MOSFETs for low power digital circuits."},
+  {"k": ["physics radioactivity half life"], "a": "Half-life is characteristic of each radioisotope."},
+  {"k": ["physics nuclear binding energy"], "a": "Binding energy per nucleon relates to nuclear stability."},
+  {"k": ["physics particle accelerator"], "a": "Accelerators boost charged particles to high energies for research."},
+  {"k": ["physics cosmology cmb"], "a": "The cosmic microwave background is leftover radiation from the early universe."}
+]

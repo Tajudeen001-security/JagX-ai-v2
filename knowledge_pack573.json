@@ -1,0 +1,12 @@
+[
+  {"k": ["system design cache aside pattern"], "a": "App reads cache; on miss loads DB and populates cache."},
+  {"k": ["system design write through"], "a": "Write-through writes cache and DB together."},
+  {"k": ["system design write back"], "a": "Write-back writes cache first and flushes to DB later."},
+  {"k": ["system design read through"], "a": "Read-through cache loads DB on miss on behalf of the app."},
+  {"k": ["system design ttl jitter"], "a": "Add jitter to TTLs to avoid synchronized expirations."},
+  {"k": ["system design negative caching"], "a": "Cache misses briefly to avoid repeated expensive lookups."},
+  {"k": ["system design multi layer cache"], "a": "L1 local + L2 shared caches balance speed and coherence."},
+  {"k": ["system design cache invalidation"], "a": "Invalidation is hard; prefer TTLs or event-driven deletes."},
+  {"k": ["system design hot key"], "a": "Hot keys need special handling like replication or local cache."},
+  {"k": ["system design thundering herd"], "a": "Thundering herd is many clients retrying a failed resource together."}
+]

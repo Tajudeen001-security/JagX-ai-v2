@@ -1,0 +1,12 @@
+[
+  {"k": ["devops dora deploy frequency"], "a": "Higher deployment frequency often correlates with better delivery performance."},
+  {"k": ["devops change lead time"], "a": "Short lead times mean code reaches production quickly."},
+  {"k": ["devops mttr reduce"], "a": "Reduce MTTR with good observability and practiced response."},
+  {"k": ["devops change fail improve"], "a": "Lower change fail rate with better tests and progressive delivery."},
+  {"k": ["devops platform team"], "a": "Platform teams productize internal developer experience."},
+  {"k": ["devops idp"], "a": "Internal Developer Platforms provide paved roads for shipping."},
+  {"k": ["devops self service deploy"], "a": "Self-service deploys reduce handoff delays."},
+  {"k": ["devops policy bots"], "a": "Policy bots enforce standards in PRs automatically."},
+  {"k": ["devops finops"], "a": "FinOps brings financial accountability to cloud spending."},
+  {"k": ["devops carbon awareness"], "a": "Some teams schedule workloads for lower-carbon times/regions."}
+]

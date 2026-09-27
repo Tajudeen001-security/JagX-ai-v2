@@ -1,0 +1,12 @@
+[
+  {"k": ["chem electrochemistry anode"], "a": "Oxidation occurs at the anode."},
+  {"k": ["chem electrochemistry cathode"], "a": "Reduction occurs at the cathode."},
+  {"k": ["chem cell potential"], "a": "E°cell = E°cathode - E°anode (using reduction potentials)."},
+  {"k": ["chem nernst equation"], "a": "Nernst equation adjusts cell potential for nonstandard conditions."},
+  {"k": ["chem electrolysis applications"], "a": "Electrolysis is used in plating, refining, and producing chemicals."},
+  {"k": ["chem corrosion"], "a": "Corrosion is unwanted oxidation of metals."},
+  {"k": ["chem galvanization"], "a": "Galvanization coats steel with zinc to reduce corrosion."},
+  {"k": ["chem batteries"], "a": "Batteries convert chemical energy to electrical energy."},
+  {"k": ["chem fuel cells"], "a": "Fuel cells generate electricity from continuous fuel and oxidant supply."},
+  {"k": ["chem electrolysis faraday"], "a": "Faraday's laws relate charge passed to amount of substance transformed."}
+]
