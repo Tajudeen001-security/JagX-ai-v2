@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi depends"], "a": "Depends() injects shared logic like auth and DB sessions into routes."},
+  {"k": ["fastapi pydantic"], "a": "Request/response models validate and document JSON schemas automatically."},
+  {"k": ["fastapi background tasks"], "a": "BackgroundTasks run work after the response is sent."},
+  {"k": ["fastapi middleware"], "a": "Middleware wraps requests for logging, CORS, auth, and timing."},
+  {"k": ["uvicorn workers"], "a": "Multiple worker processes increase concurrency for CPU-bound or multi-core hosts."},
+  {"k": ["fastapi lifespan"], "a": "Lifespan handlers start/stop resources when the app boots and shuts down."},
+  {"k": ["openapi fastapi"], "a": "FastAPI generates OpenAPI docs at /docs and /redoc by default."},
+  {"k": ["fastapi upload file"], "a": "Use UploadFile for streaming uploads with size validation."},
+  {"k": ["fastapi websocket"], "a": "Native WebSocket routes support interactive bidirectional channels."},
+  {"k": ["fastapi security oauth2"], "a": "Built-in security utilities help implement OAuth2 password and bearer flows."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 280"], "a": "JagX knowledge packs continue past 280 with engineering and product ops coverage."},
+  {"k": ["jagx train kit"], "a": "Training uses the JagX-AI repo on Kaggle/Colab; save checkpoints to Drive every session."},
+  {"k": ["jagx api still packs"], "a": "Render API serves chat via packs + cloud LLM even without a local checkpoint."},
+  {"k": ["jagx resume training"], "a": "Resume with scripts/kaggle_train.py --resume path/to/step-*.pt after copying checkpoints."},
+  {"k": ["jagx free gpu"], "a": "Free GPU options include Kaggle T4 and limited Colab sessions — export weights before idle timeout."},
+  {"k": ["jagx identity packs"], "a": "JagX AI by JagX & JRILICENSE."},
+  {"k": ["jagx permanent key reminder"], "a": "Permanent API keys should live in JAGX_PERMANENT_KEYS so disk resets do not delete them."},
+  {"k": ["jagx health ping"], "a": "Schedule /health pings to reduce Render free-tier cold starts."},
+  {"k": ["jagx hybrid"], "a": "Local packs = speed; trained model later = offline generation quality."},
+  {"k": ["jagx next packs"], "a": "Keep adding knowledge_packN.json files; loader picks them up after redeploy."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["postgres explain"], "a": "EXPLAIN shows the planner's chosen query plan without running it fully."},
+  {"k": ["postgres vacuum"], "a": "VACUUM reclaims dead row space; ANALYZE updates statistics for the planner."},
+  {"k": ["postgres connection limit"], "a": "Each connection costs memory; use pooling (PgBouncer) for many clients."},
+  {"k": ["postgres jsonb operators"], "a": "Use @>, ->, ->> and GIN indexes for efficient JSONB queries."},
+  {"k": ["postgres partial index"], "a": "Index only rows matching a WHERE clause to keep indexes smaller."},
+  {"k": ["postgres advisory lock"], "a": "Application-level locks coordinated through PostgreSQL."},
+  {"k": ["postgres listen notify"], "a": "Simple pub/sub notifications inside the database."},
+  {"k": ["postgres replication"], "a": "Streaming replication provides read replicas and failover options."},
+  {"k": ["postgres partitioning"], "a": "Split large tables by range/list/hash for manageability and performance."},
+  {"k": ["postgres prepared statements"], "a": "Plan once and execute safely with bound parameters."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["pytest basics"], "a": "pytest discovers test_*.py functions and asserts expected behavior."},
+  {"k": ["unittest mock"], "a": "unittest.mock patches dependencies for isolated unit tests."},
+  {"k": ["fixture pytest"], "a": "Fixtures provide reusable setup/teardown for tests."},
+  {"k": ["parametrized test"], "a": "Run the same test logic across many input cases."},
+  {"k": ["coverage.py"], "a": "Measures which lines executed during tests — not proof of quality alone."},
+  {"k": ["mutation testing idea"], "a": "Mutate code slightly; weak tests fail to catch mutants."},
+  {"k": ["contract test pact"], "a": "Consumer-driven contracts verify provider compatibility."},
+  {"k": ["snapshot test ui"], "a": "Compare rendered output to a stored baseline."},
+  {"k": ["flaky test quarantine"], "a": "Isolate flaky tests, fix root causes, do not ignore forever."},
+  {"k": ["test data factories"], "a": "Factories build valid domain objects without brittle fixtures."}
+]

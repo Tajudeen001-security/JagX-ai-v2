@@ -1,0 +1,12 @@
+[
+  {"k": ["blue green deploy"], "a": "Run two environments; switch traffic from blue to green after validation."},
+  {"k": ["canary deploy"], "a": "Send a small percentage of traffic to the new version first."},
+  {"k": ["rolling update"], "a": "Gradually replace instances with the new version."},
+  {"k": ["feature flag deploy"], "a": "Deploy code dark and enable features with flags."},
+  {"k": ["rollback plan"], "a": "Every release should have a tested way to revert quickly."},
+  {"k": ["database migration expand contract"], "a": "Expand schema compatibly, dual-write, switch reads, then contract old fields."},
+  {"k": ["deploy health checks"], "a": "Use readiness/liveness probes so traffic only hits healthy instances."},
+  {"k": ["immutable infrastructure"], "a": "Replace servers/images instead of mutating them in place."},
+  {"k": ["gitops deploy"], "a": "Desired state lives in Git; controllers sync clusters to match."},
+  {"k": ["smoke test post deploy"], "a": "Run critical-path checks immediately after each release."}
+]

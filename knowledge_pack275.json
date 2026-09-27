@@ -1,0 +1,12 @@
+[
+  {"k": ["what is oauth device flow"], "a": "Device code flow lets TVs/CLIs authorize via a browser on another device."},
+  {"k": ["refresh token theft"], "a": "Rotate refresh tokens and detect reuse to limit stolen-token damage."},
+  {"k": ["audience claim jwt"], "a": "aud must match the intended API; reject tokens for other audiences."},
+  {"k": ["issuer claim jwt"], "a": "iss identifies the auth server; verify it against an allowlist."},
+  {"k": ["scope least privilege"], "a": "Request and grant only the OAuth scopes required for the task."},
+  {"k": ["public client secret"], "a": "Public clients cannot keep secrets; use PKCE instead of client secrets."},
+  {"k": ["resource indicator"], "a": "RFC 8707 resource indicators bind tokens to specific APIs."},
+  {"k": ["token binding idea"], "a": "Sender-constraining tokens (DPoP/mTLS) reduces pure bearer-token theft risk."},
+  {"k": ["logout oidc"], "a": "RP-initiated logout ends the app session and optionally the IdP session."},
+  {"k": ["session vs token auth"], "a": "Sessions are server-side and easier to revoke; tokens are often stateless."}
+]

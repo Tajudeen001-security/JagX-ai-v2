@@ -1,0 +1,12 @@
+[
+  {"k": ["owasp top 10 idea"], "a": "A widely used list of critical web application security risks."},
+  {"k": ["broken access control"], "a": "Users can act outside their permissions — always enforce authorization server-side."},
+  {"k": ["cryptographic failures"], "a": "Weak or missing encryption for sensitive data at rest or in transit."},
+  {"k": ["injection owasp"], "a": "Untrusted input interpreted as code/query — use parameterization and encoding."},
+  {"k": ["insecure design"], "a": "Missing security controls in architecture and threat modeling."},
+  {"k": ["security misconfiguration"], "a": "Defaults, open ports, verbose errors, and unused features left enabled."},
+  {"k": ["vulnerable components"], "a": "Outdated libraries with known CVEs — scan and patch dependencies."},
+  {"k": ["auth failures owasp"], "a": "Weak passwords, missing MFA, session issues, credential stuffing gaps."},
+  {"k": ["software data integrity"], "a": "Unsigned updates, insecure CI/CD, and untrusted deserialization."},
+  {"k": ["logging monitoring failures"], "a": "Missing logs and alerts delay detection of attacks."}
+]

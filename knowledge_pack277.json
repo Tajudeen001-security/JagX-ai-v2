@@ -1,0 +1,12 @@
+[
+  {"k": ["redis cache aside"], "a": "App reads cache; on miss loads DB and fills cache."},
+  {"k": ["redis ttl strategy"], "a": "Set TTLs to bound staleness and memory growth."},
+  {"k": ["redis stampede"], "a": "Prevent many clients rebuilding the same missing key simultaneously."},
+  {"k": ["redis sorted set leaderboard"], "a": "ZADD/ZRANGE power ranked leaderboards efficiently."},
+  {"k": ["redis streams"], "a": "Append-only log structure with consumer groups."},
+  {"k": ["redis pubsub limits"], "a": "Pub/Sub is fire-and-forget; not a durable queue."},
+  {"k": ["redis persistence rdb aof"], "a": "RDB snapshots and AOF logs trade durability vs performance."},
+  {"k": ["redis cluster slot"], "a": "Cluster shards keys across 16384 hash slots."},
+  {"k": ["redis lua atomic"], "a": "Lua scripts run atomically for multi-key logic on one node."},
+  {"k": ["redis memory policy"], "a": "maxmemory-policy controls eviction under pressure (e.g. allkeys-lru)."}
+]

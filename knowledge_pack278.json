@@ -1,0 +1,12 @@
+[
+  {"k": ["http2 multiplexing"], "a": "Multiple streams share one TCP connection, reducing connection overhead."},
+  {"k": ["http3 quic"], "a": "HTTP/3 runs on QUIC/UDP for faster connection setup and less head-of-line blocking."},
+  {"k": ["tls handshake"], "a": "TLS negotiates keys and authenticates the server (and optionally the client)."},
+  {"k": ["certificate transparency"], "a": "CT logs public certificates to detect mis-issuance."},
+  {"k": ["hsts preload"], "a": "HSTS forces HTTPS; preload lists harden first-visit protection."},
+  {"k": ["cdn cache hit"], "a": "A cache hit serves from the edge without contacting origin."},
+  {"k": ["origin shield"], "a": "An intermediate cache layer reduces stampedes to origin."},
+  {"k": ["brotli gzip"], "a": "Brotli/gzip compress text responses to save bandwidth."},
+  {"k": ["etag caching"], "a": "ETags enable conditional requests that return 304 when unchanged."},
+  {"k": ["vary header cache"], "a": "Vary tells shared caches which request headers change the response."}
+]

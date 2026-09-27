@@ -1,0 +1,12 @@
+[
+  {"k": ["what is sla"], "a": "An SLA is a service-level agreement defining uptime/latency targets and consequences."},
+  {"k": ["what is sli"], "a": "An SLI is a service-level indicator — a measured metric like success rate or latency."},
+  {"k": ["what is slo"], "a": "An SLO is a service-level objective — the target value for an SLI."},
+  {"k": ["error budget"], "a": "Error budget is the allowed unreliability derived from the SLO."},
+  {"k": ["mttr mtbf"], "a": "MTTR is mean time to repair; MTBF is mean time between failures."},
+  {"k": ["blameless postmortem"], "a": "Focus on systems and process failures, not personal blame, to improve reliability."},
+  {"k": ["runbook"], "a": "A runbook lists step-by-step actions for operating and recovering a system."},
+  {"k": ["toil reduction"], "a": "Automate repetitive operational work so engineers focus on engineering."},
+  {"k": ["oncall rotation"], "a": "Rotate on-call duty fairly with clear handoffs and escalation paths."},
+  {"k": ["change freeze"], "a": "A temporary pause on risky deploys during critical business periods."}
+]
