@@ -1,0 +1,12 @@
+[
+  {"k": ["french i love you"], "a": "Je t'aime."},
+  {"k": ["spanish i love you"], "a": "Te quiero / Te amo."},
+  {"k": ["arabic i love you"], "a": "Uhibbuka/Uhibbuki (أحبك)."},
+  {"k": ["chinese i love you"], "a": "我爱你 (Wǒ ài nǐ)."},
+  {"k": ["hindi i love you"], "a": "मैं तुमसे प्यार करता/करती हूँ."},
+  {"k": ["portuguese i love you"], "a": "Eu te amo."},
+  {"k": ["german i love you"], "a": "Ich liebe dich."},
+  {"k": ["japanese i love you"], "a": "愛してる (Aishiteru) / 好きです (Suki desu)."},
+  {"k": ["korean i love you"], "a": "사랑해 (Saranghae) / 사랑합니다."},
+  {"k": ["swahili i love you"], "a": "Nakupenda."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["french how are you"], "a": "Comment ça va? / Comment allez-vous? (formal)."},
+  {"k": ["spanish how are you"], "a": "¿Cómo estás? / ¿Cómo está usted? (formal)."},
+  {"k": ["arabic how are you"], "a": "Kayfa haluka/haluki? (كيف حالك؟)."},
+  {"k": ["chinese how are you"], "a": "你好吗？ (Nǐ hǎo ma?)."},
+  {"k": ["hindi how are you"], "a": "आप कैसे हैं? (Aap kaise hain?)."},
+  {"k": ["portuguese how are you"], "a": "Como vai? / Tudo bem?"},
+  {"k": ["german how are you"], "a": "Wie geht's? / Wie geht es Ihnen? (formal)."},
+  {"k": ["japanese how are you"], "a": "お元気ですか？ (Ogenki desu ka?)."},
+  {"k": ["korean how are you"], "a": "잘 지내세요? (Jal jinaeseyo?)."},
+  {"k": ["swahili how are you"], "a": "Habari gani? / Hujambo?"}
+]

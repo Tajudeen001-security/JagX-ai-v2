@@ -1,0 +1,12 @@
+[
+  {"k": ["french yes no"], "a": "Yes = Oui; No = Non."},
+  {"k": ["spanish yes no"], "a": "Yes = Sí; No = No."},
+  {"k": ["arabic yes no"], "a": "Yes = Na'am (نعم); No = La (لا)."},
+  {"k": ["chinese yes no"], "a": "Yes ≈ 是 / 对; No ≈ 不 / 不是."},
+  {"k": ["hindi yes no"], "a": "Yes = हाँ (Haan); No = नहीं (Nahi)."},
+  {"k": ["portuguese yes no"], "a": "Yes = Sim; No = Não."},
+  {"k": ["german yes no"], "a": "Yes = Ja; No = Nein."},
+  {"k": ["japanese yes no"], "a": "Yes = はい (Hai); No = いいえ (Iie)."},
+  {"k": ["korean yes no"], "a": "Yes = 네 (Ne); No = 아니요 (Aniyo)."},
+  {"k": ["swahili yes no"], "a": "Yes = Ndiyo; No = Hapana."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["french thank you"], "a": "Thank you in French is Merci; more polite Merci beaucoup."},
+  {"k": ["spanish thank you"], "a": "Thank you in Spanish is Gracias."},
+  {"k": ["arabic thank you"], "a": "Thank you in Arabic is Shukran (شكراً)."},
+  {"k": ["chinese thank you"], "a": "Thank you in Mandarin is 谢谢 (Xièxie)."},
+  {"k": ["hindi thank you"], "a": "Thank you in Hindi is धन्यवाद (Dhanyavaad)."},
+  {"k": ["portuguese thank you"], "a": "Thank you in Portuguese is Obrigado (m) / Obrigada (f)."},
+  {"k": ["german thank you"], "a": "Thank you in German is Danke."},
+  {"k": ["japanese thank you"], "a": "Thank you in Japanese is ありがとう (Arigatou) / ありがとうございます."},
+  {"k": ["korean thank you"], "a": "Thank you in Korean is 감사합니다 (Gamsahamnida)."},
+  {"k": ["swahili thank you"], "a": "Thank you in Swahili is Asante / Asante sana."}
+]

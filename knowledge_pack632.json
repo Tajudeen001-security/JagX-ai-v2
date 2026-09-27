@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx languages enabled"], "a": "Multilingual mode is enabled: match user language; translate on request."},
+  {"k": ["packs 632 languages"], "a": "Language helper packs include major world and Nigerian languages."},
+  {"k": ["cloud model translates"], "a": "Full sentence translation uses the cloud LLM; local packs cover common phrases."},
+  {"k": ["not limited to list"], "a": "The listed languages are examples; other languages still work via the model."},
+  {"k": ["ask translation format"], "a": "Best format: Translate to <lang>: <text>"},
+  {"k": ["ask reply format"], "a": "Best format: Reply in <lang>: <question>"},
+  {"k": ["coding stays english code"], "a": "Code identifiers stay in programming syntax; explanations can be any language."},
+  {"k": ["jagx credit 632"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["redeploy for languages"], "a": "After deploy, new system prompt and language packs go live."},
+  {"k": ["test language"], "a": "Try: Kumusta ka? or Comment ça va? or How far?"}
+]

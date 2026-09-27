@@ -1,0 +1,12 @@
+[
+  {"k": ["languages jagx supports"], "a": "JagX can chat and translate across many languages via its cloud model, including major world and Nigerian languages."},
+  {"k": ["how to switch language"], "a": "Just write in that language, or say 'reply in <language>' or 'translate to <language>'."},
+  {"k": ["translate please"], "a": "Format: Translate to <language>: <your text>"},
+  {"k": ["detect language"], "a": "JagX detects the language you write in and answers in the same one by default."},
+  {"k": ["mix languages"], "a": "You can mix languages in one chat; say which language you want for the answer."},
+  {"k": ["code language vs human language"], "a": "Programming languages (Python, JS) are separate from human languages (English, Tagalog)."},
+  {"k": ["utf8 support"], "a": "JagX accepts Unicode text so accents, Arabic, Chinese, and emoji work."},
+  {"k": ["romanization"], "a": "If you need Latin letters for another script, ask for romanization."},
+  {"k": ["formal informal"], "a": "Ask for formal or informal tone when translating (e.g. formal Japanese)."},
+  {"k": ["jagx multilingual credit"], "a": "Multilingual JagX AI — built by JagX and JRILICENSE."}
+]

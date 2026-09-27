@@ -1,0 +1,12 @@
+[
+  {"k": ["french goodbye"], "a": "Goodbye in French is Au revoir."},
+  {"k": ["spanish goodbye"], "a": "Goodbye in Spanish is Adiós or Hasta luego."},
+  {"k": ["arabic goodbye"], "a": "Goodbye in Arabic is Ma'a as-salama (مع السلامة)."},
+  {"k": ["chinese goodbye"], "a": "Goodbye in Mandarin is 再见 (Zàijiàn)."},
+  {"k": ["hindi goodbye"], "a": "Goodbye in Hindi is अलविदा (Alvida) or फिर मिलेंगे."},
+  {"k": ["portuguese goodbye"], "a": "Goodbye in Portuguese is Tchau or Adeus."},
+  {"k": ["german goodbye"], "a": "Goodbye in German is Auf Wiedersehen or Tschüss."},
+  {"k": ["japanese goodbye"], "a": "Goodbye in Japanese is さようなら (Sayounara) or またね."},
+  {"k": ["korean goodbye"], "a": "Goodbye in Korean is 안녕히 가세요 (leaving) / 안녕히 계세요 (staying)."},
+  {"k": ["swahili goodbye"], "a": "Goodbye in Swahili is Kwaheri."}
+]

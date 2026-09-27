@@ -1,0 +1,12 @@
+[
+  {"k": ["yoruba good morning"], "a": "Ẹ káàárọ̀ means good morning in Yoruba."},
+  {"k": ["yoruba good afternoon"], "a": "Ẹ káàsán means good afternoon in Yoruba."},
+  {"k": ["yoruba good evening"], "a": "Ẹ káalẹ́ means good evening in Yoruba."},
+  {"k": ["hausa good morning"], "a": "Ina kwana means good morning in Hausa."},
+  {"k": ["hausa good afternoon"], "a": "Ina wuni means good afternoon/day in Hausa."},
+  {"k": ["igbo good morning"], "a": "Ị bọọla chi means good morning in Igbo."},
+  {"k": ["igbo how are you"], "a": "Kedu ka ị mere? means how are you in Igbo."},
+  {"k": ["yoruba how are you"], "a": "Báwo ni? means how are you in Yoruba."},
+  {"k": ["hausa how are you"], "a": "Yaya kake/kike? means how are you in Hausa."},
+  {"k": ["pidgin how you dey"], "a": "How you dey? means how are you in Pidgin."}
+]

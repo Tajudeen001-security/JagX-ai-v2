@@ -1,0 +1,12 @@
+[
+  {"k": ["multilingual", "all languages", "any language"], "a": "JagX AI is multilingual. Write in any language and it will reply in that language, or translate when you ask."},
+  {"k": ["translate to french"], "a": "Ask: Translate to French: <text>. Example hello → Bonjour."},
+  {"k": ["translate to spanish"], "a": "Ask: Translate to Spanish: <text>. Example hello → Hola."},
+  {"k": ["translate to arabic"], "a": "Ask: Translate to Arabic: <text>. Example hello → مرحبا / السلام عليكم."},
+  {"k": ["translate to chinese"], "a": "Ask: Translate to Chinese: <text>. Example hello → 你好."},
+  {"k": ["translate to hindi"], "a": "Ask: Translate to Hindi: <text>. Example hello → नमस्ते."},
+  {"k": ["translate to portuguese"], "a": "Ask: Translate to Portuguese: <text>. Example hello → Olá."},
+  {"k": ["translate to german"], "a": "Ask: Translate to German: <text>. Example hello → Hallo / Guten Tag."},
+  {"k": ["translate to japanese"], "a": "Ask: Translate to Japanese: <text>. Example hello → こんにちは."},
+  {"k": ["translate to korean"], "a": "Ask: Translate to Korean: <text>. Example hello → 안녕하세요."}
+]

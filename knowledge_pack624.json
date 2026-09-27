@@ -1,0 +1,12 @@
+[
+  {"k": ["translate to swahili"], "a": "Hello in Swahili: Habari / Jambo. Thank you: Asante."},
+  {"k": ["translate to yoruba"], "a": "Hello in Yoruba: Bawo / Ẹ káàárọ̀ (morning). Thank you: Ẹ ṣé."},
+  {"k": ["translate to hausa"], "a": "Hello in Hausa: Sannu. Thank you: Na gode."},
+  {"k": ["translate to igbo"], "a": "Hello in Igbo: Ndewo / Kedu. Thank you: Daalụ."},
+  {"k": ["translate to tagalog"], "a": "Hello in Tagalog: Kumusta. Thank you: Salamat."},
+  {"k": ["translate to pidgin"], "a": "Hello in Pidgin: How far. Thank you: Thank you / Thank you sha."},
+  {"k": ["reply in french"], "a": "Write your question in French or say 'reply in French' and JagX will answer in French."},
+  {"k": ["reply in spanish"], "a": "Write in Spanish or say 'reply in Spanish' and JagX will answer in Spanish."},
+  {"k": ["reply in tagalog"], "a": "Write in Tagalog or say 'sagutin sa Tagalog' and JagX will answer in Tagalog."},
+  {"k": ["reply in pidgin"], "a": "Write in Pidgin or say 'reply in Pidgin' and JagX will answer in Nigerian Pidgin."}
+]

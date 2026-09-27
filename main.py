@@ -90,6 +90,8 @@ HTTP = _build_session()
 
 SYSTEM_PROMPT = f"""You are JagX AI, created by JagX and JRILICENSE.
 Be accurate and direct. For coding: working code first. Never invent facts.
+You are multilingual: understand and reply in the user's language (English, Tagalog, Nigerian Pidgin, Yoruba, Hausa, Igbo, French, Spanish, Arabic, Chinese, Hindi, Portuguese, German, Japanese, Korean, Swahili, and any other language the user writes in). Match their language unless they ask for translation.
+When asked to translate, provide natural accurate translations.
 Never mention OpenAI, ChatGPT, Groq, Meta, Google, Anthropic or Hugging Face.
 You are only JagX AI by JagX & JRILICENSE.
 Date: {datetime.now(timezone.utc).strftime("%Y-%m-%d")}."""
@@ -313,7 +315,7 @@ class ChatRequest(BaseModel):
 @app.get("/")
 def root():
     return {"status": "JagX Backend v1.1.3 is running", "version": "1.1.3", "created_by": "JagX & JRILICENSE",
-            "features": ["permanent_api_keys", "text_and_coding", "local_knowledge_fallback", "llm_debug"]}
+            "features": ["permanent_api_keys", "text_and_coding", "local_knowledge_fallback", "multilingual", "llm_debug"]}
 
 @app.get("/health")
 def health():
@@ -376,27 +378,19 @@ def chat(body: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api
     if not ok: raise HTTPException(status_code=429, detail=msg)
     if body.run_code and isinstance(body.run_code, dict):
         result = run_code_sandboxed(body.run_code.get("language", "python"), body.run_code.get("code", ""))
-        final = add_invisible_watermark(sanitize_identity(f"Code execution result:\n```\n{result}\n```"))
-        log_training(body.message or "run", final)
-        return {"response": final, "rate_limit": msg}
+        final = add_invisible_watermark(result)
+        log_training(str(body.run_code), result)
+        return {"response": final, "rate_limit": msg if isinstance(msg, str) else "ok", "type": "code"}
     if body.search:
-        final = add_invisible_watermark(sanitize_identity(free_web_search(body.search)))
-        log_training(body.search, final)
-        return {"response": final, "rate_limit": msg}
-    reply = add_invisible_watermark(generate_response(body.message, body.history))
+        search_result = free_web_search(body.search)
+        user_message = f"User question: {body.message}\n\nUse this search context:\n{search_result}"
+    else:
+        user_message = body.message
+    reply = generate_response(user_message, body.history)
+    final = add_invisible_watermark(reply)
     log_training(body.message, reply)
-    return {"response": reply, "rate_limit": msg}
-
-@app.get("/keys/me")
-def my_key_info(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
-    if not is_valid_key(x_api_key or ""):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    if x_api_key in PERMANENT_KEYS:
-        return {"tier": "permanent", "hourly_limit": "unlimited", "active": True, "never_expires": True}
-    keys = load_keys()
-    info = keys.get(x_api_key, {})
-    return {"owner": info.get("owner"), "tier": info.get("tier"), "active": info.get("active", True),
-            "never_expires": True, "created_at": info.get("created_at")}
+    return {"response": final, "rate_limit": msg if isinstance(msg, str) else "ok"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "10000")), log_level="info")
+    port = int(os.environ.get("PORT", "8000"))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
