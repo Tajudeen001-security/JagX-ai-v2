@@ -1,0 +1,12 @@
+[
+  {"k": ["css cascade layers order"], "a": "Later @layer declarations can override earlier ones by default order rules."},
+  {"k": ["css specificity !important"], "a": "!important overrides normal specificity but harms maintainability."},
+  {"k": ["css isolation"], "a": "isolation: isolate creates a new stacking context."},
+  {"k": ["css contain"], "a": "contain optimizes rendering by limiting a subtree's impact."},
+  {"k": ["css content visibility"], "a": "content-visibility can skip rendering offscreen content."},
+  {"k": ["css will change"], "a": "will-change hints optimizers; overuse wastes memory."},
+  {"k": ["css font display"], "a": "font-display controls how fonts render while loading."},
+  {"k": ["css image rendering"], "a": "image-rendering affects scaling quality for pixel art vs photos."},
+  {"k": ["css scroll margin"], "a": "scroll-margin offsets scroll snap and scroll-into-view targets."},
+  {"k": ["css overscroll behavior"], "a": "overscroll-behavior controls scroll chaining to parent containers."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["nigeria pidgin food"], "a": "Chop means food/eat; belleful means full stomach."},
+  {"k": ["nigeria traffic go slow"], "a": "Go-slow means traffic jam in Nigerian English/Pidgin."},
+  {"k": ["nigeria generator"], "a": "Generators are commonly used for backup power."},
+  {"k": ["nigeria data bundle"], "a": "Mobile data is often bought as bundles from carriers."},
+  {"k": ["nigeria bank ussd"], "a": "USSD codes are widely used for mobile banking."},
+  {"k": ["nigeria nin"], "a": "NIN is the National Identification Number."},
+  {"k": ["nigeria bvn"], "a": "BVN is Bank Verification Number used by banks."},
+  {"k": ["nigeria jamb"], "a": "JAMB runs the national tertiary entrance exam UTME."},
+  {"k": ["nigeria waec"], "a": "WAEC conducts secondary school leaving exams in West Africa."},
+  {"k": ["nigeria nysc"], "a": "NYSC is the National Youth Service Corps for graduates."}
+]

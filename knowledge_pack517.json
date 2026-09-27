@@ -1,0 +1,12 @@
+[
+  {"k": ["sql vacuum freeze age"], "a": "Monitor transaction age to avoid wraparound autovacuum emergencies."},
+  {"k": ["sql bloat"], "a": "Table/index bloat wastes space and can slow queries."},
+  {"k": ["sql hot updates"], "a": "HOT updates avoid index maintenance when possible in PostgreSQL."},
+  {"k": ["sql fillfactor"], "a": "Fillfactor leaves free space in pages for future updates."},
+  {"k": ["sql toast"], "a": "TOAST stores large field values out-of-line."},
+  {"k": ["sql statistics target"], "a": "Statistics targets influence planner accuracy for columns."},
+  {"k": ["sql prepared statement plan"], "a": "Generic plans can be suboptimal for skewed parameters."},
+  {"k": ["sql connection storm"], "a": "Connection storms overwhelm DBs; use pools and backoff."},
+  {"k": ["sql read your writes"], "a": "After a write, read from primary if replicas lag."},
+  {"k": ["sql online ddl"], "a": "Online DDL techniques reduce locking during schema changes."}
+]

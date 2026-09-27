@@ -1,0 +1,12 @@
+[
+  {"k": ["testing mutation score"], "a": "Mutation score estimates how many code mutants tests kill."},
+  {"k": ["testing characterization"], "a": "Characterization tests lock current behavior before refactoring."},
+  {"k": ["testing approval tests"], "a": "Approval tests compare output to a previously approved version."},
+  {"k": ["testing consumer driven contracts"], "a": "Consumers define expectations providers must satisfy."},
+  {"k": ["testing testcontainers"], "a": "Testcontainers run real dependencies in Docker for integration tests."},
+  {"k": ["testing parallel isolation"], "a": "Isolate databases/schemas per parallel test worker."},
+  {"k": ["testing snapshot update policy"], "a": "Require review when updating snapshots."},
+  {"k": ["testing performance regression"], "a": "Track latency percentiles to catch performance regressions."},
+  {"k": ["testing security scanning ci"], "a": "Run SAST/dependency scans in CI pipelines."},
+  {"k": ["testing release gates"], "a": "Release gates block deploys when critical tests fail."}
+]

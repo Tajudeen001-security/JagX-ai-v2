@@ -1,0 +1,12 @@
+[
+  {"k": ["product discovery interview"], "a": "Ask about past behavior, not hypothetical futures only."},
+  {"k": ["product solution bias"], "a": "Users often jump to solutions; dig for underlying jobs."},
+  {"k": ["product opportunity solution tree"], "a": "Map desired outcomes to opportunities then solutions."},
+  {"k": ["product dual track agile"], "a": "Discovery and delivery run in parallel tracks."},
+  {"k": ["product outcome over output"], "a": "Measure results, not just features shipped."},
+  {"k": ["product leading indicator"], "a": "Leading indicators change before lagging business results."},
+  {"k": ["product activation metric"], "a": "Activation marks first value realization for new users."},
+  {"k": ["product retention curve"], "a": "Retention curves show how cohorts return over time."},
+  {"k": ["product pricing packaging"], "a": "Packaging groups features into plans customers understand."},
+  {"k": ["product go to market"], "a": "GTM plans cover positioning, channels, and launch motions."}
+]

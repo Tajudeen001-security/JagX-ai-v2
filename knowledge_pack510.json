@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 510"], "a": "Local knowledge packs have reached pack 510."},
+  {"k": ["jagx credit 510"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 190"], "a": "About 190 packs added toward the 300 expansion goal."},
+  {"k": ["unit speed mps to kmh"], "a": "Multiply m/s by 3.6 to get km/h."},
+  {"k": ["unit inch to cm"], "a": "1 inch = 2.54 centimeters."},
+  {"k": ["unit pound to kg"], "a": "1 pound ≈ 0.4536 kilograms."},
+  {"k": ["unit gallon to liter"], "a": "1 US gallon ≈ 3.785 liters."},
+  {"k": ["unit acre to m2"], "a": "1 acre ≈ 4047 square meters."},
+  {"k": ["unit horsepower watt"], "a": "1 mechanical horsepower ≈ 746 watts."},
+  {"k": ["unit calorie joule"], "a": "1 calorie ≈ 4.184 joules."}
+]

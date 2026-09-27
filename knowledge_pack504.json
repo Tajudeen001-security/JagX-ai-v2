@@ -1,0 +1,12 @@
+[
+  {"k": ["api pagination offset problems"], "a": "Deep OFFSET pagination gets slower on large tables."},
+  {"k": ["api cursor pagination benefits"], "a": "Cursor pagination stays efficient as datasets grow."},
+  {"k": ["api sparse fieldsets"], "a": "Allow clients to request only needed fields."},
+  {"k": ["api bulk operations"], "a": "Bulk APIs reduce round trips for many small changes."},
+  {"k": ["api async jobs"], "a": "Long work should return 202 and a job status URL."},
+  {"k": ["api hypermedia links"], "a": "Links in responses guide clients to related actions."},
+  {"k": ["api semantic versioning api"], "a": "Breaking changes should bump major API versions."},
+  {"k": ["api changelog public"], "a": "Publish changelogs so integrators can adapt."},
+  {"k": ["api sandbox environment"], "a": "Sandboxes let partners test without production risk."},
+  {"k": ["api partner rate limits"], "a": "Partner tiers often have different rate limits."}
+]

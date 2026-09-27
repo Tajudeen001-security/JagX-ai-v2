@@ -1,0 +1,12 @@
+[
+  {"k": ["devops dora metrics"], "a": "DORA metrics: deployment frequency, lead time, change fail rate, MTTR."},
+  {"k": ["devops mttr"], "a": "MTTR is mean time to recovery after an incident."},
+  {"k": ["devops change fail rate"], "a": "Change fail rate is the fraction of deployments causing failures."},
+  {"k": ["devops lead time"], "a": "Lead time for changes measures commit-to-production time."},
+  {"k": ["devops continuous deployment"], "a": "Continuous deployment automatically releases every green build."},
+  {"k": ["devops continuous delivery"], "a": "Continuous delivery keeps software releasable at any time."},
+  {"k": ["devops trunk based"], "a": "Trunk-based development integrates frequently to main."},
+  {"k": ["devops feature flag cleanup"], "a": "Remove stale feature flags to reduce complexity."},
+  {"k": ["devops blameless culture"], "a": "Blameless culture improves learning from incidents."},
+  {"k": ["devops game days"], "a": "Game days practice incident response under controlled failure."}
+]

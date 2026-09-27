@@ -1,0 +1,12 @@
+[
+  {"k": ["math limits infinity"], "a": "Limits at infinity describe end behavior of functions."},
+  {"k": ["math continuity"], "a": "A function is continuous at a if limit equals f(a)."},
+  {"k": ["math differentiability"], "a": "Differentiability requires the derivative limit to exist."},
+  {"k": ["math related rates"], "a": "Related rates differentiate equations linking changing quantities."},
+  {"k": ["math optimization"], "a": "Optimization finds maxima/minima often via derivatives."},
+  {"k": ["math implicit differentiation"], "a": "Implicit differentiation handles equations not solved for y."},
+  {"k": ["math parametric"], "a": "Parametric equations define x and y via a parameter t."},
+  {"k": ["math polar coordinates"], "a": "Polar coordinates use radius and angle instead of x,y."},
+  {"k": ["math sequence convergence"], "a": "A sequence converges if terms approach a finite limit."},
+  {"k": ["math series convergence tests"], "a": "Ratio, root, comparison tests help determine series convergence."}
+]

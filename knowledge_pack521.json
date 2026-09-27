@@ -1,0 +1,12 @@
+[
+  {"k": ["chem solutions molarity molality"], "a": "Molarity is mol/L solution; molality is mol/kg solvent."},
+  {"k": ["chem colligative"], "a": "Colligative properties depend on particle number, not identity."},
+  {"k": ["chem boiling point elevation"], "a": "Solutes raise boiling point of solvents."},
+  {"k": ["chem freezing point depression"], "a": "Solutes lower freezing point of solvents."},
+  {"k": ["chem osmosis pressure"], "a": "Osmotic pressure relates to solute concentration."},
+  {"k": ["chem rate law"], "a": "Rate laws express rate in terms of concentrations and constants."},
+  {"k": ["chem reaction order"], "a": "Order is the exponent sum in an experimental rate law."},
+  {"k": ["chem half life kinetics"], "a": "Half-life formulas depend on reaction order."},
+  {"k": ["chem catalyst pathway"], "a": "Catalysts provide alternate pathways with lower activation energy."},
+  {"k": ["chem equilibrium le chatelier pressure"], "a": "Pressure changes shift gas equilibria toward fewer/more moles."}
+]

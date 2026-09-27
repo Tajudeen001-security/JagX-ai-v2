@@ -1,0 +1,12 @@
+[
+  {"k": ["system design unique id"], "a": "Unique IDs can use UUIDs, snowflakes, or DB sequences."},
+  {"k": ["system design snowflake id"], "a": "Snowflake IDs embed time and worker identity in 64-bit values."},
+  {"k": ["system design consistent hashing vnodes"], "a": "Virtual nodes improve balance on a consistent hash ring."},
+  {"k": ["system design secondary index"], "a": "Secondary indexes support queries beyond the primary key."},
+  {"k": ["system design write amplification"], "a": "Write amplification multiplies write load due to compaction/replication."},
+  {"k": ["system design read repair"], "a": "Read repair fixes divergent replicas during reads."},
+  {"k": ["system design hinted handoff"], "a": "Hinted handoff temporarily stores writes for down nodes."},
+  {"k": ["system design merkle tree"], "a": "Merkle trees efficiently detect and sync data differences."},
+  {"k": ["system design gossip protocol"], "a": "Gossip protocols spread membership and state peer-to-peer."},
+  {"k": ["system design vector clock"], "a": "Vector clocks track causal history across replicas."}
+]

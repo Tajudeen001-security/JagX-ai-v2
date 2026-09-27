@@ -1,0 +1,12 @@
+[
+  {"k": ["algo two heaps median"], "a": "Two heaps can track the running median efficiently."},
+  {"k": ["algo monotonic stack"], "a": "Monotonic stacks solve next greater/smaller element problems."},
+  {"k": ["algo difference array"], "a": "Difference arrays apply range updates efficiently."},
+  {"k": ["algo sparse table"], "a": "Sparse tables answer idempotent range queries quickly after O(n log n) prep."},
+  {"k": ["algo heavy light"], "a": "Heavy-light decomposition enables path queries on trees."},
+  {"k": ["algo centroid decomposition"], "a": "Centroid decomposition recursively splits trees by centroids."},
+  {"k": ["algo max flow"], "a": "Max-flow algorithms compute maximum throughput in networks."},
+  {"k": ["algo bipartite matching"], "a": "Bipartite matching pairs nodes across two sets without sharing."},
+  {"k": ["algo suffix array"], "a": "Suffix arrays index all suffixes for string algorithms."},
+  {"k": ["algo rolling hash"], "a": "Rolling hashes update string hashes in sliding windows."}
+]

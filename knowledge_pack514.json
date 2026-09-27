@@ -1,0 +1,12 @@
+[
+  {"k": ["js array with"], "a": "arr.with(i, value) returns a copy with index i replaced."},
+  {"k": ["js array toSpliced"], "a": "toSpliced returns a copy with splice applied."},
+  {"k": ["js promise try"], "a": "Promise.try runs a function and returns a Promise (newer proposal/impls)."},
+  {"k": ["js iterator helpers"], "a": "Iterator helpers add map/filter-style methods on iterators."},
+  {"k": ["js set methods"], "a": "Newer Set methods include union, intersection, difference."},
+  {"k": ["js decorators stage"], "a": "JS decorators are evolving; check runtime support."},
+  {"k": ["js import maps"], "a": "Import maps control bare specifier resolution in browsers."},
+  {"k": ["js modulepreload"], "a": "modulepreload hints the browser to fetch modules early."},
+  {"k": ["js trusted types"], "a": "Trusted Types help prevent DOM-based XSS."},
+  {"k": ["js sanitizer api"], "a": "Sanitizer APIs aim to safely parse HTML snippets."}
+]

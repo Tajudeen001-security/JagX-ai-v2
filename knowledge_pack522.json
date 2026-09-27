@@ -1,0 +1,12 @@
+[
+  {"k": ["biology gene expression"], "a": "Gene expression is the process of using a gene to make a product."},
+  {"k": ["biology regulation operon"], "a": "Operons coordinate expression of gene groups in prokaryotes."},
+  {"k": ["biology epigenetic"], "a": "Epigenetic changes affect expression without altering DNA sequence."},
+  {"k": ["biology stem cell"], "a": "Stem cells can self-renew and differentiate into other cell types."},
+  {"k": ["biology tissue organ"], "a": "Tissues form organs; organs form organ systems."},
+  {"k": ["biology circulatory"], "a": "The circulatory system transports blood, nutrients, and gases."},
+  {"k": ["biology respiratory"], "a": "The respiratory system exchanges oxygen and carbon dioxide."},
+  {"k": ["biology digestive"], "a": "The digestive system breaks down food and absorbs nutrients."},
+  {"k": ["biology nervous"], "a": "The nervous system processes information via neurons."},
+  {"k": ["biology endocrine"], "a": "The endocrine system uses hormones for longer-range signaling."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio timeout"], "a": "asyncio.timeout cancels slow operations (3.11+)."},
+  {"k": ["python exception notes"], "a": "add_note attaches extra context to exceptions (3.11+)."},
+  {"k": ["python tomllib loads"], "a": "tomllib.loads parses TOML from a string."},
+  {"k": ["python pathlib glob recursive"], "a": "Path.rglob('*.py') recursively finds matches."},
+  {"k": ["python dataclasses kw only"], "a": "kw_only fields must be passed by keyword."},
+  {"k": ["python typing typeguard"], "a": "TypeGuard narrows types in user-defined type guards."},
+  {"k": ["python typing never"], "a": "Never indicates a function does not return normally."},
+  {"k": ["python statistics fmean"], "a": "fmean computes a floating-point mean efficiently."},
+  {"k": ["python random sample"], "a": "random.sample chooses k unique items without replacement."},
+  {"k": ["python secrets token"], "a": "secrets.token_urlsafe generates secure random tokens."}
+]

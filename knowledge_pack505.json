@@ -1,0 +1,12 @@
+[
+  {"k": ["design pattern visitor"], "a": "Visitor adds operations to object structures without changing classes."},
+  {"k": ["design pattern flyweight"], "a": "Flyweight shares common state to save memory."},
+  {"k": ["design pattern bridge"], "a": "Bridge separates abstraction from implementation."},
+  {"k": ["design pattern composite"], "a": "Composite treats individual objects and groups uniformly."},
+  {"k": ["design pattern interpreter"], "a": "Interpreter evaluates sentences in a language."},
+  {"k": ["design pattern mvc"], "a": "MVC separates model, view, and controller."},
+  {"k": ["design pattern mvvm"], "a": "MVVM binds views to view-models for UI apps."},
+  {"k": ["design pattern clean architecture"], "a": "Clean architecture keeps domain logic independent of frameworks."},
+  {"k": ["design pattern hexagonal"], "a": "Hexagonal architecture isolates core via ports and adapters."},
+  {"k": ["design pattern cqrs event sourcing"], "a": "Event sourcing stores state as a sequence of events."}
+]

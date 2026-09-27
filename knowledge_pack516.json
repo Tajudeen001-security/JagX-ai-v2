@@ -1,0 +1,12 @@
+[
+  {"k": ["security supply chain pinning"], "a": "Pin dependencies and verify checksums when possible."},
+  {"k": ["security reproducible builds"], "a": "Reproducible builds make binaries verifiable from source."},
+  {"k": ["security code signing"], "a": "Code signing verifies publisher identity of binaries."},
+  {"k": ["security secret scanning pr"], "a": "Block merges when secrets are detected in diffs."},
+  {"k": ["security environment separation"], "a": "Separate prod credentials from staging and dev."},
+  {"k": ["security break glass"], "a": "Break-glass accounts are emergency access with heavy auditing."},
+  {"k": ["security privilege access workstation"], "a": "PAWs harden admin workstations for sensitive tasks."},
+  {"k": ["security phishing resistant mfa"], "a": "Phishing-resistant MFA includes passkeys/WebAuthn."},
+  {"k": ["security data classification"], "a": "Classify data to apply appropriate controls."},
+  {"k": ["security retention policy"], "a": "Retention policies define how long logs and data are kept."}
+]
