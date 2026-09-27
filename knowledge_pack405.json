@@ -1,0 +1,12 @@
+[
+  {"k": ["math log product"], "a": "log(ab) = log a + log b."},
+  {"k": ["math log quotient"], "a": "log(a/b) = log a - log b."},
+  {"k": ["math log power"], "a": "log(a^n) = n log a."},
+  {"k": ["math e definition"], "a": "e ≈ 2.71828 is the base of natural logarithms."},
+  {"k": ["math pi"], "a": "π ≈ 3.14159 is the ratio of circumference to diameter."},
+  {"k": ["math absolute value"], "a": "|x| is x if x ≥ 0 and -x if x < 0."},
+  {"k": ["math inequality flip"], "a": "Multiplying/dividing an inequality by a negative flips the sign."},
+  {"k": ["math parallel lines"], "a": "Parallel lines never meet and have equal slopes in a plane."},
+  {"k": ["math perpendicular slopes"], "a": "Perpendicular lines have slopes whose product is -1 (if defined)."},
+  {"k": ["math triangle angles"], "a": "Angles in a triangle sum to 180 degrees."}
+]

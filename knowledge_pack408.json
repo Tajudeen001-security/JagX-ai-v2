@@ -1,0 +1,12 @@
+[
+  {"k": ["docker multi stage"], "a": "Multi-stage builds keep final images small by copying only artifacts."},
+  {"k": ["docker volume"], "a": "Volumes persist data beyond container lifetime."},
+  {"k": ["docker network bridge"], "a": "Bridge networks connect containers on the same host."},
+  {"k": ["docker entrypoint"], "a": "ENTRYPOINT sets the main executable; CMD provides default args."},
+  {"k": ["docker healthcheck"], "a": "HEALTHCHECK tells orchestrators if the container is healthy."},
+  {"k": ["docker compose depends"], "a": "depends_on controls start order, not full readiness."},
+  {"k": ["docker image tag"], "a": "Tags like :1.2.3 or :latest label image versions."},
+  {"k": ["docker registry"], "a": "Registries store and distribute container images."},
+  {"k": ["docker security root"], "a": "Prefer non-root users inside containers."},
+  {"k": ["docker prune"], "a": "docker system prune frees unused images, containers, and networks."}
+]

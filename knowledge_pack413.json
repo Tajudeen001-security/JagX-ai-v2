@@ -1,0 +1,12 @@
+[
+  {"k": ["js optional chain"], "a": "obj?.prop safely accesses nested properties."},
+  {"k": ["js nullish"], "a": "a ?? b uses b only when a is null or undefined."},
+  {"k": ["js structured clone"], "a": "structuredClone deep-clones many built-in object types."},
+  {"k": ["js bigint"], "a": "BigInt handles integers larger than Number.MAX_SAFE_INTEGER."},
+  {"k": ["js map vs object"], "a": "Map allows any keys and preserves insertion order intentionally."},
+  {"k": ["js set unique"], "a": "Set stores unique values with fast membership tests."},
+  {"k": ["js proxy"], "a": "Proxy intercepts fundamental operations on objects."},
+  {"k": ["js reflect"], "a": "Reflect provides methods for interceptable object operations."},
+  {"k": ["js modules dynamic import"], "a": "import() loads modules asynchronously at runtime."},
+  {"k": ["js top level await"], "a": "Top-level await is allowed in ES modules."}
+]

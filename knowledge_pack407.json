@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi path param"], "a": "@app.get('/items/{item_id}') captures path parameters."},
+  {"k": ["fastapi query param"], "a": "Function arguments without Path() become query parameters."},
+  {"k": ["fastapi response model"], "a": "response_model filters and documents response fields."},
+  {"k": ["fastapi lifespan"], "a": "Lifespan handlers run startup and shutdown logic."},
+  {"k": ["fastapi upload file"], "a": "UploadFile handles uploaded files efficiently."},
+  {"k": ["fastapi static files"], "a": "StaticFiles mounts a directory of static assets."},
+  {"k": ["fastapi websocket"], "a": "FastAPI supports WebSocket endpoints for realtime apps."},
+  {"k": ["fastapi middleware custom"], "a": "Custom middleware can log, auth, or modify requests/responses."},
+  {"k": ["fastapi testing client"], "a": "TestClient from starlette/fastapi helps write API tests."},
+  {"k": ["fastapi settings"], "a": "Use pydantic-settings for typed environment configuration."}
+]

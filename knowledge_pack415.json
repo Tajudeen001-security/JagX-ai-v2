@@ -1,0 +1,12 @@
+[
+  {"k": ["security csp"], "a": "Content Security Policy restricts which scripts and resources can load."},
+  {"k": ["security subresource integrity"], "a": "SRI ensures third-party scripts match expected hashes."},
+  {"k": ["security cookie httponly"], "a": "HttpOnly cookies are not accessible to JavaScript."},
+  {"k": ["security cookie secure"], "a": "Secure cookies are only sent over HTTPS."},
+  {"k": ["security samesite"], "a": "SameSite cookie attributes help mitigate CSRF."},
+  {"k": ["security open redirect"], "a": "Validate redirect URLs to prevent open redirect attacks."},
+  {"k": ["security mass assignment"], "a": "Mass assignment binds extra fields from input; whitelist fields."},
+  {"k": ["security file upload"], "a": "Validate type/size and store uploads outside the web root."},
+  {"k": ["security logging secrets"], "a": "Never log passwords, tokens, or full card numbers."},
+  {"k": ["security responsible disclosure"], "a": "Report vulnerabilities privately to maintainers when possible."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["k8s pod"], "a": "A Pod is the smallest deployable unit in Kubernetes."},
+  {"k": ["k8s service clusterip"], "a": "ClusterIP exposes a service on an internal cluster IP."},
+  {"k": ["k8s ingress"], "a": "Ingress routes external HTTP traffic to services."},
+  {"k": ["k8s configmap"], "a": "ConfigMaps store non-secret configuration."},
+  {"k": ["k8s secret"], "a": "Secrets store sensitive data; still protect etcd and access."},
+  {"k": ["k8s deployment rollout"], "a": "Deployments support rolling updates and rollbacks."},
+  {"k": ["k8s hpa"], "a": "HPA scales replicas based on metrics like CPU."},
+  {"k": ["k8s namespace"], "a": "Namespaces isolate resources within a cluster."},
+  {"k": ["k8s probe liveness"], "a": "Liveness probes restart containers that are stuck."},
+  {"k": ["k8s probe readiness"], "a": "Readiness probes remove pods from traffic until ready."}
+]

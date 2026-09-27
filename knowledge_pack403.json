@@ -1,0 +1,12 @@
+[
+  {"k": ["tagalog numbers 1-5"], "a": "1 isa, 2 dalawa, 3 tatlo, 4 apat, 5 lima."},
+  {"k": ["tagalog food rice"], "a": "Rice in Tagalog is kanin (cooked) or bigas (uncooked)."},
+  {"k": ["tagalog friend"], "a": "Friend in Tagalog is kaibigan."},
+  {"k": ["tagalog family"], "a": "Family in Tagalog is pamilya."},
+  {"k": ["tagalog school"], "a": "School in Tagalog is paaralan."},
+  {"k": ["tagalog work"], "a": "Work in Tagalog is trabaho."},
+  {"k": ["tagalog house"], "a": "House in Tagalog is bahay."},
+  {"k": ["tagalog love"], "a": "Love (noun) is pag-ibig; verb forms vary by context."},
+  {"k": ["tagalog sorry"], "a": "Sorry in Tagalog is pasensya or sorry is commonly used."},
+  {"k": ["tagalog help"], "a": "Help in Tagalog is tulong; Help me is Tulungan mo ako."}
+]

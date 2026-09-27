@@ -1,0 +1,12 @@
+[
+  {"k": ["math series arithmetic"], "a": "Arithmetic sequence: each term adds a constant difference."},
+  {"k": ["math series geometric"], "a": "Geometric sequence: each term multiplies by a constant ratio."},
+  {"k": ["math sum arithmetic"], "a": "Sum of n terms: n/2 * (first + last)."},
+  {"k": ["math binomial"], "a": "Binomial coefficient C(n,k) counts ways to choose k from n."},
+  {"k": ["math euler identity"], "a": "e^{iπ} + 1 = 0 links major constants."},
+  {"k": ["math complex number"], "a": "A complex number is a + bi with i² = -1."},
+  {"k": ["math vector dot"], "a": "Dot product a·b = |a||b|cosθ."},
+  {"k": ["math vector cross"], "a": "Cross product in 3D yields a perpendicular vector."},
+  {"k": ["math matrix transpose"], "a": "Transpose flips a matrix over its diagonal."},
+  {"k": ["math inverse matrix"], "a": "A^{-1} exists when det(A) ≠ 0 and AA^{-1}=I."}
+]

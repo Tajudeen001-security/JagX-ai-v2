@@ -1,0 +1,12 @@
+[
+  {"k": ["career github profile"], "a": "A clear GitHub profile with pinned projects helps hiring."},
+  {"k": ["career readme project"], "a": "Project READMEs should explain problem, setup, and demo."},
+  {"k": ["career leetcode balance"], "a": "Practice algorithms, but also ship real projects."},
+  {"k": ["career system design interview"], "a": "Clarify requirements, estimate scale, then design components."},
+  {"k": ["career behavioral interview"], "a": "Use concrete stories with outcomes, not vague claims."},
+  {"k": ["career salary research"], "a": "Research market ranges before negotiating offers."},
+  {"k": ["career mentorship"], "a": "Mentors accelerate learning through feedback and guidance."},
+  {"k": ["career open source"], "a": "Open source contributions demonstrate collaboration and skill."},
+  {"k": ["career continuous learning"], "a": "Schedule regular time to learn and practice new skills."},
+  {"k": ["career burnout"], "a": "Rest and boundaries help prevent burnout."}
+]

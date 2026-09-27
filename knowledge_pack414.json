@@ -1,0 +1,12 @@
+[
+  {"k": ["css logical properties"], "a": "Logical properties like margin-inline adapt to writing direction."},
+  {"k": ["css aspect ratio"], "a": "aspect-ratio maintains width/height proportions."},
+  {"k": ["css object fit"], "a": "object-fit controls how media fits its box (cover, contain)."},
+  {"k": ["css sticky footer"], "a": "Flex or grid layouts can pin footers to the bottom of the viewport."},
+  {"k": ["css custom properties theme"], "a": "CSS variables make theming and dark mode easier."},
+  {"k": ["css scroll snap"], "a": "Scroll snap aligns scroll positions to snap points."},
+  {"k": ["css container type"], "a": "container-type enables container queries on a parent."},
+  {"k": ["css :has"], "a": ":has() selects parents based on descendants."},
+  {"k": ["css layer"], "a": "@layer controls cascade layer order explicitly."},
+  {"k": ["css print styles"], "a": "@media print adjusts layout for printed pages."}
+]

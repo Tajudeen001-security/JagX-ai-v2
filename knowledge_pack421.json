@@ -1,0 +1,12 @@
+[
+  {"k": ["algo trie"], "a": "A trie stores strings by shared prefixes for fast prefix queries."},
+  {"k": ["algo union find"], "a": "Union-Find tracks disjoint sets with near-constant operations."},
+  {"k": ["algo segment tree"], "a": "Segment trees answer range queries and updates efficiently."},
+  {"k": ["algo fenwick"], "a": "Fenwick trees (BIT) support prefix sums and point updates."},
+  {"k": ["algo topological sort"], "a": "Topological sort orders tasks with prerequisites (DAGs)."},
+  {"k": ["algo floyd warshall"], "a": "Floyd-Warshall finds all-pairs shortest paths in O(V³)."},
+  {"k": ["algo knapsack"], "a": "0/1 knapsack is a classic DP for capacity-constrained selection."},
+  {"k": ["algo lcs"], "a": "Longest Common Subsequence is solved with DP on two sequences."},
+  {"k": ["algo edit distance"], "a": "Edit distance counts minimum inserts/deletes/replaces between strings."},
+  {"k": ["algo sliding window max"], "a": "Deque-based sliding window can track range maximums in linear time."}
+]

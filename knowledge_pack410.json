@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 410"], "a": "Local knowledge packs have reached pack 410."},
+  {"k": ["jagx credit 410"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["observability logs"], "a": "Logs record discrete events for debugging."},
+  {"k": ["observability metrics"], "a": "Metrics are numeric measurements over time."},
+  {"k": ["observability traces"], "a": "Traces follow a request across services."},
+  {"k": ["observability alert"], "a": "Alerts notify when metrics cross thresholds."},
+  {"k": ["observability sli slo"], "a": "SLIs measure service level; SLOs set targets for those measures."},
+  {"k": ["observability error budget"], "a": "Error budgets balance reliability with shipping speed."},
+  {"k": ["observability structured log"], "a": "Structured logs (JSON) are easier to query than free text."},
+  {"k": ["observability cardinality"], "a": "High-cardinality labels can explode metric cost and load."}
+]

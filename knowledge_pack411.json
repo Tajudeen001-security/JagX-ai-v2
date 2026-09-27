@@ -1,0 +1,12 @@
+[
+  {"k": ["sql window rank"], "a": "RANK() assigns ranks with gaps after ties."},
+  {"k": ["sql window dense rank"], "a": "DENSE_RANK() ranks without gaps after ties."},
+  {"k": ["sql window row number"], "a": "ROW_NUMBER() assigns unique sequential numbers per partition."},
+  {"k": ["sql lag lead"], "a": "LAG/LEAD access previous/next row values in a window."},
+  {"k": ["sql cte recursive"], "a": "Recursive CTEs can walk hierarchies like org charts."},
+  {"k": ["sql transaction isolation"], "a": "Isolation levels control visibility of concurrent changes."},
+  {"k": ["sql vacuum analyze"], "a": "ANALYZE updates planner statistics for better plans."},
+  {"k": ["sql partial index"], "a": "Partial indexes cover only rows matching a condition."},
+  {"k": ["sql covering index"], "a": "A covering index can satisfy a query without table lookups."},
+  {"k": ["sql explain analyze"], "a": "EXPLAIN ANALYZE runs the query and shows actual timings."}
+]

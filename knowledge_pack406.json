@@ -1,0 +1,12 @@
+[
+  {"k": ["git squash merge"], "a": "Squash merge combines a branch into one commit on the target."},
+  {"k": ["git rebase onto"], "a": "git rebase --onto can transplant a commit range onto a new base."},
+  {"k": ["git clean"], "a": "git clean removes untracked files; use carefully with -fd."},
+  {"k": ["git show"], "a": "git show commit displays a commit's patch and metadata."},
+  {"k": ["git remote add"], "a": "git remote add origin url registers a remote."},
+  {"k": ["git fetch"], "a": "git fetch downloads remote changes without merging."},
+  {"k": ["git pull"], "a": "git pull fetches and integrates remote branch changes."},
+  {"k": ["git push -u"], "a": "git push -u sets upstream tracking for the branch."},
+  {"k": ["git stash pop"], "a": "git stash pop applies and removes the latest stash."},
+  {"k": ["git commit amend"], "a": "git commit --amend changes the latest commit; avoid amending published history."}
+]

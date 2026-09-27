@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio gather"], "a": "asyncio.gather runs coroutines concurrently and collects results."},
+  {"k": ["python typing list"], "a": "list[int] means a list of integers in modern typing."},
+  {"k": ["python protocol"], "a": "Protocol defines structural typing (duck typing with checks)."},
+  {"k": ["python slots"], "a": "__slots__ can reduce memory by limiting instance attributes."},
+  {"k": ["python gc"], "a": "Python's garbage collector reclaims unreachable objects."},
+  {"k": ["python pickle caution"], "a": "pickle can execute code; do not unpickle untrusted data."},
+  {"k": ["python secrets module"], "a": "secrets is for cryptographic tokens; random is for non-crypto use."},
+  {"k": ["python hashlib"], "a": "hashlib provides secure hash algorithms like SHA-256."},
+  {"k": ["python dataclasses field"], "a": "field() customizes dataclass attributes and defaults."},
+  {"k": ["python tomllib"], "a": "tomllib reads TOML config in the standard library (3.11+)."}
+]

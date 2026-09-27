@@ -1,0 +1,12 @@
+[
+  {"k": ["health vitamins"], "a": "Vitamins are organic compounds needed in small amounts for health."},
+  {"k": ["health minerals"], "a": "Minerals like iron and calcium support many body functions."},
+  {"k": ["health protein role"], "a": "Protein builds and repairs tissues and makes enzymes."},
+  {"k": ["health carbs role"], "a": "Carbohydrates are a primary energy source for the body."},
+  {"k": ["health fats role"], "a": "Fats support energy storage, hormones, and cell membranes."},
+  {"k": ["health fiber"], "a": "Dietary fiber supports digestion and is found in plants."},
+  {"k": ["health sugar limit"], "a": "Excess added sugar is linked to health risks; moderation helps."},
+  {"k": ["health salt"], "a": "High sodium intake can raise blood pressure in many people."},
+  {"k": ["health not diagnosis"], "a": "Online health info cannot diagnose; see a clinician for symptoms."},
+  {"k": ["health emergency"], "a": "For emergencies, contact local emergency services immediately."}
+]

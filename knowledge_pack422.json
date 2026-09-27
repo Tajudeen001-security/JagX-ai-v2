@@ -1,0 +1,12 @@
+[
+  {"k": ["system design chat"], "a": "Chat systems need presence, delivery, storage, and fanout strategies."},
+  {"k": ["system design feed"], "a": "Feeds can be fan-out on write, fan-out on read, or hybrid."},
+  {"k": ["system design search"], "a": "Search uses inverted indexes and ranking signals."},
+  {"k": ["system design url shortener"], "a": "URL shorteners map short codes to long URLs with high read volume."},
+  {"k": ["system design rate limiter algorithms"], "a": "Token bucket and sliding window are common rate-limit algorithms."},
+  {"k": ["system design leader election"], "a": "Leader election chooses one coordinator among peers."},
+  {"k": ["system design quorum"], "a": "Quorum requires a majority of nodes to agree for consistency."},
+  {"k": ["system design bloom filter"], "a": "Bloom filters probabilistically test set membership with low memory."},
+  {"k": ["system design consistent hashing"], "a": "Consistent hashing minimizes key movement when nodes change."},
+  {"k": ["system design backpressure"], "a": "Backpressure slows producers when consumers cannot keep up."}
+]
