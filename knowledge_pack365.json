@@ -1,0 +1,12 @@
+[
+  {"k": ["math fraction add"], "a": "a/b + c/d = (ad+bc)/(bd) after common denominators."},
+  {"k": ["math percent of"], "a": "15% of 80 is 0.15×80 = 12."},
+  {"k": ["math slope"], "a": "Slope m = (y2-y1)/(x2-x1) for a line through two points."},
+  {"k": ["math distance 2d"], "a": "Distance = sqrt((x2-x1)^2 + (y2-y1)^2)."},
+  {"k": ["math area circle"], "a": "Area of a circle is πr²."},
+  {"k": ["math circumference"], "a": "Circumference is 2πr."},
+  {"k": ["math volume cube"], "a": "Volume of a cube is side³."},
+  {"k": ["math factorial"], "a": "n! = n×(n-1)×...×1; 0! = 1."},
+  {"k": ["math permutation"], "a": "P(n,k) = n!/(n-k)! ordered selections."},
+  {"k": ["math combination"], "a": "C(n,k) = n!/(k!(n-k)!) unordered selections."}
+]

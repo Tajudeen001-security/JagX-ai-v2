@@ -1,0 +1,12 @@
+[
+  {"k": ["translate english to french hello"], "a": "Hello in French is Bonjour."},
+  {"k": ["translate english to spanish hello"], "a": "Hello in Spanish is Hola."},
+  {"k": ["translate english to german hello"], "a": "Hello in German is Hallo or Guten Tag."},
+  {"k": ["translate english to arabic hello"], "a": "A common Arabic hello is Marhaban or As-salamu alaykum."},
+  {"k": ["translate english to chinese hello"], "a": "Hello in Mandarin is 你好 (Nǐ hǎo)."},
+  {"k": ["translate english to portuguese hello"], "a": "Hello in Portuguese is Olá."},
+  {"k": ["translate english to swahili hello"], "a": "Hello in Swahili is Habari or Jambo."},
+  {"k": ["translate thank you french"], "a": "Thank you in French is Merci."},
+  {"k": ["translate thank you spanish"], "a": "Thank you in Spanish is Gracias."},
+  {"k": ["translate goodbye french"], "a": "Goodbye in French is Au revoir."}
+]

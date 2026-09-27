@@ -1,0 +1,12 @@
+[
+  {"k": ["db isolation levels"], "a": "Isolation levels trade consistency vs concurrency (e.g. read committed, serializable)."},
+  {"k": ["db deadlocks"], "a": "Deadlocks happen when transactions wait on each other; one is aborted."},
+  {"k": ["db vacuum"], "a": "In PostgreSQL, VACUUM reclaims space and updates statistics."},
+  {"k": ["db sharding"], "a": "Sharding splits data across servers by a key."},
+  {"k": ["db replication"], "a": "Replication copies data to other nodes for availability and scale."},
+  {"k": ["db cap theorem"], "a": "CAP: under partition, choose consistency or availability."},
+  {"k": ["db eventual consistency"], "a": "Eventual consistency means replicas converge given enough time."},
+  {"k": ["db prepared statement"], "a": "Prepared statements separate SQL from data and reduce injection risk."},
+  {"k": ["db view"], "a": "A view is a stored query presented as a virtual table."},
+  {"k": ["db materialised view"], "a": "Materialized views store query results for faster reads."}
+]

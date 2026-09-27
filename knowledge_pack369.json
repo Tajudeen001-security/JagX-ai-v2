@@ -1,0 +1,12 @@
+[
+  {"k": ["linux cron"], "a": "cron schedules recurring jobs with crontab expressions."},
+  {"k": ["linux env export"], "a": "export VAR=value sets an environment variable in the shell."},
+  {"k": ["linux alias"], "a": "alias ll='ls -la' creates a shortcut command."},
+  {"k": ["linux history"], "a": "history lists recent shell commands."},
+  {"k": ["linux which"], "a": "which cmd shows the path of an executable."},
+  {"k": ["linux head tail"], "a": "head shows the start of a file; tail shows the end."},
+  {"k": ["linux less"], "a": "less is a pager for scrolling through long files."},
+  {"k": ["linux grep count"], "a": "grep -c pattern file counts matching lines."},
+  {"k": ["linux sed"], "a": "sed can replace text streams, e.g. s/old/new/g."},
+  {"k": ["linux awk"], "a": "awk processes columns of text with patterns and actions."}
+]

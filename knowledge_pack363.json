@@ -1,0 +1,12 @@
+[
+  {"k": ["mobile responsive"], "a": "Responsive design adapts layout to screen size with flexible grids and media queries."},
+  {"k": ["mobile touch target"], "a": "Make buttons large enough for fingers, roughly 44px minimum."},
+  {"k": ["pwa offline"], "a": "Progressive Web Apps can cache assets for limited offline use."},
+  {"k": ["app deep link"], "a": "Deep links open a specific screen inside a mobile app from a URL."},
+  {"k": ["android activity"], "a": "An Activity is a single screen in a classic Android app."},
+  {"k": ["ios viewcontroller"], "a": "A UIViewController manages a screen of content on iOS."},
+  {"k": ["flutter widget"], "a": "Flutter UIs are built from widgets composed in a tree."},
+  {"k": ["react native"], "a": "React Native builds native mobile UIs using React concepts."},
+  {"k": ["mobile permissions"], "a": "Request only needed permissions and explain why to users."},
+  {"k": ["app store review"], "a": "Store reviews check policy, privacy, and basic quality before listing."}
+]

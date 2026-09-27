@@ -1,0 +1,12 @@
+[
+  {"k": ["security oauth"], "a": "OAuth delegates access without sharing the user's password."},
+  {"k": ["security jwt"], "a": "JWTs are signed tokens carrying claims; verify signature and expiry."},
+  {"k": ["security mfa"], "a": "Multi-factor authentication adds a second proof beyond a password."},
+  {"k": ["security password manager"], "a": "Password managers store unique strong passwords safely."},
+  {"k": ["security phishing"], "a": "Phishing tricks users into revealing secrets via fake messages."},
+  {"k": ["security update software"], "a": "Install security updates to close known vulnerabilities."},
+  {"k": ["security backup 3-2-1"], "a": "3 copies, 2 media types, 1 offsite is a classic backup rule."},
+  {"k": ["security principle need to know"], "a": "Share sensitive data only with those who need it."},
+  {"k": ["security secure defaults"], "a": "Ship with secure defaults; make unsafe options explicit."},
+  {"k": ["security audit log"], "a": "Audit logs record who did what for later investigation."}
+]

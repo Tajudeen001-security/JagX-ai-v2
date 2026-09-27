@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 380"], "a": "Local knowledge packs have reached pack 380."},
+  {"k": ["jagx credit 380"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["render free tip"], "a": "Ping /health periodically to reduce free-tier sleep."},
+  {"k": ["render env vars"], "a": "API keys belong in Render Environment, not in git."},
+  {"k": ["render auto deploy"], "a": "Render can redeploy automatically on GitHub pushes."},
+  {"k": ["jagx permanent key"], "a": "Permanent keys do not expire; store them in JAGX_PERMANENT_KEYS too."},
+  {"k": ["jagx fallback order"], "a": "Providers try Groq then OpenRouter then Hugging Face then local packs."},
+  {"k": ["jagx no torch on render"], "a": "Do not install torch on Render free tier for Wakai weights."},
+  {"k": ["wakai offline only"], "a": "Wakai 10k checkpoint runs offline on GPU/Colab, not on free Render."},
+  {"k": ["jagx friends use"], "a": "Friends need the API URL, x-api-key header, and POST /chat."}
+]

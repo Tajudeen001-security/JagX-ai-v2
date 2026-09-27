@@ -1,0 +1,12 @@
+[
+  {"k": ["cloud iaas"], "a": "IaaS provides virtual machines and infrastructure you manage."},
+  {"k": ["cloud paas"], "a": "PaaS provides a platform to deploy apps without managing servers fully."},
+  {"k": ["cloud saas"], "a": "SaaS delivers full applications over the internet."},
+  {"k": ["cloud region"], "a": "Regions are geographic clusters of data centers."},
+  {"k": ["cloud availability zone"], "a": "AZs are isolated locations within a region for resilience."},
+  {"k": ["cloud object storage"], "a": "Object storage holds files/blobs cheaply at scale (e.g. S3-style)."},
+  {"k": ["cloud load balancer"], "a": "Load balancers distribute traffic across multiple instances."},
+  {"k": ["cloud autoscaling"], "a": "Autoscaling adds/removes instances based on load."},
+  {"k": ["cloud iam"], "a": "IAM controls who can do what on cloud resources."},
+  {"k": ["cloud egress cost"], "a": "Data transfer out of a cloud often incurs bandwidth fees."}
+]

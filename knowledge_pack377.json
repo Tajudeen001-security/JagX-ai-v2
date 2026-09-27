@@ -1,0 +1,12 @@
+[
+  {"k": ["product mvp"], "a": "An MVP is the smallest version that tests a core value hypothesis."},
+  {"k": ["product user story map"], "a": "Story mapping organizes journeys into backlog slices."},
+  {"k": ["product metrics north star"], "a": "A north-star metric tracks the core value users get."},
+  {"k": ["product funnel"], "a": "Funnels track steps from awareness to conversion."},
+  {"k": ["product ab test"], "a": "A/B tests compare variants to measure impact."},
+  {"k": ["product roadmap"], "a": "A roadmap communicates planned themes, not a fixed promise."},
+  {"k": ["product feedback loop"], "a": "Collect feedback, prioritize, ship, measure, repeat."},
+  {"k": ["product onboarding"], "a": "Onboarding helps new users reach first value quickly."},
+  {"k": ["product retention"], "a": "Retention measures how many users return over time."},
+  {"k": ["product scope creep"], "a": "Scope creep is uncontrolled growth of requirements."}
+]

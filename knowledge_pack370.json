@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 370"], "a": "Local knowledge packs have reached pack 370."},
+  {"k": ["jagx credit 370"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["git squash"], "a": "Interactive rebase can squash multiple commits into one."},
+  {"k": ["git blame"], "a": "git blame shows who last changed each line."},
+  {"k": ["git bisect"], "a": "git bisect binary-searches history to find a bad commit."},
+  {"k": ["git submodule"], "a": "Submodules embed another repo at a pinned commit."},
+  {"k": ["git worktree"], "a": "Worktrees let you check out multiple branches in separate folders."},
+  {"k": ["git reflog"], "a": "reflog records where HEAD has been for recovery."},
+  {"k": ["git sparse checkout"], "a": "Sparse checkout checks out only part of a large repo."},
+  {"k": ["git lfs"], "a": "Git LFS stores large files outside normal git history."}
+]

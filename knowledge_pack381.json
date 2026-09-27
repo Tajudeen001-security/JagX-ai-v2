@@ -1,0 +1,12 @@
+[
+  {"k": ["error off by one"], "a": "Off-by-one errors often appear in loops and array indices."},
+  {"k": ["error null pointer"], "a": "Null/None dereference happens when using a missing object."},
+  {"k": ["error race condition"], "a": "Race conditions depend on timing between concurrent operations."},
+  {"k": ["error memory leak"], "a": "Memory leaks retain unused memory until the process suffers."},
+  {"k": ["error stack overflow"], "a": "Deep recursion without a base case can overflow the call stack."},
+  {"k": ["error integer overflow"], "a": "Integer overflow wraps or errors when a value exceeds type limits."},
+  {"k": ["error floating precision"], "a": "Binary floating point cannot represent all decimals exactly."},
+  {"k": ["error timeout"], "a": "Timeouts stop waiting for slow dependencies."},
+  {"k": ["error retry backoff"], "a": "Exponential backoff retries with increasing delays."},
+  {"k": ["error circuit breaker"], "a": "Circuit breakers stop calling a failing dependency for a while."}
+]

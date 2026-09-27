@@ -1,0 +1,12 @@
+[
+  {"k": ["writing thesis"], "a": "A thesis states the main claim a paper will support."},
+  {"k": ["writing topic sentence"], "a": "A topic sentence states the main idea of a paragraph."},
+  {"k": ["writing cite sources"], "a": "Cite sources to credit authors and allow verification."},
+  {"k": ["writing active voice"], "a": "Active voice is often clearer: The team shipped the feature."},
+  {"k": ["writing concise"], "a": "Cut filler words; prefer short clear sentences."},
+  {"k": ["writing outline"], "a": "An outline organizes points before drafting."},
+  {"k": ["writing revise"], "a": "Revision improves structure and clarity after a first draft."},
+  {"k": ["writing audience"], "a": "Match vocabulary and detail level to the reader."},
+  {"k": ["writing summary"], "a": "A summary restates main ideas without new arguments."},
+  {"k": ["writing email subject"], "a": "Email subjects should be specific and scannable."}
+]

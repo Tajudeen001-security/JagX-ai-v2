@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio"], "a": "asyncio runs concurrent I/O tasks on a single thread with an event loop."},
+  {"k": ["python context manager"], "a": "Context managers define setup/teardown with with-statements."},
+  {"k": ["python itertools"], "a": "itertools provides efficient tools for iterators."},
+  {"k": ["python collections counter"], "a": "Counter counts hashable items."},
+  {"k": ["python defaultdict"], "a": "defaultdict creates missing keys with a factory function."},
+  {"k": ["python namedtuple"], "a": "namedtuple builds lightweight immutable objects with named fields."},
+  {"k": ["python pathlib glob"], "a": "Path.glob('**/*.py') finds files by pattern."},
+  {"k": ["python requests library"], "a": "The requests library simplifies HTTP calls in Python."},
+  {"k": ["python pytest"], "a": "pytest discovers and runs tests with assert statements."},
+  {"k": ["python black formatter"], "a": "Black is an opinionated Python code formatter."}
+]

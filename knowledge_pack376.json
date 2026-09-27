@@ -1,0 +1,12 @@
+[
+  {"k": ["testing mock"], "a": "Mocks replace real dependencies to isolate the unit under test."},
+  {"k": ["testing stub"], "a": "Stubs return fixed data for calls during a test."},
+  {"k": ["testing fixture"], "a": "Fixtures set up reusable test data or environment."},
+  {"k": ["testing coverage"], "a": "Coverage measures which lines ran; high coverage is not full proof."},
+  {"k": ["testing regression"], "a": "Regression tests catch bugs that return after fixes."},
+  {"k": ["testing smoke"], "a": "Smoke tests check basic critical paths quickly."},
+  {"k": ["testing load"], "a": "Load tests measure behavior under expected concurrent traffic."},
+  {"k": ["testing stress"], "a": "Stress tests push beyond normal limits to find breaking points."},
+  {"k": ["testing contract"], "a": "Contract tests verify two services agree on request/response shapes."},
+  {"k": ["testing snapshot review"], "a": "Always review snapshot updates; do not accept blindly."}
+]

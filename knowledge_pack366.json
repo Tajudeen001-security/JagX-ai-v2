@@ -1,0 +1,12 @@
+[
+  {"k": ["stats mean vs median"], "a": "Mean is average; median is middle value and resists outliers better."},
+  {"k": ["stats mode"], "a": "Mode is the most frequent value."},
+  {"k": ["stats correlation"], "a": "Correlation measures linear association; it is not causation."},
+  {"k": ["stats sample vs population"], "a": "A sample is a subset used to estimate a population."},
+  {"k": ["stats normal distribution"], "a": "A normal distribution is the familiar bell-shaped curve."},
+  {"k": ["stats p value"], "a": "A p-value is the probability of data as extreme if the null were true."},
+  {"k": ["stats confidence interval"], "a": "A CI is a range of plausible values for a parameter."},
+  {"k": ["stats bias"], "a": "Bias is systematic error that shifts estimates away from truth."},
+  {"k": ["stats variance bias tradeoff"], "a": "More complex models can cut bias but raise variance."},
+  {"k": ["stats outlier"], "a": "Outliers are unusual points; investigate before deleting."}
+]

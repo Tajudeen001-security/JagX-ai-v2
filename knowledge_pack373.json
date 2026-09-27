@@ -1,0 +1,12 @@
+[
+  {"k": ["js closure"], "a": "A closure is a function that remembers variables from its outer scope."},
+  {"k": ["js hoisting"], "a": "Declarations are hoisted; let/const are in a temporal dead zone until init."},
+  {"k": ["js this"], "a": "this depends on how a function is called, not where it is defined."},
+  {"k": ["js prototype"], "a": "JS objects inherit via the prototype chain."},
+  {"k": ["js event bubble"], "a": "Events bubble from target up to ancestors unless stopped."},
+  {"k": ["js event capture"], "a": "Capture phase runs from root down before the target phase."},
+  {"k": ["js promise all"], "a": "Promise.all waits for all promises; fails if any fails."},
+  {"k": ["js promise allsettled"], "a": "allSettled waits for all, whether fulfilled or rejected."},
+  {"k": ["js weakmap"], "a": "WeakMap keys are objects held weakly and can be garbage-collected."},
+  {"k": ["js module side effect"], "a": "Importing a module can run its top-level code once."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["css specificity"], "a": "Specificity ranks which CSS rule wins when selectors conflict."},
+  {"k": ["css cascade"], "a": "Cascade combines origin, importance, specificity, and order."},
+  {"k": ["css flex grow"], "a": "flex-grow controls how extra space is distributed among items."},
+  {"k": ["css grid area"], "a": "grid-template-areas names regions for placement."},
+  {"k": ["css transform"], "a": "transform moves, scales, rotates elements without reflowing layout the same way."},
+  {"k": ["css transition"], "a": "transition animates property changes over time."},
+  {"k": ["css animation keyframes"], "a": "@keyframes defines steps of a CSS animation."},
+  {"k": ["css dark mode"], "a": "prefers-color-scheme media query detects dark mode preference."},
+  {"k": ["css container query"], "a": "Container queries style based on parent size, not only viewport."},
+  {"k": ["css clamp"], "a": "clamp(min, preferred, max) sets a responsive value with bounds."}
+]

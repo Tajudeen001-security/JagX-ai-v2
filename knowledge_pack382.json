@@ -1,0 +1,12 @@
+[
+  {"k": ["uml class diagram"], "a": "Class diagrams show classes, fields, methods, and relationships."},
+  {"k": ["uml sequence diagram"], "a": "Sequence diagrams show messages between objects over time."},
+  {"k": ["erd entity"], "a": "An entity is a thing stored as a table in relational design."},
+  {"k": ["erd relationship"], "a": "Relationships connect entities: one-to-one, one-to-many, many-to-many."},
+  {"k": ["architecture monolith"], "a": "A monolith is one deployable unit containing many features."},
+  {"k": ["architecture microservices"], "a": "Microservices split features into independently deployable services."},
+  {"k": ["architecture event driven"], "a": "Event-driven systems communicate by publishing and consuming events."},
+  {"k": ["architecture cqrs"], "a": "CQRS separates read models from write models."},
+  {"k": ["architecture cache aside"], "a": "Cache-aside: app reads cache, on miss loads DB and fills cache."},
+  {"k": ["architecture message queue"], "a": "Message queues decouple producers and consumers asynchronously."}
+]
