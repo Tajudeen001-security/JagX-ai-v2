@@ -1,0 +1,59 @@
+{
+  "project": "Wakai / JagX",
+  "created_by": "JagX & JRILICENSE",
+  "drive_root": "https://drive.google.com/drive/folders/1-cPZzUpmDRWox3Yl_HruNnbNgGVSmiUi",
+  "model": {
+    "dim": 576,
+    "n_layers": 14,
+    "n_heads": 8,
+    "max_seq_len": 512,
+    "checkpoint_size_bytes_approx": 315324000
+  },
+  "recommended": {
+    "clean": {
+      "name": "wakai_clean_step_10000.pt",
+      "file_id": "1EBinyXVylBgbLmQhWKiToOWUgGBHn3it",
+      "url": "https://drive.google.com/uc?export=download&id=1EBinyXVylBgbLmQhWKiToOWUgGBHn3it"
+    },
+    "final": {
+      "name": "wakai_final.pt",
+      "file_id": "1lXX6pMVKfYwwN0FzeuAl01CsTMvjcA63",
+      "url": "https://drive.google.com/uc?export=download&id=1lXX6pMVKfYwwN0FzeuAl01CsTMvjcA63"
+    },
+    "longest": {
+      "name": "wakai_step_30000.pt",
+      "file_id": "1HPIso9NDS6EumAO1w6ZGBa-OVWUf4QB4",
+      "url": "https://drive.google.com/uc?export=download&id=1HPIso9NDS6EumAO1w6ZGBa-OVWUf4QB4"
+    }
+  },
+  "tokenizer": {
+    "model": {
+      "name": "wakai.model",
+      "file_id": "1w4C67pqqSwTtZHtfgC1Yzib40407JR7L",
+      "url": "https://drive.google.com/uc?export=download&id=1w4C67pqqSwTtZHtfgC1Yzib40407JR7L"
+    },
+    "vocab": {
+      "name": "wakai.vocab",
+      "file_id": "1JdNf9za4A0-ibSq69WGKl0KDZLG1qOqA",
+      "url": "https://drive.google.com/uc?export=download&id=1JdNf9za4A0-ibSq69WGKl0KDZLG1qOqA"
+    }
+  },
+  "data": {
+    "train_clean": {
+      "name": "train_clean.txt",
+      "file_id": "1gQAna_HmVC127bJRQYpIwvNuPczylV1L",
+      "size_bytes": 9856762
+    },
+    "train": {
+      "name": "train.txt",
+      "file_id": "1jO9qop8BmzRi3jZkMnTMNQXsnfAFj65x",
+      "size_bytes": 98471822
+    }
+  },
+  "notes": [
+    "Checkpoints are ~315MB each — do NOT commit to GitHub.",
+    "Prefer wakai_clean_step_10000.pt for cleaner text quality.",
+    "Render free tier is too small to load this model; use local/Kaggle GPU or a paid instance.",
+    "API on Render continues to use knowledge packs + Groq; Wakai is the offline/local brain."
+  ]
+}
