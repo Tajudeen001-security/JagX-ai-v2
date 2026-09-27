@@ -1,0 +1,12 @@
+[
+  {"k": ["python asyncio task cancel"], "a": "Cancelled tasks raise CancelledError; handle cleanup in finally."},
+  {"k": ["python contextlib async"], "a": "asynccontextmanager builds async context managers."},
+  {"k": ["python typing literal"], "a": "Literal restricts values to specific constants."},
+  {"k": ["python typing final"], "a": "Final marks names that should not be reassigned/overridden."},
+  {"k": ["python dataclasses replace"], "a": "replace() builds a new dataclass instance with changes."},
+  {"k": ["python pathlib hard link"], "a": "Path methods can create links where the OS supports them."},
+  {"k": ["python zoneinfo available"], "a": "zoneinfo uses the system TZ database when available."},
+  {"k": ["python graphlib cycle"], "a": "TopologicalSorter detects cycles in dependency graphs."},
+  {"k": ["python statistics quantiles"], "a": "quantiles splits data into equal-probability intervals."},
+  {"k": ["python secrets compare digest"], "a": "compare_digest helps avoid timing attacks on secret compares."}
+]

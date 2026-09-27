@@ -1,0 +1,12 @@
+[
+  {"k": ["tagalog numbers 6-10"], "a": "6 anim, 7 pito, 8 walo, 9 siyam, 10 sampu."},
+  {"k": ["tagalog days"], "a": "Monday is Lunes; Sunday is Linggo."},
+  {"k": ["tagalog months jan"], "a": "January is Enero in Tagalog."},
+  {"k": ["tagalog colors red"], "a": "Red is pula; blue is asul or bughaw."},
+  {"k": ["tagalog left right"], "a": "Left is kaliwa; right is kanan."},
+  {"k": ["tagalog up down"], "a": "Up is pataas; down is pababa."},
+  {"k": ["tagalog hot cold"], "a": "Hot is mainit; cold is malamig."},
+  {"k": ["tagalog big small"], "a": "Big is malaki; small is maliit."},
+  {"k": ["tagalog open close"], "a": "Open is bukas; closed is sarado."},
+  {"k": ["tagalog come here"], "a": "Come here is Halika or Halika dito."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["ml precision recall tradeoff"], "a": "Raising threshold often increases precision and decreases recall."},
+  {"k": ["ml calibration"], "a": "Calibration means predicted probabilities match real frequencies."},
+  {"k": ["ml ensemble"], "a": "Ensembles combine models to improve robustness and accuracy."},
+  {"k": ["ml bagging"], "a": "Bagging trains models on bootstrap samples and averages them."},
+  {"k": ["ml boosting"], "a": "Boosting trains models sequentially to correct previous errors."},
+  {"k": ["ml random forest"], "a": "Random forests are bagged decision trees with feature randomness."},
+  {"k": ["ml gradient boosting"], "a": "Gradient boosting fits new models to residual errors."},
+  {"k": ["ml embedding cosine"], "a": "Cosine similarity is common for comparing embeddings."},
+  {"k": ["ml dimensionality reduction"], "a": "PCA and similar methods reduce feature dimensions."},
+  {"k": ["ml clustering kmeans"], "a": "K-means partitions data into k clusters by distance to centroids."}
+]

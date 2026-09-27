@@ -1,0 +1,12 @@
+[
+  {"k": ["network anycast dns"], "a": "Anycast DNS serves queries from nearby points of presence."},
+  {"k": ["network cdn origin shield"], "a": "Origin shields reduce load on origin servers."},
+  {"k": ["network tcp slow start"], "a": "TCP slow start ramps congestion window carefully."},
+  {"k": ["network packet loss"], "a": "Loss reduces throughput and increases retransmissions."},
+  {"k": ["network jitter"], "a": "Jitter is variation in packet delay."},
+  {"k": ["network qos"], "a": "QoS prioritizes certain traffic types."},
+  {"k": ["network vpn split tunnel"], "a": "Split tunneling sends only some traffic through the VPN."},
+  {"k": ["network zero trust network"], "a": "Zero trust verifies every request regardless of location."},
+  {"k": ["network dnssec"], "a": "DNSSEC authenticates DNS responses with signatures."},
+  {"k": ["network doh dot"], "a": "DoH/DoT encrypt DNS queries for privacy."}
+]

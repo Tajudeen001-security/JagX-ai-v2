@@ -1,0 +1,12 @@
+[
+  {"k": ["js abortsignal timeout"], "a": "AbortSignal.timeout(ms) aborts after a delay."},
+  {"k": ["js array fromasync"], "a": "Array.fromAsync builds arrays from async iterables."},
+  {"k": ["js promise any"], "a": "Promise.any fulfills with the first success."},
+  {"k": ["js weakset"], "a": "WeakSet holds weak references to objects."},
+  {"k": ["js finalization registry"], "a": "FinalizationRegistry schedules cleanup after GC."},
+  {"k": ["js error iserror"], "a": "Error.isError checks for Error instances more reliably."},
+  {"k": ["js regexp escape"], "a": "RegExp.escape escapes a string for safe use in patterns."},
+  {"k": ["js iterator toarray"], "a": "Iterator helpers may include toArray for materializing results."},
+  {"k": ["js module integrity"], "a": "Import maps and integrity attributes help secure module loading."},
+  {"k": ["js temporal plaindate"], "a": "Temporal.PlainDate represents a calendar date without time zone."}
+]

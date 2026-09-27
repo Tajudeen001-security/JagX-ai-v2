@@ -1,0 +1,12 @@
+[
+  {"k": ["fastapi lifespan context"], "a": "Async context managers can handle startup and shutdown."},
+  {"k": ["fastapi response class"], "a": "Custom response classes control serialization and headers."},
+  {"k": ["fastapi encode json"], "a": "jsonable_encoder converts common objects for JSON responses."},
+  {"k": ["fastapi form data"], "a": "Form() declares form fields for application/x-www-form-urlencoded."},
+  {"k": ["fastapi cookie param"], "a": "Cookie() reads values from request cookies."},
+  {"k": ["fastapi request body embed"], "a": "Body(embed=True) nests a single parameter under its name."},
+  {"k": ["fastapi path convertor"], "a": "Path convertors constrain path parameter types."},
+  {"k": ["fastapi docs oauth"], "a": "Swagger UI can use OAuth2 for authorized try-it-out."},
+  {"k": ["fastapi versioning path"], "a": "Include /v1 in routes for explicit API versions."},
+  {"k": ["fastapi shutdown cleanup"], "a": "Close DB pools and clients during shutdown handlers."}
+]

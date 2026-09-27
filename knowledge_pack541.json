@@ -1,0 +1,12 @@
+[
+  {"k": ["devops dora elite"], "a": "Elite performers deploy frequently with low lead time and fail rate."},
+  {"k": ["devops toil reduction"], "a": "Automate repetitive ops work to free engineering time."},
+  {"k": ["devops platform self service"], "a": "Self-service platforms let teams deploy without tickets."},
+  {"k": ["devops golden path templates"], "a": "Templates encode best practices for new services."},
+  {"k": ["devops progressive delivery analysis"], "a": "Compare canary metrics before full rollout."},
+  {"k": ["devops incident severity"], "a": "Severity levels prioritize response urgency."},
+  {"k": ["devops status page"], "a": "Status pages communicate outages to users transparently."},
+  {"k": ["devops chaos experiment"], "a": "Define hypothesis, blast radius, and rollback before chaos tests."},
+  {"k": ["devops capacity headroom"], "a": "Keep headroom so spikes do not immediately page the team."},
+  {"k": ["devops cost attribution"], "a": "Attribute cloud costs to teams and products."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["docker compose profiles"], "a": "Profiles enable optional services for different environments."},
+  {"k": ["docker compose watch"], "a": "Compose watch can sync files and rebuild on changes."},
+  {"k": ["docker build cache mount"], "a": "Cache mounts speed dependency installs during builds."},
+  {"k": ["docker sbom attest"], "a": "Attestations document how an image was built."},
+  {"k": ["docker content trust"], "a": "Content trust verifies signed images when enabled."},
+  {"k": ["docker user namespace"], "a": "User namespaces can map container root to unprivileged host users."},
+  {"k": ["docker seccomp"], "a": "Seccomp profiles restrict system calls containers may make."},
+  {"k": ["docker apparmor selinux"], "a": "MAC systems add mandatory access controls for containers."},
+  {"k": ["docker logging driver"], "a": "Logging drivers control where container logs are sent."},
+  {"k": ["docker init process"], "a": "An init process reaps zombies inside containers."}
+]

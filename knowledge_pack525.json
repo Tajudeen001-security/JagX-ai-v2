@@ -1,0 +1,12 @@
+[
+  {"k": ["math derivative sec"], "a": "d/dx sec(x) = sec(x)tan(x)."},
+  {"k": ["math derivative cot"], "a": "d/dx cot(x) = -csc²(x)."},
+  {"k": ["math integral sin"], "a": "∫ sin(x) dx = -cos(x) + C."},
+  {"k": ["math integral cos"], "a": "∫ cos(x) dx = sin(x) + C."},
+  {"k": ["math integral sec tan"], "a": "∫ sec(x)tan(x) dx = sec(x) + C."},
+  {"k": ["math double angle sin"], "a": "sin(2θ) = 2 sinθ cosθ."},
+  {"k": ["math double angle cos"], "a": "cos(2θ) = cos²θ - sin²θ."},
+  {"k": ["math half angle"], "a": "Half-angle formulas express sin/cos of θ/2 in terms of cosθ."},
+  {"k": ["math law of sines"], "a": "a/sin A = b/sin B = c/sin C."},
+  {"k": ["math law of cosines"], "a": "c² = a² + b² - 2ab cos C."}
+]

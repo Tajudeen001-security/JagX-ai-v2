@@ -1,0 +1,12 @@
+[
+  {"k": ["security threat modeling stride"], "a": "STRIDE: Spoofing, Tampering, Repudiation, Info disclosure, DoS, Elevation."},
+  {"k": ["security attack surface"], "a": "Attack surface is the set of ways an attacker can try to enter."},
+  {"k": ["security least privilege service accounts"], "a": "Service accounts should have minimal permissions."},
+  {"k": ["security key management"], "a": "Manage key lifecycle: create, rotate, revoke, destroy."},
+  {"k": ["security hsm"], "a": "HSMs protect cryptographic keys in hardened hardware."},
+  {"k": ["security certificate pinning"], "a": "Pinning limits which certificates a client will trust."},
+  {"k": ["security secure boot"], "a": "Secure boot verifies firmware/OS integrity at startup."},
+  {"k": ["security memory safety"], "a": "Memory-safe languages reduce whole classes of bugs."},
+  {"k": ["security fuzzing"], "a": "Fuzzing feeds random inputs to find crashes and bugs."},
+  {"k": ["security bug bounty"], "a": "Bug bounties pay researchers for responsibly reported issues."}
+]

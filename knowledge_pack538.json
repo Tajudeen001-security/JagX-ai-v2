@@ -1,0 +1,12 @@
+[
+  {"k": ["css anchor name"], "a": "anchor-name defines anchors for positioned elements."},
+  {"k": ["css position area"], "a": "position-area places elements relative to anchors."},
+  {"k": ["css scroll state queries"], "a": "Scroll-state queries style based on scroll container state."},
+  {"k": ["css field sizing"], "a": "field-sizing can allow form controls to size to content."},
+  {"k": ["css text box trim"], "a": "Text-box properties help align text more precisely."},
+  {"k": ["css ruby"], "a": "Ruby annotations support secondary text beside base text."},
+  {"k": ["css counter styles"], "a": "@counter-style defines custom list numbering styles."},
+  {"k": ["css page floats"], "a": "Paged media has specialized float behaviors for print."},
+  {"k": ["css environment variables"], "a": "env() exposes environment variables like safe-area-inset."},
+  {"k": ["css prefers contrast"], "a": "prefers-contrast adapts UI for higher contrast needs."}
+]

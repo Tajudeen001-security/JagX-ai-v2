@@ -1,0 +1,12 @@
+[
+  {"k": ["git rerere"], "a": "rerere records conflict resolutions to reuse later."},
+  {"k": ["git range diff"], "a": "git range-diff compares two commit ranges."},
+  {"k": ["git switch restore"], "a": "switch changes branches; restore restores files from trees."},
+  {"k": ["git sparse index"], "a": "Sparse index improves performance for partial checkouts."},
+  {"k": ["git partial clone"], "a": "Partial clones download objects on demand."},
+  {"k": ["git bundle"], "a": "git bundle packages objects for transfer without a remote."},
+  {"k": ["git mailmap"], "a": ".mailmap normalizes author names/emails in history views."},
+  {"k": ["git attributes"], "a": ".gitattributes controls line endings, diffs, and LFS patterns."},
+  {"k": ["git ignore negation"], "a": "!pattern in gitignore re-includes previously ignored paths."},
+  {"k": ["git commit fixup"], "a": "fixup commits help autosquash during interactive rebase."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["business contribution margin"], "a": "Contribution margin is revenue minus variable costs."},
+  {"k": ["business fixed vs variable"], "a": "Fixed costs stay stable; variable costs scale with volume."},
+  {"k": ["business payback period"], "a": "Payback period is time to recover an investment."},
+  {"k": ["business npv"], "a": "NPV discounts future cash flows to present value."},
+  {"k": ["business irr"], "a": "IRR is the discount rate that makes NPV zero."},
+  {"k": ["business unit price elasticity"], "a": "Price elasticity measures demand response to price changes."},
+  {"k": ["business moat"], "a": "An economic moat is a durable competitive advantage."},
+  {"k": ["business network effects"], "a": "Network effects increase value as more users join."},
+  {"k": ["business switching costs"], "a": "High switching costs make customers less likely to leave."},
+  {"k": ["business economies of scale"], "a": "Average costs fall as production volume rises."}
+]

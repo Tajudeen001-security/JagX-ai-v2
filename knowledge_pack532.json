@@ -1,0 +1,12 @@
+[
+  {"k": ["llm context stuffing"], "a": "Stuffing too much irrelevant context can reduce answer quality."},
+  {"k": ["llm lost in middle"], "a": "Models may underuse information placed in the middle of long contexts."},
+  {"k": ["llm citation grounding"], "a": "Ask models to cite retrieved snippets for verifiable answers."},
+  {"k": ["llm function calling"], "a": "Function calling lets models request structured tool executions."},
+  {"k": ["llm agent loop"], "a": "Agents iterate plan → act → observe until done or limits hit."},
+  {"k": ["llm memory store"], "a": "Long-term memory stores facts outside the context window."},
+  {"k": ["llm eval rubrics"], "a": "Rubrics score answers on correctness, helpfulness, and safety."},
+  {"k": ["llm regression suite"], "a": "Keep a fixed prompt suite to detect quality regressions."},
+  {"k": ["llm cost control"], "a": "Cap max tokens and cache frequent prompts to control cost."},
+  {"k": ["llm safety filter"], "a": "Safety filters block or rewrite disallowed content."}
+]

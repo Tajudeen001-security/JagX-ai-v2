@@ -1,0 +1,12 @@
+[
+  {"k": ["math fourier idea"], "a": "Fourier analysis represents functions as sums of sinusoids."},
+  {"k": ["math laplace transform"], "a": "Laplace transforms help solve differential equations."},
+  {"k": ["math differential equation"], "a": "Differential equations relate functions to their derivatives."},
+  {"k": ["math separation variables"], "a": "Separation of variables solves some differential equations."},
+  {"k": ["math linear algebra span"], "a": "Span is all linear combinations of a set of vectors."},
+  {"k": ["math projection"], "a": "Projection finds the closest vector in a subspace."},
+  {"k": ["math orthonormal"], "a": "Orthonormal sets are orthogonal and unit length."},
+  {"k": ["math determinant volume"], "a": "|det| relates to volume scaling of linear transforms."},
+  {"k": ["math inverse existence"], "a": "A square matrix is invertible iff determinant ≠ 0."},
+  {"k": ["math condition number"], "a": "Condition number estimates sensitivity to input perturbations."}
+]

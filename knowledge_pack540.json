@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 540"], "a": "Local knowledge packs have reached pack 540."},
+  {"k": ["jagx credit 540"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 220"], "a": "About 220 packs added toward the 300 expansion goal."},
+  {"k": ["sql vacuum freeze wraparound"], "a": "Transaction ID wraparound prevention is critical in long-lived PostgreSQL."},
+  {"k": ["sql index bloat check"], "a": "Monitor index bloat and rebuild when necessary."},
+  {"k": ["sql connection pool sizing"], "a": "Pool size should relate to DB capacity and app workers."},
+  {"k": ["sql prepared statement leaks"], "a": "Close or reuse prepared statements to avoid leaks."},
+  {"k": ["sql advisory lock session"], "a": "Session advisory locks release when the session ends."},
+  {"k": ["sql listen notify payload"], "a": "NOTIFY can carry a small payload string."},
+  {"k": ["sql logical decoding"], "a": "Logical decoding streams changes for CDC pipelines."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["design information architecture"], "a": "IA organizes content so users can find what they need."},
+  {"k": ["design progressive disclosure"], "a": "Show advanced options only when needed."},
+  {"k": ["design fitts law"], "a": "Larger, closer targets are faster to acquire."},
+  {"k": ["design hick law"], "a": "More choices can increase decision time."},
+  {"k": ["design affordance feedback"], "a": "Controls should look actionable and confirm actions."},
+  {"k": ["design consistent navigation"], "a": "Keep navigation patterns stable across screens."},
+  {"k": ["design form validation inline"], "a": "Validate fields near the input with clear messages."},
+  {"k": ["design skeleton screens"], "a": "Skeletons reduce perceived wait during loading."},
+  {"k": ["design dark patterns avoid"], "a": "Avoid manipulative UI that tricks users."},
+  {"k": ["design inclusive design"], "a": "Design for diverse abilities, languages, and contexts."}
+]

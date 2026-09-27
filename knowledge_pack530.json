@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 530"], "a": "Local knowledge packs have reached pack 530."},
+  {"k": ["jagx credit 530"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["batch progress 210"], "a": "About 210 packs added toward the 300 expansion goal."},
+  {"k": ["observability exemplars"], "a": "Exemplars link metrics to example traces."},
+  {"k": ["observability high cardinality"], "a": "Avoid unbounded label values like user IDs in metrics."},
+  {"k": ["observability sampling head tail"], "a": "Head sampling decides early; tail sampling decides after completion."},
+  {"k": ["observability log correlation"], "a": "Include trace IDs in logs to correlate with traces."},
+  {"k": ["observability golden signals"], "a": "Latency, traffic, errors, saturation are classic golden signals."},
+  {"k": ["observability burn rate alerts"], "a": "Error-budget burn-rate alerts detect fast SLO consumption."},
+  {"k": ["observability runbook link"], "a": "Alerts should link to runbooks with next steps."}
+]
