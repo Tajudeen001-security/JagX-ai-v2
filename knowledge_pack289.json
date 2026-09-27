@@ -1,0 +1,12 @@
+[
+  {"k": ["aws iam role"], "a": "Roles grant temporary permissions to services/users without long-lived keys."},
+  {"k": ["aws security group"], "a": "Virtual firewall rules controlling inbound/outbound traffic for instances."},
+  {"k": ["aws s3 bucket policy"], "a": "JSON policies define who can access bucket objects."},
+  {"k": ["aws lambda cold start"], "a": "Cold starts add latency when a new execution environment boots."},
+  {"k": ["aws rds multi az"], "a": "Multi-AZ provides synchronous standby for higher availability."},
+  {"k": ["aws cloudwatch alarm"], "a": "Alarms trigger actions when metrics cross thresholds."},
+  {"k": ["aws vpc subnet"], "a": "Subnets segment IP ranges inside a VPC (public/private)."},
+  {"k": ["aws elb types"], "a": "ALB is L7 HTTP; NLB is L4 TCP/UDP high performance."},
+  {"k": ["aws cost tags"], "a": "Tag resources for allocation and cost visibility."},
+  {"k": ["aws least privilege"], "a": "Grant only required IAM actions on specific resources."}
+]

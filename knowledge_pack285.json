@@ -1,0 +1,12 @@
+[
+  {"k": ["html semantic tags"], "a": "Use header, main, nav, article, section, footer for accessible structure."},
+  {"k": ["css box model"], "a": "Content + padding + border (+ margin outside) determine element size."},
+  {"k": ["css grid vs flex"], "a": "Flex is one-dimensional; Grid is two-dimensional layout."},
+  {"k": ["responsive design"], "a": "Layouts adapt across screen sizes via fluid units and media queries."},
+  {"k": ["accessibility alt text"], "a": "Meaningful alt text describes images for screen readers; decorative images use empty alt."},
+  {"k": ["dom vs virtual dom"], "a": "The DOM is the browser tree; virtual DOM diffs minimize real DOM updates."},
+  {"k": ["spa vs mpa"], "a": "SPAs navigate client-side; MPAs load new documents per navigation."},
+  {"k": ["csr vs ssr"], "a": "CSR renders in the browser; SSR sends HTML from the server first."},
+  {"k": ["web vitals core"], "a": "LCP, INP, and CLS measure loading, interactivity, and visual stability."},
+  {"k": ["service worker cache"], "a": "Service workers intercept fetches for offline and performance caching."}
+]

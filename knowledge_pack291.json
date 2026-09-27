@@ -1,0 +1,12 @@
+[
+  {"k": ["prompt injection defense"], "a": "Treat user content as untrusted; isolate tools and validate arguments."},
+  {"k": ["rag chunking"], "a": "Chunk documents with overlap so retrieval keeps local context."},
+  {"k": ["embedding consistency"], "a": "Use the same embedding model for index and query time."},
+  {"k": ["llm temperature"], "a": "Lower temperature for factual/coding; higher for creative brainstorming."},
+  {"k": ["token limits context"], "a": "Budget tokens for system, history, retrieved docs, and the answer."},
+  {"k": ["tool calling safety"], "a": "Allowlist tools; never execute raw model output without checks."},
+  {"k": ["eval set llm"], "a": "Maintain fixed questions to measure quality regressions over time."},
+  {"k": ["hallucination reduce"], "a": "Ground answers in retrieved sources and allow 'I do not know'."},
+  {"k": ["model routing"], "a": "Send easy queries to fast models; hard ones to stronger models."},
+  {"k": ["cache llm responses"], "a": "Cache identical prompts carefully; invalidate when knowledge changes."}
+]

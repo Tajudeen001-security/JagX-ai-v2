@@ -1,0 +1,12 @@
+[
+  {"k": ["design system components"], "a": "Shared UI components and tokens keep product consistent."},
+  {"k": ["api first design"], "a": "Define contracts before implementing clients and servers in parallel."},
+  {"k": ["domain driven design bounded context"], "a": "A bounded context is where a particular model and language apply."},
+  {"k": ["event driven architecture"], "a": "Components react to events for decoupling and scalability."},
+  {"k": ["cqrs short"], "a": "Separate read and write models when their shapes differ a lot."},
+  {"k": ["hexagonal architecture"], "a": "Ports and adapters isolate domain logic from frameworks and IO."},
+  {"k": ["strangler fig pattern"], "a": "Incrementally replace a legacy system by routing slices to new services."},
+  {"k": ["backpressure"], "a": "Slow consumers signal producers to reduce rate and avoid overload."},
+  {"k": ["idempotent api design"], "a": "Repeating the same request yields the same effect without duplication."},
+  {"k": ["pagination cursor"], "a": "Cursor/keyset pagination scales better than deep OFFSET pages."}
+]

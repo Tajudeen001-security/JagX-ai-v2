@@ -1,0 +1,12 @@
+[
+  {"k": ["javascript closures"], "a": "A closure captures variables from an outer scope even after that scope finished."},
+  {"k": ["javascript promises"], "a": "Promises represent eventual completion/failure of async work."},
+  {"k": ["javascript event loop"], "a": "The event loop schedules macrotasks/microtasks so JS stays non-blocking."},
+  {"k": ["javascript this keyword"], "a": "this depends on call site; arrow functions inherit lexical this."},
+  {"k": ["javascript modules esm"], "a": "import/export are standard ES modules for scoped dependencies."},
+  {"k": ["javascript strict mode"], "a": "'use strict' catches common mistakes and blocks unsafe features."},
+  {"k": ["typescript interface vs type"], "a": "Both describe shapes; interfaces merge; types are more flexible unions/mapped."},
+  {"k": ["typescript generics"], "a": "Generics parameterize types for reusable type-safe functions and structures."},
+  {"k": ["node package lock"], "a": "Lockfiles pin exact dependency versions for reproducible installs."},
+  {"k": ["npm vs pnpm"], "a": "pnpm uses a content-addressable store to save disk and speed installs."}
+]

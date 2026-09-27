@@ -1,0 +1,12 @@
+[
+  {"k": ["nigeria fintech stack"], "a": "Common stack includes Paystack/Flutterwave, SMS OTP providers, and KYC APIs."},
+  {"k": ["bvn sensitive"], "a": "BVN is highly sensitive; minimize storage and restrict access."},
+  {"k": ["ussd menu design"], "a": "Keep USSD menus shallow; sessions time out quickly."},
+  {"k": ["naira kobo storage"], "a": "Store NGN as integer kobo to avoid floating-point money bugs."},
+  {"k": ["wat timezone"], "a": "West Africa Time is UTC+1 without daylight saving."},
+  {"k": ["lagos tech ecosystem"], "a": "Lagos is a major African hub for startups, fintech, and developers."},
+  {"k": ["mobile money africa"], "a": "Mobile money and bank transfers are critical payment rails across Africa."},
+  {"k": ["low bandwidth ux nigeria"], "a": "Optimize payloads, images, and offline hints for variable networks."},
+  {"k": ["local cards payments"], "a": "Support local acquiring and test across multiple Nigerian banks."},
+  {"k": ["compliance kyc aml"], "a": "KYC/AML controls are required for many financial products — design for them early."}
+]

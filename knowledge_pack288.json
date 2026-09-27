@@ -1,0 +1,12 @@
+[
+  {"k": ["linux process vs thread"], "a": "Processes isolate memory; threads share address space within a process."},
+  {"k": ["linux signals"], "a": "Signals notify processes (SIGTERM, SIGKILL, SIGINT) for control and shutdown."},
+  {"k": ["linux permissions"], "a": "rwx bits for user/group/other control file access."},
+  {"k": ["linux systemd service"], "a": "systemd units manage service start, restart, and dependencies."},
+  {"k": ["linux cron"], "a": "Cron schedules recurring commands; document timezone clearly."},
+  {"k": ["linux ssh keys"], "a": "Prefer key-based SSH; disable password auth on servers when possible."},
+  {"k": ["linux journalctl"], "a": "journalctl reads systemd logs for services and the system."},
+  {"k": ["linux ulimit"], "a": "ulimit controls resource limits like open files and processes."},
+  {"k": ["linux cgroups"], "a": "cgroups limit and isolate CPU/memory for containers and processes."},
+  {"k": ["linux namespaces"], "a": "Namespaces isolate process views of network, mounts, PIDs, etc."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["sql join types"], "a": "INNER, LEFT, RIGHT, FULL joins combine rows from related tables differently."},
+  {"k": ["sql group by having"], "a": "GROUP BY aggregates rows; HAVING filters groups after aggregation."},
+  {"k": ["sql window functions"], "a": "OVER() computes ranks/running totals without collapsing rows."},
+  {"k": ["sql transaction acId"], "a": "Atomicity, Consistency, Isolation, Durability define reliable transactions."},
+  {"k": ["sql normalization"], "a": "Normalize to reduce redundancy; denormalize selectively for read speed."},
+  {"k": ["sql foreign key"], "a": "Foreign keys enforce referential integrity between tables."},
+  {"k": ["sql index tradeoff"], "a": "Indexes speed reads and slow writes; index selective query filters."},
+  {"k": ["sql prepared statement"], "a": "Bound parameters prevent SQL injection and can reuse plans."},
+  {"k": ["sql upsert"], "a": "INSERT ... ON CONFLICT / MERGE updates when a row already exists."},
+  {"k": ["sql explain analyze"], "a": "Runs the query and reports actual timings and row counts."}
+]

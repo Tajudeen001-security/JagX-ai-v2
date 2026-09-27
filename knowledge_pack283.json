@@ -1,0 +1,12 @@
+[
+  {"k": ["python list comprehension"], "a": "[expr for x in iterable if condition] builds a list in one expression."},
+  {"k": ["python generator"], "a": "Generators yield values lazily with yield, saving memory on large streams."},
+  {"k": ["python decorator"], "a": "A decorator wraps a function to add behavior without changing its call sites."},
+  {"k": ["python context manager"], "a": "with statement ensures setup/teardown via __enter__/__exit__ or contextlib."},
+  {"k": ["python dataclasses"], "a": "@dataclass auto-generates init/repr/eq for simple data containers."},
+  {"k": ["python typing optional"], "a": "Optional[T] means T or None; prefer T | None in modern Python."},
+  {"k": ["python pathlib"], "a": "pathlib.Path is the modern object-oriented path API."},
+  {"k": ["python venv"], "a": "python -m venv .venv isolates project dependencies."},
+  {"k": ["python requests vs httpx"], "a": "requests is sync classic; httpx supports sync and async HTTP."},
+  {"k": ["python gil"], "a": "The GIL allows one thread to execute Python bytecode at a time; use multiprocessing for CPU parallelism."}
+]

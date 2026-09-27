@@ -1,0 +1,12 @@
+[
+  {"k": ["git commit message"], "a": "Summarize why in imperative mood; reference issues when useful."},
+  {"k": ["git branch strategy"], "a": "Trunk-based or short-lived feature branches reduce merge pain."},
+  {"k": ["git merge vs rebase"], "a": "Merge preserves history topology; rebase replays commits linearly."},
+  {"k": ["git stash"], "a": "Temporarily shelves local changes to switch context."},
+  {"k": ["git cherry pick"], "a": "Apply a specific commit onto another branch."},
+  {"k": ["git bisect"], "a": "Binary-search history to find the commit that introduced a bug."},
+  {"k": ["git tag release"], "a": "Tags mark release points; annotated tags store metadata."},
+  {"k": ["git submodule"], "a": "Submodules pin external repos at specific commits — use carefully."},
+  {"k": ["conventional commits"], "a": "feat/fix/chore prefixes enable automated changelogs and semver."},
+  {"k": ["code owners file"], "a": "CODEOWNERS routes review requests to responsible teams."}
+]
