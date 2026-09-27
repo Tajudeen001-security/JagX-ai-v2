@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 312"], "a": "Local knowledge packs continue past 312 on JagX-ai-v2."},
+  {"k": ["jagx wakai wired"], "a": "Wakai architecture and Drive downloaders are in the wakai/ folder."},
+  {"k": ["jagx next train"], "a": "Download clean checkpoint, train more on GPU, upload new .pt to Drive checkpoints/."},
+  {"k": ["jagx api still"], "a": "Friends use POST /chat with a permanent x-api-key."},
+  {"k": ["jagx credit 312"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["nigeria wat now"], "a": "Nigeria uses WAT (UTC+1) all year."},
+  {"k": ["keep render alive"], "a": "Ping GET /health every few minutes."},
+  {"k": ["permanent keys env"], "a": "Store keys in JAGX_PERMANENT_KEYS so Render disk resets do not wipe them."},
+  {"k": ["debug llm path"], "a": "Use /debug/llm when Groq answers fail."},
+  {"k": ["hybrid reminder 312"], "a": "Packs + Groq online; Wakai offline."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["js optional chaining"], "a": "obj?.prop safely reads nested properties when obj may be null."},
+  {"k": ["js nullish coalescing"], "a": "a ?? b uses b only when a is null or undefined."},
+  {"k": ["js destructure"], "a": "const {id, name} = user extracts fields into variables."},
+  {"k": ["js spread object"], "a": "{...a, ...b} copies properties; later keys overwrite earlier ones."},
+  {"k": ["js array map"], "a": "arr.map(fn) returns a new array of mapped values."},
+  {"k": ["js fetch json"], "a": "const data = await (await fetch(url)).json()"},
+  {"k": ["js debounce"], "a": "Debounce delays a function until calls stop for N ms."},
+  {"k": ["js throttle"], "a": "Throttle runs a function at most once per interval."},
+  {"k": ["js localstorage json"], "a": "JSON.stringify before setItem; JSON.parse after getItem."},
+  {"k": ["js event preventdefault"], "a": "event.preventDefault() stops the browser's default action."}
+]

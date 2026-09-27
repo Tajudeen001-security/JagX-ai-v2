@@ -1,0 +1,12 @@
+[
+  {"k": ["kaggle save output"], "a": "Write checkpoints to /kaggle/working then download or copy to Drive before timeout."},
+  {"k": ["gdown large file"], "a": "gdown can download Drive files by id; confirm quota and public sharing."},
+  {"k": ["sentencepiece encode"], "a": "sp.encode(text) returns token ids; sp.decode(ids) returns text."},
+  {"k": ["vocab size infer"], "a": "Infer vocab_size from tok_emb.weight.shape[0] when loading a checkpoint."},
+  {"k": ["strict false load"], "a": "load_state_dict(..., strict=False) helps when extra keys like optimizer exist."},
+  {"k": ["cpu generate slow"], "a": "315MB models generate slowly on CPU; GPU is much faster."},
+  {"k": ["max new tokens"], "a": "Cap generated tokens so replies stay short and fast."},
+  {"k": ["eos stop"], "a": "Stop generation when the model emits the end-of-sequence token."},
+  {"k": ["prompt format train"], "a": "Match inference prompts to the format used in training data."},
+  {"k": ["clean vs raw corpus"], "a": "train_clean.txt is smaller and cleaner than train.txt; clean runs often read better."}
+]

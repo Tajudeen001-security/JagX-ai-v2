@@ -1,0 +1,12 @@
+[
+  {"k": ["wakai model what"], "a": "Wakai is JagX's locally trained transformer (~80-100M params, 14 layers, dim 576)."},
+  {"k": ["wakai checkpoint where"], "a": "Weights live on Google Drive checkpoints/; code is in JagX-ai-v2/wakai/."},
+  {"k": ["wakai recommended ckpt"], "a": "Prefer wakai_clean_step_10000.pt for cleaner text; also wakai_final.pt and wakai_step_30000.pt."},
+  {"k": ["wakai not on render"], "a": "Render free tier cannot load the 315MB checkpoint; use packs + Groq online, Wakai locally."},
+  {"k": ["wakai download"], "a": "python wakai/download_weights.py --which clean"},
+  {"k": ["wakai infer"], "a": "python wakai/infer.py --ckpt PATH --tokenizer PATH --prompt 'Hello'"},
+  {"k": ["wakai tokenizer"], "a": "SentencePiece files: wakai.model and wakai.vocab in Drive tokenizer/."},
+  {"k": ["wakai context length"], "a": "Trained max sequence length is 512 tokens."},
+  {"k": ["jagx hybrid brain"], "a": "Packs for instant facts; Groq for hard reasoning; Wakai for offline generation."},
+  {"k": ["jagx continue train"], "a": "Resume from a Drive checkpoint on Kaggle GPU and copy new .pt files back to Drive."}
+]

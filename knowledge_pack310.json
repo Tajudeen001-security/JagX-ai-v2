@@ -1,0 +1,12 @@
+[
+  {"k": ["git status"], "a": "git status shows staged, unstaged, and untracked files."},
+  {"k": ["git add p"], "a": "git add -p stages hunks interactively."},
+  {"k": ["git log oneline"], "a": "git log --oneline --graph is a compact history view."},
+  {"k": ["git diff staged"], "a": "git diff --staged shows what is already in the index."},
+  {"k": ["git checkout file"], "a": "git restore file discards unstaged changes to that file."},
+  {"k": ["git reset soft"], "a": "--soft moves HEAD but keeps changes staged."},
+  {"k": ["git reset mixed"], "a": "--mixed (default) unstages but keeps working tree changes."},
+  {"k": ["git reset hard"], "a": "--hard discards commits and working tree changes — destructive."},
+  {"k": ["git remote -v"], "a": "Shows fetch/push URLs for remotes."},
+  {"k": ["git pull rebase"], "a": "git pull --rebase replays your commits on top of upstream."}
+]

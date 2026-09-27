@@ -1,0 +1,12 @@
+[
+  {"k": ["python f string"], "a": "f'{name} is {age}' interpolates expressions inside strings."},
+  {"k": ["python enumerate"], "a": "enumerate(seq, start=0) yields (index, item) pairs."},
+  {"k": ["python zip"], "a": "zip(a,b) pairs items from sequences until the shortest ends."},
+  {"k": ["python dict get"], "a": "d.get(key, default) avoids KeyError when a key is missing."},
+  {"k": ["python set unique"], "a": "Sets store unique hashable items and support fast membership tests."},
+  {"k": ["python unpack"], "a": "a, *rest, z = seq unpacks ends and collects the middle."},
+  {"k": ["python walrus"], "a": ":= assigns inside an expression, e.g. while (line := f.readline())."},
+  {"k": ["python type hints"], "a": "def f(x: int) -> str documents types for readers and checkers."},
+  {"k": ["python logging basic"], "a": "Use logging.getLogger(__name__) instead of print in libraries."},
+  {"k": ["python json dumps"], "a": "json.dumps(obj) serializes to a string; json.loads parses a string."}
+]

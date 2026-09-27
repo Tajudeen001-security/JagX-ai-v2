@@ -1,0 +1,12 @@
+[
+  {"k": ["linux ls lah"], "a": "ls -lah lists all files with human-readable sizes including hidden."},
+  {"k": ["linux chmod 755"], "a": "755 means owner rwx, group/others r-x — common for executables/dirs."},
+  {"k": ["linux chown"], "a": "chown user:group file changes owner and group."},
+  {"k": ["linux curl o"], "a": "curl -L -o file url downloads following redirects."},
+  {"k": ["linux wget"], "a": "wget url downloads a file; -c resumes a partial download."},
+  {"k": ["linux grep i"], "a": "grep -RIn pattern . searches recursively, line numbers, ignore case."},
+  {"k": ["linux df h"], "a": "df -h shows disk free space in human units."},
+  {"k": ["linux free h"], "a": "free -h shows RAM and swap usage."},
+  {"k": ["linux ps aux"], "a": "ps aux lists processes; pipe to grep to find one."},
+  {"k": ["linux kill pid"], "a": "kill PID sends SIGTERM; kill -9 is last resort."}
+]

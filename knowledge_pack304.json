@@ -1,0 +1,12 @@
+[
+  {"k": ["what is attention"], "a": "Attention lets a model weigh which tokens matter when predicting the next token."},
+  {"k": ["what is rope"], "a": "Rotary Position Embeddings encode position by rotating query/key vectors."},
+  {"k": ["what is rmsnorm"], "a": "RMSNorm scales activations by root-mean-square without centering, used in modern LMs."},
+  {"k": ["what is swiglu"], "a": "SwiGLU is a gated FFN: silu(W1 x) * W3 x, then W2."},
+  {"k": ["teacher forcing"], "a": "Training feeds the true previous token rather than the model's own prediction."},
+  {"k": ["cross entropy lm"], "a": "Language models train with next-token cross-entropy over the vocabulary."},
+  {"k": ["top k sampling"], "a": "Keep only the k most likely tokens before sampling the next token."},
+  {"k": ["temperature sampling"], "a": "Higher temperature flattens probabilities; lower makes output more deterministic."},
+  {"k": ["checkpoint resume"], "a": "Save model, optimizer, step, and RNG so training can continue later."},
+  {"k": ["overfitting lm"], "a": "If train loss drops but generations repeat the corpus, reduce steps or add cleaner data."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["http methods rest"], "a": "GET read, POST create, PUT replace, PATCH update, DELETE remove."},
+  {"k": ["status 201"], "a": "201 Created means a new resource was successfully created."},
+  {"k": ["status 204"], "a": "204 No Content means success with an empty body, common after DELETE."},
+  {"k": ["status 422"], "a": "422 Unprocessable Entity often means validation failed."},
+  {"k": ["status 429"], "a": "429 Too Many Requests means rate limited; back off and retry."},
+  {"k": ["status 502"], "a": "502 Bad Gateway means a proxy got an invalid response from upstream."},
+  {"k": ["status 504"], "a": "504 Gateway Timeout means upstream took too long."},
+  {"k": ["idempotent methods"], "a": "GET, PUT, DELETE are idempotent; POST generally is not."},
+  {"k": ["safe methods"], "a": "Safe methods (GET, HEAD) should not change server state."},
+  {"k": ["content negotiation"], "a": "Clients use Accept headers to request JSON vs HTML etc."}
+]

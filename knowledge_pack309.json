@@ -1,0 +1,12 @@
+[
+  {"k": ["sql select distinct"], "a": "SELECT DISTINCT col returns unique values of col."},
+  {"k": ["sql limit offset"], "a": "LIMIT n OFFSET m pages results but deep offsets get slow."},
+  {"k": ["sql like wildcard"], "a": "% matches any substring; _ matches one character."},
+  {"k": ["sql between"], "a": "BETWEEN a AND b is inclusive of both ends."},
+  {"k": ["sql coalesce"], "a": "COALESCE(a,b) returns the first non-null argument."},
+  {"k": ["sql case when"], "a": "CASE WHEN cond THEN x ELSE y END is SQL's if/else."},
+  {"k": ["sql exists"], "a": "EXISTS (subquery) is true if the subquery returns any row."},
+  {"k": ["sql union all"], "a": "UNION ALL concatenates result sets without removing duplicates."},
+  {"k": ["sql with cte"], "a": "WITH cte AS (select ...) SELECT ... FROM cte names a subquery."},
+  {"k": ["sql comment"], "a": "-- line comments and /* block comments */ in most SQL dialects."}
+]

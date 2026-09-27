@@ -1,0 +1,4 @@
+# Optional extras to run the local Wakai model (NOT needed on Render free tier)
+gdown>=5.0.0
+torch>=2.2.0
+sentencepiece>=0.2.0
