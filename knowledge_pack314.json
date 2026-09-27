@@ -1,0 +1,12 @@
+[
+  {"k": ["json vs yaml"], "a": "JSON is strict and ubiquitous; YAML is friendlier for config but easier to footgun."},
+  {"k": ["toml config"], "a": "TOML is a readable config format used by pyproject.toml and many tools."},
+  {"k": ["env file format"], "a": "KEY=value lines; no secrets in git."},
+  {"k": ["csv pitfalls"], "a": "Commas inside quotes, encodings, and newlines break naive split(',')."},
+  {"k": ["utf8 bom"], "a": "A UTF-8 BOM at file start can break parsers — strip it if needed."},
+  {"k": ["ndjson"], "a": "Newline-delimited JSON (JSONL) is one object per line for streaming datasets."},
+  {"k": ["protobuf idea"], "a": "Protocol Buffers are compact typed binary messages with schemas."},
+  {"k": ["avro parquet"], "a": "Avro is row-oriented; Parquet is columnar for analytics."},
+  {"k": ["mime type"], "a": "MIME types label payload format, e.g. application/json."},
+  {"k": ["base64 use"], "a": "Base64 encodes binary as text; it is encoding, not encryption."}
+]

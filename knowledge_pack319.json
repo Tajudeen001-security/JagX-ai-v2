@@ -1,0 +1,12 @@
+[
+  {"k": ["latency vs throughput"], "a": "Latency is time per request; throughput is requests per second."},
+  {"k": ["p95 p99"], "a": "High percentiles show tail latency users actually feel."},
+  {"k": ["queueing delay"], "a": "When utilization is high, wait time explodes — keep spare capacity."},
+  {"k": ["fanout latency"], "a": "Calling many services in series adds latency; parallelize when safe."},
+  {"k": ["n plus one api"], "a": "Chatty per-item API calls kill mobile performance; batch instead."},
+  {"k": ["payload size"], "a": "Large JSON payloads cost bandwidth and parse time — trim fields."},
+  {"k": ["connection reuse"], "a": "HTTP keep-alive / connection pools avoid handshake tax."},
+  {"k": ["cold start"], "a": "First request after idle pays startup cost (Render free tier, Lambdas)."},
+  {"k": ["cache locality"], "a": "Keep hot data close to compute (memory, then region, then origin)."},
+  {"k": ["measure first"], "a": "Profile before optimizing; guesses waste time."}
+]

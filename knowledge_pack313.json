@@ -1,0 +1,12 @@
+[
+  {"k": ["regex basics"], "a": "Regular expressions match text patterns; test them before using on user input."},
+  {"k": ["regex digit"], "a": "\\d matches a digit; \\d+ matches one or more digits."},
+  {"k": ["regex word"], "a": "\\w matches letters, digits, underscore."},
+  {"k": ["regex whitespace"], "a": "\\s matches whitespace; \\S matches non-whitespace."},
+  {"k": ["regex anchors"], "a": "^ starts the string; $ ends it."},
+  {"k": ["regex greedy"], "a": "* and + are greedy; *? and +? are lazy."},
+  {"k": ["regex capture group"], "a": "(abc) captures a group; (?:abc) is non-capturing."},
+  {"k": ["regex character class"], "a": "[abc] matches a, b, or c; [^abc] matches anything else."},
+  {"k": ["regex escape"], "a": "Escape special characters with \\ when you want the literal."},
+  {"k": ["regex safety"], "a": "Unbounded patterns on user input can hang (catastrophic backtracking)."}
+]

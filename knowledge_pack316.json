@@ -1,0 +1,12 @@
+[
+  {"k": ["docker image vs container"], "a": "An image is a template; a container is a running instance."},
+  {"k": ["dockerfile from"], "a": "FROM sets the base image."},
+  {"k": ["docker layer cache"], "a": "Order Dockerfile commands so rarely changing layers come first."},
+  {"k": ["docker ignore"], "a": ".dockerignore keeps secrets and junk out of the build context."},
+  {"k": ["docker bind mount"], "a": "Bind mounts map a host path into the container for live dev."},
+  {"k": ["docker network"], "a": "User-defined networks let containers reach each other by name."},
+  {"k": ["docker healthcheck"], "a": "HEALTHCHECK tells orchestrators when a container is ready/healthy."},
+  {"k": ["multi stage docker"], "a": "Build in one stage, copy only artifacts into a slim runtime image."},
+  {"k": ["docker nonroot"], "a": "Run as a non-root user in production images."},
+  {"k": ["image scan"], "a": "Scan images for CVEs before shipping."}
+]

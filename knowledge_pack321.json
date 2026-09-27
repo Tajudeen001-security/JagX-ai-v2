@@ -1,0 +1,12 @@
+[
+  {"k": ["unit vs integration"], "a": "Unit tests isolate one piece; integration tests cover real boundaries."},
+  {"k": ["e2e test"], "a": "End-to-end tests drive the product like a user through a critical path."},
+  {"k": ["test pyramid"], "a": "Many unit tests, fewer integration tests, few e2e tests."},
+  {"k": ["arrange act assert"], "a": "Setup, perform action, check outcome."},
+  {"k": ["test names"], "a": "Name tests by behavior: test_login_rejects_wrong_password."},
+  {"k": ["ci fail fast"], "a": "Run cheapest tests first so failures show up quickly."},
+  {"k": ["snapshot caution"], "a": "Snapshots drift; review updates instead of blindly accepting."},
+  {"k": ["test isolation"], "a": "Tests must not depend on each other or shared mutable state."},
+  {"k": ["time freeze tests"], "a": "Freeze clocks when asserting timestamps."},
+  {"k": ["flaky network tests"], "a": "Mock external HTTP in unit tests; use recorded fixtures for contract tests."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["kubernetes pod"], "a": "A pod is the smallest deployable unit and can hold one or more containers."},
+  {"k": ["k8s deployment"], "a": "A Deployment manages replica Pods and rolling updates."},
+  {"k": ["k8s service"], "a": "A Service gives a stable virtual IP / DNS name to pods."},
+  {"k": ["k8s ingress"], "a": "Ingress routes external HTTP(S) to Services."},
+  {"k": ["k8s configmap"], "a": "ConfigMaps store non-secret configuration."},
+  {"k": ["k8s secret"], "a": "Secrets store sensitive data; still encrypt etcd and limit access."},
+  {"k": ["k8s liveness"], "a": "Liveness probes restart containers that are stuck."},
+  {"k": ["k8s readiness"], "a": "Readiness probes remove unready pods from Service traffic."},
+  {"k": ["k8s hpa"], "a": "Horizontal Pod Autoscaler scales replicas by metrics."},
+  {"k": ["k8s namespace"], "a": "Namespaces partition cluster objects for teams and environments."}
+]

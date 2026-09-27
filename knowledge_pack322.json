@@ -1,0 +1,12 @@
+[
+  {"k": ["open source license mit"], "a": "MIT is a short permissive license requiring copyright notice."},
+  {"k": ["apache 2"], "a": "Apache-2.0 is permissive with an explicit patent grant."},
+  {"k": ["gpl copyleft"], "a": "GPL requires derivative works to stay under GPL when distributed."},
+  {"k": ["license compatibility"], "a": "Mixing licenses can block distribution — check before vendoring."},
+  {"k": ["third party notices"], "a": "Ship required notices for bundled open source."},
+  {"k": ["proprietary vs oss"], "a": "Proprietary keeps source closed; OSS publishes source under a license."},
+  {"k": ["contributor license"], "a": "Some projects use a CLA so they can relicense contributions."},
+  {"k": ["trademark vs license"], "a": "Code licenses do not automatically grant trademark rights."},
+  {"k": ["dual license"], "a": "Some projects offer OSS plus a commercial license."},
+  {"k": ["jagx license note"], "a": "JagX project credit: JagX & JRILICENSE."}
+]

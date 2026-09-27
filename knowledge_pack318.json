@@ -1,0 +1,12 @@
+[
+  {"k": ["agile sprint"], "a": "A sprint is a short timeboxed iteration with a planned increment."},
+  {"k": ["user story"], "a": "As a <role>, I want <goal>, so that <value>."},
+  {"k": ["acceptance criteria"], "a": "Testable conditions that define when a story is done."},
+  {"k": ["definition of done"], "a": "Shared checklist: tested, reviewed, documented, deployed as agreed."},
+  {"k": ["backlog grooming"], "a": "Refine and estimate upcoming work so sprint planning is cheaper."},
+  {"k": ["velocity caution"], "a": "Velocity is a planning signal, not a performance score to game."},
+  {"k": ["retro"], "a": "Retrospectives change the process, not just vent."},
+  {"k": ["wip limit kanban"], "a": "Limit work-in-progress to finish more and expose bottlenecks."},
+  {"k": ["spike ticket"], "a": "A timeboxed research ticket to reduce uncertainty."},
+  {"k": ["tech debt"], "a": "Schedule debt paydown; ignored debt slows every future change."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 320"], "a": "Knowledge pack series has reached 320."},
+  {"k": ["wakai kaggle resume"], "a": "See wakai/kaggle_resume.md for exact gdown IDs and steps."},
+  {"k": ["wakai requirements extra"], "a": "pip install -r requirements-wakai.txt only on machines that will run the local model."},
+  {"k": ["do not pip torch render"], "a": "Do not add torch to Render requirements.txt — the free service will fail or time out."},
+  {"k": ["drive public folder"], "a": "https://drive.google.com/drive/folders/1-cPZzUpmDRWox3Yl_HruNnbNgGVSmiUi"},
+  {"k": ["jagx credit 320"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["continue command"], "a": "Say next 20 or next 50 to keep expanding local knowledge."},
+  {"k": ["test wakai local"], "a": "After download_weights.py, run infer.py with a short prompt."},
+  {"k": ["hybrid stack 320"], "a": "Render API + packs + Groq; Wakai weights on Drive/GPU."},
+  {"k": ["checkpoint copy rule"], "a": "Copy new .pt files to Drive before Kaggle/Colab dies."}
+]

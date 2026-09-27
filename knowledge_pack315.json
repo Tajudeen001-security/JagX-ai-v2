@@ -1,0 +1,12 @@
+[
+  {"k": ["hash sha256"], "a": "SHA-256 is a widely used cryptographic hash for integrity checks."},
+  {"k": ["hash vs encryption"], "a": "Hashes are one-way; encryption is reversible with a key."},
+  {"k": ["hmac"], "a": "HMAC is a keyed hash used to authenticate messages."},
+  {"k": ["salt password"], "a": "Salts make each password hash unique even for identical passwords."},
+  {"k": ["pepper password"], "a": "A pepper is a secret added to hashes and stored separately from the DB."},
+  {"k": ["bcrypt argon2"], "a": "Use a slow password hash (Argon2/bcrypt/scrypt), not raw SHA-256."},
+  {"k": ["timing attack"], "a": "Use constant-time compares for secrets to reduce timing leaks."},
+  {"k": ["nonce"], "a": "A nonce is a number used once to prevent replay in crypto protocols."},
+  {"k": ["iv encryption"], "a": "Initialization vectors must be unique per encryption under the same key."},
+  {"k": ["tls versions"], "a": "Use TLS 1.2+; disable ancient SSL/TLS versions."}
+]
