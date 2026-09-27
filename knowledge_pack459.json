@@ -1,0 +1,12 @@
+[
+  {"k": ["api graphql schema"], "a": "A GraphQL schema defines types, queries, and mutations."},
+  {"k": ["api graphql resolver"], "a": "Resolvers fetch the data for each field in a query."},
+  {"k": ["api rest resource"], "a": "REST resources are typically nouns in URLs, acted on by HTTP methods."},
+  {"k": ["api batch endpoint"], "a": "Batch endpoints reduce chatty clients by combining operations."},
+  {"k": ["api long polling"], "a": "Long polling holds a request open until new data is available."},
+  {"k": ["api server sent events"], "a": "SSE streams server-to-client events over HTTP."},
+  {"k": ["api websocket vs http"], "a": "WebSockets are bidirectional; HTTP request/response is not."},
+  {"k": ["api protobuf"], "a": "Protocol Buffers serialize structured data compactly."},
+  {"k": ["api avro"], "a": "Avro is a schema-based data serialization system."},
+  {"k": ["api contract test"], "a": "Contract tests ensure client and server agree on the API shape."}
+]

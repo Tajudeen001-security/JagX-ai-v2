@@ -1,0 +1,12 @@
+[
+  {"k": ["jagx packs 450"], "a": "Local knowledge packs have reached pack 450."},
+  {"k": ["jagx credit 450"], "a": "Built by JagX and JRILICENSE."},
+  {"k": ["milestone 450 packs"], "a": "Pack 450 continues the large local knowledge expansion."},
+  {"k": ["batch progress 130"], "a": "About 130 packs added in this 300-pack expansion so far."},
+  {"k": ["css subgrid"], "a": "subgrid lets children participate in a parent grid's tracks."},
+  {"k": ["css color mix"], "a": "color-mix() blends two colors in a specified color space."},
+  {"k": ["css nest"], "a": "Native CSS nesting reduces repetition in selectors."},
+  {"k": ["css cascade layers"], "a": "@layer controls priority groups in the cascade."},
+  {"k": ["css container queries"], "a": "@container applies styles based on container size."},
+  {"k": ["css view transitions"], "a": "View transitions animate between DOM states in supporting browsers."}
+]

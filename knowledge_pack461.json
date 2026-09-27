@@ -1,0 +1,12 @@
+[
+  {"k": ["testing tdd"], "a": "TDD writes a failing test first, then code, then refactor."},
+  {"k": ["testing bdd"], "a": "BDD describes behavior in business-readable scenarios."},
+  {"k": ["testing smoke vs regression"], "a": "Smoke is shallow critical path; regression is broader recheck."},
+  {"k": ["testing test pyramid"], "a": "Many unit, fewer integration, few e2e tests."},
+  {"k": ["testing parallel tests"], "a": "Parallel tests need isolation to avoid shared-state flakes."},
+  {"k": ["testing seed data"], "a": "Deterministic seed data makes failures reproducible."},
+  {"k": ["testing time mock"], "a": "Mock clocks when asserting time-based behavior."},
+  {"k": ["testing network mock"], "a": "Mock external HTTP in unit tests for speed and reliability."},
+  {"k": ["testing coverage gap"], "a": "Coverage gaps highlight untested branches, not guaranteed correctness."},
+  {"k": ["testing release checklist"], "a": "Run critical tests before production deploys."}
+]

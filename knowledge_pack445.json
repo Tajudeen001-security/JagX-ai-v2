@@ -1,0 +1,12 @@
+[
+  {"k": ["unit km to m"], "a": "1 kilometer = 1000 meters."},
+  {"k": ["unit m to cm"], "a": "1 meter = 100 centimeters."},
+  {"k": ["unit kg to g"], "a": "1 kilogram = 1000 grams."},
+  {"k": ["unit hour to min"], "a": "1 hour = 60 minutes."},
+  {"k": ["unit liter to ml"], "a": "1 liter = 1000 milliliters."},
+  {"k": ["unit celsius kelvin"], "a": "K = °C + 273.15."},
+  {"k": ["unit celsius fahrenheit"], "a": "°F = °C × 9/5 + 32."},
+  {"k": ["unit byte kb"], "a": "1 kilobyte is 1000 or 1024 bytes depending on context."},
+  {"k": ["unit mb gb"], "a": "1 GB is about 1000 MB in decimal SI usage."},
+  {"k": ["unit watt kilowatt"], "a": "1 kilowatt = 1000 watts."}
+]

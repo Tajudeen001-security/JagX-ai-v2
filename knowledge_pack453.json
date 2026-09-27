@@ -1,0 +1,12 @@
+[
+  {"k": ["devops blue green"], "a": "Blue-green deploys switch traffic between two environments."},
+  {"k": ["devops canary"], "a": "Canaries expose a small percentage of users to a new version."},
+  {"k": ["devops feature toggle"], "a": "Feature toggles separate deploy from release."},
+  {"k": ["devops runbook"], "a": "Runbooks document steps to handle common incidents."},
+  {"k": ["devops postmortem"], "a": "Blameless postmortems focus on system fixes, not blame."},
+  {"k": ["devops oncall"], "a": "On-call engineers respond to alerts outside normal hours."},
+  {"k": ["devops capacity planning"], "a": "Capacity planning estimates resources needed for growth."},
+  {"k": ["devops cost observability"], "a": "Track cloud spend by service and team to control costs."},
+  {"k": ["devops infra drift"], "a": "Drift is when live infra differs from declared IaC."},
+  {"k": ["devops immutable infra"], "a": "Immutable infrastructure replaces servers instead of mutating them."}
+]

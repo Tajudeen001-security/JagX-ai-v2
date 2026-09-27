@@ -1,0 +1,12 @@
+[
+  {"k": ["world capital spain"], "a": "The capital of Spain is Madrid."},
+  {"k": ["world capital portugal"], "a": "The capital of Portugal is Lisbon."},
+  {"k": ["world capital greece"], "a": "The capital of Greece is Athens."},
+  {"k": ["world capital turkey"], "a": "The capital of Turkey is Ankara."},
+  {"k": ["world capital saudi"], "a": "The capital of Saudi Arabia is Riyadh."},
+  {"k": ["world capital uae"], "a": "The capital of the UAE is Abu Dhabi."},
+  {"k": ["world capital indonesia"], "a": "The capital of Indonesia is Jakarta (new capital Nusantara planned)."},
+  {"k": ["world capital philippines"], "a": "The capital of the Philippines is Manila."},
+  {"k": ["world capital south korea"], "a": "The capital of South Korea is Seoul."},
+  {"k": ["world capital thailand"], "a": "The capital of Thailand is Bangkok."}
+]

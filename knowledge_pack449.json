@@ -1,0 +1,12 @@
+[
+  {"k": ["js array at"], "a": "arr.at(-1) reads the last element without length math."},
+  {"k": ["js object hasown"], "a": "Object.hasOwn(obj, key) safely checks own properties."},
+  {"k": ["js structuredclone"], "a": "structuredClone deep copies many structured values."},
+  {"k": ["js error cause"], "a": "Error cause chains underlying errors for better debugging."},
+  {"k": ["js private fields"], "a": "#field declares private class fields."},
+  {"k": ["js static block"], "a": "static {} blocks initialize class static state."},
+  {"k": ["js import assertions"], "a": "Import attributes can declare module types like JSON."},
+  {"k": ["js temporal proposal"], "a": "Temporal aims to replace problematic Date APIs."},
+  {"k": ["js weakref"], "a": "WeakRef holds a weak reference to an object."},
+  {"k": ["js finalizationregistry"], "a": "FinalizationRegistry runs callbacks after objects are GC'd."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["system design notification"], "a": "Notification systems fan out messages via queues and worker pools."},
+  {"k": ["system design file upload"], "a": "Large uploads use direct-to-object-storage with signed URLs."},
+  {"k": ["system design search ranking"], "a": "Ranking combines relevance, freshness, and quality signals."},
+  {"k": ["system design multi tenant"], "a": "Multi-tenant systems isolate customer data carefully."},
+  {"k": ["system design feature flags"], "a": "Feature flags enable gradual rollout and quick disable."},
+  {"k": ["system design circuit breaker"], "a": "Circuit breakers stop calling unhealthy dependencies."},
+  {"k": ["system design bulkhead"], "a": "Bulkheads isolate failure domains so one issue doesn't sink all."},
+  {"k": ["system design sagas"], "a": "Sagas manage distributed transactions with compensating steps."},
+  {"k": ["system design outbox"], "a": "Transactional outbox reliably publishes events after DB commits."},
+  {"k": ["system design idempotent consumer"], "a": "Consumers should handle duplicate messages safely."}
+]

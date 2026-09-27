@@ -1,0 +1,12 @@
+[
+  {"k": ["algo bfs"], "a": "BFS explores neighbors level by level using a queue."},
+  {"k": ["algo dfs"], "a": "DFS explores as far as possible along each branch using a stack/recursion."},
+  {"k": ["algo binary heap"], "a": "A binary heap supports fast insert and extract-min/max."},
+  {"k": ["algo hash collision"], "a": "Collisions occur when different keys hash to the same bucket."},
+  {"k": ["algo amortization"], "a": "Amortized analysis averages cost over a sequence of operations."},
+  {"k": ["algo big omega"], "a": "Ω notation describes asymptotic lower bounds."},
+  {"k": ["algo big theta"], "a": "Θ notation describes tight asymptotic bounds."},
+  {"k": ["algo np hard idea"], "a": "NP-hard problems are at least as hard as the hardest problems in NP."},
+  {"k": ["algo greedy proof"], "a": "Greedy correctness often needs an exchange argument or induction."},
+  {"k": ["algo two sum"], "a": "Two-sum can be solved in O(n) average time with a hash map."}
+]

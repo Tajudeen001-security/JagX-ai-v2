@@ -1,0 +1,12 @@
+[
+  {"k": ["sql index concurrent"], "a": "CREATE INDEX CONCURRENTLY avoids long write locks in PostgreSQL."},
+  {"k": ["sql vacuum freeze"], "a": "Freezing prevents transaction ID wraparound issues."},
+  {"k": ["sql advisory lock"], "a": "Advisory locks coordinate application-level critical sections."},
+  {"k": ["sql listen notify"], "a": "LISTEN/NOTIFY provides simple pub/sub inside PostgreSQL."},
+  {"k": ["sql jsonb"], "a": "JSONB stores JSON in a binary form with indexing options."},
+  {"k": ["sql gin index"], "a": "GIN indexes support many-to-many and full-text style lookups."},
+  {"k": ["sql brin index"], "a": "BRIN indexes are compact for naturally ordered large tables."},
+  {"k": ["sql prepared statements"], "a": "Prepared statements improve safety and can improve performance."},
+  {"k": ["sql connection pooling pg"], "a": "PgBouncer is a common pooler in front of PostgreSQL."},
+  {"k": ["sql logical replication"], "a": "Logical replication streams row changes to subscribers."}
+]

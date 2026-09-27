@@ -1,0 +1,12 @@
+[
+  {"k": ["security oauth scopes"], "a": "Scopes limit what an access token is allowed to do."},
+  {"k": ["security pkce"], "a": "PKCE protects public OAuth clients from code interception."},
+  {"k": ["security jwt expiry"], "a": "Short-lived access tokens reduce damage if stolen."},
+  {"k": ["security refresh token"], "a": "Refresh tokens obtain new access tokens; store them carefully."},
+  {"k": ["security api key rotation"], "a": "Rotate API keys and revoke old ones after leaks."},
+  {"k": ["security cors credentials"], "a": "Credentialed CORS requires specific origins, not *."},
+  {"k": ["security clickjacking headers"], "a": "Use frame-ancestors in CSP or X-Frame-Options."},
+  {"k": ["security security headers"], "a": "Useful headers include CSP, HSTS, X-Content-Type-Options."},
+  {"k": ["security dependency bot"], "a": "Dependabot-style tools open PRs for vulnerable packages."},
+  {"k": ["security least privilege cloud"], "a": "Cloud roles should grant minimal actions on minimal resources."}
+]

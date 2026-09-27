@@ -1,0 +1,12 @@
+[
+  {"k": ["physics momentum conservation"], "a": "Total momentum is conserved without external forces."},
+  {"k": ["physics impulse"], "a": "Impulse equals change in momentum: J = Δp."},
+  {"k": ["physics centripetal"], "a": "Centripetal acceleration is v²/r toward the center."},
+  {"k": ["physics harmonic motion"], "a": "Simple harmonic motion has restoring force proportional to displacement."},
+  {"k": ["physics bernoulli"], "a": "Bernoulli relates speed and pressure in flowing fluids."},
+  {"k": ["physics coulomb law"], "a": "Electrostatic force is proportional to q1q2 / r²."},
+  {"k": ["physics ohm series parallel"], "a": "Combine series and parallel rules to simplify resistor networks."},
+  {"k": ["physics lens equation"], "a": "1/f = 1/v + 1/u for thin lenses (sign conventions apply)."},
+  {"k": ["physics photoelectric"], "a": "Photoelectric effect ejects electrons when light energy exceeds work function."},
+  {"k": ["physics relativity c"], "a": "No information travels faster than light in vacuum in special relativity."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["product north star"], "a": "A north-star metric reflects delivered user value."},
+  {"k": ["product leading lagging"], "a": "Leading metrics predict; lagging metrics confirm outcomes."},
+  {"k": ["product cohort"], "a": "Cohort analysis tracks groups of users over time."},
+  {"k": ["product funnel dropoff"], "a": "Find where users abandon multi-step flows."},
+  {"k": ["product qualitative quantitative"], "a": "Combine numbers with interviews for full insight."},
+  {"k": ["product jobs to be done"], "a": "Jobs-to-be-done focuses on the progress users seek."},
+  {"k": ["product roadmap themes"], "a": "Theme-based roadmaps communicate direction without overpromising dates."},
+  {"k": ["product launch metrics"], "a": "Define success metrics before launch day."},
+  {"k": ["product support feedback"], "a": "Support tickets are a rich source of product pain points."},
+  {"k": ["product kill feature"], "a": "Retire features that cost more than they return."}
+]

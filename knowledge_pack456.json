@@ -1,0 +1,12 @@
+[
+  {"k": ["chem bonding metallic"], "a": "Metallic bonding involves a lattice of positive ions in a sea of electrons."},
+  {"k": ["chem intermolecular"], "a": "Intermolecular forces affect boiling points and solubility."},
+  {"k": ["chem hydrogen bond"], "a": "Hydrogen bonds are strong intermolecular attractions involving H with N/O/F."},
+  {"k": ["chem oxidation number"], "a": "Oxidation numbers help track electron transfer in reactions."},
+  {"k": ["chem titration"], "a": "Titration finds concentration by reacting with a known solution."},
+  {"k": ["chem kinetics rate"], "a": "Reaction rate depends on concentration, temperature, and catalysts."},
+  {"k": ["chem activation energy"], "a": "Activation energy is the energy barrier to start a reaction."},
+  {"k": ["chem enthalpy"], "a": "Enthalpy changes measure heat at constant pressure."},
+  {"k": ["chem entropy"], "a": "Entropy relates to dispersal of energy and matter."},
+  {"k": ["chem gibbs"], "a": "Gibbs free energy predicts spontaneity under constant T and P."}
+]

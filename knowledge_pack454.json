@@ -1,0 +1,12 @@
+[
+  {"k": ["math derivative product"], "a": "(uv)' = u'v + uv'."},
+  {"k": ["math derivative quotient"], "a": "(u/v)' = (u'v - uv') / v²."},
+  {"k": ["math integral substitution"], "a": "Substitution simplifies integrals by changing variables."},
+  {"k": ["math integration by parts"], "a": "∫ u dv = uv - ∫ v du."},
+  {"k": ["math taylor series"], "a": "Taylor series approximate functions with polynomials near a point."},
+  {"k": ["math eigenvalue"], "a": "Av = λv for eigenvector v and eigenvalue λ."},
+  {"k": ["math orthogonal"], "a": "Orthogonal vectors have dot product zero."},
+  {"k": ["math gradient"], "a": "Gradient points in the direction of steepest ascent."},
+  {"k": ["math partial derivative"], "a": "Partial derivatives differentiate with respect to one variable at a time."},
+  {"k": ["math chain rule multivariable"], "a": "Multivariable chain rule propagates derivatives through compositions."}
+]

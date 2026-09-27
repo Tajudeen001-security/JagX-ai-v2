@@ -1,0 +1,12 @@
+[
+  {"k": ["biology mrna"], "a": "mRNA carries genetic instructions from DNA to ribosomes."},
+  {"k": ["biology transcription"], "a": "Transcription copies DNA into RNA."},
+  {"k": ["biology translation"], "a": "Translation builds proteins from mRNA codons."},
+  {"k": ["biology codon"], "a": "A codon is a triplet of bases coding for an amino acid or stop."},
+  {"k": ["biology mutation"], "a": "Mutations are changes in DNA sequence."},
+  {"k": ["biology pathogen"], "a": "Pathogens are organisms that can cause disease."},
+  {"k": ["biology immune antibody"], "a": "Antibodies bind specific antigens to help clear threats."},
+  {"k": ["biology vaccine principle"], "a": "Vaccines train immune memory without causing the full disease."},
+  {"k": ["biology ecology niche"], "a": "A niche is an organism's role and conditions in an ecosystem."},
+  {"k": ["biology biodiversity"], "a": "Biodiversity is the variety of life in a habitat or on Earth."}
+]

@@ -1,0 +1,12 @@
+[
+  {"k": ["python contextvars"], "a": "contextvars store per-context state in async programs."},
+  {"k": ["python typing typeddict"], "a": "TypedDict types dictionary keys and value types."},
+  {"k": ["python pathlib read text"], "a": "Path.read_text() reads a whole file as a string."},
+  {"k": ["python statistics"], "a": "statistics module provides mean, median, variance helpers."},
+  {"k": ["python zoneinfo"], "a": "zoneinfo provides IANA time zone support."},
+  {"k": ["python graphlib"], "a": "graphlib can topological-sort dependency graphs."},
+  {"k": ["python tomllib load"], "a": "tomllib.load parses TOML from a binary file object."},
+  {"k": ["python exception groups"], "a": "ExceptionGroup bundles multiple exceptions (3.11+)."},
+  {"k": ["python match capture"], "a": "match/case can capture parts of structures into variables."},
+  {"k": ["python functools cache"], "a": "@cache memoizes pure functions with a simple decorator."}
+]
