@@ -1,9 +1,9 @@
 """
-JagX AI 6.9
+JagX AI 6.9.1
 Full Features Edition
-- Tool Calling (web_search, run_code, generate_pdf, generate_cv, generate_portfolio)
-- Improved Web Search
-- PDF / CV / Portfolio / ZIP
+- Tool Calling (web_search, run_code, generate_image, generate_pdf, generate_cv, generate_portfolio)
+- Mobile/app coding system prompts
+- PDF / CV / Portfolio
 - Dual-path routing
 - Training Data Logging
 - Identity Protection + Watermark
@@ -38,11 +38,9 @@ from pydantic import BaseModel
 import uvicorn
 from fpdf import FPDF
 
-# ====================== LOGGING ======================
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("jagx-ai")
 
-# ====================== CONFIG ======================
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 HF_TOKEN = os.environ.get("HF_TOKEN", "")
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY") or os.environ.get("NVIDIA_NIM_API_KEY", "")
@@ -70,7 +68,7 @@ GLOBAL_IP_RPM = 100
 DRAFT_EXPIRY_SECONDS = 48 * 3600
 APP_START_TIME = time.time()
 
-app = FastAPI(title="JagX AI 6.9", version="6.9.0", description="Created by JagX & JRILICENSE")
+app = FastAPI(title="JagX AI 6.9.1", version="6.9.1", description="Created by JagX & JRILICENSE")
 
 lock = threading.Lock()
 drafts_lock = threading.Lock()
@@ -78,7 +76,6 @@ training_lock = threading.Lock()
 rate_limit_store = defaultdict(list)
 global_ip_rate_store = defaultdict(list)
 
-# ====================== MIDDLEWARE ======================
 class BodySizeLimitMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         cl = request.headers.get("content-length")
@@ -113,20 +110,37 @@ def _build_session():
 
 HTTP = _build_session()
 
-# ====================== PROMPTS ======================
 FAST_SYSTEM = f"""You are JagX AI, created by JagX and JRILICENSE. Be helpful, clear and natural.
 Never mention OpenAI, Groq, Meta, Google, Anthropic or any other company. You are only JagX AI by JagX & JRILICENSE.
+
+CODING & MOBILE APPS (when the user asks to build software):
+- Prefer complete, production-oriented code over sketches.
+- Mobile: Flutter/Dart first for cross-platform; also React Native, Kotlin, Swift when asked.
+- Structure answers: short plan → full files in markdown code fences with path comments → how to run/build.
+- Backend for ranked apps: auth (JWT/OAuth), rate limits, validation, logging, clean API design, caching, security basics.
+- UI: accessibility, loading/error states, offline-friendly patterns when relevant.
+- Do not invent fake package versions; use stable common APIs.
+- Never promise store ranking or revenue. Explain quality factors (performance, UX, reviews, ASO) honestly.
+
+IMAGE REQUESTS: If the user wants an image and tools are available, the agent path handles generation. Otherwise describe a clear image prompt they can use.
+
 Current date: {datetime.utcnow().strftime("%Y-%m-%d")}."""
 
 AGENT_SYSTEM = f"""You are JagX AI, created by JagX and JRILICENSE.
 Never claim to be made by any other company.
 
+You are strong at software engineering: Flutter/Dart mobile apps, React Native, Android/iOS, Node/Python/FastAPI backends, auth, APIs, and app-store-ready structure (not ranking guarantees).
+
 When you need a tool, reply with ONLY a JSON object (no extra text):
 {{"tool": "web_search", "input": "search query"}}
 {{"tool": "run_code", "input": {{"language": "python", "code": "print(1+1)"}}}}
+{{"tool": "generate_image", "input": {{"prompt": "detailed visual description", "style": "realistic or illustration"}}}}
 {{"tool": "generate_pdf", "input": {{"title": "Title", "sections": [{{"heading": "Section", "content": "text"}}]}}}}
 {{"tool": "generate_cv", "input": {{"name": "Full Name", "title": "Job Title", "summary": "...", "experience": [{{"role": "...", "company": "...", "dates": "...", "bullets": ["..."]}}], "education": [], "skills": []}}}}
 {{"tool": "generate_portfolio", "input": {{"name": "Name", "title": "Title", "about": "...", "projects": [{{"name": "...", "description": "...", "link": "..."}}], "skills": [], "contact": {{"email": "", "github": "", "linkedin": ""}}}}}}
+
+For coding tasks prefer a final answer with complete files. Use run_code to verify small Python snippets when helpful.
+For image requests always use generate_image with a detailed prompt.
 
 When ready to answer the user, reply with ONLY:
 {{"final": "your complete answer here"}}
@@ -134,7 +148,6 @@ When ready to answer the user, reply with ONLY:
 Current date: {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 """
 
-# ====================== IDENTITY + WATERMARK ======================
 IDENTITY_PATTERNS = [
     (re.compile(r'\b(openai|chatgpt|gpt-?\d)\b', re.I), "JagX AI"),
     (re.compile(r'\b(anthropic|claude)\b', re.I), "JagX AI"),
@@ -161,7 +174,6 @@ def add_invisible_watermark(text: str) -> str:
     third = len(text) // 3
     return text[:3] + wm + text[3:third] + wm + text[third:third*2] + wm + text[third*2:]
 
-# ====================== KEYS ======================
 def load_keys() -> dict:
     if not os.path.exists(KEYS_FILE):
         with open(KEYS_FILE, "w") as f:
@@ -203,7 +215,6 @@ def check_rate_limit(key: str) -> tuple:
     rate_limit_store[key].append(now)
     return True, f"{limit - len(rate_limit_store[key])} remaining this hour"
 
-# ====================== IMPROVED WEB SEARCH ======================
 def free_web_search(query: str, max_results: int = 5) -> str:
     try:
         url = f"https://html.duckduckgo.com/html/?q={quote(query)}"
@@ -211,23 +222,19 @@ def free_web_search(query: str, max_results: int = 5) -> str:
         r = HTTP.get(url, headers=headers, timeout=10)
         if r.status_code != 200:
             return "Search currently unavailable."
-
         results = []
-        # Try to get title + snippet pairs
         blocks = re.findall(r'class="result__a"[^>]*>(.*?)</a>.*?class="result__snippet"[^>]*>(.*?)</(?:a|td)>', r.text, re.DOTALL)
         for title, snippet in blocks[:max_results]:
             title = re.sub(r'<.*?>', '', title).strip()
             snippet = re.sub(r'<.*?>', '', snippet).strip()
             if title and len(snippet) > 30:
                 results.append(f"**{title}**\n{snippet}")
-
         if not results:
             snippets = re.findall(r'class="result__snippet"[^>]*>(.*?)</(?:a|td)>', r.text, re.DOTALL)
             for s in snippets[:max_results]:
                 clean = re.sub(r'<.*?>', '', s).strip()
                 if len(clean) > 40:
                     results.append(clean)
-
         if results:
             return "Here’s what I found online:\n\n" + "\n\n".join(results)
         return "No relevant results found."
@@ -235,7 +242,6 @@ def free_web_search(query: str, max_results: int = 5) -> str:
         logger.warning(f"Web search failed: {e}")
         return "Search failed at the moment."
 
-# ====================== CODE EXECUTION ======================
 def run_code_sandboxed(language: str, code: str) -> str:
     if len(code) > MAX_CODE_LEN:
         return "Code is too long."
@@ -251,7 +257,6 @@ def run_code_sandboxed(language: str, code: str) -> str:
     except Exception as e:
         return f"Sandbox error: {str(e)[:120]}"
 
-# ====================== PDF / CV / PORTFOLIO ======================
 def _sanitize(text: str) -> str:
     return (text or "").encode("latin-1", "replace").decode("latin-1")
 
@@ -314,7 +319,6 @@ def generate_portfolio_html(data: dict) -> str:
     projects = data.get("projects", [])
     skills = data.get("skills", [])
     contact = data.get("contact", {})
-
     projects_html = ""
     for p in projects:
         link = f'<p><a href="{p.get("link")}" target="_blank">View Project</a></p>' if p.get("link") else ""
@@ -324,7 +328,6 @@ def generate_portfolio_html(data: dict) -> str:
             <p>{p.get('description', '')}</p>
             {link}
         </div>"""
-
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -361,7 +364,6 @@ def create_zip(files: Dict[str, bytes]) -> bytes:
             zf.writestr(filename, content)
     return buffer.getvalue()
 
-# ====================== LLM ======================
 def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
     if GROQ_API_KEY:
         try:
@@ -373,7 +375,6 @@ def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             logger.warning(f"Groq failed: {e}")
-
     if OPENROUTER_API_KEY:
         try:
             r = HTTP.post("https://openrouter.ai/api/v1/chat/completions",
@@ -384,7 +385,6 @@ def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             logger.warning(f"OpenRouter failed: {e}")
-
     if HF_TOKEN:
         try:
             r = HTTP.post("https://router.huggingface.co/v1/chat/completions",
@@ -395,13 +395,15 @@ def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
                 return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             logger.warning(f"HF failed: {e}")
-
     return None
 
 def needs_tools(msg: str) -> bool:
     text = (msg or "").lower()
-    keywords = ["code", "python", "javascript", "run this", "execute", "pdf", "cv", "resume", "portfolio",
-                "search for", "look up", "latest", "job", "generate a", "create a"]
+    keywords = ["code", "python", "javascript", "typescript", "flutter", "dart", "kotlin", "swift",
+                "react native", "android", "ios", "mobile app", "backend", "api", "fastapi",
+                "run this", "execute", "pdf", "cv", "resume", "portfolio",
+                "image", "picture", "draw", "logo", "illustration", "generate image",
+                "search for", "look up", "latest", "job", "generate a", "create a", "build me", "write a"]
     return any(k in text for k in keywords)
 
 def extract_json(text: str) -> Optional[dict]:
@@ -420,9 +422,7 @@ def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, O
             if m.get("role") in ("user", "assistant"):
                 messages.append({"role": m["role"], "content": m["content"]})
     messages.append({"role": "user", "content": user_message})
-
     attachment = None
-
     for _ in range(MAX_TOOL_STEPS):
         raw = call_llm(messages, max_tokens=800)
         if not raw:
@@ -430,17 +430,24 @@ def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, O
         data = extract_json(raw)
         if not data:
             return sanitize_identity(raw), None
-
         if "final" in data:
             return sanitize_identity(str(data["final"])), attachment
-
         tool = data.get("tool")
         inp = data.get("input")
-
         if tool == "web_search":
             result = free_web_search(str(inp))
         elif tool == "run_code" and isinstance(inp, dict):
             result = run_code_sandboxed(inp.get("language", "python"), inp.get("code", ""))
+        elif tool == "generate_image" and isinstance(inp, dict):
+            try:
+                prompt = (inp.get("prompt") or inp.get("description") or "abstract art").strip()
+                style = (inp.get("style") or "").strip()
+                full = (prompt + (", " + style if style else "")).strip()
+                url = "https://image.pollinations.ai/prompt/" + quote(full) + "?width=1024&height=1024&nologo=true"
+                attachment = {"type": "image", "url": url, "prompt": full, "filename": "jagx-image.png"}
+                result = f"Image generated.\nURL: {url}\nPrompt used: {full}"
+            except Exception as e:
+                result = f"Image generation failed: {e}"
         elif tool == "generate_pdf" and isinstance(inp, dict):
             try:
                 pdf_bytes = generate_pdf_document(inp.get("title", "Document"), inp.get("sections", []))
@@ -464,18 +471,14 @@ def run_agent(user_message: str, history: Optional[List] = None) -> Tuple[str, O
                 result = f"Portfolio generation failed: {e}"
         else:
             result = "Unknown or unsupported tool."
-
         messages.append({"role": "assistant", "content": raw})
         messages.append({"role": "user", "content": f"Tool result:\n{result}\n\nContinue."})
-
-    # Final fallback
     fallback = call_llm([{"role": "system", "content": FAST_SYSTEM}, {"role": "user", "content": user_message}])
     return sanitize_identity(fallback or "I couldn't complete the request."), attachment
 
 def generate_response(user_message: str, history: Optional[List] = None) -> Tuple[str, Optional[dict]]:
     if needs_tools(user_message):
         return run_agent(user_message, history)
-
     messages = [{"role": "system", "content": FAST_SYSTEM}]
     if history:
         for m in history[-6:]:
@@ -485,5 +488,42 @@ def generate_response(user_message: str, history: Optional[List] = None) -> Tupl
     result = call_llm(messages)
     return sanitize_identity(result or "I couldn't generate a response."), None
 
-# ====================== TRAINING LOG ======================
-def log_training(input_text: str, output_
+def log_training(input_text: str, output_text: str):
+    if not TRAINING_DATA_ENABLED:
+        return
+    try:
+        with training_lock:
+            with open(TRAINING_DATA_FILE, "a") as f:
+                f.write(json.dumps({"input": input_text[:4000], "output": output_text[:8000], "ts": time.time()}) + "\n")
+    except Exception:
+        pass
+
+class ChatRequest(BaseModel):
+    message: str
+    history: Optional[List[Dict]] = None
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "service": "jagx-backend-v1", "version": "6.9.1", "uptime_seconds": int(time.time() - APP_START_TIME)}
+
+@app.post("/chat")
+def chat(req: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+    key = (x_api_key or "").strip()
+    if not is_valid_key(key):
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
+    ok, info = check_rate_limit(key)
+    if not ok:
+        raise HTTPException(status_code=429, detail=info)
+    msg = (req.message or "").strip()
+    if not msg:
+        raise HTTPException(status_code=400, detail="Empty message")
+    text, attachment = generate_response(msg, req.history)
+    text = add_invisible_watermark(text or "")
+    log_training(msg, text)
+    out = {"response": text, "rate_limit": info}
+    if attachment:
+        out["attachment"] = attachment
+    return out
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", "8000")))
