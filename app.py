@@ -1,11 +1,10 @@
 """
-JagX AI 6.9.2
+JagX AI 6.9.3
 Full Features Edition
-- Tool Calling (web_search, run_code, generate_image, generate_pdf, generate_cv, generate_portfolio)
-- Mobile/app coding system prompts
-- HF-first + local GitHub knowledge brain
-- Dual-path routing
-- Training Data Logging
+- Fast normal chat; slower only for multi-job / coding tools
+- Local GitHub knowledge brain (works with zero cloud LLMs)
+- Provider order: Groq (fast) → OpenRouter → HF (last)
+- Tools: web_search, run_code, generate_image, pdf, cv, portfolio
 Created by JagX & JRILICENSE
 """
 
@@ -67,7 +66,7 @@ GLOBAL_IP_RPM = 100
 DRAFT_EXPIRY_SECONDS = 48 * 3600
 APP_START_TIME = time.time()
 
-app = FastAPI(title="JagX AI 6.9.2", version="6.9.2", description="Created by JagX & JRILICENSE")
+app = FastAPI(title="JagX AI 6.9.3", version="6.9.3", description="Created by JagX & JRILICENSE")
 
 lock = threading.Lock()
 drafts_lock = threading.Lock()
@@ -109,7 +108,6 @@ def _build_session():
 
 HTTP = _build_session()
 
-# ====================== LOCAL BRAIN (GitHub knowledge packs) ======================
 LOCAL_KB = []
 
 def _normalize(s: str) -> str:
@@ -441,63 +439,18 @@ def create_zip(files: Dict[str, bytes]) -> bytes:
     return buffer.getvalue()
 
 def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
-    """Prefer Hugging Face + local independence; other providers optional extras."""
-    HF_MODEL = os.environ.get("HF_MODEL", "Qwen/Qwen2.5-7B-Instruct")
-    HF_FALLBACK_MODELS = [
-        HF_MODEL,
-        "HuggingFaceH4/zephyr-7b-beta",
-        "microsoft/Phi-3-mini-4k-instruct",
-    ]
-    if HF_TOKEN:
-        for model in HF_FALLBACK_MODELS:
-            try:
-                r = HTTP.post(
-                    "https://router.huggingface.co/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"},
-                    json={"model": model, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5},
-                    timeout=28,
-                )
-                if r.status_code == 200:
-                    return r.json()["choices"][0]["message"]["content"]
-                logger.warning(f"HF router {model}: {r.status_code}")
-            except Exception as e:
-                logger.warning(f"HF router failed ({model}): {e}")
-        try:
-            prompt_parts = []
-            for m in messages:
-                role = m.get("role", "user")
-                content = m.get("content", "")
-                prompt_parts.append(f"{role.upper()}: {content}")
-            prompt_parts.append("ASSISTANT:")
-            prompt = "\n".join(prompt_parts)
-            for model in HF_FALLBACK_MODELS[:2]:
-                try:
-                    r = HTTP.post(
-                        f"https://api-inference.huggingface.co/models/{model}",
-                        headers={"Authorization": f"Bearer {HF_TOKEN}"},
-                        json={"inputs": prompt, "parameters": {"max_new_tokens": min(max_tokens, 800), "return_full_text": False}},
-                        timeout=30,
-                    )
-                    if r.status_code == 200:
-                        data = r.json()
-                        if isinstance(data, list) and data and "generated_text" in data[0]:
-                            return data[0]["generated_text"].strip()
-                        if isinstance(data, dict) and data.get("generated_text"):
-                            return str(data["generated_text"]).strip()
-                except Exception as e:
-                    logger.warning(f"HF inference {model}: {e}")
-        except Exception as e:
-            logger.warning(f"HF inference path: {e}")
+    """Fast path first (Groq), then OpenRouter, then HF. Any one is enough."""
     if GROQ_API_KEY:
         try:
             r = HTTP.post(
                 "https://api.groq.com/openai/v1/chat/completions",
                 headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
                 json={"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5},
-                timeout=20,
+                timeout=18,
             )
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
+            logger.warning(f"Groq status {r.status_code}")
         except Exception as e:
             logger.warning(f"Groq failed: {e}")
     if OPENROUTER_API_KEY:
@@ -510,8 +463,23 @@ def call_llm(messages: list, max_tokens: int = 1100) -> Optional[str]:
             )
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"]
+            logger.warning(f"OpenRouter status {r.status_code}")
         except Exception as e:
             logger.warning(f"OpenRouter failed: {e}")
+    if HF_TOKEN:
+        HF_MODEL = os.environ.get("HF_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+        try:
+            r = HTTP.post(
+                "https://router.huggingface.co/v1/chat/completions",
+                headers={"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"},
+                json={"model": HF_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0.5},
+                timeout=28,
+            )
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+            logger.warning(f"HF status {r.status_code}")
+        except Exception as e:
+            logger.warning(f"HF failed: {e}")
     return None
 
 def needs_tools(msg: str) -> bool:
@@ -609,16 +577,16 @@ def generate_response(user_message: str, history: Optional[List] = None) -> Tupl
             if m.get("role") in ("user", "assistant"):
                 messages.append({"role": m["role"], "content": m["content"]})
     messages.append({"role": "user", "content": user_message})
-    result = call_llm(messages)
+    result = call_llm(messages, max_tokens=700)
     if result:
         return sanitize_identity(result), None
     if local:
         return sanitize_identity(local), None
     return (
         sanitize_identity(
-            "I am JagX AI (local mode). External models are offline right now, "
-            "but I can still use my built-in knowledge, code tools, search, and image generation. "
-            "Try a shorter question, or ask me to write code / generate an image / search."
+            "I am JagX AI. Live model links are busy, but I am still online. "
+            "I can use local knowledge, run code, search the web, generate images, and build PDFs. "
+            "Ask again, or say: write code, search, generate image, or make a PDF."
         ),
         None,
     )
@@ -639,7 +607,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "jagx-backend-v1", "version": "6.9.2", "uptime_seconds": int(time.time() - APP_START_TIME), "local_brain": len(LOCAL_KB), "providers": {"hf": bool(HF_TOKEN), "groq": bool(GROQ_API_KEY), "openrouter": bool(OPENROUTER_API_KEY)}}
+    return {"status": "ok", "service": "jagx-backend-v1", "version": "6.9.3", "uptime_seconds": int(time.time() - APP_START_TIME), "local_brain": len(LOCAL_KB), "providers": {"hf": bool(HF_TOKEN), "groq": bool(GROQ_API_KEY), "openrouter": bool(OPENROUTER_API_KEY)}}
 
 @app.post("/chat")
 def chat(req: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
