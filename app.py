@@ -1,8 +1,10 @@
-"""JagX AI 7.0.0 — loads full backend + free news/maps/self-learn. Created by JagX & JRILICENSE."""
+"""JagX AI 7.0.0 — core + free news/maps/self-learn. Created by JagX & JRILICENSE."""
 import os
 import urllib.request
+import logging
 
-# Prefer local full source if present (src_part*.txt), else fetch public complete main
+_log = logging.getLogger("jagx-ai")
+
 _src = None
 try:
     from pathlib import Path
@@ -23,9 +25,21 @@ if not _src:
 
 exec(_src, globals())
 
-# Free extensions: live news (RSS), OpenStreetMap geocode, weather, idle self-learn
+# Free extensions: live news (RSS), OpenStreetMap, weather, idle self-learn
 try:
-    import jagx_extensions  # noqa: F401
+    import jagx_extensions as _jx
+
+    # Inject core objects into extension module
+    _jx.app = globals().get("app")
+    if globals().get("HTTP") is not None:
+        _jx.HTTP = globals()["HTTP"]
+    _jx.TRAINING_DATA_FILE = globals().get("TRAINING_DATA_FILE", "jagx_training_data.jsonl")
+    if "LOCAL_KB" in globals():
+        _jx.LOCAL_KB = globals()["LOCAL_KB"]
+    if "load_local_brain" in globals():
+        _jx.load_local_brain = globals()["load_local_brain"]
+
+    _jx.register_extension_routes()
+    _log.info("JagX extensions active: /news /geo /weather /self_learn /extensions")
 except Exception as _ext_err:
-    import logging
-    logging.getLogger("jagx-ai").warning("jagx_extensions not loaded: %s", _ext_err)
+    _log.warning("jagx_extensions not loaded: %s", _ext_err)
