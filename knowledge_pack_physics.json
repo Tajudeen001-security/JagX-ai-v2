@@ -1,0 +1,17 @@
+[
+  {"k": ["what is force", "define force", "newton force"], "a": "**Force** is a push or pull on an object. Formula: F = ma (Force = mass × acceleration). Unit: Newton (N). 1 N = 1 kg·m/s²."},
+  {"k": ["newton first law", "law of inertia"], "a": "**Newton's 1st Law (Inertia):** An object stays at rest or moves in a straight line at constant speed unless a net force acts on it."},
+  {"k": ["newton second law", "f = ma"], "a": "**Newton's 2nd Law:** F = ma. Net force equals mass times acceleration. Direction of F is the direction of a."},
+  {"k": ["newton third law", "action reaction"], "a": "**Newton's 3rd Law:** For every action there is an equal and opposite reaction. Forces come in pairs."},
+  {"k": ["kinetic energy", "formula kinetic energy"], "a": "**Kinetic energy:** KE = ½ mv². Unit: Joule (J). m = mass (kg), v = speed (m/s)."},
+  {"k": ["potential energy", "gravitational potential"], "a": "**Gravitational potential energy:** PE = mgh. m = mass, g ≈ 9.8 m/s², h = height above reference."},
+  {"k": ["ohm law", "v = ir"], "a": "**Ohm's law:** V = IR. Voltage (V) = Current (A) × Resistance (Ω)."},
+  {"k": ["power formula physics", "electrical power"], "a": "**Power:** P = VI = I²R = V²/R. Also P = W/t (work over time). Unit: Watt (W)."},
+  {"k": ["velocity acceleration", "difference velocity acceleration"], "a": "**Velocity** is speed with direction (m/s). **Acceleration** is rate of change of velocity (m/s²). a = (v − u) / t."},
+  {"k": ["wave equation", "v = f lambda"], "a": "**Wave speed:** v = fλ. v = speed, f = frequency (Hz), λ = wavelength (m)."},
+  {"k": ["density formula"], "a": "**Density:** ρ = m / V. Mass over volume. Unit: kg/m³ (or g/cm³)."},
+  {"k": ["pressure formula"], "a": "**Pressure:** P = F / A. Force over area. Unit: Pascal (Pa) = N/m²."},
+  {"k": ["work energy theorem"], "a": "**Work:** W = Fd cosθ. Work done by a force equals change in kinetic energy (work–energy theorem)."},
+  {"k": ["momentum formula"], "a": "**Momentum:** p = mv. Unit: kg·m/s. Conservation: total momentum before = total after (if no external force)."},
+  {"k": ["snell law", "refraction"], "a": "**Snell's law:** n₁ sin θ₁ = n₂ sin θ₂. Relates angles of incidence and refraction at a boundary."}
+]
