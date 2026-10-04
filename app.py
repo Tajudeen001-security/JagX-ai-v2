@@ -1,4 +1,4 @@
-"""JagX AI 7.1.0 — core + news/maps + files + MCP connectors. Created by JagX & JRILICENSE."""
+"""JagX AI 7.2.0 — core + tools + MCP + background jobs. Created by JagX & JRILICENSE."""
 import os
 import urllib.request
 import logging
@@ -68,3 +68,17 @@ try:
     _log.info("JagX MCP active: /mcp/info /mcp/run /mcp/list_tools /mcp/call")
 except Exception as _mcp_err:
     _log.warning("jagx_mcp not loaded: %s", _mcp_err)
+
+# Background jobs — keep working after the app is closed
+try:
+    import jagx_jobs as _jj
+
+    _jj.app = globals().get("app")
+    if globals().get("HTTP") is not None:
+        _jj.HTTP = globals()["HTTP"]
+    if "generate_response" in globals():
+        _jj.generate_response = globals()["generate_response"]
+    _jj.register_job_routes(globals().get("app"))
+    _log.info("JagX jobs active: POST /jobs GET /jobs GET /jobs/{id} (server worker)")
+except Exception as _job_err:
+    _log.warning("jagx_jobs not loaded: %s", _job_err)
