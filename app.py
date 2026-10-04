@@ -1,4 +1,4 @@
-"""JagX AI 7.0.0 — core + news/maps + file readers. Created by JagX & JRILICENSE."""
+"""JagX AI 7.1.0 — core + news/maps + files + MCP connectors. Created by JagX & JRILICENSE."""
 import os
 import urllib.request
 import logging
@@ -56,3 +56,15 @@ try:
     _log.info("JagX file readers active: /read_file /read_image /read_pdf /read_zip")
 except Exception as _file_err:
     _log.warning("jagx_files not loaded: %s", _file_err)
+
+# MCP connectors proxy (remote MCP + built-in free tools)
+try:
+    import jagx_mcp as _jm
+
+    _jm.app = globals().get("app")
+    if globals().get("HTTP") is not None:
+        _jm.HTTP = globals()["HTTP"]
+    _jm.register_mcp_routes(globals().get("app"))
+    _log.info("JagX MCP active: /mcp/info /mcp/run /mcp/list_tools /mcp/call")
+except Exception as _mcp_err:
+    _log.warning("jagx_mcp not loaded: %s", _mcp_err)
