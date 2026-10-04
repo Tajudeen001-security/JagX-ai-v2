@@ -1,2 +1,12 @@
 [
-  {"k": ["lens formula", 
+  {"k": ["lens formula", "1/f = 1/u + 1/v"], "a": "**Lens formula:** 1/f = 1/v − 1/u (sign convention matters). f = focal length, u = object distance, v = image distance."},
+  {"k": ["specific heat capacity"], "a": "**Specific heat capacity:** Q = mcΔθ. Heat energy = mass × specific heat × temperature change. Unit of c: J/kg°C."},
+  {"k": ["boyle law"], "a": "**Boyle's law:** At constant temperature, P₁V₁ = P₂V₂. Pressure and volume are inversely proportional."},
+  {"k": ["charles law"], "a": "**Charles's law:** At constant pressure, V₁/T₁ = V₂/T₂. Temperature must be in Kelvin (K = °C + 273)."},
+  {"k": ["ideal gas law"], "a": "**Ideal gas law:** PV = nRT. P pressure, V volume, n moles, R gas constant, T absolute temperature."},
+  {"k": ["radioactivity half life"], "a": "**Half-life:** Time for half the radioactive nuclei to decay. After n half-lives, remaining fraction = (1/2)^n."},
+  {"k": ["simple machine", "mechanical advantage"], "a": "**Mechanical advantage:** MA = load / effort. Velocity ratio VR = distance moved by effort / distance moved by load. Efficiency = (MA/VR) × 100%."},
+  {"k": ["hooke law"], "a": "**Hooke's law:** F = ke. Force proportional to extension (within elastic limit). k = spring constant."},
+  {"k": ["coulomb law"], "a": "**Coulomb's law:** F = k q₁q₂ / r². Force between two point charges. k ≈ 9×10⁹ N·m²/C²."},
+  {"k": ["transformer equation"], "a": "**Transformer:** Vs/Vp = Ns/Np. Secondary/primary voltage equals turns ratio. Ideal: Pp = Ps so Ip/Is = Ns/Np."}
+]
