@@ -1,4 +1,4 @@
-"""JagX AI 7.0.0 — loads full backend. Created by JagX & JRILICENSE."""
+"""JagX AI 7.0.0 — loads full backend + free news/maps/self-learn. Created by JagX & JRILICENSE."""
 import os
 import urllib.request
 
@@ -22,3 +22,10 @@ if not _src:
         _src = r.read().decode("utf-8")
 
 exec(_src, globals())
+
+# Free extensions: live news (RSS), OpenStreetMap geocode, weather, idle self-learn
+try:
+    import jagx_extensions  # noqa: F401
+except Exception as _ext_err:
+    import logging
+    logging.getLogger("jagx-ai").warning("jagx_extensions not loaded: %s", _ext_err)
