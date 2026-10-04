@@ -1,0 +1,6 @@
+[
+  {"k": ["latest news", "current news", "what is happening", "headlines"], "a": "I can fetch **live news** from free RSS feeds (BBC, Al Jazeera, Nigerian papers, etc.). Ask: “latest news Nigeria” or “world headlines”. No paid satellite API needed."},
+  {"k": ["google maps", "my location", "where am i", "find place", "locate"], "a": "I use **OpenStreetMap** (free) instead of paid Google Maps. Tell me a place name (“locate Ikeja Lagos”) or coordinates. I do **not** track your GPS in the background — you choose what to share."},
+  {"k": ["weather in", "weather today", "weather abuia", "weather lagos"], "a": "Ask “weather in Abuja” — I use free Open-Meteo + OpenStreetMap."},
+  {"k": ["teach yourself", "self learn", "learn when idle"], "a": "When idle, JagX turns useful past Q&A from chat logs into a local knowledge pack so answers improve over time. This is local memory, not paid GPU fine-tuning."}
+]
