@@ -1,4 +1,4 @@
-"""JagX AI 7.0.0 — core + free news/maps/self-learn. Created by JagX & JRILICENSE."""
+"""JagX AI 7.0.0 — core + news/maps + file readers. Created by JagX & JRILICENSE."""
 import os
 import urllib.request
 import logging
@@ -25,11 +25,10 @@ if not _src:
 
 exec(_src, globals())
 
-# Free extensions: live news (RSS), OpenStreetMap, weather, idle self-learn
+# Free extensions: live news, OpenStreetMap, weather, idle self-learn
 try:
     import jagx_extensions as _jx
 
-    # Inject core objects into extension module
     _jx.app = globals().get("app")
     if globals().get("HTTP") is not None:
         _jx.HTTP = globals()["HTTP"]
@@ -43,3 +42,17 @@ try:
     _log.info("JagX extensions active: /news /geo /weather /self_learn /extensions")
 except Exception as _ext_err:
     _log.warning("jagx_extensions not loaded: %s", _ext_err)
+
+# File readers: screenshots/images, PDF, ZIP
+try:
+    import jagx_files as _jf
+
+    _jf.app = globals().get("app")
+    if globals().get("HTTP") is not None:
+        _jf.HTTP = globals()["HTTP"]
+    _jf.HF_TOKEN = os.environ.get("HF_TOKEN", "")
+    _jf.OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+    _jf.register_file_routes()
+    _log.info("JagX file readers active: /read_file /read_image /read_pdf /read_zip")
+except Exception as _file_err:
+    _log.warning("jagx_files not loaded: %s", _file_err)
