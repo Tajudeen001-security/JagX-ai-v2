@@ -1,18 +1,20 @@
 """
-JagX background jobs — Grok-style "keep working when you leave".
-Jobs live on the server (JSON file + worker thread), not only on the phone.
-Created by JagX & JRILICENSE. Free-tier friendly (small user counts).
+JagX Bot jobs — Grok-style agent that keeps working after app close.
+Multi-step: plan → tools → answer → optional GitHub file change → self-learn.
+Created by JagX & JRILICENSE.
 """
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import os
+import re
 import threading
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import requests
 
@@ -21,6 +23,8 @@ logger = logging.getLogger("jagx-ai")
 JOBS_FILE = os.environ.get("JAGX_JOBS_FILE", "jagx_jobs.json")
 MAX_JOBS = int(os.environ.get("JAGX_MAX_JOBS", "200"))
 WORKER_SLEEP = int(os.environ.get("JAGX_JOB_WORKER_SECONDS", "8"))
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
+DEFAULT_REPO = os.environ.get("JAGX_BOT_DEFAULT_REPO", "Tajudeen001-security/JagX-ai-v2")
 
 _lock = threading.Lock()
 _worker_started = False
@@ -47,9 +51,8 @@ def _load() -> List[dict]:
 
 
 def _save(jobs: List[dict]) -> None:
-    jobs = jobs[:MAX_JOBS]
     with open(JOBS_FILE, "w", encoding="utf-8") as f:
-        json.dump(jobs, f, ensure_ascii=False, indent=2)
+        json.dump(jobs[:MAX_JOBS], f, ensure_ascii=False, indent=2)
 
 
 def create_job(goal: str, user_id: str = "guest", meta: Optional[dict] = None) -> dict:
@@ -58,9 +61,9 @@ def create_job(goal: str, user_id: str = "guest", meta: Optional[dict] = None) -
         return {"ok": False, "error": "goal required"}
     job = {
         "id": str(uuid.uuid4()),
-        "goal": goal[:2000],
+        "goal": goal[:4000],
         "user_id": (user_id or "guest")[:120],
-        "status": "queued",  # queued | running | done | failed
+        "status": "queued",
         "logs": [f"Queued at {_now()}"],
         "result": None,
         "created_at": _now(),
@@ -71,7 +74,6 @@ def create_job(goal: str, user_id: str = "guest", meta: Optional[dict] = None) -
         jobs = _load()
         jobs.insert(0, job)
         _save(jobs)
-    logger.info("job created %s for %s", job["id"], job["user_id"])
     return {"ok": True, "job": job}
 
 
@@ -94,84 +96,216 @@ def list_jobs(user_id: str = "", limit: int = 30) -> List[dict]:
 def _append_log(job: dict, line: str) -> None:
     logs = job.setdefault("logs", [])
     logs.append(line)
-    if len(logs) > 80:
-        job["logs"] = logs[-80:]
+    if len(logs) > 100:
+        job["logs"] = logs[-100:]
     job["updated_at"] = _now()
 
 
-def _run_one(job: dict) -> dict:
-    """Execute a single job on the server (no phone required)."""
-    goal = job.get("goal") or ""
-    _append_log(job, "Running on server…")
-
-    # 1) Optional free tools
-    tool_text = ""
-    try:
-        import jagx_mcp as jm
-
-        tool_res = jm.run_connectors_for_message(
-            goal,
-            [{"id": "jagx_web", "enabled": True}, {"id": "jagx_news", "enabled": True}],
-        )
-        if tool_res.get("ok") and tool_res.get("text"):
-            tool_text = str(tool_res["text"])[:3000]
-            _append_log(job, f"Tool: {tool_res.get('tool') or tool_res.get('source')}")
-    except Exception as e:
-        _append_log(job, f"Tools skipped: {e}")
-
-    prompt = goal
-    if tool_text:
-        prompt = f"{goal}\n\n[TOOL RESULT]\n{tool_text}"
-
-    # 2) Use existing generate_response if core loaded it
-    reply = None
+def _chat(prompt: str, system: str = "") -> Optional[str]:
+    """Talk to local model stack."""
     try:
         gen = globals().get("generate_response")
         if callable(gen):
-            _append_log(job, "Model generating…")
-            out = gen(prompt, history=[])
+            msg = f"{system}\n\n{prompt}" if system else prompt
+            out = gen(msg, history=[])
             if isinstance(out, dict):
-                reply = out.get("response") or out.get("message") or str(out)
-            else:
-                reply = str(out)
+                return str(out.get("response") or out.get("message") or out)
+            return str(out)
     except Exception as e:
-        _append_log(job, f"generate_response: {e}")
+        logger.info("gen: %s", e)
+    try:
+        port = os.environ.get("PORT", "10000")
+        body = {"message": prompt}
+        if system:
+            body["message"] = f"[SYSTEM]\n{system}\n\n[USER]\n{prompt}"
+        r = HTTP.post(
+            f"http://127.0.0.1:{port}/chat",
+            json=body,
+            headers={"Content-Type": "application/json"},
+            timeout=120,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            return data.get("response") or data.get("message")
+    except Exception as e:
+        logger.info("/chat: %s", e)
+    return None
 
-    # 3) Fallback: call own /chat if available
-    if not reply:
+
+def _tools(goal: str) -> str:
+    try:
+        import jagx_mcp as jm
+
+        res = jm.run_connectors_for_message(
+            goal,
+            [
+                {"id": "jagx_web", "enabled": True},
+                {"id": "jagx_news", "enabled": True},
+                {"id": "wikipedia", "enabled": True},
+                {"id": "jagx_maps", "enabled": True},
+            ],
+        )
+        if res.get("ok") and res.get("text"):
+            return str(res["text"])[:4000]
+    except Exception as e:
+        logger.info("tools: %s", e)
+    return ""
+
+
+def _github_put(path: str, content: str, message: str, repo: str = "") -> str:
+    """Write/update a file on GitHub when GITHUB_TOKEN is set (like editing your work)."""
+    token = GITHUB_TOKEN.strip()
+    if not token:
+        return "GitHub write skipped: set GITHUB_TOKEN env on Render to allow bot file changes."
+    repo = (repo or DEFAULT_REPO).strip()
+    if "/" not in repo:
+        return f"Invalid repo: {repo}"
+    api = f"https://api.github.com/repos/{repo}/contents/{path.lstrip('/')}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "JagX-Bot",
+    }
+    sha = None
+    try:
+        gr = HTTP.get(api, headers=headers, timeout=20)
+        if gr.status_code == 200:
+            sha = gr.json().get("sha")
+    except Exception:
+        pass
+    body = {
+        "message": message[:200],
+        "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
+        "branch": "main",
+    }
+    if sha:
+        body["sha"] = sha
+    try:
+        r = HTTP.put(api, headers=headers, json=body, timeout=30)
+        if r.status_code in (200, 201):
+            return f"GitHub updated: {repo}/{path}"
+        return f"GitHub write failed ({r.status_code}): {r.text[:300]}"
+    except Exception as e:
+        return f"GitHub error: {e}"
+
+
+def _maybe_github_action(goal: str, plan: str, answer: str, job: dict) -> str:
+    """If goal asks to change code/files and token exists, attempt a safe write."""
+    g = goal.lower()
+    wants = any(
+        w in g
+        for w in (
+            "push to github",
+            "commit",
+            "update the repo",
+            "change the file",
+            "edit app.py",
+            "write to github",
+            "fix the code",
+            "deploy fix",
+        )
+    )
+    if not wants:
+        return ""
+    _append_log(job, "GitHub change requested…")
+    # Extract a simple fenced code block if the model produced one
+    m = re.search(r"```(?:\w+)?\n([\s\S]{20,8000}?)```", answer)
+    if not m:
+        return "No code block in answer to commit. Ask bot to output a full file in a code fence."
+    code = m.group(1)
+    # Path hint
+    path = "docs/BOT_OUTPUT.md"
+    for cand in ("app.py", "jagx_mcp.py", "jagx_jobs.py", "README.md"):
+        if cand in g:
+            path = cand
+            break
+    if path == "docs/BOT_OUTPUT.md":
+        code = f"# Bot output\n\nGoal: {goal}\n\n## Plan\n{plan}\n\n## Result\n\n{answer}\n"
+    return _github_put(path, code, f"JagX Bot: {goal[:80]}")
+
+
+def _self_learn_snippet(goal: str, result: str) -> None:
+    try:
+        path = globals().get("TRAINING_DATA_FILE", "jagx_training_data.jsonl")
+        row = json.dumps(
+            {"input": goal[:500], "output": (result or "")[:2000], "ts": _now()},
+            ensure_ascii=False,
+        )
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(row + "\n")
+        # Trigger idle self-learn if available
         try:
-            port = os.environ.get("PORT", "10000")
-            r = HTTP.post(
-                f"http://127.0.0.1:{port}/chat",
-                json={"message": prompt},
-                headers={"Content-Type": "application/json"},
-                timeout=90,
-            )
-            if r.status_code == 200:
-                data = r.json()
-                reply = data.get("response") or data.get("message")
-                _append_log(job, "Answer via /chat")
-        except Exception as e:
-            _append_log(job, f"/chat fallback: {e}")
+            import jagx_extensions as jx
 
-    if not reply and tool_text:
-        reply = tool_text
-        _append_log(job, "Returned tool result only")
+            jx.run_self_learn_once()
+        except Exception:
+            pass
+    except Exception as e:
+        logger.info("self_learn: %s", e)
 
-    if reply:
-        job["status"] = "done"
-        job["result"] = str(reply)[:12000]
-        _append_log(job, "Done")
+
+def _run_one(job: dict) -> dict:
+    goal = job.get("goal") or ""
+    _append_log(job, "JagX Bot engaged on server")
+
+    # Step 1 — plan (Atlas-style)
+    _append_log(job, "Planning…")
+    plan = _chat(
+        f"Write a short numbered plan only for this goal:\n{goal}",
+        system="You are Atlas planner for JagX Bot. 3-6 short steps. No fluff.",
+    ) or "1. Research\n2. Answer"
+    _append_log(job, "Plan ready")
+
+    # Step 2 — tools
+    _append_log(job, "Running connectors / tools…")
+    tool_text = _tools(goal)
+    if tool_text:
+        _append_log(job, "Tool data collected")
     else:
+        _append_log(job, "No tool match (ok)")
+
+    # Step 3 — final answer (Nimbus-style)
+    _append_log(job, "Generating final answer…")
+    prompt = (
+        f"Goal:\n{goal}\n\nPlan:\n{plan}\n\n"
+        f"{'Tool data:\n' + tool_text if tool_text else ''}\n\n"
+        "Write a clear useful answer. If code is needed, put full files in markdown code fences."
+    )
+    answer = _chat(
+        prompt,
+        system=(
+            "You are JagX Bot by JagX and JRILICENSE. "
+            "Act like a capable coding agent. Be concrete. No ** bold stars."
+        ),
+    )
+    if not answer and tool_text:
+        answer = tool_text
+    if not answer:
         job["status"] = "failed"
-        job["result"] = "Could not complete job. Try again when the API is warm."
+        job["result"] = "Bot could not generate an answer. Retry when the model is warm."
         _append_log(job, "Failed")
+        job["updated_at"] = _now()
+        return job
+
+    # Step 4 — optional GitHub write (change your work)
+    gh = _maybe_github_action(goal, plan, answer, job)
+    if gh:
+        _append_log(job, gh)
+        answer = answer + "\n\n---\n" + gh
+
+    # Step 5 — improve itself (append training + self-learn)
+    _append_log(job, "Self-learn note saved")
+    _self_learn_snippet(goal, answer)
+
+    job["status"] = "done"
+    job["result"] = answer[:15000]
+    _append_log(job, "Done — safe to reopen app")
     job["updated_at"] = _now()
     return job
 
 
 def _worker_loop() -> None:
-    logger.info("JagX job worker started")
+    logger.info("JagX Bot job worker started")
     while True:
         try:
             job = None
@@ -259,8 +393,10 @@ def register_job_routes(app=None) -> None:
             "file": JOBS_FILE,
             "count": n,
             "worker": _worker_started,
-            "hint": "POST /jobs {goal, user_id} then GET /jobs/{id} — works after app close",
+            "github_write": bool(GITHUB_TOKEN.strip()),
+            "default_repo": DEFAULT_REPO,
+            "hint": "POST /jobs {goal,user_id}. Bot plans, uses tools, answers, optional GitHub, self-learns.",
         }
 
     start_worker()
-    logger.info("JagX job routes registered: POST /jobs GET /jobs GET /jobs/{id}")
+    logger.info("JagX Bot job routes registered")
