@@ -1,0 +1,9 @@
+[
+  {"k": ["calculate 15 percent of 80", "15% of 80"], "a": "**Solution**\n15% of 80 = 0.15 × 80 = 12.\n**Answer:** 12"},
+  {"k": ["solve 2x + 5 = 17"], "a": "**Solution**\n2x + 5 = 17\n2x = 17 − 5 = 12\nx = 12 / 2 = 6\n**Answer:** x = 6"},
+  {"k": ["area of circle", "circle area formula"], "a": "**Area of a circle:** A = πr². If diameter is given, r = d/2. Use π ≈ 3.14 or 22/7 as required."},
+  {"k": ["pythagoras", "a2 + b2 = c2"], "a": "**Pythagoras:** In a right triangle, a² + b² = c² where c is the hypotenuse (longest side)."},
+  {"k": ["quadratic formula"], "a": "**Quadratic formula** for ax² + bx + c = 0:\nx = (−b ± √(b² − 4ac)) / (2a)\nCheck discriminant D = b² − 4ac (two roots if D > 0)."},
+  {"k": ["simple interest"], "a": "**Simple interest:** I = PRT / 100. P = principal, R = rate % per year, T = time in years. Amount = P + I."},
+  {"k": ["compound interest"], "a": "**Compound interest:** A = P(1 + R/100)^n. A = final amount, P = principal, R = rate, n = number of periods."}
+]
