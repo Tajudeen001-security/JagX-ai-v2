@@ -1,5 +1,6 @@
-"""JagX AI v7.0.0. Created by JagX & JRILICENSE."""
-import gzip, base64, pathlib
-_base = pathlib.Path(__file__).parent
-_C = "".join((_base / n).read_text() for n in ["payload_part0.b64", "payload_part1.b64", "payload_part2.b64", "payload_part3.b64", "payload_part4.b64"])
-exec(gzip.decompress(base64.b64decode(_C)).decode("utf-8"), globals())
+"""JagX AI 7.0.0 full source loader. Created by JagX & JRILICENSE."""
+from pathlib import Path
+_base = Path(__file__).parent
+_parts = sorted(_base.glob("src_part*.txt"), key=lambda p: int(p.stem.replace("src_part", "")))
+_src = "".join(p.read_text() for p in _parts)
+exec(_src, globals())
