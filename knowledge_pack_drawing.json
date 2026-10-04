@@ -1,0 +1,6 @@
+[
+  {"k": ["draw free body diagram", "fbd"], "a": "I can generate a free-body diagram image. Tell me the object and forces (e.g. block on table with friction). I will use the image tool and also describe the arrows in text."},
+  {"k": ["draw circuit diagram"], "a": "Describe the circuit (battery, resistors, series/parallel). I can generate a clean labeled circuit diagram image and list the components in text."},
+  {"k": ["draw graph", "plot graph"], "a": "Tell me the axes and data or equation (e.g. y = 2x + 1). I can describe the graph clearly and generate an image of the plot."},
+  {"k": ["draw atom", "bohr model"], "a": "I can draw a simple Bohr atom diagram (nucleus + electron shells). Say the element if you want a specific one."}
+]
