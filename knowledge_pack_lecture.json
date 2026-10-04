@@ -1,0 +1,7 @@
+[
+  {"k": ["how to teach", "lecture mode", "explain like a teacher"], "a": "I can teach step by step: 1) short overview, 2) main idea in simple words, 3) formula or rule, 4) worked example, 5) quick check question. Say the topic and level (SS1, JAMB, university)."},
+  {"k": ["explain photosynthesis"], "a": "**Photosynthesis (simple):** Plants use sunlight + carbon dioxide + water to make glucose and oxygen. Word equation: carbon dioxide + water → glucose + oxygen (in light, with chlorophyll)."},
+  {"k": ["explain cell division", "mitosis meiosis"], "a": "**Mitosis:** one cell → two identical body cells (growth/repair). **Meiosis:** one cell → four sex cells with half the chromosomes (for reproduction)."},
+  {"k": ["essay structure", "how to write essay"], "a": "**Essay structure:** 1) Introduction (hook + thesis), 2) Body paragraphs (point → evidence → explain), 3) Conclusion (restate + final thought). Keep one main idea per paragraph."},
+  {"k": ["study tips", "how to study"], "a": "**Study tips:** active recall (test yourself), spaced repetition, teach someone else, sleep well, short focused sessions (25–40 min) then break."}
+]
