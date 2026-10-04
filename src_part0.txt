@@ -1,0 +1,106 @@
+"""
+JagX AI 7.0.0
+Full Features Edition
+- Fast normal chat; slower only for multi-job / coding tools
+- Local GitHub knowledge brain (works with zero cloud LLMs)
+- Provider order: Groq (fast) → OpenRouter → HF (last)
+- Tools: web_search, run_code, generate_image, pdf, cv, portfolio
+Created by JagX & JRILICENSE
+"""
+
+import os
+import io
+import json
+import secrets
+import threading
+import time
+import re
+import base64
+import zipfile
+import logging
+from typing import Optional, List, Dict, Tuple
+from collections import defaultdict
+from urllib.parse import quote
+from datetime import datetime
+from io import BytesIO
+
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from fastapi import FastAPI, HTTPException, Header, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from pydantic import BaseModel
+import uvicorn
+from fpdf import FPDF
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("jagx-ai")
+
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+HF_TOKEN = os.environ.get("HF_TOKEN", "")
+NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY") or os.environ.get("NVIDIA_NIM_API_KEY", "")
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
+
+PISTON_URL = "https://emkc.org/api/v2/piston"
+KEYS_FILE = "keys.json"
+DRAFTS_FILE = "jagx_job_drafts.json"
+TRAINING_DATA_FILE = "jagx_training_data.jsonl"
+TRAINING_DATA_ENABLED = os.environ.get("JAGX_TRAINING_DATA_ENABLED", "true").lower() == "true"
+
+ADMIN_SECRET = os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
+PERMANENT_KEYS = set(k.strip() for k in os.environ.get("JAGX_PERMANENT_KEYS", "").split(",") if k.strip())
+
+TIER_HOURLY_LIMITS = {"free": 60, "premium": 300, "premium_plus": 800, "master": None, "admin": None}
+
+MAX_TOOL_STEPS = 3
+MAX_CODE_LEN = 12000
+MAX_TOOL_RESULT_LEN = 3000
+MAX_BODY_BYTES = 15 * 1024 * 1024
+GLOBAL_IP_RPM = 100
+DRAFT_EXPIRY_SECONDS = 48 * 3600
+APP_START_TIME = time.time()
+
+app = FastAPI(title="JagX AI 7.0.0", version="7.0.0", description="Created by JagX & JRILICENSE")
+
+lock = threading.Lock()
+drafts_lock = threading.Lock()
+training_lock = threading.Lock()
+rate_limit_store = defaultdict(list)
+global_ip_rate_store = defaultdict(list)
+
+class BodySizeLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        cl = request.headers.get("content-length")
+        if cl and cl.isdigit() and int(cl) > MAX_BODY_BYTES:
+            return JSONResponse(status_code=413, content={"detail": "Request body too large."})
+        return await call_next(request)
+
+class GlobalIPRateLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        ip = request.client.host if request.client else "unknown"
+        now = time.time()
+        with lock:
+            timestamps = [t for t in global_ip_rate_store[ip] if now - t < 60]
+            if len(timestamps) >= GLOBAL_IP_RPM:
+                return JSONResponse(status_code=429, content={"detail": "Too many requests."})
+            timestamps.append(now)
+            global_ip_rate_store[ip] = timestamps
+        return await call_next(request)
+
+app.add_middleware(GlobalIPRateLimitMiddleware)
+app.add_middleware(BodySizeLimitMiddleware)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+def _build_session():
+    s = requests.Session()
+    retries = Retry(total=1, backoff_factor=0.3, status_forcelist=[429, 500, 502, 503, 504])
+    adapter = HTTPAdapter(max_retries=retries)
+    s.mount("https://", adapter)
+    s.
