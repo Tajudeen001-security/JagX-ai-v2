@@ -1,0 +1,6 @@
+[
+  {"k": ["read screenshot", "read image", "what is in this picture", "analyze image"], "a": "Upload a screenshot or picture to **POST /read_image** (or /read_file). I describe it and try to read text on the screen. Works best with OPENROUTER_API_KEY or HF_TOKEN set on Render."},
+  {"k": ["read pdf", "open pdf", "extract pdf text"], "a": "Upload a PDF to **POST /read_pdf** or /read_file. I extract text page by page. Scanned image-only PDFs may need a screenshot instead."},
+  {"k": ["read zip", "open zip", "what is in this zip"], "a": "Upload a ZIP to **POST /read_zip** or /read_file. I list files inside and show text from code/docs when possible."},
+  {"k": ["upload file", "can you read files"], "a": "Yes. Supported: images/screenshots (png/jpg/webp), PDF, ZIP, and common text files. Use /read_file with multipart form field **file**."}
+]
