@@ -121,44 +121,97 @@ def stream_completion(
     *,
     max_tokens: Optional[int] = None,
 ) -> Iterator[str]:
+    """Stream tokens: Groq first, then OpenRouter, else chunked one-shot."""
     max_tokens = max_tokens or settings.default_max_tokens
+
+    def _iter_openai_stream(url: str, headers: dict, model: str, timeout: int = 60):
+        r = HTTP.post(
+            url,
+            headers=headers,
+            json={
+                "model": model,
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "temperature": settings.temperature,
+                "stream": True,
+            },
+            timeout=timeout,
+            stream=True,
+        )
+        if r.status_code != 200:
+            logger.warning("stream status %s from %s", r.status_code, url)
+            return
+        for line in r.iter_lines(decode_unicode=True):
+            if not line:
+                continue
+            if isinstance(line, bytes):
+                line = line.decode("utf-8", errors="replace")
+            if not line.startswith("data: "):
+                continue
+            payload = line[6:].strip()
+            if payload == "[DONE]":
+                break
+            try:
+                chunk = json.loads(payload)
+                choices = chunk.get("choices") or []
+                if not choices:
+                    continue
+                delta = choices[0].get("delta") or {}
+                piece = delta.get("content")
+                if piece:
+                    yield piece
+            except Exception:
+                continue
+
     if settings.groq_api_key:
         try:
-            r = HTTP.post(
+            yielded = False
+            for piece in _iter_openai_stream(
                 "https://api.groq.com/openai/v1/chat/completions",
-                headers={
+                {
                     "Authorization": f"Bearer {settings.groq_api_key}",
                     "Content-Type": "application/json",
                 },
-                json={
-                    "model": settings.groq_model,
-                    "messages": messages,
-                    "max_tokens": max_tokens,
-                    "temperature": settings.temperature,
-                    "stream": True,
-                },
+                settings.groq_model,
                 timeout=60,
-                stream=True,
-            )
-            if r.status_code == 200:
-                for line in r.iter_lines(decode_unicode=True):
-                    if not line or not line.startswith("data: "):
-                        continue
-                    payload = line[6:].strip()
-                    if payload == "[DONE]":
-                        break
-                    try:
-                        chunk = json.loads(payload)
-                        delta = chunk["choices"][0].get("delta") or {}
-                        piece = delta.get("content")
-                        if piece:
-                            yield piece
-                    except Exception:
-                        continue
+            ):
+                yielded = True
+                yield piece
+            if yielded:
                 return
         except Exception as e:
             logger.warning("stream groq: %s", e)
 
+    if settings.openrouter_api_key:
+        try:
+            yielded = False
+            for piece in _iter_openai_stream(
+                "https://openrouter.ai/api/v1/chat/completions",
+                {
+                    "Authorization": f"Bearer {settings.openrouter_api_key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://github.com/Tajudeen001-security/JagX-ai-v2",
+                    "X-Title": "JagX AI",
+                },
+                settings.openrouter_model,
+                timeout=70,
+            ):
+                yielded = True
+                yield piece
+            if yielded:
+                return
+        except Exception as e:
+            logger.warning("stream openrouter: %s", e)
+
     text, _ = chat_completion(messages, max_tokens=max_tokens)
-    if text:
-        yield text
+    if not text:
+        return
+    buf = ""
+    for ch in text:
+        buf += ch
+        if ch in " \n\t.,;:!?:":
+            if buf:
+                yield buf
+                buf = ""
+    if buf:
+        yield buf
