@@ -1,113 +1,90 @@
-# JagX Backend v1.1
+# JagX AI Backend v8.0
 
-**Text + Coding focused AI API**  
-Created by **JagX & JRILICENSE** (single developer)
+**Text + coding focused production API**  
+Created by **JagX & JRILICENSE**
 
-Permanent API keys that **never expire**.  
-Fast + accurate answers. Ready for Render free tier.
+Clean modular FastAPI service — no remote `exec()`, permanent API keys, multi-provider LLM fallback, local knowledge brain, memory, calc, streaming.
 
----
-
-## What changed in v1.1
-
-- Complete rewrite (old truncated `app.py` replaced by `main.py`)
-- Faster default model: `llama-3.1-8b-instant`
-- Lower temperature (0.35) for more accurate answers
-- Stronger system prompt for precise coding + factual replies
-- All old API keys cleared (`keys.json` is empty)
-- Permanent keys that never die
-- Complete endpoints: `/`, `/health`, `/create-key`, `/chat`, `/keys/me`
-- Cleaner dependencies
+**Repo:** https://github.com/Tajudeen001-security/JagX-ai-v2
 
 ---
 
-## Create a permanent API key
+## What changed in v8.0
+
+| Before (v7) | After (v8) |
+|-------------|------------|
+| `exec()` of remote source at boot | Self-contained `jagx_api/` package |
+| Single monolith | Modules: auth, providers, chat, knowledge, tools, memory |
+| Boot fails if GitHub unreachable | Always boots; cloud optional |
+| Limited structure | `/docs` OpenAPI, streaming, calc, memory |
+
+---
+
+## Quick start
 
 ```bash
-curl -X POST https://YOUR-SERVICE.onrender.com/create-key \
-  -H "Content-Type: application/json" \
-  -d '{
-    "owner_label": "Friend Name",
-    "admin_secret": "YOUR_JAGX_ADMIN_SECRET",
-    "tier": "free"
-  }'
+pip install -r requirements.txt
+export JAGX_ADMIN_SECRET="your-strong-secret"
+export GROQ_API_KEY="..."   # recommended
+python main.py              # :10000
 ```
 
-Response includes `never_expires: true`.
-
-**Tiers**
-
-| Tier          | Requests / hour |
-|---------------|-----------------|
-| free          | 80              |
-| premium       | 350             |
-| premium_plus  | 900             |
-| master / admin| unlimited       |
-
----
-
-## Chat
+### Create key
 
 ```bash
-curl -X POST https://YOUR-SERVICE.onrender.com/chat \
+curl -X POST http://localhost:10000/create-key \
+  -H "Content-Type: application/json" \
+  -d '{"owner_label":"me","admin_secret":"your-strong-secret","tier":"free"}'
+```
+
+### Chat
+
+```bash
+curl -X POST http://localhost:10000/chat \
   -H "Content-Type: application/json" \
   -H "x-api-key: jagx-xxxxxxxx" \
-  -d '{"message": "Write a Python function that reverses a string"}'
+  -d '{"message":"Write a Python function that reverses a string"}'
 ```
 
-Optional direct code run:
+### Stream
 
-```json
-{
-  "message": "run this",
-  "run_code": {"language": "python", "code": "print(2+2)"}
-}
-```
-
-Optional search:
-
-```json
-{
-  "message": "search",
-  "search": "latest AI news"
-}
+```bash
+curl -N -X POST http://localhost:10000/chat \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: jagx-xxxxxxxx" \
+  -d '{"message":"Explain recursion","stream":true}'
 ```
 
 ---
 
-## Render env vars (required)
+## Endpoints
 
-| Key | Required |
-|-----|----------|
-| `JAGX_ADMIN_SECRET` | Yes (strong secret) |
-| `GROQ_API_KEY` | Yes (recommended) |
-| `OPENROUTER_API_KEY` | Optional fallback |
-| `HF_TOKEN` | Optional fallback |
-| `JAGX_PERMANENT_KEYS` | Optional comma-separated permanent keys |
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| GET | `/` | no | Service info |
+| GET | `/health` | no | Health + providers |
+| GET | `/docs` | no | OpenAPI UI |
+| POST | `/create-key` | admin_secret | Issue permanent key |
+| GET | `/keys/me` | x-api-key | Key metadata |
+| POST | `/chat` | x-api-key | Chat (`stream` optional) |
+| POST | `/memory` | x-api-key | remember / recall / forget |
+| POST | `/calc` | x-api-key | Safe arithmetic |
 
----
+**Provider order:** Groq → OpenRouter → Hugging Face → local knowledge brain.
 
-## Keep Render alive
+## Env
 
-Free Render sleeps after ~15 min.  
-Ping `/health` every 5 minutes with **UptimeRobot** (free):
+| Variable | Description |
+|----------|-------------|
+| `JAGX_ADMIN_SECRET` | Required for `/create-key` |
+| `GROQ_API_KEY` | Fast primary LLM |
+| `OPENROUTER_API_KEY` | Fallback |
+| `HF_TOKEN` | Fallback |
+| `JAGX_PERMANENT_KEYS` | Comma-separated always-valid keys |
+| `PORT` | Default 10000 |
 
-1. https://uptimerobot.com
-2. Add monitor → HTTP(s)
-3. URL: `https://YOUR-SERVICE.onrender.com/health`
-4. Interval: 5 minutes
+## Deploy (Render)
 
----
-
-## Deploy
-
-1. Render → Web Service → connect this repo
-2. Runtime: **Docker**
-3. Set the env vars above
-4. Deploy
-5. Set UptimeRobot on `/health`
-6. Create your first key with `/create-key`
-
----
+Docker web service → set env → health check `/health` → create key.
 
 Built by **JagX & JRILICENSE**
