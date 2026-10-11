@@ -59,6 +59,8 @@ def chat_completion(messages: list, *, max_tokens: Optional[int]=None,
                     temperature: Optional[float]=None) -> tuple:
     max_tokens=max_tokens or settings.default_max_tokens
     temperature=settings.temperature if temperature is None else temperature
+    if settings.offline_mode:
+        return None,None
     for name,url,key,model,extra in _providers():
         try:
             r=HTTP.post(url,headers=_headers(key,extra),
