@@ -169,10 +169,10 @@ def generate_response(
         reply, provider = local, "local_brain"
 
     if not reply:
-        reply = (
-            "I am JagX AI. Cloud models are temporarily unavailable, but local knowledge "
-            "and tools remain online. Please retry or rephrase."
-        )
+        if settings.offline_mode:
+            reply = "JagX AI offline mode is enabled, but no local GGUF model or matching local knowledge is available. Configure JAGX_GGUF_MODEL or add relevant local knowledge."
+        else:
+            reply = "I am JagX AI. Cloud models are temporarily unavailable, and no local model or matching knowledge answered this request. Please retry or rephrase."
         provider = "fallback"
 
     reply = sanitize_identity(reply.strip())
