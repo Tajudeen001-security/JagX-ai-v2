@@ -207,7 +207,7 @@ def create_app() -> FastAPI:
     @app.get("/offline/status")
     def offline_status(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
         _require_key(x_api_key)
-        return {"local_model": local_model.status(), "local_knowledge_entries": knowledge.size(),
+        return {"offline_mode": settings.offline_mode, "local_model": local_model.status(), "local_knowledge_entries": knowledge.size(),
                 "note": "Offline generation requires an installed llama-cpp-python runtime and a compatible local GGUF model file."}
 
     @app.post("/conversations")
