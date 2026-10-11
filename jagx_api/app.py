@@ -342,33 +342,55 @@ def create_app() -> FastAPI:
         msg = req.message.strip()
         if not msg:
             raise HTTPException(status_code=400, detail="Empty message")
+        history = req.history
+        if req.conversation_id:
+            saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
+            if saved is None:
+                raise HTTPException(status_code=404, detail="Conversation not found")
+            history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
+            if not conversation_store.append(key, req.conversation_id, "user", msg):
+                raise HTTPException(status_code=404, detail="Conversation not found")
         if req.stream:
             fmt = (req.stream_format or "sse").lower()
             if fmt == "plain":
                 def plain_gen():
-                    for piece in stream_response(msg, req.history):
-                        yield piece
+                    chunks = []
+                    try:
+                        for piece in stream_response(msg, history):
+                            chunks.append(piece)
+                            yield piece
+                    finally:
+                        if req.conversation_id and chunks:
+                            conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
                 return StreamingResponse(
-                    plain_gen(),
-                    media_type="text/plain; charset=utf-8",
+                    plain_gen(), media_type="text/plain; charset=utf-8",
                     headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
                 )
             def sse_gen():
-                for event in stream_sse(msg, req.history):
-                    yield event
+                chunks = []
+                try:
+                    for piece in stream_response(msg, history):
+                        chunks.append(piece)
+                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\n\n"
+                    if req.conversation_id and chunks:
+                        conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                    yield f"data: {json.dumps({'done': True})}\n\n"
+                except Exception:
+                    logger.exception("stream failed")
+                    yield f"data: {json.dumps({'error': 'stream failed'})}\n\n"
+                    yield f"data: {json.dumps({'done': True})}\n\n"
             return StreamingResponse(
-                sse_gen(),
-                media_type="text/event-stream; charset=utf-8",
+                sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
             )
-        result = generate_response(msg, req.history)
+        result = generate_response(msg, history)
+        if req.conversation_id:
+            conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
         out = {
-            "response": result["response"],
-            "provider": result.get("provider"),
+            "response": result["response"], "provider": result.get("provider"),
             "local_hit": result.get("local_hit", False),
-            "rate_limit": f"tier={info.get('tier')}" if info else "ok",
-            "version": __version__,
+            "rate_limit": f"tier={info.get('tier')}" if info else "ok", "version": __version__,
         }
         if result.get("attachment"):
             out["attachment"] = result["attachment"]
@@ -376,14 +398,17 @@ def create_app() -> FastAPI:
 
     @app.post("/memory")
     def memory_endpoint(req: MemoryRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
-        _require_key(x_api_key)
+        key = _require_key(x_api_key)
+        owner = _memory_owner(key)
         action = (req.action or "remember").lower()
         if action == "remember":
-            return memory_store.remember(req.user_id, req.text, req.tags)
+            if not req.consent:
+                raise HTTPException(status_code=400, detail="Explicit consent is required to save personal memory")
+            return memory_store.remember(owner, req.text, req.tags)
         if action == "recall":
-            return {"ok": True, "hits": memory_store.recall(req.user_id, req.query or req.text)}
+            return {"ok": True, "hits": memory_store.recall(owner, req.query or req.text)}
         if action == "forget":
-            return memory_store.forget(req.user_id, req.memory_id)
+            return memory_store.forget(owner, req.memory_id)
         raise HTTPException(status_code=400, detail=f"unknown action: {action}")
 
     @app.post("/calc")
