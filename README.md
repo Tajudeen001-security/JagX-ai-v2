@@ -3,7 +3,7 @@
 **Text + coding focused production API**  
 Created by **JagX & JRILICENSE**
 
-Clean modular FastAPI service — no remote `exec()`, permanent API keys, multi-provider LLM fallback, local knowledge brain, memory, calc, streaming.
+Clean modular FastAPI service — multi-provider LLM fallback, local knowledge brain, API-key-scoped memory, streaming, and optional multilingual speech.
 
 **Repo:** https://github.com/Tajudeen001-security/JagX-ai-v2
 
@@ -70,7 +70,24 @@ curl -N -X POST http://localhost:10000/chat \
 | POST | `/memory` | x-api-key | remember / recall / forget |
 | POST | `/calc` | x-api-key | Safe arithmetic |
 
-**Provider order:** Groq → OpenRouter → Hugging Face → local knowledge brain.
+**Provider order:** Groq → NVIDIA NIM → OpenRouter → Hugging Face → local knowledge brain.
+
+## Multilingual and voice support
+
+JagX AI is instructed to reply in the user's language, handle code-switching where the underlying model supports it, and preserve Unicode letters in local knowledge matching. Language coverage depends on the selected cloud model; a local keyword knowledge base alone is not a general multilingual reasoning model.
+
+Speech is optional so the base API remains lightweight and can run without paid speech API keys:
+
+- Install speech extras: `pip install -r requirements-speech.txt`.
+- `POST /speech/transcribe`: upload an audio file as multipart field `audio`; local faster-whisper detects many languages. First use downloads the selected model, so the host needs internet access, disk space, and enough RAM/CPU.
+- `POST /speech/speak`: JSON body `{\"text\": \"Hello from JagX AI\", \"voice\": \"en-NG-AbeoNeural\"}`; returns MP3 audio. Edge TTS requires internet and uses an external service; it is keyless, but not offline or guaranteed.
+- Set `JAGX_WHISPER_MODEL=tiny` for lower resource use, or `small` for a stronger local recognition model. `JAGX_TTS_VOICE` selects the default TTS voice.
+
+These endpoints provide speech building blocks; a voice conversation experience chains transcription → chat → synthesis. The frontend integration is separate.
+
+## Safety-critical engineering
+
+JagX AI can assist with design reviews, simulation plans, maintenance, hazard analysis, and operator decision support for vehicles, drones, aircraft, and industrial systems. Do not use generated answers as direct control signals. Real systems require qualified engineering review, independent safety interlocks, fail-safe behavior, and testing before operation.
 
 ## Env
 
