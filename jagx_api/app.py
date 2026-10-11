@@ -324,7 +324,7 @@ def create_app() -> FastAPI:
                     raise HTTPException(status_code=404,detail="Conversation not found")
                 history=[{"role":m["role"],"content":m["content"]} for m in saved["messages"]]
                 conversation_store.append(key,conversation_id,"user",message)
-            result=generate_response(message,history)
+            memory_hits=memory_store.recall(_memory_owner(key),message)\n            memory_context="\\n".join(str(hit.get("text","")) for hit in memory_hits) if memory_hits else None\n            result=generate_response(message,history,memory_context=memory_context)
             if conversation_id:
                 conversation_store.append(key,conversation_id,"assistant",result.get("response",""),result.get("provider"))
             spoken=await speech.synthesize(result.get("response",""))
@@ -350,13 +350,15 @@ def create_app() -> FastAPI:
             history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
             if not conversation_store.append(key, req.conversation_id, "user", msg):
                 raise HTTPException(status_code=404, detail="Conversation not found")
+        memory_hits = memory_store.recall(_memory_owner(key), msg)
+        memory_context = "\n".join(str(hit.get("text", "")) for hit in memory_hits) if memory_hits else None
         if req.stream:
             fmt = (req.stream_format or "sse").lower()
             if fmt == "plain":
                 def plain_gen():
                     chunks = []
                     try:
-                        for piece in stream_response(msg, history):
+                        for piece in stream_response(msg, history, memory_context):
                             chunks.append(piece)
                             yield piece
                     finally:
@@ -383,7 +385,7 @@ def create_app() -> FastAPI:
                 sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
             )
-        result = generate_response(msg, history)
+        result = generate_response(msg, history, memory_context=memory_context)
         if req.conversation_id:
             conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
