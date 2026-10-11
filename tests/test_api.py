@@ -82,7 +82,7 @@ def test_memory_roundtrip(client):
     r = client.post(
         "/memory",
         headers={"x-api-key": key},
-        json={"action": "remember", "user_id": "u1", "text": "deadline is Friday"},
+        json={"action": "remember", "user_id": "u1", "text": "deadline is Friday", "consent": True},
     )
     assert r.json()["ok"] is True
     r2 = client.post(
