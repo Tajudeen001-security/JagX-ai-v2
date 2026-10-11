@@ -20,6 +20,10 @@ def _connect():
     path = _db_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(str(path), timeout=10)
+    try:
+        path.chmod(0o600)
+    except OSError:
+        pass
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA journal_mode=WAL")
     con.execute("""CREATE TABLE IF NOT EXISTS conversations (
