@@ -7,10 +7,10 @@ import time
 import hashlib
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, File, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -18,6 +18,7 @@ from jagx_api import __version__, auth, knowledge, memory_store
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.config import settings
 from jagx_api.providers import provider_status
+from jagx_api.speech import synthesize_speech, transcribe_audio
 from jagx_api.tools import (
     safe_calc,
     generate_pdf_document,
@@ -54,6 +55,11 @@ class ChatRequest(BaseModel):
     history: Optional[List[dict]] = None
     stream: bool = False
     stream_format: str = "sse"
+
+
+class SpeechRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=5000)
+    voice: Optional[str] = Field(default=None, max_length=100)
 
 
 class CreateKeyRequest(BaseModel):
@@ -146,7 +152,7 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory",
+                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory", "optional_speech_transcription", "optional_speech_synthesis",
             ],
             "docs": "/docs",
         }
@@ -214,6 +220,42 @@ def create_app() -> FastAPI:
         if result.get("attachment"):
             out["attachment"] = result["attachment"]
         return out
+
+    @app.post("/speech/transcribe")
+    def speech_transcribe(
+        audio: UploadFile = File(...),
+        x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+    ):
+        _require_key(x_api_key)
+        try:
+            payload = audio.file.read(20 * 1024 * 1024 + 1)
+            if len(payload) > 20 * 1024 * 1024:
+                raise HTTPException(status_code=413, detail="Audio file exceeds the 20 MB limit")
+            return transcribe_audio(payload)
+        except HTTPException:
+            raise
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
+        except Exception:
+            logger.exception("speech transcription failed")
+            raise HTTPException(status_code=422, detail="Could not transcribe this audio file")
+
+    @app.post("/speech/speak")
+    async def speech_speak(
+        req: SpeechRequest,
+        x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+    ):
+        _require_key(x_api_key)
+        try:
+            audio_bytes = await synthesize_speech(req.text, req.voice)
+            return Response(content=audio_bytes, media_type="audio/mpeg",
+                            headers={"Cache-Control": "no-store"})
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
 
     @app.post("/memory")
     def memory_endpoint(req: MemoryRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
