@@ -132,12 +132,12 @@ Then download a compatible, licensed GGUF model file separately and set:
 ```bash
 export JAGX_GGUF_MODEL="/absolute/path/to/model.gguf"
 export JAGX_LOCAL_N_CTX=2048
-export JAGX_LOCAL_THREADS=4
+export JAGX_LOCAL_THREADS=4\nexport JAGX_OFFLINE_MODE=true
 ```
 
 A small candidate to evaluate on limited hardware is **Qwen2.5-0.5B-Instruct in a Q4 GGUF quantization**. Small models can run with less memory and no inference API key, but their reasoning, factuality, and language quality are significantly weaker than larger models. Model binaries are not committed to this repository. Verify the model licence and use a reputable model repository. `GET /offline/status` reports whether the runtime and configured file are present.
 
-Local inference is most useful on a device or server with persistent storage and enough RAM. The free Render web service is not a dependable offline-model host; it may not retain a model file and may lack enough memory/CPU.
+Set `JAGX_OFFLINE_MODE=true` to skip all cloud provider calls and use only the local GGUF model/local knowledge. If no local model is configured, JagX AI returns a clear offline-unavailable response instead of contacting cloud APIs. Set it back to `false` to restore cloud fallback.\n\nLocal inference is most useful on a device or server with persistent storage and enough RAM. The free Render web service is not a dependable offline-model host; it may not retain a model file and may lack enough memory/CPU.
 
 ### Knowledge ingestion and evaluations
 
