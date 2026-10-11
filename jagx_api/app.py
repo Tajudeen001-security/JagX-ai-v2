@@ -168,7 +168,8 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits", "persistent_conversations",\n                "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",\n                "engineering_decision_support", "knowledge_ingestion",
+                "pdf_cv", "portfolio", "rate_limits", "persistent_conversations" ,
+                "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",\n                "engineering_decision_support", "knowledge_ingestion",
             ],
             "docs": "/docs",
         }
