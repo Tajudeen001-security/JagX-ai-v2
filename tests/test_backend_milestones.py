@@ -68,6 +68,8 @@ def test_conversation_api_auth_and_isolation(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("JAGX_ADMIN_SECRET", "test-admin-secret")
     monkeypatch.setenv("JAGX_KEYS_FILE", str(tmp_path / "keys.json"))
+    monkeypatch.setattr(settings, "admin_secret", "test-admin-secret")
+    monkeypatch.setattr(settings, "keys_file", str(tmp_path / "keys.json"))
     monkeypatch.setenv("JAGX_MEMORY_FILE", str(tmp_path / "memory.json"))
     monkeypatch.setattr(conversation_store, "DB_PATH", str(tmp_path / "conversations.sqlite3"))
     with TestClient(create_app()) as client:
