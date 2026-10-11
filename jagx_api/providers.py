@@ -37,6 +37,18 @@ def provider_status() -> dict:
     }
 
 
+def _content_from_response(response) -> str:
+    payload = response.json()
+    choices = payload.get("choices") or []
+    if not choices:
+        raise ValueError("provider returned no choices")
+    message = choices[0].get("message") or {}
+    content = message.get("content")
+    if not isinstance(content, str) or not content.strip():
+        raise ValueError("provider returned empty content")
+    return content
+
+
 def chat_completion(
     messages: list,
     *,
@@ -63,7 +75,7 @@ def chat_completion(
                 timeout=28,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "groq"
+                return _content_from_response(r), "groq"
             logger.warning("Groq status %s: %s", r.status_code, r.text[:200])
         except Exception as e:
             logger.warning("Groq error: %s", e)
@@ -86,7 +98,7 @@ def chat_completion(
                 timeout=35,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "nvidia"
+                return _content_from_response(r), "nvidia"
             logger.warning("NVIDIA status %s: %s", r.status_code, r.text[:240])
         except Exception as e:
             logger.warning("NVIDIA error: %s", e)
@@ -110,7 +122,7 @@ def chat_completion(
                 timeout=35,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "openrouter"
+                return _content_from_response(r), "openrouter"
             logger.warning("OpenRouter status %s", r.status_code)
         except Exception as e:
             logger.warning("OpenRouter error: %s", e)
@@ -132,7 +144,7 @@ def chat_completion(
                 timeout=40,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "huggingface"
+                return _content_from_response(r), "huggingface"
             logger.warning("Hugging Face status %s: %s", r.status_code, r.text[:300])
         except Exception as e:
             logger.warning("HF error: %s", e)
