@@ -70,7 +70,7 @@ curl -N -X POST http://localhost:10000/chat \
 | POST | `/memory` | x-api-key | remember / recall / forget |
 | POST | `/calc` | x-api-key | Safe arithmetic |
 
-**Provider order:** Groq → OpenRouter → Hugging Face → local knowledge brain.
+**Provider order:** Groq → NVIDIA NIM → OpenRouter → Hugging Face → local GGUF model → local knowledge brain.
 
 ## Env
 
@@ -106,7 +106,7 @@ All providers can be configured with free-tier credentials where offered. There 
 - Send `conversation_id` to `POST /chat` to load and persist a conversation.
 - History and memory are currently scoped to a server-derived hash of the API key. This prevents a caller from spoofing the `user_id` field, but it is not a replacement for verified user-account/JWT authentication. Do not share API keys between users.
 - `POST /memory` with `action=remember` requires `consent: true`. Recall and forget operate only on the current API-key namespace. Memory files use restrictive permissions where supported, but are not encrypted at rest.
-- Training-data logging is disabled by default (`JAGX_TRAINING_DATA_ENABLED=false`). Enable it only after suitable user notice/consent, data minimisation, retention, and deletion controls are in place.
+- Training-data logging is disabled by default (`JAGX_TRAINING_DATA_ENABLED=false`) and requires both operator opt-in and explicit per-turn `training_consent: true` (or the voice form field). Enable it only after suitable user notice/consent, data minimisation, retention, and deletion controls are in place.
 - Configure `JAGX_CONVERSATION_DB` and `JAGX_MEMORY_FILE` on persistent storage for a hosted service. Ephemeral hosting disks can lose data on restart or redeploy.
 
 ### Complete voice pipeline (optional)
