@@ -116,3 +116,8 @@ Built by **JagX & JRILICENSE**
 - Engineering endpoints are decision-support only. Endurance calculations are simplified estimates; they are not flight-time guarantees or a safety certification.
 - A CI workflow now runs pytest on branch pushes and pull requests. A workflow file is not proof that the suite passed; inspect the actual run result before merging.
 - Fine-tuning remains an evaluated future option. No training has occurred, and no free GPU quota or provider availability is guaranteed.
+
+
+## Run smoke evaluations
+
+Run `python -m evals.run_eval` after installing the base requirements and configuring one of the available free-tier provider keys. It uses the configured fallback chain and writes a JSON report to stdout. The starter set is intentionally small and is not a comprehensive multilingual or safety certification suite. No fine-tuning or silent training-data collection occurs.
