@@ -298,6 +298,21 @@ def create_app() -> FastAPI:
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc))
 
+    @app.get("/connected-accounts/providers")
+    def connected_account_providers(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        # Explicitly report unavailable integrations instead of pretending OAuth is connected.
+        return {"providers": [
+            {"id": "google", "status": "not_configured", "requires_oauth_client": True},
+            {"id": "microsoft", "status": "not_configured", "requires_oauth_client": True},
+            {"id": "github", "status": "not_configured", "requires_oauth_client": True},
+        ], "note": "OAuth identity, callback URLs, and secure token storage must be configured before connections can be established."}
+
+    @app.get("/connected-accounts")
+    def list_connected_accounts(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"ok": True, "accounts": [], "note": "No OAuth providers are configured yet; this endpoint does not claim any account is connected."}
+
     @app.post("/knowledge/ingest")
     def ingest_knowledge(req: KnowledgeIngestRequest, x_admin_secret: Optional[str] = Header(None, alias="x-admin-secret"), x_api_key: Optional[str] = Header(None, alias="x-api-key")):
         _require_key(x_api_key)
