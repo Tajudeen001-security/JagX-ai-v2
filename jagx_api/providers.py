@@ -33,7 +33,20 @@ def provider_status() -> dict:
         "openrouter": bool(settings.openrouter_api_key),
         "huggingface": bool(settings.hf_token),
         "nvidia": bool(settings.nvidia_api_key),
+        "note": "These values mean a provider key is configured; they do not guarantee the provider/model is currently reachable or has quota.",
     }
+
+
+def _content_from_response(response) -> str:
+    payload = response.json()
+    choices = payload.get("choices") or []
+    if not choices:
+        raise ValueError("provider returned no choices")
+    message = choices[0].get("message") or {}
+    content = message.get("content")
+    if not isinstance(content, str) or not content.strip():
+        raise ValueError("provider returned empty content")
+    return content
 
 
 def chat_completion(
@@ -62,10 +75,33 @@ def chat_completion(
                 timeout=28,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "groq"
+                return _content_from_response(r), "groq"
             logger.warning("Groq status %s: %s", r.status_code, r.text[:200])
         except Exception as e:
             logger.warning("Groq error: %s", e)
+
+    if settings.nvidia_api_key:
+        try:
+            nvidia_model = getattr(settings, "nvidia_model", None) or "meta/llama-3.3-70b-instruct"
+            r = HTTP.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {settings.nvidia_api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": nvidia_model,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                    "temperature": temperature,
+                },
+                timeout=35,
+            )
+            if r.status_code == 200:
+                return _content_from_response(r), "nvidia"
+            logger.warning("NVIDIA status %s: %s", r.status_code, r.text[:240])
+        except Exception as e:
+            logger.warning("NVIDIA error: %s", e)
 
     if settings.openrouter_api_key:
         try:
@@ -86,7 +122,7 @@ def chat_completion(
                 timeout=35,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "openrouter"
+                return _content_from_response(r), "openrouter"
             logger.warning("OpenRouter status %s", r.status_code)
         except Exception as e:
             logger.warning("OpenRouter error: %s", e)
@@ -108,8 +144,8 @@ def chat_completion(
                 timeout=40,
             )
             if r.status_code == 200:
-                return r.json()["choices"][0]["message"]["content"], "huggingface"
-            logger.warning("HF status %s", r.status_code)
+                return _content_from_response(r), "huggingface"
+            logger.warning("Hugging Face status %s: %s", r.status_code, r.text[:300])
         except Exception as e:
             logger.warning("HF error: %s", e)
 
@@ -202,6 +238,38 @@ def stream_completion(
                 return
         except Exception as e:
             logger.warning("stream openrouter: %s", e)
+
+    if settings.nvidia_api_key:
+        try:
+            yielded = False
+            for piece in _iter_openai_stream(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                {"Authorization": f"Bearer {settings.nvidia_api_key}", "Content-Type": "application/json"},
+                getattr(settings, "nvidia_model", None) or "meta/llama-3.3-70b-instruct",
+                timeout=70,
+            ):
+                yielded = True
+                yield piece
+            if yielded:
+                return
+        except Exception as e:
+            logger.warning("stream nvidia: %s", e)
+
+    if settings.hf_token:
+        try:
+            yielded = False
+            for piece in _iter_openai_stream(
+                "https://router.huggingface.co/v1/chat/completions",
+                {"Authorization": f"Bearer {settings.hf_token}", "Content-Type": "application/json"},
+                settings.hf_model,
+                timeout=80,
+            ):
+                yielded = True
+                yield piece
+            if yielded:
+                return
+        except Exception as e:
+            logger.warning("stream huggingface: %s", e)
 
     text, _ = chat_completion(messages, max_tokens=max_tokens)
     if not text:

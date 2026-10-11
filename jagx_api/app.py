@@ -4,19 +4,22 @@ from __future__ import annotations
 
 import logging
 import time
+import hashlib
+import hmac
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, File, Header, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from jagx_api import __version__, auth, knowledge, memory_store
+from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, knowledge_pipeline, engineering
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.config import settings
 from jagx_api.providers import provider_status
+from jagx_api.speech import synthesize_speech, transcribe_audio
 from jagx_api.tools import (
     safe_calc,
     generate_pdf_document,
@@ -53,6 +56,31 @@ class ChatRequest(BaseModel):
     history: Optional[List[dict]] = None
     stream: bool = False
     stream_format: str = "sse"
+    conversation_id: Optional[str] = None
+
+
+class ConversationCreateRequest(BaseModel):
+    title: str = Field(default="New conversation", max_length=160)
+
+
+class KnowledgeIngestRequest(BaseModel):
+    rows: List[dict] = Field(..., min_length=1, max_length=10000)
+
+
+class EnduranceRequest(BaseModel):
+    battery_wh: float = Field(..., gt=0, le=100000000)
+    average_watts: float = Field(..., gt=0, le=100000000)
+    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)
+
+
+class FMEARequest(BaseModel):
+    system: str = Field(..., min_length=1, max_length=160)
+    components: Optional[List[str]] = None
+
+
+class SpeechRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=5000)
+    voice: Optional[str] = Field(default=None, max_length=100)
 
 
 class CreateKeyRequest(BaseModel):
@@ -111,7 +139,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="JagX AI",
         version=__version__,
-        description="Text + coding focused AI API. Created by JagX & JRILICENSE.",
+        description="Multilingual, streaming AI API with optional local speech extensions. Created by JagX & JRILICENSE.",
     )
     app.add_middleware(GlobalIPRateLimitMiddleware)
     app.add_middleware(BodySizeLimitMiddleware)
@@ -132,6 +160,10 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=429, detail=info)
         return key
 
+    def _memory_owner(key: str) -> str:
+        # Never trust a caller-supplied user_id for private memory isolation.
+        return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
     @app.get("/")
     def root():
         return {
@@ -141,7 +173,7 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits",
+                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory", "optional_speech_transcription", "optional_speech_synthesis", "authenticated_conversation_history", "engineering_decision_support", "validated_knowledge_ingestion",
             ],
             "docs": "/docs",
         }
@@ -178,26 +210,55 @@ def create_app() -> FastAPI:
         msg = req.message.strip()
         if not msg:
             raise HTTPException(status_code=400, detail="Empty message")
+        history = req.history
+        if req.conversation_id:
+            saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
+            if saved is None:
+                raise HTTPException(status_code=404, detail="Conversation not found")
+            if history is None:
+                history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
         if req.stream:
             fmt = (req.stream_format or "sse").lower()
+            if req.conversation_id:
+                conversation_store.append(key, req.conversation_id, "user", msg)
             if fmt == "plain":
                 def plain_gen():
-                    for piece in stream_response(msg, req.history):
+                    chunks = []
+                    for piece in stream_response(msg, history):
+                        chunks.append(piece)
                         yield piece
+                    if req.conversation_id:
+                        conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
                 return StreamingResponse(
                     plain_gen(),
                     media_type="text/plain; charset=utf-8",
                     headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
                 )
             def sse_gen():
-                for event in stream_sse(msg, req.history):
-                    yield event
+                chunks = []
+                try:
+                    for piece in stream_response(msg, history):
+                        chunks.append(piece)
+                        import json
+                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\n\n"
+                    if req.conversation_id:
+                        conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                    import json
+                    yield f"data: {json.dumps({'done': True})}\n\n"
+                except Exception:
+                    logger.exception("stream failed")
+                    import json
+                    yield f"data: {json.dumps({'error': 'stream failed'})}\n\n"
+                    yield f"data: {json.dumps({'done': True})}\n\n"
             return StreamingResponse(
                 sse_gen(),
                 media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
             )
-        result = generate_response(msg, req.history)
+        result = generate_response(msg, history)
+        if req.conversation_id:
+            conversation_store.append(key, req.conversation_id, "user", msg)
+            conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
         out = {
             "response": result["response"],
@@ -210,16 +271,131 @@ def create_app() -> FastAPI:
             out["attachment"] = result["attachment"]
         return out
 
+    @app.post("/conversations")
+    def create_conversation(req: ConversationCreateRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversation": conversation_store.create(key, req.title)}
+
+    @app.get("/conversations")
+    def list_conversations(limit: int = 50, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversations": conversation_store.list_for(key, limit)}
+
+    @app.get("/conversations/{conversation_id}")
+    def get_conversation(conversation_id: str, limit: int = 100, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        item = conversation_store.get(key, conversation_id, limit)
+        if item is None:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "conversation": item}
+
+    @app.delete("/conversations/{conversation_id}")
+    def delete_conversation(conversation_id: str, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        if not conversation_store.delete(key, conversation_id):
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "deleted": True}
+
+    @app.get("/engineering/capabilities")
+    def engineering_capabilities(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return engineering.capability_map()
+
+    @app.post("/engineering/endurance")
+    def engineering_endurance(req: EnduranceRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return engineering.endurance_estimate(req.battery_wh, req.average_watts, req.usable_fraction)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/engineering/fmea-template")
+    def engineering_fmea(req: FMEARequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return engineering.fmea_template(req.system, req.components)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.get("/connected-accounts/providers")
+    def connected_account_providers(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        # Explicitly report unavailable integrations instead of pretending OAuth is connected.
+        return {"providers": [
+            {"id": "google", "status": "not_configured", "requires_oauth_client": True},
+            {"id": "microsoft", "status": "not_configured", "requires_oauth_client": True},
+            {"id": "github", "status": "not_configured", "requires_oauth_client": True},
+        ], "note": "OAuth identity, callback URLs, and secure token storage must be configured before connections can be established."}
+
+    @app.get("/connected-accounts")
+    def list_connected_accounts(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"ok": True, "accounts": [], "note": "No OAuth providers are configured yet; this endpoint does not claim any account is connected."}
+
+    @app.post("/knowledge/ingest")
+    def ingest_knowledge(req: KnowledgeIngestRequest, x_admin_secret: Optional[str] = Header(None, alias="x-admin-secret"), x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        if not x_admin_secret or not hmac.compare_digest(x_admin_secret, settings.admin_secret):
+            raise HTTPException(status_code=403, detail="Admin authorization required")
+        try:
+            rows = knowledge_pipeline.validate_rows(req.rows)
+            destination = "knowledge_pack_ingested.json"
+            with open(destination + ".tmp", "w", encoding="utf-8") as handle:
+                import json
+                json.dump([{"k": [row["question"]], "a": row["answer"]} for row in rows], handle, ensure_ascii=False, indent=2)
+            import os
+            os.replace(destination + ".tmp", destination)
+            count = knowledge.load_brain(".")
+            return {"ok": True, "ingested": len(rows), "loaded_entries": count}
+        except (ValueError, TypeError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/speech/transcribe")
+    def speech_transcribe(
+        audio: UploadFile = File(...),
+        x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+    ):
+        _require_key(x_api_key)
+        try:
+            payload = audio.file.read(20 * 1024 * 1024 + 1)
+            if len(payload) > 20 * 1024 * 1024:
+                raise HTTPException(status_code=413, detail="Audio file exceeds the 20 MB limit")
+            return transcribe_audio(payload)
+        except HTTPException:
+            raise
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
+        except Exception:
+            logger.exception("speech transcription failed")
+            raise HTTPException(status_code=422, detail="Could not transcribe this audio file")
+
+    @app.post("/speech/speak")
+    async def speech_speak(
+        req: SpeechRequest,
+        x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+    ):
+        _require_key(x_api_key)
+        try:
+            audio_bytes = await synthesize_speech(req.text, req.voice)
+            return Response(content=audio_bytes, media_type="audio/mpeg",
+                            headers={"Cache-Control": "no-store"})
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
+
     @app.post("/memory")
     def memory_endpoint(req: MemoryRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
         _require_key(x_api_key)
         action = (req.action or "remember").lower()
         if action == "remember":
-            return memory_store.remember(req.user_id, req.text, req.tags)
+            return memory_store.remember(_memory_owner((x_api_key or "").strip()), req.text, req.tags)
         if action == "recall":
-            return {"ok": True, "hits": memory_store.recall(req.user_id, req.query or req.text)}
+            return {"ok": True, "hits": memory_store.recall(_memory_owner((x_api_key or "").strip()), req.query or req.text)}
         if action == "forget":
-            return memory_store.forget(req.user_id, req.memory_id)
+            return memory_store.forget(_memory_owner((x_api_key or "").strip()), req.memory_id)
         raise HTTPException(status_code=400, detail=f"unknown action: {action}")
 
     @app.post("/calc")

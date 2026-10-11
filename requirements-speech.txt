@@ -1,0 +1,6 @@
+# Optional speech dependencies. Install separately from the base backend requirements.
+# faster-whisper runs speech recognition locally after model download; choose model size
+# using JAGX_WHISPER_MODEL (tiny, base, small, medium, large-v3).
+faster-whisper>=1.0.0
+# edge-tts needs no API key but requires internet access to its external speech service.
+edge-tts>=6.1.0
