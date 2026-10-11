@@ -59,6 +59,7 @@ class ChatRequest(BaseModel):
     stream: bool = False
     stream_format: str = "sse"
     conversation_id: Optional[str] = None
+    training_consent: bool = False
 
 
 class CreateKeyRequest(BaseModel):
@@ -306,7 +307,7 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
 
     @app.post("/voice/turn")
-    async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),
+    async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),\n                         training_consent: bool = Form(False),
                          x_api_key: Optional[str] = Header(None, alias="x-api-key")):
         key=_require_key(x_api_key)
         payload=await audio.read(20*1024*1024+1)
@@ -326,7 +327,7 @@ def create_app() -> FastAPI:
                 conversation_store.append(key,conversation_id,"user",message)
             memory_hits=memory_store.recall(_memory_owner(key),message)
             memory_context="\\n".join(str(hit.get("text","")) for hit in memory_hits) if memory_hits else None
-            result=generate_response(message,history,memory_context=memory_context)
+            result=generate_response(message,history,memory_context=memory_context,training_consent=training_consent)
             if conversation_id:
                 conversation_store.append(key,conversation_id,"assistant",result.get("response",""),result.get("provider"))
             spoken=await speech.synthesize(result.get("response",""))
@@ -387,7 +388,7 @@ def create_app() -> FastAPI:
                 sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
             )
-        result = generate_response(msg, history, memory_context=memory_context)
+        result = generate_response(msg, history, memory_context=memory_context, training_consent=req.training_consent)
         if req.conversation_id:
             conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
