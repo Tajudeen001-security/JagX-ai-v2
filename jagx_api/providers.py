@@ -33,6 +33,7 @@ def provider_status() -> dict:
         "openrouter": bool(settings.openrouter_api_key),
         "huggingface": bool(settings.hf_token),
         "nvidia": bool(settings.nvidia_api_key),
+        "note": "These values mean a provider key is configured; they do not guarantee the provider/model is currently reachable or has quota.",
     }
 
 
@@ -66,6 +67,29 @@ def chat_completion(
             logger.warning("Groq status %s: %s", r.status_code, r.text[:200])
         except Exception as e:
             logger.warning("Groq error: %s", e)
+
+    if settings.nvidia_api_key:
+        try:
+            nvidia_model = getattr(settings, "nvidia_model", None) or "meta/llama-3.3-70b-instruct"
+            r = HTTP.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {settings.nvidia_api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": nvidia_model,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                    "temperature": temperature,
+                },
+                timeout=35,
+            )
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"], "nvidia"
+            logger.warning("NVIDIA status %s: %s", r.status_code, r.text[:240])
+        except Exception as e:
+            logger.warning("NVIDIA error: %s", e)
 
     if settings.openrouter_api_key:
         try:
@@ -109,7 +133,7 @@ def chat_completion(
             )
             if r.status_code == 200:
                 return r.json()["choices"][0]["message"]["content"], "huggingface"
-            logger.warning("HF status %s", r.status_code)
+            logger.warning("Hugging Face status %s: %s", r.status_code, r.text[:300])
         except Exception as e:
             logger.warning("HF error: %s", e)
 
