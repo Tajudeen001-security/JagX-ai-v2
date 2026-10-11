@@ -4,16 +4,21 @@ from __future__ import annotations
 
 import logging
 import time
+import hashlib
+import hmac
+import json
+import os
+import base64
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, Header, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, Response
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from jagx_api import __version__, auth, knowledge, memory_store
+from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.config import settings
 from jagx_api.providers import provider_status
@@ -52,7 +57,7 @@ class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=32000)
     history: Optional[List[dict]] = None
     stream: bool = False
-    stream_format: str = "sse"
+    stream_format: str = "sse"\n    conversation_id: Optional[str] = None
 
 
 class CreateKeyRequest(BaseModel):
@@ -66,11 +71,10 @@ class MemoryRequest(BaseModel):
     tags: str = ""
     query: str = ""
     memory_id: str = ""
-    user_id: str = "guest"
-    action: str = "remember"
+    user_id: str = "guest"\n    action: str = "remember"\n    consent: bool = False
 
 
-class CalcRequest(BaseModel):
+class ConversationCreateRequest(BaseModel):\n    title: str = Field(default="New conversation", max_length=160)\n\n\nclass KnowledgeIngestRequest(BaseModel):\n    rows: List[dict] = Field(..., min_length=1, max_length=10000)\n\n\nclass EnduranceRequest(BaseModel):\n    battery_wh: float = Field(..., gt=0, le=100000000)\n    average_watts: float = Field(..., gt=0, le=100000000)\n    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)\n\n\nclass FMEARequest(BaseModel):\n    system: str = Field(..., min_length=1, max_length=160)\n    components: Optional[List[str]] = None\n\n\nclass CalcRequest(BaseModel):
     expression: str
 
 
@@ -171,6 +175,144 @@ def create_app() -> FastAPI:
         if not info:
             raise HTTPException(status_code=401, detail="Invalid or missing API key")
         return info
+
+    def _memory_owner(key: str) -> str:
+        return hashlib.sha256(("jagx-memory-v1:" + key).encode("utf-8")).hexdigest()
+
+    @app.get("/offline/status")
+    def offline_status(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"local_model": local_model.status(), "local_knowledge_entries": knowledge.size(),
+                "note": "Offline generation requires an installed llama-cpp-python runtime and a compatible local GGUF model file."}
+
+    @app.post("/conversations")
+    def create_conversation(req: ConversationCreateRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversation": conversation_store.create(key, req.title)}
+
+    @app.get("/conversations")
+    def list_conversations(limit: int = 50, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversations": conversation_store.list_for(key, limit)}
+
+    @app.get("/conversations/{conversation_id}")
+    def get_conversation(conversation_id: str, limit: int = 100, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        item = conversation_store.get(key, conversation_id, limit)
+        if item is None:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "conversation": item}
+
+    @app.delete("/conversations/{conversation_id}")
+    def delete_conversation(conversation_id: str, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        if not conversation_store.delete(key, conversation_id):
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "deleted": True}
+
+    @app.get("/engineering/capabilities")
+    def engineering_capabilities(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return engineering.capability_map()
+
+    @app.post("/engineering/endurance")
+    def engineering_endurance(req: EnduranceRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return engineering.endurance_estimate(req.battery_wh, req.average_watts, req.usable_fraction)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/engineering/fmea-template")
+    def engineering_fmea(req: FMEARequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return engineering.fmea_template(req.system, req.components)
+
+    @app.get("/connected-accounts/providers")
+    def connected_account_providers(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"providers":[{"id":"google","status":"not_configured"},{"id":"microsoft","status":"not_configured"},{"id":"github","status":"not_configured"}],
+                "note":"OAuth is not connected until client credentials, callbacks, verified user identity, consent, and secure token storage are configured."}
+
+    @app.get("/connected-accounts")
+    def connected_accounts(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"ok":True,"accounts":[],"note":"No connected accounts are configured."}
+
+    @app.post("/knowledge/ingest")
+    def ingest_knowledge(req: KnowledgeIngestRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+                         x_admin_secret: Optional[str] = Header(None, alias="x-admin-secret")):
+        _require_key(x_api_key)
+        if not x_admin_secret or not hmac.compare_digest(x_admin_secret, settings.admin_secret):
+            raise HTTPException(status_code=403, detail="Admin authorization required")
+        rows=[]
+        for row in req.rows:
+            if not isinstance(row,dict):
+                raise HTTPException(status_code=400,detail="Each knowledge row must be an object")
+            q=str(row.get("question") or row.get("q") or "").strip()
+            a=str(row.get("answer") or row.get("a") or "").strip()
+            if not q or not a or len(q)>2000 or len(a)>12000:
+                raise HTTPException(status_code=400,detail="Each row needs a question (max 2000 chars) and answer (max 12000 chars)")
+            rows.append({"question":q,"answer":a})
+        destination="jagx_knowledge_ingested.json"
+        temp=destination+".tmp"
+        with open(temp,"w",encoding="utf-8") as handle:
+            json.dump(rows,handle,ensure_ascii=False,indent=2)
+        os.replace(temp,destination)
+        count=knowledge.load_brain(".")
+        return {"ok":True,"ingested":len(rows),"loaded_entries":count,"warning":"Ensure the host has persistent disk enabled; local files may disappear on redeploy."}
+
+    @app.post("/speech/transcribe")
+    async def speech_transcribe(audio: UploadFile = File(...), x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        payload=await audio.read(20*1024*1024+1)
+        if len(payload)>20*1024*1024:
+            raise HTTPException(status_code=413,detail="Audio exceeds 20 MB limit")
+        try:
+            return {"ok":True,**speech.transcribe(payload,audio.filename or "audio.wav")}
+        except (RuntimeError,ValueError) as exc:
+            raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
+
+    @app.post("/speech/speak")
+    async def speech_speak(text: str = Form(...), voice: Optional[str] = Form(None),
+                           x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            audio=await speech.synthesize(text,voice)
+            return Response(content=audio,media_type="audio/mpeg",headers={"Cache-Control":"no-store"})
+        except (RuntimeError,ValueError) as exc:
+            raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
+
+    @app.post("/voice/turn")
+    async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),
+                         x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key=_require_key(x_api_key)
+        payload=await audio.read(20*1024*1024+1)
+        if len(payload)>20*1024*1024:
+            raise HTTPException(status_code=413,detail="Audio exceeds 20 MB limit")
+        try:
+            transcript=speech.transcribe(payload,audio.filename or "audio.wav")
+            message=transcript["text"].strip()
+            if not message:
+                raise HTTPException(status_code=400,detail="No speech detected")
+            history=[]
+            if conversation_id:
+                saved=conversation_store.get(key,conversation_id,limit=settings.max_history)
+                if saved is None:
+                    raise HTTPException(status_code=404,detail="Conversation not found")
+                history=[{"role":m["role"],"content":m["content"]} for m in saved["messages"]]
+                conversation_store.append(key,conversation_id,"user",message)
+            result=generate_response(message,history)
+            if conversation_id:
+                conversation_store.append(key,conversation_id,"assistant",result.get("response",""),result.get("provider"))
+            spoken=await speech.synthesize(result.get("response",""))
+            return {"ok":True,"transcription":transcript,"response":result.get("response"),
+                    "provider":result.get("provider"),"audio_base64":base64.b64encode(spoken).decode("ascii"),
+                    "audio_mime_type":"audio/mpeg","conversation_id":conversation_id}
+        except HTTPException:
+            raise
+        except (RuntimeError,ValueError) as exc:
+            raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
 
     @app.post("/chat")
     def chat(req: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
