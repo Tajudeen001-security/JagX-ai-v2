@@ -72,7 +72,7 @@ def remember(user_id: str, text: str, tags: str = "") -> dict[str, Any]:
 
 def recall(user_id: str, query: str, limit: int = 5) -> list:
     user_id = (user_id or "guest").strip()[:120]
-    words = set(re.findall(r"[^\\W_]{3,}", (query or "").lower(), flags=re.UNICODE))
+    words = set(re.findall(r"[^\W_]{3,}", (query or "").lower(), flags=re.UNICODE))
     if not words:
         return []
     with _lock:
