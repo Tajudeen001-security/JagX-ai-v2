@@ -17,6 +17,12 @@ services:
         sync: false
       - key: HF_TOKEN
         sync: false
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: NVIDIA_MODEL
+        value: meta/llama-3.3-70b-instruct
+      - key: JAGX_TRAINING_DATA_ENABLED
+        value: "false"
       - key: JAGX_PERMANENT_KEYS
         sync: false
       - key: JAGX_ADMIN_SECRET
