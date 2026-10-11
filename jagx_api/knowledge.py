@@ -15,7 +15,7 @@ _KB: list = []
 
 def _normalize(s: str) -> str:
     s = (s or "").lower().strip()
-    s = re.sub(r"[^a-z0-9\s\+\-\*\?\.]", " ", s)
+    s = re.sub(r"[^\w\s\+\-\*\?\.]", " ", s)
     return re.sub(r"\s+", " ", s).strip()
 
 
