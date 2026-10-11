@@ -88,3 +88,68 @@ curl -N -X POST http://localhost:10000/chat \
 Docker web service → set env → health check `/health` → create key.
 
 Built by **JagX & JRILICENSE**
+
+
+## JagX AI Autonomous Reasoning and Interaction Engine
+
+The backend now has a staged foundation for multilingual conversation, bounded tool use, persistent history, consent-based memory, voice, offline local inference, evaluations, and engineering decision support.
+
+### Provider fallback
+
+Configured providers are tried in order: **Groq → NVIDIA NIM → OpenRouter → Hugging Face**. Streaming uses the same configured provider order and falls back to one-shot generation if no stream yields text. The local GGUF model and local knowledge base are used when cloud responses are unavailable. Provider status only reports whether a key is configured; it does not prove the key works or that a provider is available.
+
+All providers can be configured with free-tier credentials where offered. There is no guarantee of unlimited free usage or uptime. Never commit API keys.
+
+### Persistent history and personal memory
+
+- `POST /conversations`, `GET /conversations`, `GET /conversations/{id}`, and `DELETE /conversations/{id}` manage history.
+- Send `conversation_id` to `POST /chat` to load and persist a conversation.
+- History and memory are currently scoped to a server-derived hash of the API key. This prevents a caller from spoofing the `user_id` field, but it is not a replacement for verified user-account/JWT authentication. Do not share API keys between users.
+- `POST /memory` with `action=remember` requires `consent: true`. Recall and forget operate only on the current API-key namespace. Memory files use restrictive permissions where supported, but are not encrypted at rest.
+- Training-data logging is disabled by default (`JAGX_TRAINING_DATA_ENABLED=false`). Enable it only after suitable user notice/consent, data minimisation, retention, and deletion controls are in place.
+- Configure `JAGX_CONVERSATION_DB` and `JAGX_MEMORY_FILE` on persistent storage for a hosted service. Ephemeral hosting disks can lose data on restart or redeploy.
+
+### Complete voice pipeline (optional)
+
+Install optional dependencies with `pip install -r requirements-speech.txt`.
+
+- `POST /speech/transcribe`: multipart audio upload, local Whisper transcription, language detection.
+- `POST /speech/speak`: text-to-speech; returns MPEG audio.
+- `POST /voice/turn`: audio → transcription → model reasoning → spoken response. It returns the response audio as base64.
+
+Voice endpoints are optional because Whisper dependencies and model files can be large. Whisper downloads a local model on first use; TTS uses an external internet service and is not guaranteed offline. Default Whisper model is `tiny`; use `JAGX_WHISPER_MODEL` to choose a larger model. A language detection label is not proof of accurate transcription.
+
+### Small local model / offline mode
+
+The local inference runtime is optional so the normal Render deployment stays small. Install it on a machine with compatible build support:
+
+```bash
+pip install -r requirements-local.txt
+```
+
+Then download a compatible, licensed GGUF model file separately and set:
+
+```bash
+export JAGX_GGUF_MODEL="/absolute/path/to/model.gguf"
+export JAGX_LOCAL_N_CTX=2048
+export JAGX_LOCAL_THREADS=4
+```
+
+A small candidate to evaluate on limited hardware is **Qwen2.5-0.5B-Instruct in a Q4 GGUF quantization**. Small models can run with less memory and no inference API key, but their reasoning, factuality, and language quality are significantly weaker than larger models. Model binaries are not committed to this repository. Verify the model licence and use a reputable model repository. `GET /offline/status` reports whether the runtime and configured file are present.
+
+Local inference is most useful on a device or server with persistent storage and enough RAM. The free Render web service is not a dependable offline-model host; it may not retain a model file and may lack enough memory/CPU.
+
+### Knowledge ingestion and evaluations
+
+- `POST /knowledge/ingest` requires a valid API key and the configured `x-admin-secret`. Imported knowledge is local-file based; configure persistent storage.
+- `GET /engineering/capabilities`
+- `POST /engineering/endurance`
+- `POST /engineering/fmea-template`
+
+Run regression tests with `python -m pytest -q`. A small smoke-evaluation suite can be run with `python -m evals.run_eval` after adding `evals/cases.json` and configuring a model. Evaluation outputs are measurements, not proof of general intelligence or safety certification.
+
+### Engineering safety boundary
+
+JagX AI can assist with diagnostics, maintenance, planning, hazard analysis, simulation, and documentation for vehicles, drones, aircraft, robotics, and industrial systems. Its estimates and generated checklists are not certifications and must not directly control safety-critical actuators. Qualified engineers, independent safety controls, hardware interlocks, validated simulations, and fail-safe designs remain mandatory.
+
+Connected-account routes currently report OAuth integrations as not configured. Real Google/Microsoft/GitHub account linking still requires verified user sessions, registered OAuth clients, callbacks, consent scopes, and secure token storage.
