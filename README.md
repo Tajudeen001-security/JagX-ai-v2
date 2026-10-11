@@ -3,7 +3,7 @@
 **Text + coding focused production API**  
 Created by **JagX & JRILICENSE**
 
-Clean modular FastAPI service — multi-provider LLM fallback, local knowledge brain, API-key-scoped memory, streaming, and optional multilingual speech.
+Clean modular FastAPI service — provider fallback, local knowledge ingestion, API-key-scoped persistent history and memory, optional speech, and bounded engineering decision-support utilities.
 
 **Repo:** https://github.com/Tajudeen001-security/JagX-ai-v2
 
@@ -67,7 +67,7 @@ curl -N -X POST http://localhost:10000/chat \
 | POST | `/create-key` | admin_secret | Issue permanent key |
 | GET | `/keys/me` | x-api-key | Key metadata |
 | POST | `/chat` | x-api-key | Chat (`stream` optional) |
-| POST | `/memory` | x-api-key | remember / recall / forget |
+| POST | `/memory` | x-api-key | remember / recall / forget (API-key isolated; file storage is not encrypted) |\n| POST/GET | `/conversations` | x-api-key | Create/list persistent conversations |\n| GET/DELETE | `/conversations/{id}` | x-api-key | Read/delete only the caller’s conversations |\n| GET | `/connected-accounts/providers` | x-api-key | Show OAuth readiness; providers are not configured yet |\n| GET | `/connected-accounts` | x-api-key | List connected accounts (empty until OAuth is configured) |\n| POST | `/knowledge/ingest` | x-api-key + x-admin-secret | Validate and replace local knowledge pack |\n| GET | `/engineering/capabilities` | x-api-key | Engineering support areas and safety boundary |\n| POST | `/engineering/endurance` | x-api-key | Idealized battery/endurance estimate |\n| POST | `/engineering/fmea-template` | x-api-key | Create an FMEA worksheet template |
 | POST | `/calc` | x-api-key | Safe arithmetic |
 
 **Provider order:** Groq → NVIDIA NIM → OpenRouter → Hugging Face → local knowledge brain.
@@ -105,3 +105,14 @@ JagX AI can assist with design reviews, simulation plans, maintenance, hazard an
 Docker web service → set env → health check `/health` → create key.
 
 Built by **JagX & JRILICENSE**
+
+
+## Backend milestones and honest limitations
+
+- Conversation history is stored in SQLite and scoped to a hash of the API key. This is not yet a real user-account identity system; shared API keys share history. Connect a verified JWT/session subject before exposing this as multi-user consumer account history.
+- Long-term memory is persistent and API-key scoped, with restrictive file permissions where supported. The JSON file is **not encrypted at rest**; use encrypted managed storage before storing sensitive information.
+- Knowledge ingestion requires both a valid API key and the configured admin secret. The local knowledge pack may be ephemeral on some hosting providers; mount persistent storage or migrate to a database for production.
+- Connected-account endpoints intentionally report OAuth as not configured. No account is claimed connected until provider client registration, verified identity, callback URLs, consent scopes, and secure token storage exist.
+- Engineering endpoints are decision-support only. Endurance calculations are simplified estimates; they are not flight-time guarantees or a safety certification.
+- A CI workflow now runs pytest on branch pushes and pull requests. A workflow file is not proof that the suite passed; inspect the actual run result before merging.
+- Fine-tuning remains an evaluated future option. No training has occurred, and no free GPU quota or provider availability is guaranteed.
