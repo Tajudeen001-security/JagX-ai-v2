@@ -19,7 +19,7 @@ def test_conversation_history_isolated_and_persistent(tmp_path,monkeypatch):
     monkeypatch.setattr(settings,"keys_file",str(tmp_path/"keys.json"))
     monkeypatch.setattr(settings,"conversation_db",str(tmp_path/"conversations.sqlite3"))
     import jagx_api.app as app_module
-    monkeypatch.setattr(app_module,"generate_response",lambda message,history,memory_context=None:{"response":"Hello from test","provider":"test","local_hit":False})
+    monkeypatch.setattr(app_module,"generate_response",lambda message,history,memory_context=None,training_consent=False:{"response":"Hello from test","provider":"test","local_hit":False})
     with TestClient(create_app()) as client:
         key_a=make_key(client,"A")
         key_b=make_key(client,"B")
