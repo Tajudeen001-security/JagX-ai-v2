@@ -78,10 +78,13 @@ curl -N -X POST http://localhost:10000/chat \
 |----------|-------------|
 | `JAGX_ADMIN_SECRET` | Required for `/create-key` |
 | `GROQ_API_KEY` | Fast primary LLM |
-| `NVIDIA_API_KEY` | Optional NVIDIA NIM fallback |\n| `OPENROUTER_API_KEY` | Fallback |
+| `NVIDIA_API_KEY` | Optional NVIDIA NIM fallback |
+| `OPENROUTER_API_KEY` | Fallback |
 | `HF_TOKEN` | Fallback |
 | `JAGX_PERMANENT_KEYS` | Comma-separated always-valid keys |
-| `JAGX_OFFLINE_MODE` | Set `true` to skip cloud providers and use only local inference/knowledge |\n| `JAGX_GGUF_MODEL` | Optional path to local GGUF model weights |\n| `PORT` | Default 10000 |
+| `JAGX_OFFLINE_MODE` | Set `true` to skip cloud providers and use only local inference/knowledge |
+| `JAGX_GGUF_MODEL` | Optional path to local GGUF model weights |
+| `PORT` | Default 10000 |
 
 ## Deploy (Render)
 
