@@ -204,6 +204,28 @@ def stream_response(user_message: str, history: Optional[list] = None, memory_co
         yield sanitize_identity(local)
         return
 
+    if settings.offline_mode:
+        try:
+            from jagx_api.local_model import generate as local_generate
+            offline_reply = local_generate(messages, max_tokens=settings.default_max_tokens)
+        except Exception as exc:
+            logger.warning("offline model unavailable: %s", exc)
+            offline_reply = None
+        if offline_reply:
+            buf = ""
+            for ch in sanitize_identity(offline_reply):
+                buf += ch
+                if ch.isspace() or ch in ".,!?;:":
+                    yield buf
+                    buf = ""
+            if buf:
+                yield buf
+        elif local:
+            yield sanitize_identity(local)
+        else:
+            yield "JagX AI offline mode is enabled, but no local GGUF model or matching local knowledge is available."
+        return
+
     had = False
     for piece in stream_completion(messages):
         clean = sanitize_identity(piece)
