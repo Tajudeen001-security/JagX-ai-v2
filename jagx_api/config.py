@@ -36,7 +36,7 @@ class Settings:
 
     # Auth
     admin_secret: str = field(
-        default_factory=lambda: os.environ.get("JAGX_ADMIN_SECRET", "change-this-admin-secret")
+        default_factory=lambda: os.environ.get("JAGX_ADMIN_SECRET", "")
     )
     keys_file: str = field(default_factory=lambda: os.environ.get("JAGX_KEYS_FILE", "keys.json"))
     permanent_keys: set = field(default_factory=set)
