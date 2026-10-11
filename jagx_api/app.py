@@ -276,7 +276,7 @@ def create_app() -> FastAPI:
             if not q or not a or len(q)>2000 or len(a)>12000:
                 raise HTTPException(status_code=400,detail="Each row needs a question (max 2000 chars) and answer (max 12000 chars)")
             rows.append({"question":q,"answer":a})
-        destination="jagx_knowledge_ingested.json"
+        destination="knowledge_pack_ingested.json"
         temp=destination+".tmp"
         with open(temp,"w",encoding="utf-8") as handle:
             json.dump(rows,handle,ensure_ascii=False,indent=2)
