@@ -6,12 +6,39 @@ from __future__ import annotations
 import hashlib
 import sqlite3
 import uuid
+from cryptography.fernet import Fernet, InvalidToken
 from datetime import datetime, timezone
 from pathlib import Path
 from jagx_api.config import settings
 
 def _db_path() -> Path:
     return Path(getattr(settings, "conversation_db", "jagx_conversations.sqlite3"))
+
+def _cipher():
+    key = getattr(settings, "data_encryption_key", "")
+    if not key:
+        return None
+    try:
+        return Fernet(key.encode("ascii"))
+    except (ValueError, UnicodeEncodeError) as exc:
+        raise RuntimeError("JAGX_DATA_ENCRYPTION_KEY must be a valid Fernet key") from exc
+
+def _protect(value: str) -> str:
+    cipher = _cipher()
+    if cipher is None:
+        return value
+    return "enc:v1:" + cipher.encrypt(value.encode("utf-8")).decode("ascii")
+
+def _unprotect(value: str) -> str:
+    if not value.startswith("enc:v1:"):
+        return value  # Legacy rows remain readable; migrate them by rewriting after key setup.
+    cipher = _cipher()
+    if cipher is None:
+        raise RuntimeError("Encrypted conversation data exists but JAGX_DATA_ENCRYPTION_KEY is not configured")
+    try:
+        return cipher.decrypt(value[7:].encode("ascii")).decode("utf-8")
+    except (InvalidToken, UnicodeEncodeError, UnicodeDecodeError) as exc:
+        raise RuntimeError("Could not decrypt conversation data; verify JAGX_DATA_ENCRYPTION_KEY") from exc
 
 def _owner(api_key: str) -> str:
     return hashlib.sha256(("jagx-conversation-v1:" + api_key).encode()).hexdigest()
@@ -43,14 +70,14 @@ def create(api_key: str, title: str = "New conversation") -> dict:
     cid = str(uuid.uuid4())
     with _connect() as con:
         con.execute("INSERT INTO conversations VALUES (?, ?, ?, ?, ?)",
-                    (cid, _owner(api_key), (title or "New conversation")[:160], now, now))
+                    (cid, _owner(api_key), _protect((title or "New conversation")[:160]), now, now))
     return {"id": cid, "title": (title or "New conversation")[:160], "created_at": now, "updated_at": now, "messages": []}
 
 def list_for(api_key: str, limit: int = 50) -> list:
     with _connect() as con:
         rows = con.execute("SELECT id,title,created_at,updated_at FROM conversations WHERE owner=? ORDER BY updated_at DESC LIMIT ?",
                            (_owner(api_key), max(1,min(int(limit),100)))).fetchall()
-    return [dict(r) for r in rows]
+    return [{**dict(r), "title": _unprotect(r["title"])} for r in rows]
 
 def get(api_key: str, conversation_id: str, limit: int = 100) -> dict | None:
     owner = _owner(api_key)
@@ -62,7 +89,8 @@ def get(api_key: str, conversation_id: str, limit: int = 100) -> dict | None:
         msgs = con.execute("SELECT role,content,provider,created_at FROM messages WHERE conversation_id=? AND owner=? ORDER BY id DESC LIMIT ?",
                            (conversation_id,owner,max(1,min(int(limit),300)))).fetchall()
     result = dict(row)
-    result["messages"] = [dict(m) for m in reversed(msgs)]
+    result["title"] = _unprotect(result["title"])
+    result["messages"] = [{**dict(m), "content": _unprotect(m["content"])} for m in reversed(msgs)]
     return result
 
 def append(api_key: str, conversation_id: str, role: str, content: str, provider: str | None = None) -> bool:
@@ -75,7 +103,7 @@ def append(api_key: str, conversation_id: str, role: str, content: str, provider
         if not found:
             return False
         con.execute("INSERT INTO messages(conversation_id,owner,role,content,provider,created_at) VALUES(?,?,?,?,?,?)",
-                    (conversation_id,owner,role,(content or "")[:32000],provider,now))
+                    (conversation_id,owner,role,_protect((content or "")[:32000]),provider,now))
         con.execute("UPDATE conversations SET updated_at=? WHERE id=? AND owner=?",(now,conversation_id,owner))
     return True
 
