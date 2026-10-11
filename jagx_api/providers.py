@@ -239,6 +239,38 @@ def stream_completion(
         except Exception as e:
             logger.warning("stream openrouter: %s", e)
 
+    if settings.nvidia_api_key:
+        try:
+            yielded = False
+            for piece in _iter_openai_stream(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                {"Authorization": f"Bearer {settings.nvidia_api_key}", "Content-Type": "application/json"},
+                getattr(settings, "nvidia_model", None) or "meta/llama-3.3-70b-instruct",
+                timeout=70,
+            ):
+                yielded = True
+                yield piece
+            if yielded:
+                return
+        except Exception as e:
+            logger.warning("stream nvidia: %s", e)
+
+    if settings.hf_token:
+        try:
+            yielded = False
+            for piece in _iter_openai_stream(
+                "https://router.huggingface.co/v1/chat/completions",
+                {"Authorization": f"Bearer {settings.hf_token}", "Content-Type": "application/json"},
+                settings.hf_model,
+                timeout=80,
+            ):
+                yielded = True
+                yield piece
+            if yielded:
+                return
+        except Exception as e:
+            logger.warning("stream huggingface: %s", e)
+
     text, _ = chat_completion(messages, max_tokens=max_tokens)
     if not text:
         return
