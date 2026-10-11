@@ -324,7 +324,9 @@ def create_app() -> FastAPI:
                     raise HTTPException(status_code=404,detail="Conversation not found")
                 history=[{"role":m["role"],"content":m["content"]} for m in saved["messages"]]
                 conversation_store.append(key,conversation_id,"user",message)
-            memory_hits=memory_store.recall(_memory_owner(key),message)\n            memory_context="\\n".join(str(hit.get("text","")) for hit in memory_hits) if memory_hits else None\n            result=generate_response(message,history,memory_context=memory_context)
+            memory_hits=memory_store.recall(_memory_owner(key),message)
+            memory_context="\\n".join(str(hit.get("text","")) for hit in memory_hits) if memory_hits else None
+            result=generate_response(message,history,memory_context=memory_context)
             if conversation_id:
                 conversation_store.append(key,conversation_id,"assistant",result.get("response",""),result.get("provider"))
             spoken=await speech.synthesize(result.get("response",""))
