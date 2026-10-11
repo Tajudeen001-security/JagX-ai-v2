@@ -82,7 +82,7 @@ curl -N -X POST http://localhost:10000/chat \
 | `OPENROUTER_API_KEY` | Fallback |
 | `HF_TOKEN` | Fallback |
 | `JAGX_PERMANENT_KEYS` | Comma-separated always-valid keys |
-| `JAGX_OFFLINE_MODE` | Set `true` to skip cloud providers and use only local inference/knowledge |
+| `JAGX_OFFLINE_MODE` | Set `true` to skip cloud providers and use only local inference/knowledge |\n| `JAGX_DATA_ENCRYPTION_KEY` | Optional Fernet key to encrypt new conversation titles/messages at rest; generate with `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"` and store only in host secrets |
 | `JAGX_GGUF_MODEL` | Optional path to local GGUF model weights |
 | `PORT` | Default 10000 |
 
@@ -107,7 +107,7 @@ All providers can be configured with free-tier credentials where offered. There 
 
 - `POST /conversations`, `GET /conversations`, `GET /conversations/{id}`, and `DELETE /conversations/{id}` manage history.
 - Send `conversation_id` to `POST /chat` to load and persist a conversation.
-- History and memory are currently scoped to a server-derived hash of the API key. This prevents a caller from spoofing the `user_id` field, but it is not a replacement for verified user-account/JWT authentication. Do not share API keys between users.
+- History and memory are currently scoped to a server-derived hash of the API key. This prevents a caller from spoofing the `user_id` field, but it is not a replacement for verified user-account/JWT authentication. Do not share API keys between users.\n- Set `JAGX_DATA_ENCRYPTION_KEY` to a generated Fernet key to encrypt new conversation titles and message contents at rest. Keep the key in the hosting provider secret manager and back it up securely: losing it makes encrypted records unreadable. Existing plaintext records remain readable and are not automatically migrated. Without this setting, conversation text remains plaintext in SQLite; file permissions alone are not encryption.
 - `POST /memory` with `action=remember` requires `consent: true`. Recall and forget operate only on the current API-key namespace. Memory files use restrictive permissions where supported, but are not encrypted at rest.
 - Training-data logging is disabled by default (`JAGX_TRAINING_DATA_ENABLED=false`) and requires both operator opt-in and explicit per-turn `training_consent: true` (or the voice form field). Enable it only after suitable user notice/consent, data minimisation, retention, and deletion controls are in place.
 - Configure `JAGX_CONVERSATION_DB` and `JAGX_MEMORY_FILE` on persistent storage for a hosted service. Ephemeral hosting disks can lose data on restart or redeploy.
