@@ -75,6 +75,8 @@ class Settings:
     )
 
     conversation_db: str = field(default_factory=lambda: os.environ.get("JAGX_CONVERSATION_DB", "jagx_conversations.sqlite3"))
+    # Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+    data_encryption_key: str = field(default_factory=lambda: os.environ.get("JAGX_DATA_ENCRYPTION_KEY", ""))
 
     # Tools
     piston_url: str = "https://emkc.org/api/v2/piston"
