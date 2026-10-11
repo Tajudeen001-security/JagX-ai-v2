@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import time
 import hashlib
+import hmac
 from typing import List, Optional
 
 from fastapi import FastAPI, File, Header, HTTPException, Request, UploadFile
@@ -14,7 +15,7 @@ from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from jagx_api import __version__, auth, knowledge, memory_store
+from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, knowledge_pipeline, engineering
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.config import settings
 from jagx_api.providers import provider_status
@@ -55,6 +56,26 @@ class ChatRequest(BaseModel):
     history: Optional[List[dict]] = None
     stream: bool = False
     stream_format: str = "sse"
+    conversation_id: Optional[str] = None
+
+
+class ConversationCreateRequest(BaseModel):
+    title: str = Field(default="New conversation", max_length=160)
+
+
+class KnowledgeIngestRequest(BaseModel):
+    rows: List[dict] = Field(..., min_length=1, max_length=10000)
+
+
+class EnduranceRequest(BaseModel):
+    battery_wh: float = Field(..., gt=0, le=100000000)
+    average_watts: float = Field(..., gt=0, le=100000000)
+    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)
+
+
+class FMEARequest(BaseModel):
+    system: str = Field(..., min_length=1, max_length=160)
+    components: Optional[List[str]] = None
 
 
 class SpeechRequest(BaseModel):
@@ -152,7 +173,7 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory", "optional_speech_transcription", "optional_speech_synthesis",
+                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory", "optional_speech_transcription", "optional_speech_synthesis", "authenticated_conversation_history", "engineering_decision_support", "validated_knowledge_ingestion",
             ],
             "docs": "/docs",
         }
@@ -208,7 +229,17 @@ def create_app() -> FastAPI:
                 media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
             )
-        result = generate_response(msg, req.history)
+        history = req.history
+        if req.conversation_id:
+            saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
+            if saved is None:
+                raise HTTPException(status_code=404, detail="Conversation not found")
+            if history is None:
+                history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
+        result = generate_response(msg, history)
+        if req.conversation_id:
+            conversation_store.append(key, req.conversation_id, "user", msg)
+            conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
         out = {
             "response": result["response"],
@@ -220,6 +251,70 @@ def create_app() -> FastAPI:
         if result.get("attachment"):
             out["attachment"] = result["attachment"]
         return out
+
+    @app.post("/conversations")
+    def create_conversation(req: ConversationCreateRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversation": conversation_store.create(key, req.title)}
+
+    @app.get("/conversations")
+    def list_conversations(limit: int = 50, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        return {"ok": True, "conversations": conversation_store.list_for(key, limit)}
+
+    @app.get("/conversations/{conversation_id}")
+    def get_conversation(conversation_id: str, limit: int = 100, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        item = conversation_store.get(key, conversation_id, limit)
+        if item is None:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "conversation": item}
+
+    @app.delete("/conversations/{conversation_id}")
+    def delete_conversation(conversation_id: str, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        key = _require_key(x_api_key)
+        if not conversation_store.delete(key, conversation_id):
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        return {"ok": True, "deleted": True}
+
+    @app.get("/engineering/capabilities")
+    def engineering_capabilities(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return engineering.capability_map()
+
+    @app.post("/engineering/endurance")
+    def engineering_endurance(req: EnduranceRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return engineering.endurance_estimate(req.battery_wh, req.average_watts, req.usable_fraction)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/engineering/fmea-template")
+    def engineering_fmea(req: FMEARequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return engineering.fmea_template(req.system, req.components)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/knowledge/ingest")
+    def ingest_knowledge(req: KnowledgeIngestRequest, x_admin_secret: Optional[str] = Header(None, alias="x-admin-secret"), x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        if not x_admin_secret or not hmac.compare_digest(x_admin_secret, settings.admin_secret):
+            raise HTTPException(status_code=403, detail="Admin authorization required")
+        try:
+            rows = knowledge_pipeline.validate_rows(req.rows)
+            destination = "knowledge_pack_ingested.json"
+            with open(destination + ".tmp", "w", encoding="utf-8") as handle:
+                import json
+                json.dump([{"k": [row["question"]], "a": row["answer"]} for row in rows], handle, ensure_ascii=False, indent=2)
+            import os
+            os.replace(destination + ".tmp", destination)
+            count = knowledge.load_brain(".")
+            return {"ok": True, "ingested": len(rows), "loaded_entries": count}
+        except (ValueError, TypeError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
 
     @app.post("/speech/transcribe")
     def speech_transcribe(
