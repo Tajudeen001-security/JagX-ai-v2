@@ -117,3 +117,35 @@ def test_training_log_requires_user_consent_and_operator_opt_in(tmp_path,monkeyp
     chat._log_training("consented prompt","answer",consent=True)
     assert target.exists()
     assert "consented prompt" in target.read_text(encoding="utf-8")
+
+
+def test_conversation_content_encrypted_at_rest_when_key_configured(tmp_path,monkeypatch):
+    from cryptography.fernet import Fernet
+    monkeypatch.setattr(settings,"conversation_db",str(tmp_path/"encrypted.sqlite3"))
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    key="jagx-test-encryption-owner"
+    conversation=conversation_store.create(key,"Private title")
+    cid=conversation["id"]
+    assert conversation_store.append(key,cid,"user","my private message")
+    raw=__import__("sqlite3").connect(tmp_path/"encrypted.sqlite3")
+    stored_title=raw.execute("SELECT title FROM conversations WHERE id=?",(cid,)).fetchone()[0]
+    stored_content=raw.execute("SELECT content FROM messages WHERE conversation_id=?",(cid,)).fetchone()[0]
+    raw.close()
+    assert "Private title" not in stored_title
+    assert "my private message" not in stored_content
+    restored=conversation_store.get(key,cid)
+    assert restored["title"]=="Private title"
+    assert restored["messages"][0]["content"]=="my private message"
+
+
+def test_encrypted_conversation_requires_correct_key(tmp_path,monkeypatch):
+    from cryptography.fernet import Fernet
+    monkeypatch.setattr(settings,"conversation_db",str(tmp_path/"encrypted.sqlite3"))
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    key="jagx-test-encryption-owner-2"
+    conversation=conversation_store.create(key,"Private title")
+    cid=conversation["id"]
+    conversation_store.append(key,cid,"user","private")
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    with pytest.raises(RuntimeError,match="Could not decrypt"):
+        conversation_store.get(key,cid)
