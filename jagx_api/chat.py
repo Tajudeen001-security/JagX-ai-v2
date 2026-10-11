@@ -103,6 +103,7 @@ def generate_response(
     *,
     use_tools: bool = True,
     memory_context: Optional[str] = None,
+    training_consent: bool = False,
 ) -> dict[str, Any]:
     local = knowledge.match(user_message)
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -176,7 +177,7 @@ def generate_response(
 
     reply = sanitize_identity(reply.strip())
     final = add_watermark(reply)
-    _log_training(user_message, reply)
+    _log_training(user_message, reply, consent=training_consent)
 
     out: dict[str, Any] = {
         "response": final,
@@ -249,8 +250,8 @@ def stream_sse(user_message: str, history: Optional[list] = None) -> Iterator[st
         yield f"data: {json.dumps({'done': True})}\n\n"
 
 
-def _log_training(inp: str, out: str) -> None:
-    if not settings.training_enabled:
+def _log_training(inp: str, out: str, *, consent: bool = False) -> None:
+    if not settings.training_enabled or not consent:
         return
     try:
         with _train_lock:
