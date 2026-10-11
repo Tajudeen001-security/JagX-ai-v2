@@ -240,16 +240,16 @@ def create_app() -> FastAPI:
                     for piece in stream_response(msg, history):
                         chunks.append(piece)
                         import json
-                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\\n\\n"
+                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\n\n"
                     if req.conversation_id:
                         conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
                     import json
-                    yield f"data: {json.dumps({'done': True})}\\n\\n"
+                    yield f"data: {json.dumps({'done': True})}\n\n"
                 except Exception:
                     logger.exception("stream failed")
                     import json
-                    yield f"data: {json.dumps({'error': 'stream failed'})}\\n\\n"
-                    yield f"data: {json.dumps({'done': True})}\\n\\n"
+                    yield f"data: {json.dumps({'error': 'stream failed'})}\n\n"
+                    yield f"data: {json.dumps({'done': True})}\n\n"
             return StreamingResponse(
                 sse_gen(),
                 media_type="text/event-stream; charset=utf-8",
