@@ -88,3 +88,22 @@ def test_engineering_estimate_has_explicit_warning():
     result = endurance_estimate(100, 50, 0.8)
     assert result["estimated_minutes"] == 96
     assert "Idealized estimate" in result["warning"]
+
+def test_chat_persists_turns_in_conversation(tmp_path, monkeypatch):
+    import importlib
+    app_module = importlib.import_module("jagx_api.app")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("JAGX_ADMIN_SECRET", "test-admin-secret")
+    monkeypatch.setenv("JAGX_KEYS_FILE", str(tmp_path / "keys.json"))
+    monkeypatch.setattr(settings, "admin_secret", "test-admin-secret")
+    monkeypatch.setattr(settings, "keys_file", str(tmp_path / "keys.json"))
+    monkeypatch.setattr(conversation_store, "DB_PATH", str(tmp_path / "conversations.sqlite3"))
+    monkeypatch.setattr(app_module, "generate_response", lambda message, history: {"response":"Hello back","provider":"test","local_hit":False})
+    with TestClient(create_app()) as client:
+        key = client.post("/create-key", json={"owner_label":"a","admin_secret":"test-admin-secret"}).json()["api_key"]
+        cid = client.post("/conversations", headers={"x-api-key":key}, json={}).json()["conversation"]["id"]
+        response = client.post("/chat", headers={"x-api-key":key}, json={"message":"Hello","conversation_id":cid})
+        assert response.status_code == 200
+        saved = client.get(f"/conversations/{cid}", headers={"x-api-key":key}).json()["conversation"]
+        assert [m["role"] for m in saved["messages"]] == ["user","assistant"]
+        assert saved["messages"][1]["content"] == "Hello back"
