@@ -307,7 +307,8 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
 
     @app.post("/voice/turn")
-    async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),\n                         training_consent: bool = Form(False),
+    async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),
+                         training_consent: bool = Form(False),
                          x_api_key: Optional[str] = Header(None, alias="x-api-key")):
         key=_require_key(x_api_key)
         payload=await audio.read(20*1024*1024+1)
