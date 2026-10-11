@@ -1,0 +1,2 @@
+# Optional local GGUF inference runtime. Installation/build requirements vary by device.
+llama-cpp-python>=0.2.90
