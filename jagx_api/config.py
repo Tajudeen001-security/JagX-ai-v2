@@ -12,6 +12,8 @@ class Settings:
     version: str = "8.0.0"
     app_name: str = "JagX AI"
 
+    offline_mode: bool = field(default_factory=lambda: os.environ.get("JAGX_OFFLINE_MODE", "false").lower() == "true")
+
     # Providers
     groq_api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
     openrouter_api_key: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
