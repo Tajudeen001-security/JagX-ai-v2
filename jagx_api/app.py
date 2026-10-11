@@ -57,7 +57,8 @@ class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=32000)
     history: Optional[List[dict]] = None
     stream: bool = False
-    stream_format: str = "sse"\n    conversation_id: Optional[str] = None
+    stream_format: str = "sse"
+    conversation_id: Optional[str] = None
 
 
 class CreateKeyRequest(BaseModel):
@@ -71,10 +72,31 @@ class MemoryRequest(BaseModel):
     tags: str = ""
     query: str = ""
     memory_id: str = ""
-    user_id: str = "guest"\n    action: str = "remember"\n    consent: bool = False
+    user_id: str = "guest"
+    action: str = "remember"
+    consent: bool = False
 
 
-class ConversationCreateRequest(BaseModel):\n    title: str = Field(default="New conversation", max_length=160)\n\n\nclass KnowledgeIngestRequest(BaseModel):\n    rows: List[dict] = Field(..., min_length=1, max_length=10000)\n\n\nclass EnduranceRequest(BaseModel):\n    battery_wh: float = Field(..., gt=0, le=100000000)\n    average_watts: float = Field(..., gt=0, le=100000000)\n    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)\n\n\nclass FMEARequest(BaseModel):\n    system: str = Field(..., min_length=1, max_length=160)\n    components: Optional[List[str]] = None\n\n\nclass CalcRequest(BaseModel):
+class ConversationCreateRequest(BaseModel):
+    title: str = Field(default="New conversation", max_length=160)
+
+
+class KnowledgeIngestRequest(BaseModel):
+    rows: List[dict] = Field(..., min_length=1, max_length=10000)
+
+
+class EnduranceRequest(BaseModel):
+    battery_wh: float = Field(..., gt=0, le=100000000)
+    average_watts: float = Field(..., gt=0, le=100000000)
+    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)
+
+
+class FMEARequest(BaseModel):
+    system: str = Field(..., min_length=1, max_length=160)
+    components: Optional[List[str]] = None
+
+
+class CalcRequest(BaseModel):
     expression: str
 
 
