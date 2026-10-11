@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import time
+import hashlib
 from typing import List, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request
@@ -111,7 +112,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="JagX AI",
         version=__version__,
-        description="Text + coding focused AI API. Created by JagX & JRILICENSE.",
+        description="Multilingual, streaming AI API with optional local speech extensions. Created by JagX & JRILICENSE.",
     )
     app.add_middleware(GlobalIPRateLimitMiddleware)
     app.add_middleware(BodySizeLimitMiddleware)
@@ -132,6 +133,10 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=429, detail=info)
         return key
 
+    def _memory_owner(key: str) -> str:
+        # Never trust a caller-supplied user_id for private memory isolation.
+        return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
     @app.get("/")
     def root():
         return {
@@ -141,7 +146,7 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits",
+                "pdf_cv", "portfolio", "rate_limits", "multilingual_prompting", "api_key_scoped_memory",
             ],
             "docs": "/docs",
         }
@@ -215,11 +220,11 @@ def create_app() -> FastAPI:
         _require_key(x_api_key)
         action = (req.action or "remember").lower()
         if action == "remember":
-            return memory_store.remember(req.user_id, req.text, req.tags)
+            return memory_store.remember(_memory_owner((x_api_key or "").strip()), req.text, req.tags)
         if action == "recall":
-            return {"ok": True, "hits": memory_store.recall(req.user_id, req.query or req.text)}
+            return {"ok": True, "hits": memory_store.recall(_memory_owner((x_api_key or "").strip()), req.query or req.text)}
         if action == "forget":
-            return memory_store.forget(req.user_id, req.memory_id)
+            return memory_store.forget(_memory_owner((x_api_key or "").strip()), req.memory_id)
         raise HTTPException(status_code=400, detail=f"unknown action: {action}")
 
     @app.post("/calc")
