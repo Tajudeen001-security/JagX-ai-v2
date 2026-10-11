@@ -105,3 +105,15 @@ def test_local_model_status_is_explicit_when_no_model_configured(monkeypatch):
     result=local_model.status()
     assert result["model_configured"] is False
     assert result["enabled"] is False
+
+
+def test_training_log_requires_user_consent_and_operator_opt_in(tmp_path,monkeypatch):
+    from jagx_api import chat
+    target=tmp_path/"training.jsonl"
+    monkeypatch.setattr(settings,"training_enabled",True)
+    monkeypatch.setattr(settings,"training_file",str(target))
+    chat._log_training("private prompt","answer",consent=False)
+    assert not target.exists()
+    chat._log_training("consented prompt","answer",consent=True)
+    assert target.exists()
+    assert "consented prompt" in target.read_text(encoding="utf-8")
