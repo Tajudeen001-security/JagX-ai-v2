@@ -135,7 +135,8 @@ Then download a compatible, licensed GGUF model file separately and set:
 ```bash
 export JAGX_GGUF_MODEL="/absolute/path/to/model.gguf"
 export JAGX_LOCAL_N_CTX=2048
-export JAGX_LOCAL_THREADS=4\nexport JAGX_OFFLINE_MODE=true
+export JAGX_LOCAL_THREADS=4
+export JAGX_OFFLINE_MODE=true
 ```
 
 A small candidate to evaluate on limited hardware is **Qwen2.5-0.5B-Instruct in a Q4 GGUF quantization**. Small models can run with less memory and no inference API key, but their reasoning, factuality, and language quality are significantly weaker than larger models. Model binaries are not committed to this repository. Verify the model licence and use a reputable model repository. `GET /offline/status` reports whether the runtime and configured file are present.
