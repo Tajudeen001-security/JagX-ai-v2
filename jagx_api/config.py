@@ -29,6 +29,7 @@ class Settings:
             "OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct"
         )
     )
+    nvidia_model: str = field(default_factory=lambda: os.environ.get("NVIDIA_MODEL", "meta/llama-3.3-70b-instruct"))
     hf_model: str = field(
         default_factory=lambda: os.environ.get("HF_MODEL", "Qwen/Qwen2.5-7B-Instruct")
     )
@@ -67,9 +68,11 @@ class Settings:
         default_factory=lambda: os.environ.get("JAGX_TRAINING_FILE", "jagx_training_data.jsonl")
     )
     training_enabled: bool = field(
-        default_factory=lambda: os.environ.get("JAGX_TRAINING_DATA_ENABLED", "true").lower()
+        default_factory=lambda: os.environ.get("JAGX_TRAINING_DATA_ENABLED", "false").lower()
         == "true"
     )
+
+    conversation_db: str = field(default_factory=lambda: os.environ.get("JAGX_CONVERSATION_DB", "jagx_conversations.sqlite3"))
 
     # Tools
     piston_url: str = "https://emkc.org/api/v2/piston"
