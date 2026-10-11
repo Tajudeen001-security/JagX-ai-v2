@@ -373,7 +373,7 @@ def create_app() -> FastAPI:
             def sse_gen():
                 chunks = []
                 try:
-                    for piece in stream_response(msg, history):
+                    for piece in stream_response(msg, history, memory_context):
                         chunks.append(piece)
                         yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\n\n"
                     if req.conversation_id and chunks:
