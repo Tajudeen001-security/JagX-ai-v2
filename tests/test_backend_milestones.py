@@ -107,3 +107,20 @@ def test_chat_persists_turns_in_conversation(tmp_path, monkeypatch):
         saved = client.get(f"/conversations/{cid}", headers={"x-api-key":key}).json()["conversation"]
         assert [m["role"] for m in saved["messages"]] == ["user","assistant"]
         assert saved["messages"][1]["content"] == "Hello back"
+
+def test_provider_falls_through_all_the_way_to_huggingface(monkeypatch):
+    monkeypatch.setattr(settings, "groq_api_key", "groq-test")
+    monkeypatch.setattr(settings, "nvidia_api_key", "nvidia-test")
+    monkeypatch.setattr(settings, "openrouter_api_key", "router-test")
+    monkeypatch.setattr(settings, "hf_token", "hf-test")
+    calls = []
+    def fake_post(url, **kwargs):
+        calls.append(url)
+        if "router.huggingface.co" in url:
+            return SimpleNamespace(status_code=200, text="", json=lambda: {"choices":[{"message":{"content":"HF final fallback"}}]})
+        return SimpleNamespace(status_code=503, text="temporary unavailable", json=lambda: {})
+    monkeypatch.setattr(providers.HTTP, "post", fake_post)
+    text, provider = providers.chat_completion([{"role":"user","content":"hello"}])
+    assert text == "HF final fallback"
+    assert provider == "huggingface"
+    assert len(calls) == 4
