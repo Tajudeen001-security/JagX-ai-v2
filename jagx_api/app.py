@@ -210,25 +210,6 @@ def create_app() -> FastAPI:
         msg = req.message.strip()
         if not msg:
             raise HTTPException(status_code=400, detail="Empty message")
-        if req.stream:
-            fmt = (req.stream_format or "sse").lower()
-            if fmt == "plain":
-                def plain_gen():
-                    for piece in stream_response(msg, req.history):
-                        yield piece
-                return StreamingResponse(
-                    plain_gen(),
-                    media_type="text/plain; charset=utf-8",
-                    headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-                )
-            def sse_gen():
-                for event in stream_sse(msg, req.history):
-                    yield event
-            return StreamingResponse(
-                sse_gen(),
-                media_type="text/event-stream; charset=utf-8",
-                headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
-            )
         history = req.history
         if req.conversation_id:
             saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
@@ -236,6 +217,44 @@ def create_app() -> FastAPI:
                 raise HTTPException(status_code=404, detail="Conversation not found")
             if history is None:
                 history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
+        if req.stream:
+            fmt = (req.stream_format or "sse").lower()
+            if req.conversation_id:
+                conversation_store.append(key, req.conversation_id, "user", msg)
+            if fmt == "plain":
+                def plain_gen():
+                    chunks = []
+                    for piece in stream_response(msg, history):
+                        chunks.append(piece)
+                        yield piece
+                    if req.conversation_id:
+                        conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                return StreamingResponse(
+                    plain_gen(),
+                    media_type="text/plain; charset=utf-8",
+                    headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+                )
+            def sse_gen():
+                chunks = []
+                try:
+                    for piece in stream_response(msg, history):
+                        chunks.append(piece)
+                        import json
+                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\\n\\n"
+                    if req.conversation_id:
+                        conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                    import json
+                    yield f"data: {json.dumps({'done': True})}\\n\\n"
+                except Exception:
+                    logger.exception("stream failed")
+                    import json
+                    yield f"data: {json.dumps({'error': 'stream failed'})}\\n\\n"
+                    yield f"data: {json.dumps({'done': True})}\\n\\n"
+            return StreamingResponse(
+                sse_gen(),
+                media_type="text/event-stream; charset=utf-8",
+                headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
+            )
         result = generate_response(msg, history)
         if req.conversation_id:
             conversation_store.append(key, req.conversation_id, "user", msg)
