@@ -35,7 +35,19 @@ def _load() -> dict:
 
 
 def _save(data: dict) -> None:
-    _path().write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    path = _path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_suffix(path.suffix + ".tmp")
+    temp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        temp.chmod(0o600)
+    except OSError:
+        pass
+    temp.replace(path)
+    try:
+        path.chmod(0o600)
+    except OSError:
+        pass
 
 
 def remember(user_id: str, text: str, tags: str = "") -> dict[str, Any]:
@@ -60,7 +72,7 @@ def remember(user_id: str, text: str, tags: str = "") -> dict[str, Any]:
 
 def recall(user_id: str, query: str, limit: int = 5) -> list:
     user_id = (user_id or "guest").strip()[:120]
-    words = set(re.findall(r"[a-z0-9]{3,}", (query or "").lower()))
+    words = set(re.findall(r"[^\\W_]{3,}", (query or "").lower(), flags=re.UNICODE))
     if not words:
         return []
     with _lock:
