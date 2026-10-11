@@ -88,3 +88,20 @@ def test_engineering_endurance_is_estimate_only():
     result=endurance_estimate(100,50,.8)
     assert result["estimated_minutes"]==96
     assert "Idealized estimate" in result["warning"]
+
+
+def test_offline_mode_never_calls_cloud_provider(monkeypatch):
+    monkeypatch.setattr(settings,"offline_mode",True)
+    def should_not_call(*args,**kwargs):
+        raise AssertionError("cloud provider called while offline mode is enabled")
+    monkeypatch.setattr(providers.HTTP,"post",should_not_call)
+    result,name=providers.chat_completion([{"role":"user","content":"hello"}])
+    assert result is None and name is None
+
+
+def test_local_model_status_is_explicit_when_no_model_configured(monkeypatch):
+    from jagx_api import local_model
+    monkeypatch.delenv("JAGX_GGUF_MODEL",raising=False)
+    result=local_model.status()
+    assert result["model_configured"] is False
+    assert result["enabled"] is False
