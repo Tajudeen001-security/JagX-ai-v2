@@ -1,8 +1,10 @@
 from __future__ import annotations
 from types import SimpleNamespace
+import json
 import pytest
+from cryptography.fernet import Fernet
 from fastapi.testclient import TestClient
-from jagx_api import conversation_store, providers
+from jagx_api import conversation_store, memory_store, providers
 from jagx_api.app import create_app
 from jagx_api.config import settings
 
@@ -120,7 +122,6 @@ def test_training_log_requires_user_consent_and_operator_opt_in(tmp_path,monkeyp
 
 
 def test_conversation_content_encrypted_at_rest_when_key_configured(tmp_path,monkeypatch):
-    from cryptography.fernet import Fernet
     monkeypatch.setattr(settings,"conversation_db",str(tmp_path/"encrypted.sqlite3"))
     monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
     key="jagx-test-encryption-owner"
@@ -139,7 +140,6 @@ def test_conversation_content_encrypted_at_rest_when_key_configured(tmp_path,mon
 
 
 def test_encrypted_conversation_requires_correct_key(tmp_path,monkeypatch):
-    from cryptography.fernet import Fernet
     monkeypatch.setattr(settings,"conversation_db",str(tmp_path/"encrypted.sqlite3"))
     monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
     key="jagx-test-encryption-owner-2"
@@ -149,3 +149,38 @@ def test_encrypted_conversation_requires_correct_key(tmp_path,monkeypatch):
     monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
     with pytest.raises(RuntimeError,match="Could not decrypt"):
         conversation_store.get(key,cid)
+
+
+def test_memory_file_encrypted_at_rest_and_round_trips(tmp_path,monkeypatch):
+    target=tmp_path/"memory.json"
+    monkeypatch.setattr(settings,"memory_file",str(target))
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    result=memory_store.remember("owner-hash","private memory phrase","secret tag")
+    assert result["ok"]
+    raw=target.read_text(encoding="utf-8")
+    assert raw.startswith("enc:v1:")
+    assert "private memory phrase" not in raw
+    recalled=memory_store.recall("owner-hash","private memory")
+    assert recalled and recalled[0]["text"]=="private memory phrase"
+
+
+def test_legacy_plaintext_memory_is_encrypted_on_next_write(tmp_path,monkeypatch):
+    target=tmp_path/"memory.json"
+    target.write_text(json.dumps({"owner-hash":[{"id":"legacy","text":"legacy memory phrase","tags":"","ts":"now"}]}),encoding="utf-8")
+    monkeypatch.setattr(settings,"memory_file",str(target))
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    assert memory_store.recall("owner-hash","legacy memory")
+    memory_store.remember("owner-hash","new memory item")
+    raw=target.read_text(encoding="utf-8")
+    assert raw.startswith("enc:v1:")
+    assert "legacy memory phrase" not in raw
+
+
+def test_encrypted_memory_rejects_wrong_key(tmp_path,monkeypatch):
+    target=tmp_path/"memory.json"
+    monkeypatch.setattr(settings,"memory_file",str(target))
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    memory_store.remember("owner-hash","private memory phrase")
+    monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
+    with pytest.raises(RuntimeError,match="Could not decrypt memory"):
+        memory_store.recall("owner-hash","private")
