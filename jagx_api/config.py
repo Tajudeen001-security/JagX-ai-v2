@@ -18,6 +18,7 @@ class Settings:
     groq_api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
     openrouter_api_key: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
     hf_token: str = field(default_factory=lambda: os.environ.get("HF_TOKEN", ""))
+    pollinations_api_key: str = field(default_factory=lambda: os.environ.get("POLLINATIONS_API_KEY", ""))
     nvidia_api_key: str = field(
         default_factory=lambda: os.environ.get("NVIDIA_API_KEY")
         or os.environ.get("NVIDIA_NIM_API_KEY", "")
