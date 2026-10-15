@@ -12,6 +12,10 @@ class JobRequest(BaseModel):
     conversation_id: Optional[str]=None
     training_consent: bool=False
 
+class CodingJobRequest(BaseModel):
+    task: str=Field(...,min_length=8,max_length=16000)
+    conversation_id: Optional[str]=None
+
 def _owner(key:str)->str:
     return hashlib.sha256(("jagx-job-v1:"+key).encode()).hexdigest()
 
@@ -51,3 +55,18 @@ def cancel_job(job_id:str,x_api_key:Optional[str]=Header(None,alias="x-api-key")
     job=job_store.request_cancel(_owner(_key(x_api_key)),job_id)
     if job is None: raise HTTPException(status_code=404,detail="Job not found")
     return {"ok":True,"job":job}
+
+
+@router.post("/coding/jobs",status_code=202)
+def create_coding_job(req:CodingJobRequest,x_api_key:Optional[str]=Header(None,alias="x-api-key")):
+    key=_key(x_api_key); history=[]
+    if req.conversation_id:
+        saved=conversation_store.get(key,req.conversation_id,limit=settings.max_history)
+        if saved is None: raise HTTPException(status_code=404,detail="Conversation not found")
+        history=[{"role":m["role"],"content":m["content"]} for m in saved["messages"]]
+    owner=_owner(key)
+    hits=memory_store.recall(hashlib.sha256(("jagx-memory-v1:"+key).encode()).hexdigest(),req.task)
+    memory_context="\n".join(str(hit.get("text","")) for hit in hits) if hits else None
+    payload={"message":req.task,"history":history,"memory_context":memory_context,"conversation_id":req.conversation_id}
+    job=job_store.enqueue(owner,"coding_plan",payload)
+    return {"ok":True,"job":job,"poll_url":f"/jobs/{job['id']}","note":"Task continues in the background. Repository edits are disabled until a trusted coding workspace is configured."}
