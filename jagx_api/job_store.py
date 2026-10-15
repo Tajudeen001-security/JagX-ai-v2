@@ -21,12 +21,13 @@ def _connect():
         payload TEXT NOT NULL, status TEXT NOT NULL, result TEXT,
         error TEXT, attempts INTEGER NOT NULL DEFAULT 0,
         created_at REAL NOT NULL, updated_at REAL NOT NULL,
-        started_at REAL, finished_at REAL, checkpoint TEXT, cancel_requested INTEGER NOT NULL DEFAULT 0
+        started_at REAL, finished_at REAL, checkpoint TEXT, cancel_requested INTEGER NOT NULL DEFAULT 0, next_attempt_at REAL NOT NULL DEFAULT 0
     )""")
     db.execute("CREATE INDEX IF NOT EXISTS idx_jobs_owner_created ON jobs(owner,created_at DESC)")
     columns={row["name"] for row in db.execute("PRAGMA table_info(jobs)").fetchall()}
     if "checkpoint" not in columns: db.execute("ALTER TABLE jobs ADD COLUMN checkpoint TEXT")
     if "cancel_requested" not in columns: db.execute("ALTER TABLE jobs ADD COLUMN cancel_requested INTEGER NOT NULL DEFAULT 0")
+    if "next_attempt_at" not in columns: db.execute("ALTER TABLE jobs ADD COLUMN next_attempt_at REAL NOT NULL DEFAULT 0")
     db.execute("CREATE INDEX IF NOT EXISTS idx_jobs_status_created ON jobs(status,created_at)")
     return db
 
@@ -49,7 +50,7 @@ def claim_next() -> Optional[dict]:
     now=time.time()
     with _lock, _connect() as db:
         db.execute("BEGIN IMMEDIATE")
-        row=db.execute("SELECT * FROM jobs WHERE status='queued' ORDER BY created_at LIMIT 1").fetchone()
+        row=db.execute("SELECT * FROM jobs WHERE status='queued' AND next_attempt_at<=? ORDER BY created_at LIMIT 1",(now,)).fetchone()
         if row is None:
             db.commit(); return None
         changed=db.execute("UPDATE jobs SET status='running',attempts=attempts+1,started_at=?,updated_at=? WHERE id=? AND status='queued'",
@@ -70,8 +71,9 @@ def fail(job_id: str, error: str, retry: bool=False):
         row=db.execute("SELECT attempts FROM jobs WHERE id=?",(job_id,)).fetchone()
         if not row: return
         status="queued" if retry and row["attempts"] < 3 else "failed"
-        db.execute("UPDATE jobs SET status=?,error=?,updated_at=?,finished_at=? WHERE id=?",
-                   (status,error[:1200],now,None if status=="queued" else now,job_id)); db.commit()
+        delay=min(60, 2 ** max(1, int(row["attempts"]))) if status=="queued" else 0
+        db.execute("UPDATE jobs SET status=?,error=?,updated_at=?,finished_at=?,next_attempt_at=? WHERE id=?",
+                   (status,error[:1200],now,None if status=="queued" else now,now+delay,job_id)); db.commit()
 
 def cancel(owner: str, job_id: str) -> Optional[dict]:
     now=time.time()
@@ -88,7 +90,7 @@ def _decode(row):
     return {"id":row["id"],"kind":row["kind"],"status":row["status"],
             "payload":json.loads(row["payload"]),"result":json.loads(row["result"]) if row["result"] else None,
             "error":row["error"],"attempts":row["attempts"],"created_at":row["created_at"],
-            "updated_at":row["updated_at"],"started_at":row["started_at"],"finished_at":row["finished_at"],"checkpoint":json.loads(row["checkpoint"]) if row["checkpoint"] else None,"cancel_requested":bool(row["cancel_requested"])}
+            "updated_at":row["updated_at"],"started_at":row["started_at"],"finished_at":row["finished_at"],"checkpoint":json.loads(row["checkpoint"]) if row["checkpoint"] else None,"cancel_requested":bool(row["cancel_requested"]),"next_attempt_at":row["next_attempt_at"]}
 
 def get(owner: str, job_id: str) -> Optional[dict]:
     with _lock, _connect() as db:
