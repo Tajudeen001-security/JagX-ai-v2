@@ -122,6 +122,6 @@ def request_cancel(owner: str, job_id: str) -> Optional[dict]:
         row=db.execute("SELECT status FROM jobs WHERE id=? AND owner=?",(job_id,owner)).fetchone()
         if not row: return None
         if row["status"]=="queued": db.execute("UPDATE jobs SET status='cancelled',updated_at=?,finished_at=? WHERE id=?",(now,now,job_id))
-        elif row["status"]=="running": db.execute("UPDATE jobs SET cancel_requested=1,updated_at=? WHERE id=?",(now,job_id))
+        elif row["status"]=="running": db.execute("UPDATE jobs SET status='cancelled',cancel_requested=1,updated_at=?,finished_at=? WHERE id=?",(now,now,job_id))
         db.commit()
     return get(owner,job_id)
