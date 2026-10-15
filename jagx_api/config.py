@@ -60,6 +60,7 @@ class Settings:
     max_body_bytes: int = 15 * 1024 * 1024
     max_code_len: int = 12000
     max_history: int = 12
+    llm_timeout_seconds: float = field(default_factory=lambda: max(5.0, float(os.environ.get("JAGX_LLM_TIMEOUT", "25"))))
     default_max_tokens: int = 1200
     temperature: float = 0.35
 
