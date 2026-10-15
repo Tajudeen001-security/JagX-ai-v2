@@ -356,6 +356,18 @@ def create_app() -> FastAPI:
         except (RuntimeError,ValueError) as exc:
             raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
 
+    @app.post("/speech/speak/stream")
+    async def speech_speak_stream(text: str = Form(...), voice: Optional[str] = Form(None),
+                                  x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            async def chunks():
+                async for part in speech.synthesize_stream(text,voice):
+                    yield part
+            return StreamingResponse(chunks(),media_type="audio/mpeg",headers={"Cache-Control":"no-store","X-Accel-Buffering":"no"})
+        except (RuntimeError,ValueError) as exc:
+            raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
+
     @app.post("/voice/turn")
     async def voice_turn(audio: UploadFile = File(...), conversation_id: Optional[str] = Form(None),
                          training_consent: bool = Form(False),
