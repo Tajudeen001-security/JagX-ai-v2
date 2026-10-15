@@ -165,3 +165,13 @@ Connected-account routes currently report OAuth integrations as not configured. 
 - The backend tries Hugging Face hosted image inference when `HF_TOKEN` is configured, then Pollinations when `POLLINATIONS_API_KEY` is configured. Both are remote hosted services; Pollinations documents API-key authentication. The response contains base64 image data and MIME type for the client to render.
 - This uses hosted inference; it does not train a model or run image generation on the Render instance. Free access/credits, model availability, quotas, latency, and service terms can change. Configure `POLLINATIONS_API_KEY` in Render if you want that fallback; don't put it in source code. A configured token is not a guarantee that inference is enabled for the selected model.
 - Images are size-limited and validated before returning. Do not treat base64 responses as permanent storage; configure object storage if generated images must persist.
+
+
+### Real-time bidirectional chat
+
+The backend supports both HTTP streaming and WebSocket streaming:
+
+- `POST /chat` with `{"message":"Hello","stream":true,"stream_format":"sse"}` streams Server-Sent Events.
+- `/ws/chat` is a WebSocket endpoint. Authenticate with the `x-api-key` handshake header. After connecting, the server sends a `ready` event. Send JSON frames such as `{"message":"Hello"}` or `{"message":"Continue","conversation_id":"<id>"}`. The server streams `start`, `token`, and `done` JSON events, or a generic `error` event.
+- WebSocket chat supports a persistent `conversation_id` and consented memory context. Keep API keys out of browser URLs and logs.
+- This is real-time streamed text chat, not continuous live microphone audio. Continuous voice requires a separate streaming speech-recognition/speech-synthesis integration. Actual response speed and availability still depend on configured model providers and host limits.
