@@ -7,6 +7,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from jagx_api.config import settings
+from jagx_api import provider_resilience as resilience
 
 logger = logging.getLogger("jagx-ai")
 
@@ -62,25 +63,36 @@ def chat_completion(messages: list, *, max_tokens: Optional[int]=None,
     if settings.offline_mode:
         return None,None
     for name,url,key,model,extra in _providers():
+        if not resilience.allow(name):
+            logger.warning("%s circuit open; skipping provider",name)
+            continue
         try:
             r=HTTP.post(url,headers=_headers(key,extra),
                 json={"model":model,"messages":messages,"max_tokens":max_tokens,"temperature":temperature},
                 timeout=settings.llm_timeout_seconds)
             if r.status_code == 200:
                 try:
-                    return _parse_content(r),name
+                    parsed = _parse_content(r)
+                    resilience.success(name)
+                    return parsed,name
                 except Exception as exc:
                     logger.warning("%s malformed success response: %s",name,exc)
+                    resilience.failure(name,error=f"malformed response: {type(exc).__name__}")
             else:
                 logger.warning("%s status %s: %s",name,r.status_code,(r.text or "")[:240])
+                resilience.failure(name,error=f"HTTP {r.status_code}")
         except Exception as exc:
             logger.warning("%s request failed: %s",name,exc)
+            resilience.failure(name,error=type(exc).__name__)
     return None,None
 
 def stream_completion(messages: list, *, max_tokens: Optional[int]=None) -> Iterator[str]:
     """Try every configured streaming provider; if all fail, use one-shot fallback."""
     max_tokens=max_tokens or settings.default_max_tokens
     for name,url,key,model,extra in _providers():
+        if not resilience.allow(name):
+            logger.warning("stream %s circuit open; skipping provider",name)
+            continue
         response=None
         yielded=False
         try:
@@ -113,10 +125,13 @@ def stream_completion(messages: list, *, max_tokens: Optional[int]=None) -> Iter
                 except (ValueError,TypeError,KeyError):
                     continue
             if yielded:
+                resilience.success(name)
                 return
             logger.warning("stream %s ended without text; trying next provider",name)
+            resilience.failure(name,error="empty stream")
         except Exception as exc:
             logger.warning("stream %s failed: %s",name,exc)
+            resilience.failure(name,error=type(exc).__name__)
         finally:
             if response is not None:
                 try: response.close()
@@ -132,3 +147,23 @@ def stream_completion(messages: list, *, max_tokens: Optional[int]=None) -> Iter
                 buf=""
         if buf:
             yield buf
+
+
+def provider_health() -> dict:
+    """Network reachability and breaker state; does not spend tokens."""
+    from jagx_api.provider_resilience import snapshot
+    breaker=snapshot()
+    targets={"groq":("https://api.groq.com",bool(settings.groq_api_key)),"nvidia":("https://integrate.api.nvidia.com",bool(settings.nvidia_api_key)),"openrouter":("https://openrouter.ai",bool(settings.openrouter_api_key)),"huggingface":("https://router.huggingface.co",bool(settings.hf_token))}
+    result={}
+    for name,(url,configured) in targets.items():
+        status=breaker.get(name,{"circuit":"closed","failures":0,"retry_after_seconds":0})
+        if not configured:
+            result[name]={**status,"configured":False,"reachable":None,"detail":"not configured"}; continue
+        if status["circuit"]=="open":
+            result[name]={**status,"configured":True,"reachable":None,"detail":"temporarily skipped by circuit breaker"}; continue
+        try:
+            response=HTTP.get(url,timeout=(2,3),allow_redirects=True)
+            result[name]={**status,"configured":True,"reachable":True,"http_status":response.status_code,"detail":"network reachable; key, quota and model not validated"}
+        except Exception as exc:
+            result[name]={**status,"configured":True,"reachable":False,"detail":type(exc).__name__}
+    return result
