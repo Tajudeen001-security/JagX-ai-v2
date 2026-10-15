@@ -22,6 +22,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering, video_generation
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.jobs_api import router as jobs_router
+from jagx_api.autonomy import router as autonomy_router
 from jagx_api import job_worker
 from jagx_api.config import settings
 from jagx_api.providers import provider_status, provider_health
@@ -161,6 +162,7 @@ def create_app() -> FastAPI:
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
     app.add_middleware(GZipMiddleware, minimum_size=1000)
     app.include_router(jobs_router)
+    app.include_router(autonomy_router)
 
     @app.on_event("startup")
     def _startup() -> None:
