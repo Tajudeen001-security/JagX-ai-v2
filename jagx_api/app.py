@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import asyncio
 import time
 import hashlib
 import hmac
@@ -11,7 +12,7 @@ import os
 import base64
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request, UploadFile, File, Form
+from fastapi import FastAPI, Header, HTTPException, Request, UploadFile, File, Form, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse, Response
@@ -173,7 +174,7 @@ def create_app() -> FastAPI:
             "created_by": "JagX & JRILICENSE",
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
-                "streaming", "sse_streaming", "memory", "calc", "tools",
+                "streaming", "sse_streaming", "websocket_realtime_chat", "memory", "calc", "tools",
                 "pdf_cv", "portfolio", "rate_limits", "persistent_conversations" ,
                 "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",
                 "engineering_decision_support", "knowledge_ingestion", "image_generation_api",
@@ -357,6 +358,73 @@ def create_app() -> FastAPI:
             raise
         except (RuntimeError,ValueError) as exc:
             raise HTTPException(status_code=503 if isinstance(exc,RuntimeError) else 400,detail=str(exc))
+
+    @app.websocket("/ws/chat")
+    async def websocket_chat(websocket: WebSocket):
+        """Bidirectional real-time text chat; send {"message":"..."} JSON frames."""
+        key = (websocket.headers.get("x-api-key") or "").strip()
+        try:
+            if not auth.is_valid_key(key):
+                await websocket.close(code=4401, reason="Invalid or missing API key")
+                return
+            ok, info = auth.check_rate_limit(key)
+            if not ok:
+                await websocket.close(code=4429, reason=str(info)[:120])
+                return
+            await websocket.accept()
+            await websocket.send_json({"type": "ready", "service": "JagX AI", "version": __version__})
+            while True:
+                payload = await websocket.receive_json()
+                if not isinstance(payload, dict):
+                    await websocket.send_json({"type": "error", "error": "Send a JSON object with a message field"})
+                    continue
+                msg = str(payload.get("message") or "").strip()
+                if not msg or len(msg) > 32000:
+                    await websocket.send_json({"type": "error", "error": "Message must contain 1–32000 characters"})
+                    continue
+                conversation_id = str(payload.get("conversation_id") or "").strip() or None
+                history = payload.get("history") if isinstance(payload.get("history"), list) else None
+                if conversation_id:
+                    saved = conversation_store.get(key, conversation_id, limit=settings.max_history)
+                    if saved is None:
+                        await websocket.send_json({"type": "error", "error": "Conversation not found"})
+                        continue
+                    history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
+                    conversation_store.append(key, conversation_id, "user", msg)
+                memory_hits = memory_store.recall(_memory_owner(key), msg)
+                memory_context = "\n".join(str(hit.get("text", "")) for hit in memory_hits) if memory_hits else None
+                await websocket.send_json({"type": "start", "conversation_id": conversation_id})
+                pieces = []
+                try:
+                    iterator = iter(stream_response(msg, history, memory_context))
+                    sentinel = object()
+                    while True:
+                        piece = await asyncio.to_thread(next, iterator, sentinel)
+                        if piece is sentinel:
+                            break
+                        if not piece:
+                            continue
+                        piece = str(piece)
+                        pieces.append(piece)
+                        await websocket.send_json({"type": "token", "token": piece})
+                    answer = "".join(pieces)
+                    if conversation_id and answer:
+                        conversation_store.append(key, conversation_id, "assistant", answer)
+                    await websocket.send_json({"type": "done", "conversation_id": conversation_id})
+                except WebSocketDisconnect:
+                    raise
+                except Exception:
+                    logger.exception("WebSocket chat turn failed")
+                    await websocket.send_json({"type": "error", "error": "This response failed. Please retry."})
+                    await websocket.send_json({"type": "done", "conversation_id": conversation_id})
+        except WebSocketDisconnect:
+            logger.debug("WebSocket client disconnected")
+        except Exception:
+            logger.exception("WebSocket connection failed")
+            try:
+                await websocket.close(code=1011, reason="Chat connection failed")
+            except Exception:
+                pass
 
     @app.post("/chat")
     def chat(req: ChatRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
