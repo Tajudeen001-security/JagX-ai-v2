@@ -17,6 +17,8 @@ services:
         sync: false
       - key: HF_TOKEN
         sync: false
+      - key: POLLINATIONS_API_KEY
+        sync: false
       - key: NVIDIA_API_KEY
         sync: false
       - key: NVIDIA_MODEL
