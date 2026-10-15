@@ -190,6 +190,7 @@ def test_encrypted_memory_rejects_wrong_key(tmp_path,monkeypatch):
 def test_image_generation_uses_fallback_and_validates_image(monkeypatch):
     from jagx_api import image_generation
     monkeypatch.setattr(settings, "hf_token", "")
+    monkeypatch.setattr(settings, "pollinations_api_key", "test-image-key")
     png = b"\\x89PNG\\r\\n\\x1a\\n" + b"test-image"
     calls = []
     class FakeResponse:
@@ -210,6 +211,7 @@ def test_image_generation_uses_fallback_and_validates_image(monkeypatch):
 def test_image_generation_rejects_non_image_payload(monkeypatch):
     from jagx_api import image_generation
     monkeypatch.setattr(settings, "hf_token", "")
+    monkeypatch.setattr(settings, "pollinations_api_key", "test-image-key")
     class FakeResponse:
         status_code = 200
         content = b"not an image"
