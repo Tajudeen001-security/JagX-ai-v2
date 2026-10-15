@@ -162,6 +162,6 @@ Connected-account routes currently report OAuth integrations as not configured. 
 ### Image generation API
 
 - `POST /images/generate` accepts `prompt`, optional `width` and `height` (256–1024), and requires `x-api-key`.
-- The backend tries Hugging Face hosted image inference when `HF_TOKEN` is configured, then a hosted Pollinations fallback. The response contains base64 image data and MIME type for the client to render.
-- This uses hosted inference; it does not train a model or run image generation on the Render instance. Free access, model availability, quotas, latency, and service terms can change. A configured token is not a guarantee that inference is enabled for the selected model.
+- The backend tries Hugging Face hosted image inference when `HF_TOKEN` is configured, then Pollinations when `POLLINATIONS_API_KEY` is configured. Both are remote hosted services; Pollinations documents API-key authentication. The response contains base64 image data and MIME type for the client to render.
+- This uses hosted inference; it does not train a model or run image generation on the Render instance. Free access/credits, model availability, quotas, latency, and service terms can change. Configure `POLLINATIONS_API_KEY` in Render if you want that fallback; don't put it in source code. A configured token is not a guarantee that inference is enabled for the selected model.
 - Images are size-limited and validated before returning. Do not treat base64 responses as permanent storage; configure object storage if generated images must persist.
