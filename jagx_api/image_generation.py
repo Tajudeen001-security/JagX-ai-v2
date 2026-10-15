@@ -50,11 +50,13 @@ def _huggingface(prompt: str, width: int, height: int) -> tuple[bytes, str]:
 
 
 def _pollinations(prompt: str, width: int, height: int) -> tuple[bytes, str]:
-    url = "https://image.pollinations.ai/prompt/" + quote(prompt[:1200], safe="")
+    if not settings.pollinations_api_key:
+        raise RuntimeError("Pollinations API key is not configured")
+    url = "https://gen.pollinations.ai/image/" + quote(prompt[:1200], safe="")
     response = requests.get(
         url,
-        params={"width": width, "height": height, "nologo": "true"},
-        headers={"Accept": "image/*", "User-Agent": "JagX-AI/1.0"},
+        params={"width": width, "height": height, "model": "flux"},
+        headers={"Accept": "image/*", "User-Agent": "JagX-AI/1.0", "Authorization": f"Bearer {settings.pollinations_api_key}"},
         timeout=(10, 90),
     )
     if response.status_code != 200:
@@ -73,7 +75,8 @@ def generate(prompt: str, width: int = 768, height: int = 768) -> dict:
     providers = []
     if settings.hf_token:
         providers.append(("huggingface", _huggingface))
-    providers.append(("pollinations", _pollinations))
+    if settings.pollinations_api_key:
+        providers.append(("pollinations", _pollinations))
     for name, provider in providers:
         try:
             data, mime = provider(prompt, width, height)
