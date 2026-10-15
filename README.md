@@ -211,5 +211,6 @@ Jobs are stored in SQLite and running jobs are re-queued on process startup. Set
 
 - `POST /autonomy/assess` evaluates whether a simulated/advisory scenario has required safety signals. It fails closed when sensor health, communications, operator authorization or independent emergency stop are missing.
 - `POST /autonomy/driving/stopping-distance` calculates an idealized educational stopping-distance estimate for self-driving-car research. It is not a brake command or a validated vehicle-dynamics model.
+- `POST /autonomy/simulation/risk-check` screens simulated scenarios for low sensor confidence, high latency, missing human override, and missing/near obstacle distance. Its thresholds are illustrative defaults, not certified safety limits.
 - `GET /autonomy/checklists/self_driving_car`, `/autonomy/checklists/drone`, `/autonomy/checklists/aviation`, and `/autonomy/checklists/industrial_robot` return safety-oriented review checklists.
 - These routes do not connect to real vehicles or actuators. Real-world autonomy requires simulation, controlled test environments, certified control systems, redundant sensing, geofencing, independent emergency stops, regulatory compliance and qualified human oversight. Do not use language-model output as a real-time flight/driving controller or weapon-targeting system.
