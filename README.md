@@ -175,3 +175,21 @@ The backend supports both HTTP streaming and WebSocket streaming:
 - `/ws/chat` is a WebSocket endpoint. Authenticate with the `x-api-key` handshake header. After connecting, the server sends a `ready` event. Send JSON frames such as `{"message":"Hello"}` or `{"message":"Continue","conversation_id":"<id>"}`. The server streams `start`, `token`, and `done` JSON events, or a generic `error` event.
 - WebSocket chat supports a persistent `conversation_id` and consented memory context. Keep API keys out of browser URLs and logs.
 - This is real-time streamed text chat, not continuous live microphone audio. Continuous voice requires a separate streaming speech-recognition/speech-synthesis integration. Actual response speed and availability still depend on configured model providers and host limits.
+
+
+### Durable background jobs
+
+Authenticated job endpoints let clients submit a request and disconnect while the backend processes it:
+
+- `POST /jobs` JSON: `{"message":"Prepare a detailed implementation plan","conversation_id":null}` returns HTTP 202 with a job ID.
+- `GET /jobs/{job_id}` returns `queued`, `running`, `succeeded`, `failed`, or `cancelled` and the result when complete.
+- `GET /jobs` lists the authenticated API key owner's recent jobs.
+- `POST /jobs/{job_id}/cancel` requests cancellation. A running model call may continue until it returns, but its result will not overwrite a cancelled status.
+
+Jobs are stored in SQLite and running jobs are re-queued on process startup. Set `JAGX_JOBS_DB` to a path on a persistent disk/volume to preserve jobs across Render restarts and deploys. The Render free filesystem may be ephemeral, and a free web service may sleep; therefore this is restart-recoverable queue logic, not a guarantee of 24/7 execution. For dependable continuous coding while the user is away, deploy a continuously running worker plus persistent storage and explicitly configured repository access. This queue currently performs queued AI chat work; it does not autonomously edit or commit arbitrary GitHub repositories.
+
+### Operations and reliability
+
+- `/health` is a liveness check. Provider configuration status only means a credential is present; it does not prove that a provider is reachable, accepts the key, has quota, or exposes the selected model.
+- Provider calls use bounded timeouts and fallback ordering. Retries and fallback can increase total latency; no free provider guarantees uninterrupted service.
+- Run the GitHub Actions test suite before treating new endpoints as production-ready.
