@@ -184,3 +184,36 @@ def test_encrypted_memory_rejects_wrong_key(tmp_path,monkeypatch):
     monkeypatch.setattr(settings,"data_encryption_key",Fernet.generate_key().decode("ascii"))
     with pytest.raises(RuntimeError,match="Could not decrypt memory"):
         memory_store.recall("owner-hash","private")
+
+
+
+def test_image_generation_uses_fallback_and_validates_image(monkeypatch):
+    from jagx_api import image_generation
+    monkeypatch.setattr(settings, "hf_token", "")
+    png = b"\\x89PNG\\r\\n\\x1a\\n" + b"test-image"
+    calls = []
+    class FakeResponse:
+        status_code = 200
+        content = png
+        headers = {"content-type": "image/png"}
+    def fake_get(url, **kwargs):
+        calls.append(url)
+        return FakeResponse()
+    monkeypatch.setattr(image_generation.requests, "get", fake_get)
+    result = image_generation.generate("a friendly robot", 512, 512)
+    assert result["provider"] == "pollinations"
+    assert result["mime_type"] == "image/png"
+    assert result["image_base64"]
+    assert calls
+
+
+def test_image_generation_rejects_non_image_payload(monkeypatch):
+    from jagx_api import image_generation
+    monkeypatch.setattr(settings, "hf_token", "")
+    class FakeResponse:
+        status_code = 200
+        content = b"not an image"
+        headers = {"content-type": "text/html"}
+    monkeypatch.setattr(image_generation.requests, "get", lambda *args, **kwargs: FakeResponse())
+    with pytest.raises(RuntimeError, match="temporarily unavailable"):
+        image_generation.generate("a friendly robot")
