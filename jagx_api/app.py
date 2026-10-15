@@ -134,6 +134,12 @@ class ToolRequest(BaseModel):
     input: Optional[dict] = None
 
 
+class ImageGenerationRequest(BaseModel):
+    prompt: str = Field(..., min_length=3, max_length=1200)
+    width: int = Field(default=768, ge=256, le=1024)
+    height: int = Field(default=768, ge=256, le=1024)
+
+
 def create_app() -> FastAPI:
     app = FastAPI(
         title="JagX AI",
@@ -170,7 +176,7 @@ def create_app() -> FastAPI:
                 "streaming", "sse_streaming", "memory", "calc", "tools",
                 "pdf_cv", "portfolio", "rate_limits", "persistent_conversations" ,
                 "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",
-                "engineering_decision_support", "knowledge_ingestion",
+                "engineering_decision_support", "knowledge_ingestion", "image_generation_api",
             ],
             "docs": "/docs",
         }
@@ -203,6 +209,16 @@ def create_app() -> FastAPI:
 
     def _memory_owner(key: str) -> str:
         return hashlib.sha256(("jagx-memory-v1:" + key).encode("utf-8")).hexdigest()
+
+    @app.post("/images/generate")
+    def generate_image(req: ImageGenerationRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        from jagx_api.image_generation import generate
+        try:
+            result = generate(req.prompt, req.width, req.height)
+            return {"ok": True, **result}
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
 
     @app.get("/offline/status")
     def offline_status(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
