@@ -249,3 +249,32 @@ def test_websocket_chat_rejects_missing_api_key():
         with pytest.raises(Exception):
             with client.websocket_connect("/ws/chat"):
                 pass
+
+
+
+def test_durable_job_queue_status_and_owner_isolation(tmp_path, monkeypatch):
+    from jagx_api import job_store
+    monkeypatch.setattr(settings, "jobs_db", str(tmp_path / "jobs.sqlite3"))
+    job_store.init()
+    first = job_store.enqueue("owner-a", "chat", {"message": "keep working"})
+    assert first["status"] == "queued"
+    claimed = job_store.claim_next()
+    assert claimed["id"] == first["id"]
+    assert claimed["status"] == "running"
+    job_store.finish(first["id"], {"response": "finished"})
+    result = job_store.get("owner-a", first["id"])
+    assert result["status"] == "succeeded"
+    assert result["result"]["response"] == "finished"
+    assert job_store.get("owner-b", first["id"]) is None
+
+
+def test_durable_job_recovers_running_work_after_restart(tmp_path, monkeypatch):
+    from jagx_api import job_store
+    monkeypatch.setattr(settings, "jobs_db", str(tmp_path / "jobs.sqlite3"))
+    job_store.init()
+    item = job_store.enqueue("owner-a", "chat", {"message": "resume"})
+    claimed = job_store.claim_next()
+    assert claimed["id"] == item["id"]
+    job_store.init()
+    recovered = job_store.get("owner-a", item["id"])
+    assert recovered["status"] == "queued"
