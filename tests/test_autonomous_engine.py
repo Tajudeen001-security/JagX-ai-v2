@@ -219,3 +219,33 @@ def test_image_generation_rejects_non_image_payload(monkeypatch):
     monkeypatch.setattr(image_generation.requests, "get", lambda *args, **kwargs: FakeResponse())
     with pytest.raises(RuntimeError, match="temporarily unavailable"):
         image_generation.generate("a friendly robot")
+
+
+
+def test_websocket_chat_streams_tokens_in_real_time(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(settings, "admin_secret", "test-admin-secret")
+    monkeypatch.setattr(settings, "keys_file", str(tmp_path / "keys.json"))
+    monkeypatch.setattr(settings, "memory_file", str(tmp_path / "memory.json"))
+    import jagx_api.app as app_module
+    monkeypatch.setattr(app_module, "stream_response", lambda message, history=None, memory_context=None: iter(["Hello", " there!"]))
+    with TestClient(create_app()) as client:
+        key = make_key(client, "websocket tester")
+        with client.websocket_connect("/ws/chat", headers={"x-api-key": key}) as websocket:
+            ready = websocket.receive_json()
+            assert ready["type"] == "ready"
+            websocket.send_json({"message": "Hi"})
+            assert websocket.receive_json()["type"] == "start"
+            first = websocket.receive_json()
+            second = websocket.receive_json()
+            done = websocket.receive_json()
+            assert first == {"type": "token", "token": "Hello"}
+            assert second == {"type": "token", "token": " there!"}
+            assert done["type"] == "done"
+
+
+def test_websocket_chat_rejects_missing_api_key():
+    with TestClient(create_app()) as client:
+        with pytest.raises(Exception):
+            with client.websocket_connect("/ws/chat"):
+                pass
