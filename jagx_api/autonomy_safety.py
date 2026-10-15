@@ -62,3 +62,49 @@ def checklist(domain: str) -> dict[str, Any]:
     if domain not in checklists: raise ValueError("Unsupported domain")
     return {"domain":domain,"mode":"advisory","checklist":checklists[domain],
             "warning":"Checklist support only; use applicable standards and qualified professionals."}
+
+
+def evaluate_simulation_scenario(
+    domain: str,
+    sensor_confidence: float,
+    control_latency_ms: float,
+    human_override_ready: bool,
+    obstacle_distance_m: float | None = None,
+) -> dict[str, Any]:
+    """Conservative simulator-only risk gate; never issues movement commands."""
+    supported = {"self_driving_car", "drone", "aviation", "industrial_robot"}
+    if domain not in supported:
+        raise ValueError("Unsupported simulation domain")
+    if not 0.0 <= sensor_confidence <= 1.0:
+        raise ValueError("sensor_confidence must be between 0 and 1")
+    if control_latency_ms < 0:
+        raise ValueError("control_latency_ms must be non-negative")
+    if obstacle_distance_m is not None and obstacle_distance_m < 0:
+        raise ValueError("obstacle_distance_m must be non-negative")
+
+    reasons: list[str] = []
+    if sensor_confidence < 0.95:
+        reasons.append("Sensor confidence is below the conservative 0.95 simulation threshold.")
+    if control_latency_ms > 100:
+        reasons.append("Simulation latency exceeds 100 ms; timing assumptions need review.")
+    if human_override_ready is not True:
+        reasons.append("Human override is not confirmed ready.")
+    if domain in {"self_driving_car", "drone"} and obstacle_distance_m is None:
+        reasons.append("Obstacle-distance input is missing.")
+    elif obstacle_distance_m is not None and obstacle_distance_m < 2.0:
+        reasons.append("Obstacle is within the illustrative 2 m caution zone.")
+
+    return {
+        "domain": domain,
+        "mode": "simulation_only",
+        "status": "review_required" if reasons else "simulation_checks_passed",
+        "permitted": not reasons,
+        "reasons": reasons,
+        "inputs": {
+            "sensor_confidence": sensor_confidence,
+            "latency_ms": control_latency_ms,
+            "human_override_ready": human_override_ready,
+            "obstacle_distance_m": obstacle_distance_m,
+        },
+        "warning": "Illustrative screening only, not validated safety limits or a real-world control decision.",
+    }
