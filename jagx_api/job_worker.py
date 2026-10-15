@@ -4,6 +4,7 @@ import logging, threading, time
 from jagx_api import job_store, memory_store
 from jagx_api.chat import generate_response
 from jagx_api.config import settings
+from jagx_api import coding_worker
 
 logger=logging.getLogger("jagx-ai")
 _stop=threading.Event()
@@ -11,7 +12,16 @@ _thread=None
 
 def _run_one(job):
     if job_store.cancellation_requested(job["id"]): return
-    if job["kind"] not in ("chat", "coding_plan"):
+    if job["kind"] == "coding_plan":
+        try:
+            result=coding_worker.run(job)
+            if job_store.cancellation_requested(job["id"]): return
+            job_store.finish(job["id"],result)
+        except Exception as exc:
+            logger.exception("Coding job %s failed",job["id"])
+            job_store.fail(job["id"],f"{type(exc).__name__}: {str(exc)[:1000]}",retry=True)
+        return
+    if job["kind"] != "chat":
         job_store.fail(job["id"],"Unsupported job kind")
         return
     payload=job["payload"]
