@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from typing import Any
-from jagx_api import autonomy_safety
+from jagx_api import autonomy_safety, simulation_scenarios
 
 router=APIRouter(prefix="/autonomy",tags=["Autonomy & Safety"])
 
@@ -20,6 +20,10 @@ class DrivingEstimateRequest(BaseModel):
 class ChecklistRequest(BaseModel):
     domain: str
 
+class SimulationRunRequest(BaseModel):
+    domain: str = Field(..., min_length=2, max_length=40)
+    scenario_ids: list[str] | None = Field(default=None, max_length=6)
+
 
 class SimulationRiskRequest(BaseModel):
     domain: str = Field(..., min_length=2, max_length=40)
@@ -28,6 +32,17 @@ class SimulationRiskRequest(BaseModel):
     human_override_ready: bool
     obstacle_distance_m: float | None = Field(default=None, ge=0, le=100000)
 
+
+@router.get("/simulation/scenarios")
+def simulation_scenarios_list():
+    return simulation_scenarios.list_simulation_scenarios()
+
+@router.post("/simulation/run-checks")
+def simulation_run_checks(req: SimulationRunRequest):
+    try:
+        return simulation_scenarios.run_simulation_checks(req.domain, req.scenario_ids)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
 @router.post("/simulation/risk-check")
 def simulation_risk_check(req: SimulationRiskRequest):
