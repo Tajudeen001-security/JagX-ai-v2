@@ -19,12 +19,12 @@ from fastapi.responses import JSONResponse, StreamingResponse, Response
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering
+from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering, video_generation
 from jagx_api.chat import generate_response, stream_response, stream_sse
 from jagx_api.jobs_api import router as jobs_router
 from jagx_api import job_worker
 from jagx_api.config import settings
-from jagx_api.providers import provider_status
+from jagx_api.providers import provider_status, provider_health
 from jagx_api.tools import (
     safe_calc,
     generate_pdf_document,
@@ -137,6 +137,13 @@ class ToolRequest(BaseModel):
     input: Optional[dict] = None
 
 
+class VideoGenerationRequest(BaseModel):
+    prompt: str = Field(..., min_length=3, max_length=2000)
+    duration: int = Field(default=4, ge=2, le=8)
+    model: str = "google/veo-3.1-fast"
+    aspect_ratio: str = "16:9"
+
+
 class ImageGenerationRequest(BaseModel):
     prompt: str = Field(..., min_length=3, max_length=1200)
     width: int = Field(default=768, ge=256, le=1024)
@@ -201,6 +208,11 @@ def create_app() -> FastAPI:
             "providers": provider_status(),
         }
 
+    @app.get("/providers/health")
+    def providers_health(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        return {"providers": provider_health(), "note": "Reachability does not validate credentials, quota, or model access."}
+
     @app.post("/create-key")
     def create_key(req: CreateKeyRequest):
         result = auth.create_key(req.owner_label, req.tier, req.admin_secret)
@@ -218,6 +230,17 @@ def create_app() -> FastAPI:
 
     def _memory_owner(key: str) -> str:
         return hashlib.sha256(("jagx-memory-v1:" + key).encode("utf-8")).hexdigest()
+
+    @app.post("/video/generate")
+    def generate_video(req: VideoGenerationRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+        _require_key(x_api_key)
+        try:
+            return video_generation.generate(req.prompt, req.duration, req.model, req.aspect_ratio)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        except Exception as exc:
+            logger.warning("video generation failed: %s", type(exc).__name__)
+            raise HTTPException(status_code=502, detail="Video generation failed or is unavailable. Check provider key, access and quota.")
 
     @app.post("/images/generate")
     def generate_image(req: ImageGenerationRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
