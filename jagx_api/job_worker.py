@@ -10,17 +10,24 @@ _stop=threading.Event()
 _thread=None
 
 def _run_one(job):
-    if job["kind"] != "chat":
+    if job_store.cancellation_requested(job["id"]): return
+    if job["kind"] not in ("chat", "coding_plan"):
         job_store.fail(job["id"],"Unsupported job kind")
         return
     payload=job["payload"]
     try:
+        job_store.checkpoint(job["id"], {"step":"starting","completed_steps":[],"message":"Preparing task"})
+        if job_store.cancellation_requested(job["id"]): return
         # Keep user memory scoped to the API-key hash passed by the authenticated route.
         result=generate_response(payload["message"],payload.get("history"),memory_context=payload.get("memory_context"),
                                  training_consent=bool(payload.get("training_consent",False)))
+        if job_store.cancellation_requested(job["id"]): return
+        job_store.checkpoint(job["id"], {"step":"response_ready","completed_steps":["request"],"message":"AI response received"})
         if not isinstance(result,dict):
             raise RuntimeError("AI engine returned an invalid result")
-        job_store.finish(job["id"],result)
+        if not job_store.cancellation_requested(job["id"]):
+            job_store.checkpoint(job["id"], {"step":"completed","completed_steps":["request","response"],"message":"Task finished"})
+            job_store.finish(job["id"],result)
     except Exception as exc:
         logger.exception("Background job %s failed",job["id"])
         job_store.fail(job["id"],f"{type(exc).__name__}: {str(exc)[:1000]}",retry=True)
