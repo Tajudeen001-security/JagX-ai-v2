@@ -54,3 +54,41 @@ def test_simulation_risk_gate_rejects_unknown_domain():
         assert False, "expected ValueError"
     except ValueError:
         pass
+
+
+from jagx_api.simulation_scenarios import list_simulation_scenarios, run_simulation_checks
+
+
+def test_simulation_scenarios_include_fault_injection_cases():
+    result = list_simulation_scenarios()
+    ids = {item["id"] for item in result["scenarios"]}
+    assert result["mode"] == "simulation_only"
+    assert {"nominal", "sensor_uncertainty", "latency_spike", "override_unavailable",
+            "obstacle_too_close", "missing_obstacle_data"} <= ids
+
+
+def test_simulation_runner_flags_faults_and_keeps_nominal_case_separate():
+    result = run_simulation_checks("self_driving_car")
+    by_id = {item["scenario_id"]: item for item in result["results"]}
+    assert result["scenario_count"] == 6
+    assert by_id["nominal"]["assessment"]["status"] == "simulation_checks_passed"
+    for scenario_id in ("sensor_uncertainty", "latency_spike", "override_unavailable",
+                        "obstacle_too_close", "missing_obstacle_data"):
+        assert by_id[scenario_id]["assessment"]["status"] == "review_required"
+
+
+def test_simulation_runner_rejects_unknown_or_duplicate_cases():
+    for selected in (["not-a-scenario"], ["nominal", "nominal"]):
+        try:
+            run_simulation_checks("drone", selected)
+            assert False, "expected ValueError"
+        except ValueError:
+            pass
+
+
+def test_simulation_runner_rejects_unsupported_domain():
+    try:
+        run_simulation_checks("weapon_targeting")
+        assert False, "expected ValueError"
+    except ValueError:
+        pass
