@@ -191,7 +191,7 @@ def test_image_generation_uses_fallback_and_validates_image(monkeypatch):
     from jagx_api import image_generation
     monkeypatch.setattr(settings, "hf_token", "")
     monkeypatch.setattr(settings, "pollinations_api_key", "test-image-key")
-    png = b"\\x89PNG\\r\\n\\x1a\\n" + b"test-image"
+    png = b"\x89PNG\r\n\x1a\n" + b"test-image"
     calls = []
     class FakeResponse:
         status_code = 200
