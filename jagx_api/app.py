@@ -21,6 +21,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering
 from jagx_api.chat import generate_response, stream_response, stream_sse
+from jagx_api.jobs_api import router as jobs_router
+from jagx_api import job_worker
 from jagx_api.config import settings
 from jagx_api.providers import provider_status
 from jagx_api.tools import (
@@ -151,11 +153,13 @@ def create_app() -> FastAPI:
     app.add_middleware(BodySizeLimitMiddleware)
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
     app.add_middleware(GZipMiddleware, minimum_size=1000)
+    app.include_router(jobs_router)
 
     @app.on_event("startup")
     def _startup() -> None:
         n = knowledge.load_brain(".")
         logger.info("JagX AI %s started — brain=%s providers=%s", __version__, n, provider_status())
+        job_worker.start()
 
     def _require_key(x_api_key: Optional[str]) -> str:
         key = (x_api_key or "").strip()
@@ -166,6 +170,10 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=429, detail=info)
         return key
 
+    @app.on_event("shutdown")
+    def _shutdown() -> None:
+        job_worker.stop()
+
     @app.get("/")
     def root():
         return {
@@ -175,7 +183,7 @@ def create_app() -> FastAPI:
             "features": [
                 "permanent_api_keys", "multi_provider", "local_knowledge_fallback",
                 "streaming", "sse_streaming", "websocket_realtime_chat", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits", "persistent_conversations" ,
+                "pdf_cv", "portfolio", "rate_limits", "persistent_conversations", "durable_background_jobs" ,
                 "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",
                 "engineering_decision_support", "knowledge_ingestion", "image_generation_api",
             ],
