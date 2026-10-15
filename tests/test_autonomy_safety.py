@@ -1,4 +1,4 @@
-from jagx_api.autonomy_safety import assess_scenario, evaluate_drive_conditions, checklist
+from jagx_api.autonomy_safety import assess_scenario, evaluate_drive_conditions, checklist, evaluate_simulation_scenario
 
 def test_autonomy_fails_closed_when_sensors_missing():
     result=assess_scenario("car_simulation",{})
@@ -32,3 +32,25 @@ def test_stopping_distance_rejects_bad_deceleration():
 def test_checklists_are_advisory():
     assert checklist("self_driving_car")["mode"]=="advisory"
     assert "simulation" in checklist("drone")["checklist"][0].lower()
+
+
+def test_simulation_risk_gate_blocks_uncertain_inputs():
+    result = evaluate_simulation_scenario("self_driving_car", 0.7, 250, False, 1.0)
+    assert result["permitted"] is False
+    assert result["status"] == "review_required"
+    assert len(result["reasons"]) >= 3
+
+
+def test_simulation_risk_gate_accepts_only_complete_illustrative_inputs():
+    result = evaluate_simulation_scenario("self_driving_car", 0.99, 20, True, 10.0)
+    assert result["permitted"] is True
+    assert result["mode"] == "simulation_only"
+    assert "not validated safety limits" in result["warning"]
+
+
+def test_simulation_risk_gate_rejects_unknown_domain():
+    try:
+        evaluate_simulation_scenario("weapon_targeting", 0.99, 20, True, 10.0)
+        assert False, "expected ValueError"
+    except ValueError:
+        pass
