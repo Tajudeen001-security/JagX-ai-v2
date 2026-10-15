@@ -3,7 +3,7 @@ import hashlib
 from typing import Optional
 from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel, Field
-from jagx_api import auth, conversation_store, job_store
+from jagx_api import auth, conversation_store, job_store, memory_store
 from jagx_api.config import settings
 
 router=APIRouter()
@@ -30,7 +30,9 @@ def create_job(req:JobRequest,x_api_key:Optional[str]=Header(None,alias="x-api-k
         saved=conversation_store.get(key,req.conversation_id,limit=settings.max_history)
         if saved is None: raise HTTPException(status_code=404,detail="Conversation not found")
         history=[{"role":m["role"],"content":m["content"]} for m in saved["messages"]]
-    payload={"message":req.message,"history":history,"training_consent":req.training_consent,"conversation_id":req.conversation_id}
+    hits=memory_store.recall(hashlib.sha256(("jagx-memory-v1:"+key).encode()).hexdigest(),req.message)
+    memory_context="\\n".join(str(hit.get("text","")) for hit in hits) if hits else None
+    payload={"message":req.message,"history":history,"memory_context":memory_context,"training_consent":req.training_consent,"conversation_id":req.conversation_id}
     job=job_store.enqueue(_owner(key),"chat",payload)
     return {"ok":True,"job":job,"poll_url":f"/jobs/{job['id']}"}
 
