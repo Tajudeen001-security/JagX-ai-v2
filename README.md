@@ -214,3 +214,11 @@ Jobs are stored in SQLite and running jobs are re-queued on process startup. Set
 - `POST /autonomy/simulation/risk-check` screens simulated scenarios for low sensor confidence, high latency, missing human override, and missing/near obstacle distance. Its thresholds are illustrative defaults, not certified safety limits.
 - `GET /autonomy/checklists/self_driving_car`, `/autonomy/checklists/drone`, `/autonomy/checklists/aviation`, and `/autonomy/checklists/industrial_robot` return safety-oriented review checklists.
 - These routes do not connect to real vehicles or actuators. Real-world autonomy requires simulation, controlled test environments, certified control systems, redundant sensing, geofencing, independent emergency stops, regulatory compliance and qualified human oversight. Do not use language-model output as a real-time flight/driving controller or weapon-targeting system.
+
+
+### Simulation fault-injection suite
+
+- `GET /autonomy/simulation/scenarios` lists built-in synthetic scenarios: nominal inputs, uncertain sensors, latency spikes, unavailable human override, nearby obstacle, and missing obstacle data.
+- `POST /autonomy/simulation/run-checks` runs the selected cases through the conservative risk screen. Example body: `{"domain":"self_driving_car","scenario_ids":["nominal","sensor_uncertainty","latency_spike"]}`. Omit `scenario_ids` to run all built-in cases.
+- Supported domains: `self_driving_car`, `drone`, `aviation`, and `industrial_robot`. Unknown or duplicate scenario IDs are rejected.
+- This is deterministic fault injection with synthetic inputs, not a physics simulator, safety certification, live telemetry ingestion, or vehicle/actuator interface. A passed case means only that the illustrative checks did not flag its inputs; it does not establish that a real system is safe.
