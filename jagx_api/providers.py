@@ -65,7 +65,7 @@ def chat_completion(messages: list, *, max_tokens: Optional[int]=None,
         try:
             r=HTTP.post(url,headers=_headers(key,extra),
                 json={"model":model,"messages":messages,"max_tokens":max_tokens,"temperature":temperature},
-                timeout=45)
+                timeout=settings.llm_timeout_seconds)
             if r.status_code == 200:
                 try:
                     return _parse_content(r),name
@@ -87,7 +87,7 @@ def stream_completion(messages: list, *, max_tokens: Optional[int]=None) -> Iter
             response=HTTP.post(url,headers=_headers(key,extra),
                 json={"model":model,"messages":messages,"max_tokens":max_tokens,
                       "temperature":settings.temperature,"stream":True},
-                timeout=(10,70),stream=True)
+                timeout=(min(10, settings.llm_timeout_seconds), settings.llm_timeout_seconds),stream=True)
             if response.status_code != 200:
                 logger.warning("stream %s status %s: %s",name,response.status_code,(response.text or "")[:200])
                 continue
