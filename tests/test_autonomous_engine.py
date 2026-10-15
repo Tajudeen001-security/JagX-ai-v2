@@ -278,3 +278,66 @@ def test_durable_job_recovers_running_work_after_restart(tmp_path, monkeypatch):
     job_store.init()
     recovered = job_store.get("owner-a", item["id"])
     assert recovered["status"] == "queued"
+
+
+def test_provider_circuit_breaker_opens_and_resets():
+    from jagx_api import provider_resilience as breaker
+    breaker.reset()
+    breaker.failure("unit-test",threshold=2,cooldown=20,error="timeout")
+    assert breaker.allow("unit-test")
+    breaker.failure("unit-test",threshold=2,cooldown=20,error="timeout")
+    assert not breaker.allow("unit-test")
+    assert breaker.snapshot()["unit-test"]["circuit"]=="open"
+    breaker.success("unit-test")
+    assert breaker.allow("unit-test")
+    assert breaker.snapshot()["unit-test"]["failures"]==0
+
+
+def test_job_retry_uses_backoff_and_eventually_fails(tmp_path,monkeypatch):
+    import time
+    from jagx_api import job_store
+    monkeypatch.setattr(settings,"jobs_db",str(tmp_path/"retry.sqlite3"))
+    job_store.init()
+    item=job_store.enqueue("owner","chat",{"message":"retry me"})
+    running=job_store.claim_next()
+    job_store.fail(item["id"],"temporary failure",retry=True)
+    assert job_store.claim_next() is None
+    with job_store._connect() as db:
+        db.execute("UPDATE jobs SET next_attempt_at=? WHERE id=?",(time.time()-1,item["id"]))
+        db.commit()
+    assert job_store.claim_next()["id"]==item["id"]
+
+
+def test_job_cancellation_is_cooperative(tmp_path,monkeypatch):
+    from jagx_api import job_store
+    monkeypatch.setattr(settings,"jobs_db",str(tmp_path/"cancel.sqlite3"))
+    job_store.init()
+    item=job_store.enqueue("owner","chat",{"message":"cancel me"})
+    assert job_store.claim_next()["id"]==item["id"]
+    updated=job_store.request_cancel("owner",item["id"])
+    assert updated["cancel_requested"] is True
+    assert job_store.cancellation_requested(item["id"]) is True
+    job_store.finish(item["id"],{"response":"late"})
+    assert job_store.get("owner",item["id"])["status"]=="cancelled"
+
+
+def test_job_queue_concurrent_claims_are_unique(tmp_path,monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor
+    from jagx_api import job_store
+    monkeypatch.setattr(settings,"jobs_db",str(tmp_path/"concurrent.sqlite3"))
+    job_store.init()
+    ids={job_store.enqueue("owner","chat",{"message":str(i)})["id"] for i in range(12)}
+    def claim():
+        row=job_store.claim_next()
+        return row["id"] if row else None
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        claimed=list(pool.map(lambda _:claim(),range(12)))
+    assert set(claimed)==ids
+    assert len(set(claimed))==12
+
+
+def test_video_generation_requires_configured_key(monkeypatch):
+    from jagx_api import video_generation
+    monkeypatch.setattr(settings,"pollinations_api_key","")
+    with pytest.raises(RuntimeError,match="POLLINATIONS_API_KEY"):
+        video_generation.generate("A cinematic sunrise")
