@@ -76,6 +76,8 @@ class Settings:
     )
 
     conversation_db: str = field(default_factory=lambda: os.environ.get("JAGX_CONVERSATION_DB", "jagx_conversations.sqlite3"))
+    jobs_db: str = field(default_factory=lambda: os.environ.get("JAGX_JOBS_DB", "jagx_jobs.sqlite3"))
+    job_poll_seconds: float = field(default_factory=lambda: max(0.5, float(os.environ.get("JAGX_JOB_POLL_SECONDS", "2"))))
     # Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
     data_encryption_key: str = field(default_factory=lambda: os.environ.get("JAGX_DATA_ENCRYPTION_KEY", ""))
 
