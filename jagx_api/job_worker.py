@@ -16,7 +16,7 @@ def _run_one(job):
     payload=job["payload"]
     try:
         # Keep user memory scoped to the API-key hash passed by the authenticated route.
-        result=generate_response(payload["message"],payload.get("history"),payload.get("memory_context"),
+        result=generate_response(payload["message"],payload.get("history"),memory_context=payload.get("memory_context"),
                                  training_consent=bool(payload.get("training_consent",False)))
         if not isinstance(result,dict):
             raise RuntimeError("AI engine returned an invalid result")
