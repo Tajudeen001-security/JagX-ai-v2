@@ -205,3 +205,11 @@ Jobs are stored in SQLite and running jobs are re-queued on process startup. Set
 - `POST /video/generate` accepts `prompt`, optional `duration` (2–8 seconds), `model`, and `aspect_ratio`. The hosted Pollinations video API returns MP4 data, bounded to 20 MB. Current default model is `google/veo-3.1-fast`; alternatives in this backend include `bytedance/seedance-1-pro-fast`, `alibaba/wan-2.2-fast`, and `prunaai/p-video`. Access, credits and pricing are controlled by the provider, not JagX. Set `POLLINATIONS_API_KEY` in Render; never put it in source code or frontend code.
 - Video generation can take several minutes and currently uses a synchronous provider call. For production, submit video as a background job and store output in object storage instead of placing large base64 video data in SQLite.
 - Free Render web services have ephemeral filesystems, can sleep, and do not support persistent disks. A continuous worker with persistent local storage requires a paid Render service with a disk, or a separate worker plus a shared persistent database/queue. Do not promise unattended coding on the free web plan.
+
+
+### Autonomous systems and vehicle safety (advisory/simulation only)
+
+- `POST /autonomy/assess` evaluates whether a simulated/advisory scenario has required safety signals. It fails closed when sensor health, communications, operator authorization or independent emergency stop are missing.
+- `POST /autonomy/driving/stopping-distance` calculates an idealized educational stopping-distance estimate for self-driving-car research. It is not a brake command or a validated vehicle-dynamics model.
+- `GET /autonomy/checklists/self_driving_car`, `/autonomy/checklists/drone`, `/autonomy/checklists/aviation`, and `/autonomy/checklists/industrial_robot` return safety-oriented review checklists.
+- These routes do not connect to real vehicles or actuators. Real-world autonomy requires simulation, controlled test environments, certified control systems, redundant sensing, geofencing, independent emergency stops, regulatory compliance and qualified human oversight. Do not use language-model output as a real-time flight/driving controller or weapon-targeting system.
