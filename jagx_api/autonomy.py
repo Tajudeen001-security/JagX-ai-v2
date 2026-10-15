@@ -20,6 +20,25 @@ class DrivingEstimateRequest(BaseModel):
 class ChecklistRequest(BaseModel):
     domain: str
 
+
+class SimulationRiskRequest(BaseModel):
+    domain: str = Field(..., min_length=2, max_length=40)
+    sensor_confidence: float = Field(..., ge=0, le=1)
+    control_latency_ms: float = Field(..., ge=0, le=60000)
+    human_override_ready: bool
+    obstacle_distance_m: float | None = Field(default=None, ge=0, le=100000)
+
+
+@router.post("/simulation/risk-check")
+def simulation_risk_check(req: SimulationRiskRequest):
+    try:
+        return autonomy_safety.evaluate_simulation_scenario(
+            req.domain, req.sensor_confidence, req.control_latency_ms,
+            req.human_override_ready, req.obstacle_distance_m
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
 @router.post("/assess")
 def assess(req:AssessmentRequest):
     return autonomy_safety.assess_scenario(req.mode,req.telemetry)
