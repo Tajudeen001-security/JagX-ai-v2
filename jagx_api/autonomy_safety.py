@@ -56,7 +56,7 @@ def evaluate_drive_conditions(speed_mps: float, obstacle_distance_m: float,
 def checklist(domain: str) -> dict[str, Any]:
     checklists={
       "self_driving_car":["Use simulation and closed-course testing first","Verify redundant perception and localization","Check sensor freshness, uncertainty and disagreement","Validate pedestrian/cyclist detection across conditions","Test safe minimal-risk stop on faults","Use independent emergency stop and safety driver","Follow applicable vehicle safety and road regulations"],
-      "drone":["Confirm legal airspace and operator authorization","Validate battery and return-to-home reserve","Check weather and link quality","Confirm geofence and lost-link behavior","Keep collision avoidance independent of language-model output","Test in simulation before flight"],
+      "drone":["Test all flight plans and fault responses in simulation before flight","Confirm legal airspace and operator authorization","Validate battery and return-to-home reserve","Check weather and link quality","Confirm geofence and lost-link behavior","Keep collision avoidance independent of language-model output","Test in simulation before flight"],
       "aviation":["Use approved aircraft performance data","Verify weather, NOTAMs and route constraints","Cross-check fuel/endurance and reserves","Confirm pilot review and approved procedures","Never use generated advice as sole basis for flight"],
       "industrial_robot":["Validate guarding and emergency stops","Use certified safety PLC/interlocks","Verify workspace and human-presence sensing","Test safe-state behavior after communications loss","Require authorized commissioning and change control"]}
     if domain not in checklists: raise ValueError("Unsupported domain")
