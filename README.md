@@ -193,3 +193,15 @@ Jobs are stored in SQLite and running jobs are re-queued on process startup. Set
 - `/health` is a liveness check. Provider configuration status only means a credential is present; it does not prove that a provider is reachable, accepts the key, has quota, or exposes the selected model.
 - Provider calls use bounded timeouts and fallback ordering. Retries and fallback can increase total latency; no free provider guarantees uninterrupted service.
 - Run the GitHub Actions test suite before treating new endpoints as production-ready.
+
+
+### Resumable coding jobs, provider resilience, voice streaming and video
+
+- `POST /coding/jobs` accepts a software task and returns a durable job ID. The worker checkpoints planning progress; use `GET /jobs/{job_id}` after disconnecting to retrieve status and output.
+- Coding work is deliberately in planning/safe-test mode by default. To enable test execution, configure `JAGX_CODING_WORKSPACE` to a trusted Git checkout containing the project. The only test command currently allowed is `python -m pytest -q`; task text is never executed as a shell command. Repository edits, commits, pushes, and pull requests are not enabled by this worker yet.
+- Job retries use exponential delay and are capped at three attempts. Job status/checkpoints live in SQLite; configure `JAGX_JOBS_DB` to a path on persistent storage to survive redeploys. Running jobs are recovered from their last saved checkpoint where the task supports it.
+- `GET /providers/health` reports network reachability, breaker state and recent failure details. Reachability does not validate credentials, model access, or quota. Provider breakers open after repeated failures and cool down before retries.
+- `POST /speech/speak/stream` streams MP3 chunks as the speech service produces them. It reduces buffering, but speech generation still relies on an external service and does not guarantee low latency or uninterrupted availability.
+- `POST /video/generate` accepts `prompt`, optional `duration` (2–8 seconds), `model`, and `aspect_ratio`. The hosted Pollinations video API returns MP4 data, bounded to 20 MB. Current default model is `google/veo-3.1-fast`; alternatives in this backend include `bytedance/seedance-1-pro-fast`, `alibaba/wan-2.2-fast`, and `prunaai/p-video`. Access, credits and pricing are controlled by the provider, not JagX. Set `POLLINATIONS_API_KEY` in Render; never put it in source code or frontend code.
+- Video generation can take several minutes and currently uses a synchronous provider call. For production, submit video as a background job and store output in object storage instead of placing large base64 video data in SQLite.
+- Free Render web services have ephemeral filesystems, can sleep, and do not support persistent disks. A continuous worker with persistent local storage requires a paid Render service with a disk, or a separate worker plus a shared persistent database/queue. Do not promise unattended coding on the free web plan.
