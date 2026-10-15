@@ -48,6 +48,6 @@ def get_job(job_id:str,x_api_key:Optional[str]=Header(None,alias="x-api-key")):
 
 @router.post("/jobs/{job_id}/cancel")
 def cancel_job(job_id:str,x_api_key:Optional[str]=Header(None,alias="x-api-key")):
-    job=job_store.cancel(_owner(_key(x_api_key)),job_id)
+    job=job_store.request_cancel(_owner(_key(x_api_key)),job_id)
     if job is None: raise HTTPException(status_code=404,detail="Job not found")
     return {"ok":True,"job":job}
