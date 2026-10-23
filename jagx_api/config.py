@@ -14,7 +14,7 @@ class Settings:
 
     offline_mode: bool = field(default_factory=lambda: os.environ.get("JAGX_OFFLINE_MODE", "false").lower() == "true")
 
-    # Providers
+    # Providers — prefer the strongest free/fast models by default
     groq_api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
     openrouter_api_key: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
     hf_token: str = field(default_factory=lambda: os.environ.get("HF_TOKEN", ""))
@@ -24,6 +24,7 @@ class Settings:
         or os.environ.get("NVIDIA_NIM_API_KEY", "")
     )
 
+    # Strong defaults: 70B-class where available
     groq_model: str = field(
         default_factory=lambda: os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
     )
@@ -34,7 +35,7 @@ class Settings:
     )
     nvidia_model: str = field(default_factory=lambda: os.environ.get("NVIDIA_MODEL", "meta/llama-3.3-70b-instruct"))
     hf_model: str = field(
-        default_factory=lambda: os.environ.get("HF_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+        default_factory=lambda: os.environ.get("HF_MODEL", "Qwen/Qwen2.5-72B-Instruct")
     )
 
     # Auth
@@ -44,28 +45,28 @@ class Settings:
     keys_file: str = field(default_factory=lambda: os.environ.get("JAGX_KEYS_FILE", "keys.json"))
     permanent_keys: set = field(default_factory=set)
 
-    # Limits
+    # Limits — generous for bot quality
     tier_hourly: dict = field(
         default_factory=lambda: {
-            "free": 80,
-            "premium": 350,
-            "premium_plus": 900,
+            "free": 100,
+            "premium": 400,
+            "premium_plus": 1000,
             "master": None,
             "admin": None,
         }
     )
     global_ip_rpm: int = field(
-        default_factory=lambda: int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
+        default_factory=lambda: int(os.environ.get("JAGX_GLOBAL_IP_RPM", "150"))
     )
     public_chat_rpm: int = field(
-        default_factory=lambda: max(1, int(os.environ.get("JAGX_PUBLIC_CHAT_RPM", "12")))
+        default_factory=lambda: max(1, int(os.environ.get("JAGX_PUBLIC_CHAT_RPM", "20")))
     )
     max_body_bytes: int = 15 * 1024 * 1024
-    max_code_len: int = 12000
-    max_history: int = 16
-    llm_timeout_seconds: float = field(default_factory=lambda: max(5.0, float(os.environ.get("JAGX_LLM_TIMEOUT", "28"))))
-    default_max_tokens: int = 1400
-    temperature: float = 0.45
+    max_code_len: int = 16000
+    max_history: int = 20
+    llm_timeout_seconds: float = field(default_factory=lambda: max(8.0, float(os.environ.get("JAGX_LLM_TIMEOUT", "35"))))
+    default_max_tokens: int = 2000
+    temperature: float = 0.5
 
     # Paths
     memory_file: str = field(
