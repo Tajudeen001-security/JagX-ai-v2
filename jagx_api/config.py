@@ -9,7 +9,7 @@ from typing import Optional
 
 @dataclass
 class Settings:
-    version: str = "8.0.0"
+    version: str = "8.1.0"
     app_name: str = "JagX AI"
 
     offline_mode: bool = field(default_factory=lambda: os.environ.get("JAGX_OFFLINE_MODE", "false").lower() == "true")
@@ -57,12 +57,15 @@ class Settings:
     global_ip_rpm: int = field(
         default_factory=lambda: int(os.environ.get("JAGX_GLOBAL_IP_RPM", "120"))
     )
+    public_chat_rpm: int = field(
+        default_factory=lambda: max(1, int(os.environ.get("JAGX_PUBLIC_CHAT_RPM", "12")))
+    )
     max_body_bytes: int = 15 * 1024 * 1024
     max_code_len: int = 12000
-    max_history: int = 12
-    llm_timeout_seconds: float = field(default_factory=lambda: max(5.0, float(os.environ.get("JAGX_LLM_TIMEOUT", "25"))))
-    default_max_tokens: int = 1200
-    temperature: float = 0.35
+    max_history: int = 16
+    llm_timeout_seconds: float = field(default_factory=lambda: max(5.0, float(os.environ.get("JAGX_LLM_TIMEOUT", "28"))))
+    default_max_tokens: int = 1400
+    temperature: float = 0.45
 
     # Paths
     memory_file: str = field(
@@ -79,7 +82,6 @@ class Settings:
     conversation_db: str = field(default_factory=lambda: os.environ.get("JAGX_CONVERSATION_DB", "jagx_conversations.sqlite3"))
     jobs_db: str = field(default_factory=lambda: os.environ.get("JAGX_JOBS_DB", "jagx_jobs.sqlite3"))
     job_poll_seconds: float = field(default_factory=lambda: max(0.5, float(os.environ.get("JAGX_JOB_POLL_SECONDS", "2"))))
-    # Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
     data_encryption_key: str = field(default_factory=lambda: os.environ.get("JAGX_DATA_ENCRYPTION_KEY", ""))
 
     # Tools
