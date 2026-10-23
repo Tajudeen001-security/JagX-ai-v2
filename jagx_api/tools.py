@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import ast
 import base64
+import html as html_mod
 import json
 import logging
 import operator
+import re
 from html import escape
 from typing import Any, Optional
-from urllib.parse import quote
+from urllib.parse import quote, urlparse, parse_qs
 
 from jagx_api.config import settings
 from jagx_api.providers import HTTP
@@ -27,33 +29,68 @@ _OPS = {
 }
 
 
-def free_web_search(query: str, max_results: int = 5) -> str:
-    q = (query or "").strip()[:200]
+def free_web_search(query: str, max_results: int = 6) -> str:
+    """Search the public web and return concise linked snippets."""
+    q = (query or "").strip()[:220]
     if not q:
         return "empty query"
+    try:
+        url = f"https://html.duckduckgo.com/html/?q={quote(q)}"
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+        r = HTTP.get(url, headers=headers, timeout=12)
+        if r.status_code != 200:
+            # Fallback to instant answer API
+            return _ddg_instant(q, max_results)
+        results = []
+        pattern = re.compile(
+            r'<a[^>]*class="result__a"[^>]*href="([^"]+)"[^>]*>(.*?)</a>.*?'
+            r'class="result__snippet"[^>]*>(.*?)</(?:a|td)>',
+            re.DOTALL,
+        )
+        for href, title, snippet in pattern.findall(r.text)[:max_results]:
+            title = html_mod.unescape(re.sub(r"<.*?>", "", title)).strip()
+            snippet = html_mod.unescape(re.sub(r"<.*?>", "", snippet)).strip()
+            href = html_mod.unescape(href).strip()
+            if href.startswith("//"):
+                href = "https:" + href
+            parsed = urlparse(href)
+            if "duckduckgo.com" in (parsed.netloc or ""):
+                target = parse_qs(parsed.query).get("uddg", [])
+                if target:
+                    href = target[0]
+            if title and href.startswith(("https://", "http://")):
+                results.append(f"**[{title}]({href})**\n{snippet}")
+        if results:
+            return "Web search results (open the source links to verify details):\n\n" + "\n\n".join(results)
+        return _ddg_instant(q, max_results)
+    except Exception as e:
+        logger.warning("web search failed: %s", e)
+        return _ddg_instant(q, max_results)
+
+
+def _ddg_instant(q: str, max_results: int = 5) -> str:
     try:
         r = HTTP.get(
             "https://api.duckduckgo.com/",
             params={"q": q, "format": "json", "no_html": 1, "skip_disambig": 1},
-            timeout=12,
+            timeout=10,
         )
         if r.status_code != 200:
-            return f"search failed ({r.status_code})"
+            return f"Search currently unavailable ({r.status_code})."
         data = r.json()
         parts: list = []
         if data.get("AbstractText"):
-            parts.append(data["AbstractText"][:800])
+            parts.append(data["AbstractText"][:900])
         for topic in (data.get("RelatedTopics") or [])[:max_results]:
             if isinstance(topic, dict) and topic.get("Text"):
-                parts.append(topic["Text"][:300])
+                parts.append(topic["Text"][:350])
             elif isinstance(topic, dict) and topic.get("Topics"):
                 for t in topic["Topics"][:2]:
                     if t.get("Text"):
-                        parts.append(t["Text"][:300])
-        return "\n".join(parts)[:2500] if parts else "No concise results found."
+                        parts.append(t["Text"][:350])
+        return "\n".join(parts)[:2800] if parts else "No usable search results were returned. Try a more specific query."
     except Exception as e:
-        logger.warning("search: %s", e)
-        return f"search error: {e}"
+        return f"Search failed: {type(e).__name__}"
 
 
 def run_code_sandboxed(language: str, code: str) -> str:
@@ -74,7 +111,7 @@ def run_code_sandboxed(language: str, code: str) -> str:
         data = r.json()
         run = data.get("run") or {}
         out = (run.get("stdout") or "") + (run.get("stderr") or "")
-        return (out or "(no output)")[:3000]
+        return (out or "(no output)")[:4000]
     except Exception as e:
         return f"sandbox error: {e}"
 
