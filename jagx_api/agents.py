@@ -1,5 +1,6 @@
 """
-JagX AI V9.5 — Multi-Agent Engine (bootstrap until full engine lands).
+JagX AI V9.6 — Multi-Agent Engine
+Parallel tools, extended reasoning, self-reflection, preference-aware context.
 Created by JagX & JRILICENSE
 """
 from __future__ import annotations
@@ -22,7 +23,7 @@ logger = logging.getLogger("jagx-ai")
 _BASE = """You are JagX AI — built by JagX & JRILICENSE. Only JagX AI. Current UTC: {datetime}."""
 
 SPECIALIST_PROMPTS = {
-    "engineer": _BASE + "\nEngineer specialist. Deliver complete production code. Tools: {\"tool\":\"run_code\",\"input\":{\"language\":\"python\",\"code\":\"...\"}} or {\"tools\":[...]} for parallel." ,
+    "engineer": _BASE + "\nEngineer specialist. Deliver complete production code. Tools: {\"tool\":\"run_code\",\"input\":{\"language\":\"python\",\"code\":\"...\"}} or {\"tools\":[...]} for parallel.",
     "researcher": _BASE + "\nResearcher specialist. Evidence-led. Use search context when provided.",
     "architect": _BASE + "\nArchitect specialist. Systems, scale, trade-offs.",
     "creator": _BASE + "\nCreator specialist. Writing, naming, visual prompts.",
@@ -39,15 +40,24 @@ def _dt() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 
+def _merge_context(memory_context: Optional[str], preference_context: Optional[str]) -> Optional[str]:
+    parts = []
+    if memory_context:
+        parts.append(memory_context.strip())
+    if preference_context:
+        parts.append(preference_context.strip())
+    return "\n".join(parts) if parts else None
+
+
 def _extract_tool_calls(text: str) -> List[dict]:
     text = (text or "").strip()
     if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\\s*", "", text)
-        text = re.sub(r"\\s*```$", "", text).strip()
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text).strip()
     try:
         if "{" in text:
             start = text.index("{")
-            obj = json.loads(text[start:text.rindex("}")+1])
+            obj = json.loads(text[start:text.rindex("}") + 1])
             if isinstance(obj, dict):
                 if isinstance(obj.get("tools"), list):
                     return [t for t in obj["tools"][:4] if isinstance(t, dict) and t.get("tool")]
@@ -62,7 +72,7 @@ def _run_specialist(name, msg, history=None, memory=None, search=None):
     system = SPECIALIST_PROMPTS.get(name, SPECIALIST_PROMPTS["engineer"]).format(datetime=_dt())
     messages = [{"role": "system", "content": system}]
     if memory:
-        messages.append({"role": "system", "content": "Memory: " + memory[:3000]})
+        messages.append({"role": "system", "content": "Context (use when relevant): " + memory[:4000]})
     if search and name in ("researcher", "africa", "engineer"):
         messages.append({"role": "system", "content": "Search (untrusted):\n" + search[:4000]})
     if history:
@@ -106,7 +116,17 @@ def _run_specialist(name, msg, history=None, memory=None, search=None):
     return {"agent": name, "response": sanitize_identity(text.strip()), "provider": provider or "unknown", "tool_trace": tool_trace}
 
 
-def run_multi_agent(user_message, history=None, *, memory_context=None, force_agents=None, max_agents=3, reason=False, reflect=False):
+def run_multi_agent(
+    user_message,
+    history=None,
+    *,
+    memory_context=None,
+    preference_context=None,
+    force_agents=None,
+    max_agents=3,
+    reason=False,
+    reflect=False,
+):
     agents = list(force_agents)[:max_agents] if force_agents else select_agents(user_message, max_agents=max_agents)
     if not agents:
         agents = ["engineer"]
@@ -117,6 +137,8 @@ def run_multi_agent(user_message, history=None, *, memory_context=None, force_ag
         agents = (["engineer"] + agents)[:4]
     if not reflect and (len(user_message or "") > 400 or any(h in mlow for h in ("architecture", "production", "security", "trade-off"))):
         reflect = True
+
+    ctx = _merge_context(memory_context, preference_context)
 
     think_notes = None
     if reason:
@@ -135,9 +157,10 @@ def run_multi_agent(user_message, history=None, *, memory_context=None, force_ag
             pass
 
     results_by = {}
+
     def _safe(n):
         try:
-            return _run_specialist(n, user_message, history, memory_context, search_context)
+            return _run_specialist(n, user_message, history, ctx, search_context)
         except Exception as e:
             return {"agent": n, "response": f"(error: {e})", "provider": "error", "tool_trace": []}
 
@@ -182,7 +205,7 @@ def run_multi_agent(user_message, history=None, *, memory_context=None, force_ag
             msgs = [{"role": "system", "content": REFLECT_PROMPT.format(datetime=_dt())}, {"role": "user", "content": f"Request:\n{user_message}\n\nDraft:\n{final[:5000]}"}]
             refined, _ = chat_completion(msgs, max_tokens=1500)
             if refined:
-                m = re.search(r"(?i)FINAL:\\s*(.*)", refined, re.S)
+                m = re.search(r"(?i)FINAL:\s*(.*)", refined, re.S)
                 final = sanitize_identity((m.group(1) if m else refined).strip())
         except Exception as e:
             logger.warning("reflect failed: %s", e)
@@ -196,7 +219,7 @@ def run_multi_agent(user_message, history=None, *, memory_context=None, force_ag
         "agents_used": agents + (["media"] if attachment and "media" not in agents else []),
         "specialist_results": [{"agent": r["agent"], "provider": r["provider"], "tools_used": len(r.get("tool_trace") or [])} for r in specialist_results],
         "provider": "multi-agent",
-        "version": "9.5.0",
+        "version": "9.6.0",
         "created_by": "JagX & JRILICENSE",
         "datetime_utc": _dt(),
         "parallel": len(agents) > 1,
@@ -210,21 +233,21 @@ def run_multi_agent(user_message, history=None, *, memory_context=None, force_ag
     return out
 
 
-def run_coding_agent(user_message, history=None, memory_context=None, reason=False, reflect=False):
-    return run_multi_agent(user_message, history=history, memory_context=memory_context, force_agents=["engineer", "architect"], max_agents=2, reason=reason, reflect=reflect)
+def run_coding_agent(user_message, history=None, memory_context=None, preference_context=None, reason=False, reflect=False):
+    return run_multi_agent(user_message, history=history, memory_context=memory_context, preference_context=preference_context, force_agents=["engineer", "architect"], max_agents=2, reason=reason, reflect=reflect)
 
 
-def run_research_agent(user_message, history=None, memory_context=None, reason=False, reflect=False):
-    return run_multi_agent(user_message, history=history, memory_context=memory_context, force_agents=["researcher", "africa"], max_agents=2, reason=reason, reflect=reflect)
+def run_research_agent(user_message, history=None, memory_context=None, preference_context=None, reason=False, reflect=False):
+    return run_multi_agent(user_message, history=history, memory_context=memory_context, preference_context=preference_context, force_agents=["researcher", "africa"], max_agents=2, reason=reason, reflect=reflect)
 
 
-def run_media_agent(user_message, history=None, memory_context=None):
-    return run_multi_agent(user_message, history=history, memory_context=memory_context, force_agents=["media", "creator"], max_agents=2)
+def run_media_agent(user_message, history=None, memory_context=None, preference_context=None):
+    return run_multi_agent(user_message, history=history, memory_context=memory_context, preference_context=preference_context, force_agents=["media", "creator"], max_agents=2)
 
 
 def list_capabilities():
     return {
-        "version": "9.5.0",
+        "version": "9.6.0",
         "created_by": "JagX & JRILICENSE",
         "datetime_utc": _dt(),
         "agents": [
@@ -238,11 +261,13 @@ def list_capabilities():
         "capabilities": [
             "multi_agent_orchestration", "parallel_specialists", "parallel_tools", "code_interpreter",
             "extended_reasoning", "self_reflection", "document_analysis", "rich_artifacts",
-            "live_web_search", "image_generation", "streaming_multi_agent", "vision_input",
+            "style_preferences", "live_web_search", "image_generation", "streaming_multi_agent", "vision_input",
         ],
         "endpoints": [
             "POST /agents/run", "POST /agents/coding", "POST /agents/research", "POST /agents/media",
-            "POST /agents/stream", "POST /agents/vision", "POST /agents/analyze", "GET /agents/capabilities",
+            "POST /agents/stream", "POST /agents/vision", "POST /agents/analyze",
+            "GET /preferences", "POST /preferences", "DELETE /preferences",
+            "GET /agents/capabilities",
         ],
         "not_yet": ["native_100b_parameter_model", "autonomous_repo_write_without_consent", "full_browser_agent"],
     }
