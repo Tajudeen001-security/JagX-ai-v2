@@ -1,6 +1,6 @@
 """Background worker for durable AI jobs.
 
-Chat jobs use JagX multi-agent (V9.2 parallel specialists).
+Chat jobs use JagX multi-agent (V9.9 parallel specialists + reason/reflect).
 Coding jobs use coding_worker (Engineer + Architect).
 
 Created by JagX & JRILICENSE
@@ -27,7 +27,6 @@ def _run_chat_job(job: dict) -> None:
     history = payload.get("history")
     memory_context = payload.get("memory_context")
     conversation_id = payload.get("conversation_id")
-    # Optional: API key hash for conversation store (owner key passed as key_id)
     api_key = payload.get("api_key") or ""
 
     job_store.checkpoint(
@@ -53,6 +52,8 @@ def _run_chat_job(job: dict) -> None:
             memory_context=memory_context,
             force_agents=payload.get("force_agents"),
             max_agents=int(payload.get("max_agents") or 3),
+            reason=bool(payload.get("reason") or payload.get("mode") == "reason"),
+            reflect=bool(payload.get("reflect")),
         )
     except Exception as exc:
         logger.warning("Multi-agent job %s failed, falling back to chat: %s", jid, exc)
@@ -76,7 +77,6 @@ def _run_chat_job(job: dict) -> None:
     if not isinstance(result, dict):
         raise RuntimeError("AI engine returned an invalid result")
 
-    # Persist assistant message into conversation when linked
     if conversation_id and api_key and result.get("response"):
         try:
             conversation_store.append(
