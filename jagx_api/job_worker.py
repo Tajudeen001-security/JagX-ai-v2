@@ -1,51 +1,144 @@
-"""Background worker for durable AI jobs."""
+"""Background worker for durable AI jobs.
+
+Chat jobs use JagX multi-agent (V9.2 parallel specialists).
+Coding jobs use coding_worker (Engineer + Architect).
+
+Created by JagX & JRILICENSE
+"""
 from __future__ import annotations
-import logging, threading, time
-from jagx_api import job_store, memory_store
+
+import logging
+import threading
+
+from jagx_api import coding_worker, conversation_store, job_store
+from jagx_api.agents import run_multi_agent
 from jagx_api.chat import generate_response
 from jagx_api.config import settings
-from jagx_api import coding_worker
 
-logger=logging.getLogger("jagx-ai")
-_stop=threading.Event()
-_thread=None
+logger = logging.getLogger("jagx-ai")
+_stop = threading.Event()
+_thread = None
 
-def _run_one(job):
-    if job_store.cancellation_requested(job["id"]): return
+
+def _run_chat_job(job: dict) -> None:
+    jid = job["id"]
+    payload = job["payload"] or {}
+    message = payload.get("message") or ""
+    history = payload.get("history")
+    memory_context = payload.get("memory_context")
+    conversation_id = payload.get("conversation_id")
+    # Optional: API key hash for conversation store (owner key passed as key_id)
+    api_key = payload.get("api_key") or ""
+
+    job_store.checkpoint(
+        jid,
+        {"step": "starting", "completed_steps": [], "message": "Preparing multi-agent task"},
+    )
+    if job_store.cancellation_requested(jid):
+        return
+
+    result = None
+    try:
+        job_store.checkpoint(
+            jid,
+            {
+                "step": "multi_agent",
+                "completed_steps": ["request"],
+                "message": "Running specialists",
+            },
+        )
+        result = run_multi_agent(
+            message,
+            history=history,
+            memory_context=memory_context,
+            force_agents=payload.get("force_agents"),
+            max_agents=int(payload.get("max_agents") or 3),
+        )
+    except Exception as exc:
+        logger.warning("Multi-agent job %s failed, falling back to chat: %s", jid, exc)
+        job_store.checkpoint(
+            jid,
+            {
+                "step": "fallback_chat",
+                "completed_steps": ["request"],
+                "message": "Multi-agent failed; using single-path chat",
+            },
+        )
+        result = generate_response(
+            message,
+            history,
+            memory_context=memory_context,
+            training_consent=bool(payload.get("training_consent", False)),
+        )
+
+    if job_store.cancellation_requested(jid):
+        return
+    if not isinstance(result, dict):
+        raise RuntimeError("AI engine returned an invalid result")
+
+    # Persist assistant message into conversation when linked
+    if conversation_id and api_key and result.get("response"):
+        try:
+            conversation_store.append(
+                api_key,
+                conversation_id,
+                "assistant",
+                str(result.get("response") or ""),
+                result.get("provider"),
+            )
+        except Exception as exc:
+            logger.warning("Could not append job result to conversation: %s", exc)
+
+    job_store.checkpoint(
+        jid,
+        {
+            "step": "completed",
+            "completed_steps": ["request", "response"],
+            "message": "Task finished",
+            "agents_used": result.get("agents_used"),
+        },
+    )
+    job_store.finish(jid, result)
+
+
+def _run_one(job: dict) -> None:
+    if job_store.cancellation_requested(job["id"]):
+        return
+
     if job["kind"] == "coding_plan":
         try:
-            result=coding_worker.run(job)
-            if job_store.cancellation_requested(job["id"]): return
-            job_store.finish(job["id"],result)
+            result = coding_worker.run(job)
+            if job_store.cancellation_requested(job["id"]):
+                return
+            job_store.finish(job["id"], result)
         except Exception as exc:
-            logger.exception("Coding job %s failed",job["id"])
-            job_store.fail(job["id"],f"{type(exc).__name__}: {str(exc)[:1000]}",retry=True)
+            logger.exception("Coding job %s failed", job["id"])
+            job_store.fail(
+                job["id"],
+                f"{type(exc).__name__}: {str(exc)[:1000]}",
+                retry=True,
+            )
         return
-    if job["kind"] != "chat":
-        job_store.fail(job["id"],"Unsupported job kind")
-        return
-    payload=job["payload"]
-    try:
-        job_store.checkpoint(job["id"], {"step":"starting","completed_steps":[],"message":"Preparing task"})
-        if job_store.cancellation_requested(job["id"]): return
-        # Keep user memory scoped to the API-key hash passed by the authenticated route.
-        result=generate_response(payload["message"],payload.get("history"),memory_context=payload.get("memory_context"),
-                                 training_consent=bool(payload.get("training_consent",False)))
-        if job_store.cancellation_requested(job["id"]): return
-        job_store.checkpoint(job["id"], {"step":"response_ready","completed_steps":["request"],"message":"AI response received"})
-        if not isinstance(result,dict):
-            raise RuntimeError("AI engine returned an invalid result")
-        if not job_store.cancellation_requested(job["id"]):
-            job_store.checkpoint(job["id"], {"step":"completed","completed_steps":["request","response"],"message":"Task finished"})
-            job_store.finish(job["id"],result)
-    except Exception as exc:
-        logger.exception("Background job %s failed",job["id"])
-        job_store.fail(job["id"],f"{type(exc).__name__}: {str(exc)[:1000]}",retry=True)
 
-def _loop():
+    if job["kind"] != "chat":
+        job_store.fail(job["id"], "Unsupported job kind")
+        return
+
+    try:
+        _run_chat_job(job)
+    except Exception as exc:
+        logger.exception("Background job %s failed", job["id"])
+        job_store.fail(
+            job["id"],
+            f"{type(exc).__name__}: {str(exc)[:1000]}",
+            retry=True,
+        )
+
+
+def _loop() -> None:
     while not _stop.is_set():
         try:
-            job=job_store.claim_next()
+            job = job_store.claim_next()
             if job:
                 _run_one(job)
                 continue
@@ -53,16 +146,19 @@ def _loop():
             logger.exception("Background job worker iteration failed")
         _stop.wait(settings.job_poll_seconds)
 
-def start():
+
+def start() -> None:
     global _thread
-    if _thread and _thread.is_alive(): return
+    if _thread and _thread.is_alive():
+        return
     _stop.clear()
     job_store.init()
-    _thread=threading.Thread(target=_loop,name="jagx-job-worker",daemon=True)
+    _thread = threading.Thread(target=_loop, name="jagx-job-worker", daemon=True)
     _thread.start()
-    logger.info("Durable job worker started; database=%s",settings.jobs_db)
+    logger.info("Durable job worker started (multi-agent chat); database=%s", settings.jobs_db)
 
-def stop():
+
+def stop() -> None:
     _stop.set()
     if _thread and _thread.is_alive():
         _thread.join(timeout=3)
