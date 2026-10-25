@@ -143,8 +143,8 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
         )
         return _pack(result)
     except Exception as exc:
-        logger.exception("agents/run failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
+        logger.exception("agents/run failed: %s", exp)
+        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exp
 
 
 @router.post("/stream")
@@ -176,8 +176,8 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
             reason=body.reason, reflect=body.reflect,
         ))
     except Exception as exc:
-        logger.exception("agents/coding failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Coding agent failed") from exc
+        logger.exception("agents/coding failed: %s", exp)
+        raise HTTPException(status_code=500, detail="Coding agent failed") from exp
 
 
 @router.post("/research", response_model=AgentsRunResponse)
@@ -189,9 +189,9 @@ def agents_research(body: AgentsRunRequest, x_api_key: Optional[str] = Header(No
             body.message, history=history, memory_context=body.memory_context,
             reason=body.reason, reflect=body.reflect,
         ))
-    except Exception as exc:
-        logger.exception("agents/research failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Research agent failed") from exc
+    except Exception as exp:
+        logger.exception("agents/research failed: %s", exp)
+        raise HTTPException(status_code=500, detail="Research agent failed") from exp
 
 
 @router.post("/media", response_model=AgentsRunResponse)
@@ -200,7 +200,7 @@ def agents_media(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None,
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
         return _pack(run_media_agent(body.message, history=history, memory_context=body.memory_context))
-    except Exception as exc:
+    except Exception as exp:
         logger.exception("agents/media failed: %s", exp)
         raise HTTPException(status_code=500, detail="Media agent failed") from exp
 
@@ -219,7 +219,7 @@ def agents_vision(body: VisionRequest, x_api_key: Optional[str] = Header(None, a
 
 @router.post("/analyze")
 def agents_analyze(body: DocumentAnalyzeRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
-    """Analyze uploaded text/code/document content with multi-agent + optional reflection."""
+    """Analyze uploaded text/code/document content with multi-agent + reflection."""
     _key(x_api_key)
     try:
         from jagx_api.document_analysis import analyze_document
@@ -230,6 +230,6 @@ def agents_analyze(body: DocumentAnalyzeRequest, x_api_key: Optional[str] = Head
             mime_type=body.mime_type,
         )
         return result
-    except Exception as exc:
+    except Exception as exp:
         logger.exception("agents/analyze failed: %s", exp)
         raise HTTPException(status_code=500, detail="Document analysis failed") from exp
