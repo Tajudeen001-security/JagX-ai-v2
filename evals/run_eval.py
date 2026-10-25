@@ -1,5 +1,5 @@
 """
-JagX AI V9.6 — Stronger smoke + agent eval harness.
+JagX AI V10 — Stronger smoke + agent eval harness.
 Not a certification. Run: python -m evals.run_eval
 Created by JagX & JRILICENSE
 """
@@ -195,6 +195,70 @@ def eval_preferences() -> List[dict]:
     return results
 
 
+def eval_tools_cases(cases: List[dict]) -> List[dict]:
+    from jagx_api.tools import run_tool
+
+    results = []
+    for case in cases:
+        if case.get("kind") != "tools":
+            continue
+        name = case.get("name", "unnamed")
+        tool = str(case.get("input") or "")
+        try:
+            text, att = run_tool(tool, {})
+            passed = isinstance(text, str)
+            if case.get("expected_contains"):
+                if tool in ("fetch_url", "browse_research", "web_search", "calc"):
+                    passed = "unknown tool" not in (text or "").lower()
+            results.append({
+                "name": name,
+                "category": "tools",
+                "kind": "tools",
+                "passed": passed,
+                "preview": str(text)[:120],
+            })
+        except Exception as exc:
+            results.append({
+                "name": name,
+                "category": "tools",
+                "kind": "tools",
+                "passed": False,
+                "error": type(exc).__name__,
+            })
+    return results
+
+
+def eval_priority_cases(cases: List[dict]) -> List[dict]:
+    from jagx_api.job_store import priority_for_tier, TIER_PRIORITY
+
+    results = []
+    for case in cases:
+        if case.get("kind") != "priority":
+            continue
+        name = case.get("name", "unnamed")
+        try:
+            tier = str(case.get("input") or "premium")
+            other = str(case.get("expected_gt_tier") or "free")
+            passed = priority_for_tier(tier) > priority_for_tier(other)
+            results.append({
+                "name": name,
+                "category": "jobs",
+                "kind": "priority",
+                "passed": passed,
+                "priority": priority_for_tier(tier),
+                "map": TIER_PRIORITY,
+            })
+        except Exception as exc:
+            results.append({
+                "name": name,
+                "category": "jobs",
+                "kind": "priority",
+                "passed": False,
+                "error": type(exc).__name__,
+            })
+    return results
+
+
 def main() -> int:
     cases = _load_cases()
     results: List[Dict[str, Any]] = []
@@ -203,6 +267,8 @@ def main() -> int:
     results.extend(eval_identity_cases(cases))
     results.extend(eval_artifact_cases(cases))
     results.extend(eval_preferences())
+    results.extend(eval_tools_cases(cases))
+    results.extend(eval_priority_cases(cases))
 
     total = len(results)
     passed = sum(1 for item in results if item.get("passed"))
@@ -215,7 +281,7 @@ def main() -> int:
             by_kind[k]["passed"] += 1
 
     report = {
-        "version": "9.6.0",
+        "version": "10.0.0",
         "total": total,
         "passed": passed,
         "pass_rate": round(passed / total, 3) if total else 0,

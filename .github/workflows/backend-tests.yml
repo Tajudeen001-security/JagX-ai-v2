@@ -28,6 +28,7 @@ jobs:
           from evals.run_eval import (
               _load_cases, eval_router_cases, eval_identity_cases,
               eval_artifact_cases, eval_preferences,
+              eval_tools_cases, eval_priority_cases,
           )
           cases = _load_cases()
           results = []
@@ -35,6 +36,8 @@ jobs:
           results.extend(eval_identity_cases(cases))
           results.extend(eval_artifact_cases(cases))
           results.extend(eval_preferences())
+          results.extend(eval_tools_cases(cases))
+          results.extend(eval_priority_cases(cases))
           total = len(results)
           passed = sum(1 for r in results if r.get("passed"))
           report = {"total": total, "passed": passed, "results": results}
