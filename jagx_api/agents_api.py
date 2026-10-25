@@ -129,7 +129,7 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
         )
         return _pack(result)
     except Exception as exc:
-        logger.exception("agents/run failed: %s", exc)
+        logger.exception("agents/run failed: %s", exp)
         raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
 
 
@@ -160,7 +160,7 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
             body.message, history=history, memory_context=body.memory_context, reason=body.reason
         ))
     except Exception as exc:
-        logger.exception("agents/coding failed: %s", exc)
+        logger.exception("agents/coding failed: %s", exp)
         raise HTTPException(status_code=500, detail="Coding agent failed") from exc
 
 
@@ -173,7 +173,7 @@ def agents_research(body: AgentsRunRequest, x_api_key: Optional[str] = Header(No
             body.message, history=history, memory_context=body.memory_context, reason=body.reason
         ))
     except Exception as exc:
-        logger.exception("agents/research failed: %s", exc)
+        logger.exception("agents/research failed: %s", exp)
         raise HTTPException(status_code=500, detail="Research agent failed") from exc
 
 
@@ -196,5 +196,5 @@ def agents_vision(body: VisionRequest, x_api_key: Optional[str] = Header(None, a
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
-        logger.exception("agents/vision failed: %s", exc)
+        logger.exception("agents/vision failed: %s", exp)
         raise HTTPException(status_code=500, detail="Vision failed") from exc
