@@ -1,5 +1,5 @@
 """
-JagX AI V9.3 — Agents API routes
+JagX AI V9.4 — Agents API routes
 Created by JagX & JRILICENSE
 """
 from __future__ import annotations
@@ -63,29 +63,41 @@ class AgentsRunResponse(BaseModel):
     agents_used: List[str]
     specialist_results: List[Dict[str, Any]]
     provider: str
-    version: str = "9.3.0"
+    version: str = "9.4.0"
     created_by: str = "JagX & JRILICENSE"
     datetime_utc: Optional[str] = None
     attachment: Optional[Dict[str, Any]] = None
     artifacts: Optional[List[Dict[str, Any]]] = None
     parallel: Optional[bool] = None
+    reason: Optional[bool] = None
+    thinking_summary: Optional[str] = None
 
 
 def _pack(result: dict) -> AgentsRunResponse:
     arts = build_response_artifacts(result.get("response") or "", result.get("attachment"))
     data = {k: v for k, v in result.items() if k in AgentsRunResponse.model_fields}
     data["artifacts"] = arts or None
-    data["version"] = "9.3.0"
+    data["version"] = "9.4.0"
     return AgentsRunResponse(**data)
 
 
 @router.get("/capabilities")
 def agents_capabilities():
     caps = list_capabilities()
-    caps["version"] = "9.3.0"
-    extra = ["streaming_multi_agent", "vision_input", "artifacts", "extended_reasoning", "chat_mode_agents"]
+    caps["version"] = "9.4.0"
+    extra = [
+        "streaming_multi_agent",
+        "vision_input",
+        "artifacts",
+        "extended_reasoning",
+        "tool_loop_engineer",
+        "code_interpreter",
+        "chat_mode_agents",
+    ]
     caps["capabilities"] = list(dict.fromkeys((caps.get("capabilities") or []) + extra))
-    caps["endpoints"] = list(dict.fromkeys((caps.get("endpoints") or []) + ["POST /agents/stream", "POST /agents/vision"]))
+    caps["endpoints"] = list(dict.fromkeys((caps.get("endpoints") or []) + [
+        "POST /agents/stream", "POST /agents/vision"
+    ]))
     return caps
 
 
@@ -95,14 +107,26 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     if body.stream:
         return StreamingResponse(
-            stream_multi_agent_sse(body.message, history=history, memory_context=body.memory_context,
-                force_agents=body.force_agents, max_agents=body.max_agents, reason=body.reason),
+            stream_multi_agent_sse(
+                body.message,
+                history=history,
+                memory_context=body.memory_context,
+                force_agents=body.force_agents,
+                max_agents=body.max_agents,
+                reason=body.reason,
+            ),
             media_type="text/event-stream; charset=utf-8",
             headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
         )
     try:
-        result = run_multi_agent(body.message, history=history, memory_context=body.memory_context,
-            force_agents=body.force_agents, max_agents=4 if body.reason else body.max_agents)
+        result = run_multi_agent(
+            body.message,
+            history=history,
+            memory_context=body.memory_context,
+            force_agents=body.force_agents,
+            max_agents=4 if body.reason else body.max_agents,
+            reason=body.reason,
+        )
         return _pack(result)
     except Exception as exc:
         logger.exception("agents/run failed: %s", exc)
@@ -114,8 +138,14 @@ def agents_stream(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     return StreamingResponse(
-        stream_multi_agent_sse(body.message, history=history, memory_context=body.memory_context,
-            force_agents=body.force_agents, max_agents=body.max_agents, reason=body.reason),
+        stream_multi_agent_sse(
+            body.message,
+            history=history,
+            memory_context=body.memory_context,
+            force_agents=body.force_agents,
+            max_agents=body.max_agents,
+            reason=body.reason,
+        ),
         media_type="text/event-stream; charset=utf-8",
         headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
     )
@@ -126,7 +156,9 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
-        return _pack(run_coding_agent(body.message, history=history, memory_context=body.memory_context))
+        return _pack(run_coding_agent(
+            body.message, history=history, memory_context=body.memory_context, reason=body.reason
+        ))
     except Exception as exc:
         logger.exception("agents/coding failed: %s", exc)
         raise HTTPException(status_code=500, detail="Coding agent failed") from exc
@@ -137,7 +169,9 @@ def agents_research(body: AgentsRunRequest, x_api_key: Optional[str] = Header(No
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
-        return _pack(run_research_agent(body.message, history=history, memory_context=body.memory_context))
+        return _pack(run_research_agent(
+            body.message, history=history, memory_context=body.memory_context, reason=body.reason
+        ))
     except Exception as exc:
         logger.exception("agents/research failed: %s", exc)
         raise HTTPException(status_code=500, detail="Research agent failed") from exc
@@ -150,7 +184,7 @@ def agents_media(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None,
     try:
         return _pack(run_media_agent(body.message, history=history, memory_context=body.memory_context))
     except Exception as exc:
-        logger.exception("agents/media failed: %s", exc)
+        logger.exception("agents/media failed: %s", exp)
         raise HTTPException(status_code=500, detail="Media agent failed") from exc
 
 

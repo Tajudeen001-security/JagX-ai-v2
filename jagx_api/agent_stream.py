@@ -1,13 +1,15 @@
 """
-JagX AI — Streaming multi-agent (SSE events).
+JagX AI — Streaming multi-agent (SSE events) V9.4
 
 Events:
   {"event":"status","message":"..."}
+  {"event":"thinking","summary":"..."}          # when reason=True
   {"event":"agent_start","agent":"engineer"}
-  {"event":"agent_done","agent":"engineer","provider":"..."}
+  {"event":"tool_use","agent":"engineer","tool":"run_code"}
+  {"event":"agent_done","agent":"engineer","provider":"...","tools_used":N}
   {"event":"token","token":"..."}
   {"event":"attachment","attachment":{...}}
-  {"event":"done","agents_used":[...],"provider":"multi-agent"}
+  {"event":"done","agents_used":[...],"provider":"multi-agent","version":"9.4.0"}
   {"event":"error","detail":"..."}
 
 Created by JagX & JRILICENSE
@@ -38,6 +40,9 @@ def stream_multi_agent_sse(
 ) -> Iterator[str]:
     yield _sse({"event": "status", "message": "Routing specialists…"})
     try:
+        if reason:
+            yield _sse({"event": "status", "message": "Extended reasoning…"})
+
         if force_agents:
             for a in force_agents:
                 yield _sse({"event": "agent_start", "agent": a})
@@ -51,14 +56,31 @@ def stream_multi_agent_sse(
             memory_context=memory_context,
             force_agents=force_agents,
             max_agents=max_a,
+            reason=reason,
         )
 
+        if result.get("thinking_summary"):
+            yield _sse({
+                "event": "thinking",
+                "summary": result["thinking_summary"],
+            })
+
         for item in result.get("specialist_results") or []:
+            tools_used = item.get("tools_used") or 0
+            if tools_used:
+                yield _sse({
+                    "event": "tool_use",
+                    "agent": item.get("agent"),
+                    "tools_used": tools_used,
+                })
             yield _sse({
                 "event": "agent_done",
                 "agent": item.get("agent"),
                 "provider": item.get("provider"),
+                "tools_used": tools_used,
             })
+
+        yield _sse({"event": "status", "message": "Synthesizing…"})
 
         text = result.get("response") or ""
         buf = ""
@@ -83,11 +105,12 @@ def stream_multi_agent_sse(
             "event": "done",
             "agents_used": result.get("agents_used"),
             "provider": result.get("provider"),
-            "version": result.get("version"),
+            "version": result.get("version") or "9.4.0",
             "parallel": result.get("parallel"),
+            "reason": result.get("reason"),
             "datetime_utc": result.get("datetime_utc"),
         })
     except Exception as exc:
         logger.exception("stream_multi_agent failed: %s", exc)
         yield _sse({"event": "error", "detail": str(exc)[:500]})
-        yield _sse({"event": "done", "agents_used": [], "provider": "error"})
+        yield _sse({"event": "done", "agents_used": [], "provider": "error", "version": "9.4.0"})
