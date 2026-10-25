@@ -18,3 +18,27 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -r requirements.txt
       - run: python -m pytest -q
+      - name: Structural evals (no live LLM required)
+        env:
+          JAGX_OFFLINE_MODE: "true"
+        run: |
+          python - <<'PY'
+          import json, sys
+          sys.path.insert(0, ".")
+          from evals.run_eval import (
+              _load_cases, eval_router_cases, eval_identity_cases,
+              eval_artifact_cases, eval_preferences,
+          )
+          cases = _load_cases()
+          results = []
+          results.extend(eval_router_cases(cases))
+          results.extend(eval_identity_cases(cases))
+          results.extend(eval_artifact_cases(cases))
+          results.extend(eval_preferences())
+          total = len(results)
+          passed = sum(1 for r in results if r.get("passed"))
+          report = {"total": total, "passed": passed, "results": results}
+          print(json.dumps(report, indent=2))
+          if total and passed < total:
+              sys.exit(1)
+          PY
