@@ -1,15 +1,16 @@
 """
-JagX AI — Streaming multi-agent (SSE events) V9.4
+JagX AI — Streaming multi-agent (SSE events) V9.5
 
 Events:
   {"event":"status","message":"..."}
-  {"event":"thinking","summary":"..."}          # when reason=True
+  {"event":"thinking","summary":"..."}
+  {"event":"reflecting"}
   {"event":"agent_start","agent":"engineer"}
-  {"event":"tool_use","agent":"engineer","tool":"run_code"}
+  {"event":"tool_use","agent":"engineer","tools_used":N}
   {"event":"agent_done","agent":"engineer","provider":"...","tools_used":N}
   {"event":"token","token":"..."}
   {"event":"attachment","attachment":{...}}
-  {"event":"done","agents_used":[...],"provider":"multi-agent","version":"9.4.0"}
+  {"event":"done",...}
   {"event":"error","detail":"..."}
 
 Created by JagX & JRILICENSE
@@ -37,11 +38,14 @@ def stream_multi_agent_sse(
     force_agents: Optional[List[str]] = None,
     max_agents: int = 3,
     reason: bool = False,
+    reflect: bool = False,
 ) -> Iterator[str]:
     yield _sse({"event": "status", "message": "Routing specialists…"})
     try:
         if reason:
             yield _sse({"event": "status", "message": "Extended reasoning…"})
+        if reflect:
+            yield _sse({"event": "status", "message": "Self-reflection enabled…"})
 
         if force_agents:
             for a in force_agents:
@@ -57,6 +61,7 @@ def stream_multi_agent_sse(
             force_agents=force_agents,
             max_agents=max_a,
             reason=reason,
+            reflect=reflect,
         )
 
         if result.get("thinking_summary"):
@@ -64,6 +69,9 @@ def stream_multi_agent_sse(
                 "event": "thinking",
                 "summary": result["thinking_summary"],
             })
+
+        if result.get("reflect"):
+            yield _sse({"event": "reflecting"})
 
         for item in result.get("specialist_results") or []:
             tools_used = item.get("tools_used") or 0
@@ -105,12 +113,13 @@ def stream_multi_agent_sse(
             "event": "done",
             "agents_used": result.get("agents_used"),
             "provider": result.get("provider"),
-            "version": result.get("version") or "9.4.0",
+            "version": result.get("version") or "9.5.0",
             "parallel": result.get("parallel"),
             "reason": result.get("reason"),
+            "reflect": result.get("reflect"),
             "datetime_utc": result.get("datetime_utc"),
         })
     except Exception as exc:
         logger.exception("stream_multi_agent failed: %s", exc)
         yield _sse({"event": "error", "detail": str(exc)[:500]})
-        yield _sse({"event": "done", "agents_used": [], "provider": "error", "version": "9.4.0"})
+        yield _sse({"event": "done", "agents_used": [], "provider": "error", "version": "9.5.0"})
