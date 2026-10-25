@@ -1,11 +1,11 @@
 """
-JagX AI V9.1 — Multi-Agent Engine
+JagX AI V9.2 — Multi-Agent Engine
 
-Upgrades over V9.0:
-- Media specialist (image generation)
-- Live web search for Researcher (current events)
-- Full datetime context (not just date)
-- Attachments (images) flow through multi-agent responses
+Upgrades over V9.1:
+- Parallel specialist execution (ThreadPoolExecutor) for lower latency
+- Media specialist + image generation
+- Live web search for current events
+- Full datetime context
 
 Created by JagX & JRILICENSE
 """
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
@@ -173,7 +174,6 @@ def _run_specialist(
 ) -> Dict[str, Any]:
     prompt = SPECIALIST_PROMPTS.get(agent_name, SPECIALIST_PROMPTS["engineer"])
     system = prompt.format(datetime=_datetime())
-
     messages: List[dict] = [{"role": "system", "content": system}]
     if memory_context:
         messages.append({
@@ -194,7 +194,6 @@ def _run_specialist(
             if role in ("user", "assistant"):
                 messages.append({"role": role, "content": str(m.get("content") or "")[:3000]})
     messages.append({"role": "user", "content": user_message})
-
     text, provider = chat_completion(messages, max_tokens=max_tokens)
     if not text:
         local = knowledge.match(user_message)
@@ -202,7 +201,6 @@ def _run_specialist(
             text, provider = local, "local_brain"
         else:
             text, provider = f"(No response from {agent_name} specialist)", "fallback"
-
     return {
         "agent": agent_name,
         "response": sanitize_identity(text.strip()),
@@ -217,11 +215,9 @@ def _synthesize(
 ) -> str:
     if len(specialist_results) == 1:
         return specialist_results[0]["response"]
-
     parts = []
     for r in specialist_results:
         parts.append(f"### {r['agent'].title()} specialist output:\n{r['response']}")
-
     synthesis_input = (
         f"User request:\n{user_message}\n\n"
         f"Specialist outputs:\n\n" + "\n\n".join(parts)
@@ -248,44 +244,54 @@ def run_multi_agent(
         agents = list(force_agents)[:max_agents]
     else:
         agents = select_agents(user_message, max_agents=max_agents)
-
     if _wants_image(user_message) and "media" not in agents:
         agents = (agents + ["media"])[: max(max_agents, len(agents) + 1)]
         agents = agents[:4]
-
     if not agents:
         agents = ["engineer"]
-
-    logger.info("V9.1 multi-agent run → agents=%s", agents)
-
+    logger.info("V9.2 multi-agent run → agents=%s (parallel)", agents)
     search_context = None
     if _wants_current(user_message) or "researcher" in agents:
         try:
             search_context = free_web_search(user_message, max_results=5)
         except Exception as exc:
             logger.warning("live search failed: %s", exc)
-
     specialist_results: List[Dict[str, Any]] = []
     media_text = ""
-    for name in agents:
+    results_by_name: Dict[str, Dict[str, Any]] = {}
+
+    def _safe_run(name: str) -> Dict[str, Any]:
         try:
-            result = _run_specialist(
+            return _run_specialist(
                 name,
                 user_message,
                 history=history,
                 memory_context=memory_context,
                 search_context=search_context,
             )
-            specialist_results.append(result)
-            if name == "media":
-                media_text = result.get("response") or ""
         except Exception as exc:
             logger.warning("Specialist %s failed: %s", name, exc)
-            specialist_results.append({
+            return {
                 "agent": name,
                 "response": f"(Specialist {name} encountered an error)",
                 "provider": "error",
-            })
+            }
+
+    if len(agents) == 1:
+        results_by_name[agents[0]] = _safe_run(agents[0])
+    else:
+        with ThreadPoolExecutor(max_workers=min(4, len(agents))) as pool:
+            futures = {pool.submit(_safe_run, name): name for name in agents}
+            for fut in as_completed(futures):
+                name = futures[fut]
+                results_by_name[name] = fut.result()
+
+    for name in agents:
+        r = results_by_name.get(name)
+        if r:
+            specialist_results.append(r)
+            if name == "media":
+                media_text = r.get("response") or ""
 
     attachment = None
     if _wants_image(user_message) or "media" in agents:
@@ -312,9 +318,10 @@ def run_multi_agent(
             {"agent": r["agent"], "provider": r["provider"]} for r in specialist_results
         ],
         "provider": "multi-agent",
-        "version": "9.1.0",
+        "version": "9.2.0",
         "created_by": "JagX & JRILICENSE",
         "datetime_utc": _datetime(),
+        "parallel": len(agents) > 1,
     }
     if attachment:
         out["attachment"] = attachment
@@ -365,7 +372,7 @@ def run_media_agent(
 
 def list_capabilities() -> Dict[str, Any]:
     return {
-        "version": "9.1.0",
+        "version": "9.2.0",
         "created_by": "JagX & JRILICENSE",
         "datetime_utc": _datetime(),
         "agents": [
@@ -378,9 +385,11 @@ def list_capabilities() -> Dict[str, Any]:
         ],
         "capabilities": [
             "multi_agent_orchestration",
+            "parallel_specialists",
             "live_web_search",
             "image_generation",
             "code_generation",
+            "durable_coding_jobs",
             "pdf_cv_portfolio_tools",
             "current_datetime_awareness",
             "africa_first_context",
@@ -392,6 +401,8 @@ def list_capabilities() -> Dict[str, Any]:
             "POST /agents/research",
             "POST /agents/media",
             "GET /agents/capabilities",
+            "POST /coding/jobs",
+            "POST /jobs",
         ],
         "not_yet": [
             "native_100b_parameter_model",
