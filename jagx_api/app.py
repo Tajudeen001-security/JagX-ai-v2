@@ -1,4 +1,4 @@
-"""FastAPI application factory — JagX AI v9.6 (multi-agent + preferences)."""
+"""FastAPI application factory — JagX AI v9.7 (multi-agent default chat)."""
 
 from __future__ import annotations
 
@@ -59,6 +59,8 @@ class ChatRequest(BaseModel):
     stream_format: str = "sse"
     conversation_id: Optional[str] = None
     training_consent: bool = False
+    mode: str = Field(default="agents", pattern="^(fast|agents|reason)$")
+    reflect: bool = False
 
 
 class CreateKeyRequest(BaseModel):
@@ -107,24 +109,17 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="JagX AI",
         version=__version__,
-        description="Text + coding focused AI API with multi-agent core. Created by JagX & JRILICENSE.",
+        description="Text + coding AI API with multi-agent core. Created by JagX & JRILICENSE.",
     )
     app.add_middleware(GlobalIPRateLimitMiddleware)
     app.add_middleware(BodySizeLimitMiddleware)
 
     _default_origins = [
-        "https://jagxai.name.ng",
-        "https://www.jagxai.name.ng",
-        "https://jagx-ai-app.vercel.app",
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:8080",
+        "https://jagxai.name.ng", "https://www.jagxai.name.ng", "https://jagx-ai-app.vercel.app",
+        "http://localhost:3000", "http://localhost:5173", "http://localhost:8080",
     ]
     cors_env = os.environ.get("JAGX_CORS_ORIGINS", "")
-    if cors_env.strip():
-        origins = [o.strip().rstrip("/") for o in cors_env.split(",") if o.strip()]
-    else:
-        origins = _default_origins
+    origins = [o.strip().rstrip("/") for o in cors_env.split(",") if o.strip()] if cors_env.strip() else _default_origins
     if os.environ.get("JAGX_CORS_ALLOW_ALL", "").lower() in ("1", "true", "yes"):
         origins = ["*"]
     app.add_middleware(
@@ -167,10 +162,10 @@ def create_app() -> FastAPI:
             "version": __version__,
             "created_by": "JagX & JRILICENSE",
             "features": [
-                "permanent_api_keys", "public_chat", "multi_provider", "local_knowledge_fallback",
-                "streaming", "sse_streaming", "memory", "style_preferences", "calc", "tools",
+                "multi_agent_default_chat", "permanent_api_keys", "public_chat", "multi_provider",
+                "streaming", "memory", "style_preferences", "calc", "tools", "fetch_url",
                 "rate_limits", "persistent_conversations", "durable_background_jobs",
-                "consent_memory", "image_generation_api", "multi_agent_v9", "agents_api",
+                "image_generation_api", "agents_api",
             ],
             "docs": "/docs",
         }
@@ -178,12 +173,9 @@ def create_app() -> FastAPI:
     @app.get("/health")
     def health():
         return {
-            "status": "ok",
-            "service": "jagx-ai-v2",
-            "version": __version__,
+            "status": "ok", "service": "jagx-ai-v2", "version": __version__,
             "uptime_seconds": int(time.time() - APP_START),
-            "local_brain": knowledge.size(),
-            "providers": provider_status(),
+            "local_brain": knowledge.size(), "providers": provider_status(),
         }
 
     @app.post("/public-chat")
@@ -261,7 +253,26 @@ def create_app() -> FastAPI:
                     yield f"data: {json.dumps({'done': True})}\n\n"
             return StreamingResponse(sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"})
-        result = generate_response(msg, history, memory_context=memory_context, training_consent=req.training_consent)
+        mode = (req.mode or "agents").lower()
+        if mode in ("agents", "reason"):
+            try:
+                from jagx_api.agents import run_multi_agent
+                ma = run_multi_agent(
+                    msg, history=history, memory_context=memory_context,
+                    reason=(mode == "reason"), reflect=bool(req.reflect),
+                )
+                result = {
+                    "response": ma.get("response"),
+                    "provider": ma.get("provider", "multi-agent"),
+                    "local_hit": False,
+                    "attachment": ma.get("attachment"),
+                    "agents_used": ma.get("agents_used"),
+                }
+            except Exception:
+                logger.exception("multi-agent chat failed; falling back to fast path")
+                result = generate_response(msg, history, memory_context=memory_context, training_consent=req.training_consent)
+        else:
+            result = generate_response(msg, history, memory_context=memory_context, training_consent=req.training_consent)
         if req.conversation_id:
             conversation_store.append(key, req.conversation_id, "assistant", result.get("response", ""), result.get("provider"))
         info = auth.key_info(key)
@@ -270,6 +281,8 @@ def create_app() -> FastAPI:
                "rate_limit": f"tier={info.get('tier')}" if info else "ok", "version": __version__}
         if result.get("attachment"):
             out["attachment"] = result["attachment"]
+        if result.get("agents_used"):
+            out["agents_used"] = result["agents_used"]
         return out
 
     @app.post("/create-key")
