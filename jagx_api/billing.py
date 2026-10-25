@@ -1,8 +1,9 @@
 """Manual payment + admin-confirmed tier upgrades.
 
 Flow:
-  1. User submits upgrade request with payment reference (bank transfer, etc.)
-  2. Admin (gbadamositajudeenwan@gmail.com / gbadamositajudeeneh@gmail.com)
+  1. User pays to OPay account (see SETTLEMENT_ACCOUNT)
+  2. User submits upgrade request with payment reference
+  3. Admin (gbadamositajudeenwan@gmail.com / gbadamositajudeeneh@gmail.com)
      confirms with admin_secret → API key tier is upgraded.
 
 No automatic card webhooks — intentional for Nigeria-first manual settlement.
@@ -26,6 +27,14 @@ _lock = threading.RLock()
 ADMIN_EMAILS = {
     "gbadamositajudeenwan@gmail.com",
     "gbadamositajudeeneh@gmail.com",
+}
+
+# Official settlement account for manual tier payments
+SETTLEMENT_ACCOUNT = {
+    "bank": "OPay",
+    "account_number": "9160654415",
+    "account_name": "Gbadamosi Tajudeen Olajide",
+    "currency": "NGN",
 }
 
 TIER_CATALOG = {
@@ -81,12 +90,15 @@ def catalog() -> dict:
     return {
         "currency": "NGN",
         "settlement": "manual",
+        "settlement_account": SETTLEMENT_ACCOUNT,
         "admin_emails": sorted(ADMIN_EMAILS),
         "tiers": TIER_CATALOG,
         "instructions": (
-            "1) Pay the listed amount via bank transfer or agreed channel. "
-            "2) Submit /billing/upgrade-request with payment_ref. "
-            "3) Admin confirms; your API key tier updates."
+            f"1) Transfer the tier amount to OPay {SETTLEMENT_ACCOUNT['account_number']} "
+            f"({SETTLEMENT_ACCOUNT['account_name']}). "
+            "2) Keep your transfer reference. "
+            "3) Submit POST /billing/upgrade-request with payment_ref. "
+            "4) Admin confirms; your API key tier updates."
         ),
     }
 
