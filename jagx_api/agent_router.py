@@ -1,6 +1,6 @@
 """
-JagX AI V9 — Agent Router
-Intent classification and agent selection.
+JagX AI V9.1 — Agent Router
+Intent classification and agent selection (includes Media).
 
 Created by JagX & JRILICENSE
 """
@@ -9,7 +9,6 @@ from __future__ import annotations
 import re
 from typing import List, Set
 
-# Keywords that strongly indicate each specialist
 _ENGINEER_HINTS = (
     "code", "coding", "debug", "bug", "error", "traceback", "function", "class",
     "api", "endpoint", "fastapi", "flask", "django", "flutter", "dart", "react",
@@ -23,7 +22,7 @@ _RESEARCH_HINTS = (
     "research", "what is", "who is", "explain", "history of", "compare",
     "difference between", "pros and cons", "latest", "current", "news",
     "study", "evidence", "source", "according to", "statistics", "data on",
-    "how does", "why does", "overview of", "summary of",
+    "how does", "why does", "overview of", "summary of", "today", "this week",
 )
 
 _ARCHITECT_HINTS = (
@@ -48,6 +47,12 @@ _AFRICA_HINTS = (
     "east africa", "sub-saharan", "mobile money", "mtn", "airtel", "gtbank",
 )
 
+_MEDIA_HINTS = (
+    "image", "picture", "draw", "illustration", "logo", "render", "photo",
+    "generate image", "create image", "visual", "artwork", "thumbnail",
+    "banner", "icon", "poster",
+)
+
 
 def _score(text: str, hints: tuple) -> int:
     t = (text or "").lower()
@@ -55,13 +60,9 @@ def _score(text: str, hints: tuple) -> int:
 
 
 def classify_intent(message: str) -> Set[str]:
-    """
-    Return the set of specialist agent names that should run.
-    Always returns at least one agent. Lead is implicit.
-    """
     msg = (message or "").strip()
     if not msg:
-        return {"engineer"}  # safe default
+        return {"engineer"}
 
     scores = {
         "engineer": _score(msg, _ENGINEER_HINTS),
@@ -69,9 +70,19 @@ def classify_intent(message: str) -> Set[str]:
         "architect": _score(msg, _ARCHITECT_HINTS),
         "creator": _score(msg, _CREATOR_HINTS),
         "africa": _score(msg, _AFRICA_HINTS),
+        "media": _score(msg, _MEDIA_HINTS),
     }
 
-    # Strong coding signal → engineer is primary
+    if scores["media"] >= 1 or re.search(
+        r"\b(generate|create|draw|make)\b.+\b(image|picture|logo|illustration)\b",
+        msg,
+        re.I,
+    ):
+        selected = {"media"}
+        if scores["creator"] >= 1:
+            selected.add("creator")
+        return selected
+
     if scores["engineer"] >= 2 or re.search(
         r"\b(write|create|build|fix|debug)\b.*(code|function|app|api|class)",
         msg,
@@ -84,32 +95,27 @@ def classify_intent(message: str) -> Set[str]:
             selected.add("africa")
         return selected
 
-    # Research heavy
     if scores["researcher"] >= 2:
         selected = {"researcher"}
         if scores["africa"] >= 1:
             selected.add("africa")
         return selected
 
-    # Architecture / system design
     if scores["architect"] >= 2:
         selected = {"architect"}
         if scores["engineer"] >= 1:
             selected.add("engineer")
         return selected
 
-    # Creative writing / naming
     if scores["creator"] >= 2:
         return {"creator"}
 
-    # Africa context
     if scores["africa"] >= 2:
         selected = {"africa"}
         if scores["researcher"] >= 1:
             selected.add("researcher")
         return selected
 
-    # Default: balanced general path (engineer + researcher)
     top = sorted(scores.items(), key=lambda x: x[1], reverse=True)
     if top[0][1] > 0:
         return {top[0][0]}
@@ -117,12 +123,7 @@ def classify_intent(message: str) -> Set[str]:
 
 
 def select_agents(message: str, max_agents: int = 3) -> List[str]:
-    """
-    Public API used by the multi-agent engine.
-    Returns ordered list of agent names (max 3).
-    """
     selected = classify_intent(message)
-    # Stable priority order
-    priority = ["engineer", "architect", "researcher", "creator", "africa"]
+    priority = ["engineer", "architect", "researcher", "creator", "media", "africa"]
     ordered = [a for a in priority if a in selected]
     return ordered[:max_agents]
