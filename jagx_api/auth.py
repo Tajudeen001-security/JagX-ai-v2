@@ -61,6 +61,30 @@ def create_key(owner_label: str, tier: str = "free", admin_secret: str = "") -> 
     }
 
 
+def set_tier(key: str, tier: str) -> dict:
+    """Upgrade or change tier for an existing API key (admin billing confirm)."""
+    key = (key or "").strip()
+    tier = (tier or "free").lower()
+    if not key:
+        return {"ok": False, "error": "missing key"}
+    if tier not in settings.tier_hourly:
+        return {"ok": False, "error": f"invalid tier: {tier}"}
+    if key in settings.permanent_keys:
+        return {"ok": False, "error": "cannot change permanent key tier"}
+    with _lock:
+        keys = _load_keys()
+        if key not in keys:
+            return {"ok": False, "error": "key not found"}
+        keys[key]["tier"] = tier
+        keys[key]["tier_updated_at"] = time.time()
+        _save_keys(keys)
+    return {
+        "ok": True,
+        "tier": tier,
+        "hourly_limit": settings.tier_hourly.get(tier),
+    }
+
+
 def is_valid_key(key: str) -> bool:
     if not key:
         return False
