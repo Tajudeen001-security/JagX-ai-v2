@@ -1,4 +1,4 @@
-"""FastAPI application factory — JagX AI v9.7 (multi-agent default chat)."""
+"""FastAPI application factory — JagX AI v9.8 (multi-agent default chat)."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ from jagx_api.jobs_api import router as jobs_router
 from jagx_api.autonomy import router as autonomy_router
 from jagx_api.agents_api import router as agents_router
 from jagx_api.preferences_api import router as preferences_router
+from jagx_api.training_api import router as training_router
 from jagx_api import preferences as prefs_mod
 from jagx_api import job_worker
 from jagx_api.config import settings
@@ -135,6 +136,7 @@ def create_app() -> FastAPI:
     app.include_router(autonomy_router)
     app.include_router(agents_router)
     app.include_router(preferences_router)
+    app.include_router(training_router)
 
     @app.on_event("startup")
     def _startup() -> None:
@@ -165,7 +167,7 @@ def create_app() -> FastAPI:
                 "multi_agent_default_chat", "permanent_api_keys", "public_chat", "multi_provider",
                 "streaming", "memory", "style_preferences", "calc", "tools", "fetch_url",
                 "rate_limits", "persistent_conversations", "durable_background_jobs",
-                "image_generation_api", "agents_api",
+                "image_generation_api", "agents_api", "multi_agent_streaming", "lora_flywheel",
             ],
             "docs": "/docs",
         }
@@ -238,6 +240,43 @@ def create_app() -> FastAPI:
         if pref_ctx:
             memory_context = (memory_context + "\n" + pref_ctx) if memory_context else pref_ctx
         if req.stream:
+            mode = (req.mode or "agents").lower()
+            if mode in ("agents", "reason"):
+                def ma_sse_gen():
+                    chunks = []
+                    try:
+                        from jagx_api.agent_stream import stream_multi_agent_sse
+                        for event in stream_multi_agent_sse(
+                            msg,
+                            history=history,
+                            memory_context=memory_context,
+                            reason=(mode == "reason"),
+                            reflect=bool(req.reflect),
+                        ):
+                            yield event
+                            if event.startswith("data: "):
+                                try:
+                                    payload = json.loads(event[6:].strip())
+                                    if payload.get("event") == "token" and payload.get("token"):
+                                        chunks.append(payload["token"])
+                                except Exception:
+                                    pass
+                        if req.conversation_id and chunks:
+                            conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                    except Exception:
+                        logger.exception("multi-agent stream failed; falling back")
+                        try:
+                            for piece in stream_response(msg, history, memory_context):
+                                chunks.append(piece)
+                                yield f"data: {json.dumps({'event': 'token', 'token': piece}, ensure_ascii=False)}\n\n"
+                            yield f"data: {json.dumps({'event': 'done'})}\n\n"
+                            if req.conversation_id and chunks:
+                                conversation_store.append(key, req.conversation_id, "assistant", "".join(chunks))
+                        except Exception:
+                            yield f"data: {json.dumps({'event': 'error', 'detail': 'stream failed'})}\n\n"
+                            yield f"data: {json.dumps({'event': 'done'})}\n\n"
+                return StreamingResponse(ma_sse_gen(), media_type="text/event-stream; charset=utf-8",
+                    headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"})
             def sse_gen():
                 chunks = []
                 try:
