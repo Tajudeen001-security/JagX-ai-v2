@@ -1,5 +1,5 @@
 """
-JagX AI — Streaming multi-agent (SSE events) V9.5
+JagX AI — Streaming multi-agent (SSE events) V9.8
 
 Events:
   {"event":"status","message":"..."}
@@ -113,7 +113,7 @@ def stream_multi_agent_sse(
             "event": "done",
             "agents_used": result.get("agents_used"),
             "provider": result.get("provider"),
-            "version": result.get("version") or "9.5.0",
+            "version": result.get("version") or "9.8.0",
             "parallel": result.get("parallel"),
             "reason": result.get("reason"),
             "reflect": result.get("reflect"),
@@ -122,4 +122,4 @@ def stream_multi_agent_sse(
     except Exception as exc:
         logger.exception("stream_multi_agent failed: %s", exc)
         yield _sse({"event": "error", "detail": str(exc)[:500]})
-        yield _sse({"event": "done", "agents_used": [], "provider": "error", "version": "9.5.0"})
+        yield _sse({"event": "done", "agents_used": [], "provider": "error", "version": "9.8.0"})
