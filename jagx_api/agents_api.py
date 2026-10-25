@@ -173,7 +173,7 @@ def agents_research(body: AgentsRunRequest, x_api_key: Optional[str] = Header(No
             body.message, history=history, memory_context=body.memory_context, reason=body.reason
         ))
     except Exception as exc:
-        logger.exception("agents/research failed: %s", exc)
+        logger.exception("agents/research failed: %s", exp)
         raise HTTPException(status_code=500, detail="Research agent failed") from exp
 
 
@@ -184,7 +184,7 @@ def agents_media(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None,
     try:
         return _pack(run_media_agent(body.message, history=history, memory_context=body.memory_context))
     except Exception as exc:
-        logger.exception("agents/media failed: %s", exc)
+        logger.exception("agents/media failed: %s", exp)
         raise HTTPException(status_code=500, detail="Media agent failed") from exp
 
 
@@ -196,5 +196,5 @@ def agents_vision(body: VisionRequest, x_api_key: Optional[str] = Header(None, a
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
-        logger.exception("agents/vision failed: %s", exc)
+        logger.exception("agents/vision failed: %s", exp)
         raise HTTPException(status_code=500, detail="Vision failed") from exp
