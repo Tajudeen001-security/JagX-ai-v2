@@ -1,8 +1,5 @@
 """
-JagX AI V9 — Agents API routes
-
-New FastAPI endpoints for multi-agent execution.
-Matches existing JagX-ai-v2 auth pattern (jobs_api style).
+JagX AI V9.1 — Agents API routes
 
 Created by JagX & JRILICENSE
 """
@@ -18,6 +15,7 @@ from jagx_api import auth
 from jagx_api.agents import (
     list_capabilities,
     run_coding_agent,
+    run_media_agent,
     run_multi_agent,
     run_research_agent,
 )
@@ -55,13 +53,14 @@ class AgentsRunResponse(BaseModel):
     agents_used: List[str]
     specialist_results: List[Dict[str, Any]]
     provider: str
-    version: str = "9.0.0"
+    version: str = "9.1.0"
     created_by: str = "JagX & JRILICENSE"
+    datetime_utc: Optional[str] = None
+    attachment: Optional[Dict[str, Any]] = None
 
 
 @router.get("/capabilities")
 def agents_capabilities():
-    """Public list of available agents and endpoints."""
     return list_capabilities()
 
 
@@ -70,10 +69,6 @@ def agents_run(
     body: AgentsRunRequest,
     x_api_key: Optional[str] = Header(None, alias="x-api-key"),
 ):
-    """
-    Full multi-agent run.
-    Router selects specialists → specialists execute → synthesizer merges.
-    """
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
@@ -84,7 +79,7 @@ def agents_run(
             force_agents=body.force_agents,
             max_agents=body.max_agents,
         )
-        return AgentsRunResponse(**result)
+        return AgentsRunResponse(**{k: v for k, v in result.items() if k in AgentsRunResponse.model_fields})
     except Exception as exc:
         logger.exception("agents/run failed: %s", exc)
         raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
@@ -95,19 +90,11 @@ def agents_coding(
     body: AgentsRunRequest,
     x_api_key: Optional[str] = Header(None, alias="x-api-key"),
 ):
-    """
-    Fast path optimised for software engineering tasks.
-    Forces Engineer + Architect.
-    """
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
-        result = run_coding_agent(
-            body.message,
-            history=history,
-            memory_context=body.memory_context,
-        )
-        return AgentsRunResponse(**result)
+        result = run_coding_agent(body.message, history=history, memory_context=body.memory_context)
+        return AgentsRunResponse(**{k: v for k, v in result.items() if k in AgentsRunResponse.model_fields})
     except Exception as exc:
         logger.exception("agents/coding failed: %s", exc)
         raise HTTPException(status_code=500, detail="Coding agent failed") from exc
@@ -118,19 +105,27 @@ def agents_research(
     body: AgentsRunRequest,
     x_api_key: Optional[str] = Header(None, alias="x-api-key"),
 ):
-    """
-    Fast path optimised for research and evidence-based answers.
-    Forces Researcher + Africa Context.
-    """
     _key(x_api_key)
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
-        result = run_research_agent(
-            body.message,
-            history=history,
-            memory_context=body.memory_context,
-        )
-        return AgentsRunResponse(**result)
+        result = run_research_agent(body.message, history=history, memory_context=body.memory_context)
+        return AgentsRunResponse(**{k: v for k, v in result.items() if k in AgentsRunResponse.model_fields})
     except Exception as exc:
         logger.exception("agents/research failed: %s", exc)
         raise HTTPException(status_code=500, detail="Research agent failed") from exc
+
+
+@router.post("/media", response_model=AgentsRunResponse)
+def agents_media(
+    body: AgentsRunRequest,
+    x_api_key: Optional[str] = Header(None, alias="x-api-key"),
+):
+    """Image / visual generation path (Media + Creator)."""
+    _key(x_api_key)
+    history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
+    try:
+        result = run_media_agent(body.message, history=history, memory_context=body.memory_context)
+        return AgentsRunResponse(**{k: v for k, v in result.items() if k in AgentsRunResponse.model_fields})
+    except Exception as exc:
+        logger.exception("agents/media failed: %s", exc)
+        raise HTTPException(status_code=500, detail="Media agent failed") from exc
