@@ -1,4 +1,4 @@
-"""Built-in tools: web search, code sandbox, calc, PDF, CV, portfolio, fetch_url."""
+"""Built-in tools: web search, code sandbox, calc, PDF, CV, portfolio, fetch_url, browse_research."""
 from __future__ import annotations
 
 import ast
@@ -28,7 +28,7 @@ def free_web_search(query: str, max_results: int = 6) -> str:
         return "empty query"
     try:
         url = f"https://html.duckduckgo.com/html/?q={quote(q)}"
-        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/9.7)"}
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; JagXAI/9.9)"}
         r = HTTP.get(url, headers=headers, timeout=12)
         if r.status_code != 200:
             return _ddg_instant(q, max_results)
@@ -253,6 +253,9 @@ def run_tool(name: str, inp: dict) -> tuple:
         prompt = str(inp.get("prompt") or "abstract art")
         return f"Image generated for: {prompt}", {"type": "image", "url": image_url_from_prompt(prompt)}
     if name == "fetch_url":
-        from jagx_api.browser_tool import fetch_url as _fetch
+        from jagx_api.browser_agent import fetch_url as _fetch
         return _fetch(str(inp.get("url") or "")), None
+    if name in ("browse_research", "browser_research", "research_browse"):
+        from jagx_api.browser_agent import browse_research as _br
+        return _br(str(inp.get("query") or ""), int(inp.get("max_pages") or 3)), None
     return f"unknown tool: {name}", None
