@@ -1,42 +1,33 @@
-"""FastAPI application factory — JagX AI v9 (multi-agent core)."""
+"""FastAPI application factory — JagX AI v9.6 (multi-agent + preferences)."""
 
 from __future__ import annotations
 
 import logging
-import asyncio
 import time
 import hashlib
-import hmac
 import json
 import os
-import base64
 import threading
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Request, UploadFile, File, Form, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse, Response
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, local_model, speech, engineering, video_generation
-from jagx_api.chat import generate_response, stream_response, stream_sse
+from jagx_api import __version__, auth, knowledge, memory_store, conversation_store, engineering, video_generation
+from jagx_api.chat import generate_response, stream_response
 from jagx_api.jobs_api import router as jobs_router
 from jagx_api.autonomy import router as autonomy_router
 from jagx_api.agents_api import router as agents_router
+from jagx_api.preferences_api import router as preferences_router
+from jagx_api import preferences as prefs_mod
 from jagx_api import job_worker
 from jagx_api.config import settings
 from jagx_api.providers import provider_status, provider_health
-from jagx_api.tools import (
-    safe_calc,
-    generate_pdf_document,
-    generate_cv_pdf,
-    generate_portfolio_html,
-    attachment_pdf,
-    attachment_html,
-    run_tool,
-)
+from jagx_api.tools import safe_calc, run_tool
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("jagx-ai")
@@ -90,51 +81,8 @@ class ConversationCreateRequest(BaseModel):
     title: str = Field(default="New conversation", max_length=160)
 
 
-class KnowledgeIngestRequest(BaseModel):
-    rows: List[dict] = Field(..., min_length=1, max_length=10000)
-
-
-class EnduranceRequest(BaseModel):
-    battery_wh: float = Field(..., gt=0, le=100000000)
-    average_watts: float = Field(..., gt=0, le=100000000)
-    usable_fraction: float = Field(default=0.8, ge=0.1, le=1.0)
-
-
-class FMEARequest(BaseModel):
-    system: str = Field(..., min_length=1, max_length=160)
-    components: Optional[List[str]] = None
-
-
 class CalcRequest(BaseModel):
     expression: str
-
-
-class PdfRequest(BaseModel):
-    title: str = "Document"
-    sections: Optional[List[dict]] = None
-
-
-class CvRequest(BaseModel):
-    name: str = "Name"
-    title: str = ""
-    summary: str = ""
-    email: str = ""
-    phone: str = ""
-    location: str = ""
-    linkedin: str = ""
-    github: str = ""
-    experience: Optional[List[dict]] = None
-    education: Optional[List[dict]] = None
-    skills: Optional[List[str]] = None
-
-
-class PortfolioRequest(BaseModel):
-    name: str = "My Portfolio"
-    title: str = ""
-    about: str = ""
-    projects: Optional[List[dict]] = None
-    skills: Optional[List[str]] = None
-    contact: Optional[dict] = None
 
 
 class ToolRequest(BaseModel):
@@ -184,13 +132,14 @@ def create_app() -> FastAPI:
         allow_origins=origins,
         allow_origin_regex=r"https://jagx-ai-[a-z0-9-]+-jagxs-projects\.vercel\.app",
         allow_credentials=False,
-        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
         allow_headers=["Content-Type", "x-api-key", "x-admin-secret"],
     )
     app.add_middleware(GZipMiddleware, minimum_size=1000)
     app.include_router(jobs_router)
     app.include_router(autonomy_router)
     app.include_router(agents_router)
+    app.include_router(preferences_router)
 
     @app.on_event("startup")
     def _startup() -> None:
@@ -219,12 +168,9 @@ def create_app() -> FastAPI:
             "created_by": "JagX & JRILICENSE",
             "features": [
                 "permanent_api_keys", "public_chat", "multi_provider", "local_knowledge_fallback",
-                "streaming", "sse_streaming", "websocket_realtime_chat", "memory", "calc", "tools",
-                "pdf_cv", "portfolio", "rate_limits", "persistent_conversations", "durable_background_jobs",
-                "consent_memory", "optional_voice_pipeline", "offline_gguf_mode",
-                "engineering_decision_support", "knowledge_ingestion", "image_generation_api",
-                "grok_style_reasoning", "bot_ready",
-                "multi_agent_v9", "agents_api",
+                "streaming", "sse_streaming", "memory", "style_preferences", "calc", "tools",
+                "rate_limits", "persistent_conversations", "durable_background_jobs",
+                "consent_memory", "image_generation_api", "multi_agent_v9", "agents_api",
             ],
             "docs": "/docs",
         }
@@ -239,9 +185,6 @@ def create_app() -> FastAPI:
             "local_brain": knowledge.size(),
             "providers": provider_status(),
         }
-
-    # --- Remaining routes restored from pre-v9 main ---
-    # Full file available at artifacts; critical routes wired below for boot.
 
     @app.post("/public-chat")
     def public_chat(req: ChatRequest, request: Request):
@@ -298,6 +241,10 @@ def create_app() -> FastAPI:
                 raise HTTPException(status_code=404, detail="Conversation not found")
         memory_hits = memory_store.recall(hashlib.sha256(("jagx-memory-v1:" + key).encode()).hexdigest(), msg)
         memory_context = "\n".join(str(hit.get("text", "")) for hit in memory_hits) if memory_hits else None
+        pref_owner = hashlib.sha256(("jagx-prefs-v1:" + key).encode()).hexdigest()
+        pref_ctx = prefs_mod.format_preference_context(pref_owner)
+        if pref_ctx:
+            memory_context = (memory_context + "\n" + pref_ctx) if memory_context else pref_ctx
         if req.stream:
             def sse_gen():
                 chunks = []
