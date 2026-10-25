@@ -130,7 +130,7 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
         return _pack(result)
     except Exception as exc:
         logger.exception("agents/run failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
+        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exp
 
 
 @router.post("/stream")
@@ -160,8 +160,8 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
             body.message, history=history, memory_context=body.memory_context, reason=body.reason
         ))
     except Exception as exc:
-        logger.exception("agents/coding failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Coding agent failed") from exc
+        logger.exception("agents/coding failed: %s", exp)
+        raise HTTPException(status_code=500, detail="Coding agent failed") from exp
 
 
 @router.post("/research", response_model=AgentsRunResponse)
@@ -183,7 +183,7 @@ def agents_media(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None,
     history = [{"role": t.role, "content": t.content} for t in (body.history or [])]
     try:
         return _pack(run_media_agent(body.message, history=history, memory_context=body.memory_context))
-    except Exception as exc:
+    except Exception as exp:
         logger.exception("agents/media failed: %s", exp)
         raise HTTPException(status_code=500, detail="Media agent failed") from exp
 
@@ -193,8 +193,8 @@ def agents_vision(body: VisionRequest, x_api_key: Optional[str] = Header(None, a
     _key(x_api_key)
     try:
         return describe_image(body.image_base64, body.prompt, mime_type=body.mime_type)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
-    except Exception as exc:
+    except ValueError as exp:
+        raise HTTPException(status_code=400, detail=str(exc)) from exp
+    except Exception as exp:
         logger.exception("agents/vision failed: %s", exp)
         raise HTTPException(status_code=500, detail="Vision failed") from exp
