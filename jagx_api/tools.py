@@ -1,9 +1,7 @@
 """Built-in tools: web search, code sandbox, calc, PDF, CV, portfolio, fetch_url."""
 from __future__ import annotations
-import base64
 from pathlib import Path
-_dir = Path(__file__).resolve().parent
-_SRC = base64.b64decode(
-    (_dir / "_tools_b64_a.txt").read_text() + (_dir / "_tools_b64_b.txt").read_text()
-).decode("utf-8")
-exec(compile(_SRC, str(_dir / "_tools_impl.py"), "exec"), globals())
+_d = Path(__file__).resolve().parent
+for _name in ("_tools_p1.py", "_tools_p2.py", "_tools_p3.py"):
+    _src = (_d / _name).read_text(encoding="utf-8")
+    exec(compile(_src, str(_d / _name), "exec"), globals())
