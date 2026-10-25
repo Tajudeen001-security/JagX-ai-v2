@@ -1,4 +1,4 @@
-"""FastAPI application factory — JagX AI v9.8 (multi-agent default chat)."""
+"""FastAPI application factory — JagX AI v10.1 (multi-agent + manual billing)."""
 
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ from jagx_api.autonomy import router as autonomy_router
 from jagx_api.agents_api import router as agents_router
 from jagx_api.preferences_api import router as preferences_router
 from jagx_api.training_api import router as training_router
+from jagx_api.billing_api import router as billing_router
 from jagx_api import preferences as prefs_mod
 from jagx_api import job_worker
 from jagx_api.config import settings
@@ -137,6 +138,7 @@ def create_app() -> FastAPI:
     app.include_router(agents_router)
     app.include_router(preferences_router)
     app.include_router(training_router)
+    app.include_router(billing_router)
 
     @app.on_event("startup")
     def _startup() -> None:
@@ -167,7 +169,7 @@ def create_app() -> FastAPI:
                 "multi_agent_default_chat", "permanent_api_keys", "public_chat", "multi_provider",
                 "streaming", "memory", "style_preferences", "calc", "tools", "fetch_url",
                 "rate_limits", "persistent_conversations", "durable_background_jobs",
-                "image_generation_api", "agents_api", "multi_agent_streaming", "lora_flywheel",
+                "image_generation_api", "agents_api", "multi_agent_streaming", "lora_flywheel", "manual_billing",
             ],
             "docs": "/docs",
         }
@@ -247,11 +249,8 @@ def create_app() -> FastAPI:
                     try:
                         from jagx_api.agent_stream import stream_multi_agent_sse
                         for event in stream_multi_agent_sse(
-                            msg,
-                            history=history,
-                            memory_context=memory_context,
-                            reason=(mode == "reason"),
-                            reflect=bool(req.reflect),
+                            msg, history=history, memory_context=memory_context,
+                            reason=(mode == "reason"), reflect=bool(req.reflect),
                         ):
                             yield event
                             if event.startswith("data: "):
