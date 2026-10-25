@@ -3,10 +3,8 @@
 Flow:
   1. User pays to OPay account (see SETTLEMENT_ACCOUNT)
   2. User submits upgrade request with payment reference
-  3. Admin (gbadamositajudeenwan@gmail.com / gbadamositajudeeneh@gmail.com)
-     confirms with admin_secret → API key tier is upgraded.
+  3. Admin confirms with admin_secret → API key tier is upgraded.
 
-No automatic card webhooks — intentional for Nigeria-first manual settlement.
 Created by JagX & JRILICENSE.
 """
 from __future__ import annotations
@@ -29,7 +27,6 @@ ADMIN_EMAILS = {
     "gbadamositajudeeneh@gmail.com",
 }
 
-# Official settlement account for manual tier payments
 SETTLEMENT_ACCOUNT = {
     "bank": "OPay",
     "account_number": "9160654415",
@@ -96,10 +93,38 @@ def catalog() -> dict:
         "instructions": (
             f"1) Transfer the tier amount to OPay {SETTLEMENT_ACCOUNT['account_number']} "
             f"({SETTLEMENT_ACCOUNT['account_name']}). "
-            "2) Keep your transfer reference. "
+            "2) Use GET /billing/payment-note?tier=premium for a ready transfer note. "
             "3) Submit POST /billing/upgrade-request with payment_ref. "
-            "4) Admin confirms; your API key tier updates."
+            "4) Admin confirms at /billing/admin/panel."
         ),
+        "admin_panel": "/billing/admin/panel",
+    }
+
+
+def payment_note_template(tier: str = "premium") -> dict:
+    """Copy-paste transfer note for bank/OPay narration."""
+    tier = (tier or "premium").lower().strip()
+    if tier not in VALID_PAID_TIERS:
+        return {"ok": False, "error": "tier must be premium or premium_plus"}
+    info = TIER_CATALOG[tier]
+    amount = info["price_ngn"]
+    acct = SETTLEMENT_ACCOUNT
+    narration = f"JagX {info['label']} upgrade"
+    text = (
+        f"Pay ₦{amount:,} to:\n"
+        f"Bank: {acct['bank']}\n"
+        f"Account: {acct['account_number']}\n"
+        f"Name: {acct['account_name']}\n"
+        f"Narration: {narration}\n\n"
+        f"After payment, submit /billing/upgrade-request with your transfer reference."
+    )
+    return {
+        "ok": True,
+        "tier": tier,
+        "amount_ngn": amount,
+        "settlement_account": acct,
+        "narration": narration,
+        "text": text,
     }
 
 
