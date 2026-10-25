@@ -130,7 +130,7 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
         return _pack(result)
     except Exception as exc:
         logger.exception("agents/run failed: %s", exc)
-        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exp
+        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
 
 
 @router.post("/stream")
@@ -160,8 +160,8 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
             body.message, history=history, memory_context=body.memory_context, reason=body.reason
         ))
     except Exception as exc:
-        logger.exception("agents/coding failed: %s", exp)
-        raise HTTPException(status_code=500, detail="Coding agent failed") from exp
+        logger.exception("agents/coding failed: %s", exc)
+        raise HTTPException(status_code=500, detail="Coding agent failed") from exc
 
 
 @router.post("/research", response_model=AgentsRunResponse)
