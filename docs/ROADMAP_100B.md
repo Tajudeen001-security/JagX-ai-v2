@@ -15,12 +15,13 @@
 
 ## Phased plan
 
-### Phase 0 — Now (V9 / V9.1) ✅
+### Phase 0 — Now (V9.8) ✅
 
 - Multi-provider inference (Groq, NVIDIA, OpenRouter, HF, local GGUF)
 - Multi-agent orchestration (Engineer, Researcher, Architect, Creator, Africa, Media)
-- Live web search + image generation
-- Consented training logs
+- Live web search + image generation + fetch_url
+- Multi-agent default `/chat` + SSE streaming
+- Consented training logs + LoRA flywheel export
 - Identity lock (JagX & JRILICENSE only)
 
 ### Phase 1 — Own the fine-tunes (3–12 months)
@@ -69,6 +70,8 @@
 5. **Never** train on secrets, keys, or non-consented private memory  
 
 Hook already exists: `training_enabled` + `training_consent`.
+
+V9.8 adds `jagx_api/lora_flywheel.py` + `/training/stats` + `/training/export` (admin) for quality-filtered SFT export.
 
 ---
 
