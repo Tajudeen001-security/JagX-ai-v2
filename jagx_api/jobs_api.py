@@ -1,5 +1,6 @@
 """Durable jobs API — chat (multi-agent) and coding jobs.
 
+V10: tier priority, reason/reflect modes, worker stats.
 Created by JagX & JRILICENSE
 """
 from __future__ import annotations
@@ -20,9 +21,11 @@ class JobRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=32000)
     conversation_id: Optional[str] = None
     training_consent: bool = False
-    # Multi-agent controls (optional)
     force_agents: Optional[List[str]] = None
     max_agents: int = Field(default=3, ge=1, le=5)
+    mode: str = Field(default="agents", pattern="^(fast|agents|reason)$")
+    reason: bool = False
+    reflect: bool = False
 
 
 class CodingJobRequest(BaseModel):
@@ -51,13 +54,16 @@ def create_job(
 ):
     """Enqueue a durable chat job (runs multi-agent in the background)."""
     key = _key(x_api_key)
+    info = auth.key_info(key) or {}
+    tier = str(info.get("tier") or "free")
+    priority = job_store.priority_for_tier(tier)
+
     history = []
     if req.conversation_id:
         saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
         if saved is None:
             raise HTTPException(status_code=404, detail="Conversation not found")
         history = [{"role": m["role"], "content": m["content"]} for m in saved["messages"]]
-        # Record the user turn so the conversation stays consistent
         conversation_store.append(key, req.conversation_id, "user", req.message)
 
     hits = memory_store.recall(
@@ -66,24 +72,41 @@ def create_job(
     )
     memory_context = "\n".join(str(hit.get("text", "")) for hit in hits) if hits else None
 
+    reason = bool(req.reason) or (req.mode == "reason")
     payload = {
         "message": req.message,
         "history": history,
         "memory_context": memory_context,
         "training_consent": req.training_consent,
         "conversation_id": req.conversation_id,
-        "api_key": key,  # needed so worker can append assistant turn
+        "api_key": key,
         "force_agents": req.force_agents,
         "max_agents": req.max_agents,
+        "mode": req.mode,
+        "reason": reason,
+        "reflect": bool(req.reflect),
+        "tier": tier,
     }
-    job = job_store.enqueue(_owner(key), "chat", payload)
+    job = job_store.enqueue(_owner(key), "chat", payload, priority=priority)
     return {
         "ok": True,
         "job": job,
         "poll_url": f"/jobs/{job['id']}",
         "engine": "multi-agent",
-        "note": "Background job uses JagX multi-agent (parallel specialists). Poll until status is finished.",
+        "priority": priority,
+        "tier": tier,
+        "note": "Background job uses JagX multi-agent. Paid tiers are claimed first. Poll until finished.",
     }
+
+
+@router.get("/jobs/worker/status")
+def worker_status(x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+    """Queue depth and worker health (authenticated)."""
+    _key(x_api_key)
+    stats = job_store.worker_stats()
+    stats["worker"] = "jagx-job-worker"
+    stats["version"] = "10.0.0"
+    return {"ok": True, **stats}
 
 
 @router.get("/jobs")
@@ -113,6 +136,10 @@ def create_coding_job(
     x_api_key: Optional[str] = Header(None, alias="x-api-key"),
 ):
     key = _key(x_api_key)
+    info = auth.key_info(key) or {}
+    tier = str(info.get("tier") or "free")
+    priority = job_store.priority_for_tier(tier)
+
     history = []
     if req.conversation_id:
         saved = conversation_store.get(key, req.conversation_id, limit=settings.max_history)
@@ -131,15 +158,18 @@ def create_coding_job(
         "history": history,
         "memory_context": memory_context,
         "conversation_id": req.conversation_id,
+        "tier": tier,
     }
-    job = job_store.enqueue(owner, "coding_plan", payload)
+    job = job_store.enqueue(owner, "coding_plan", payload, priority=priority)
     return {
         "ok": True,
         "job": job,
         "poll_url": f"/jobs/{job['id']}",
         "engine": "multi-agent",
+        "priority": priority,
+        "tier": tier,
         "note": (
             "Task continues in the background via Engineer + Architect. "
-            "Repository edits are disabled until a trusted coding workspace is configured."
+            "Paid tiers are claimed first. Repository edits stay disabled until a trusted workspace is configured."
         ),
     }

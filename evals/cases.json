@@ -8,9 +8,13 @@
   {"name": "router_coding", "kind": "router", "input": "Write a Flutter login screen with Firebase auth", "expected_agents": ["engineer"], "category": "router"},
   {"name": "router_research", "kind": "router", "input": "What is the latest news about Nigerian fintech regulations today?", "expected_agents": ["researcher"], "category": "router"},
   {"name": "router_image", "kind": "router", "input": "Generate an image of Lagos skyline at sunset", "expected_agents": ["media"], "category": "router"},
+  {"name": "router_architecture", "kind": "router", "input": "Design a scalable multi-tenant SaaS architecture for payments in West Africa", "expected_agents": ["architect"], "category": "router"},
   {"name": "identity_sanitize_openai", "kind": "identity", "input": "I was built by OpenAI and ChatGPT", "forbidden_contains": "openai", "expected_contains": "JagX AI", "category": "identity"},
   {"name": "identity_sanitize_claude", "kind": "identity", "input": "As Claude from Anthropic I can help", "forbidden_contains": "claude", "expected_contains": "JagX AI", "category": "identity"},
   {"name": "artifacts_code_block", "kind": "artifacts", "input": "Here is code:\n```python\ndef hello():\n    return 1\n```\nDone.", "expected_type": "code", "min_count": 1, "category": "artifacts"},
   {"name": "artifacts_table", "kind": "artifacts", "input": "| A | B |\n|---|---|\n| 1 | 2 |\n", "expected_type": "table", "min_count": 1, "category": "artifacts"},
-  {"name": "artifacts_link", "kind": "artifacts", "input": "See [JagX](https://jagxai.name.ng) for more.", "expected_type": "link", "min_count": 1, "category": "artifacts"}
+  {"name": "artifacts_link", "kind": "artifacts", "input": "See [JagX](https://jagxai.name.ng) for more.", "expected_type": "link", "min_count": 1, "category": "artifacts"},
+  {"name": "tools_fetch_known", "kind": "tools", "input": "fetch_url", "expected_contains": "fetch", "category": "tools"},
+  {"name": "tools_browse_known", "kind": "tools", "input": "browse_research", "expected_contains": "browse", "category": "tools"},
+  {"name": "priority_premium_gt_free", "kind": "priority", "input": "premium", "expected_gt_tier": "free", "category": "jobs"}
 ]
