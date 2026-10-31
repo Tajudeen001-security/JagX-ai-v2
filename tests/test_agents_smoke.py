@@ -1,13 +1,14 @@
-"""Smoke tests for JagX AI V9 multi-agent core (no live LLM calls)."""
+"""Smoke tests for JagX AI multi-agent core (no live LLM calls)."""
 from jagx_api.agent_router import select_agents
 from jagx_api.agents import list_capabilities
 
 
 def test_capabilities():
     caps = list_capabilities()
-    assert caps["version"] == "9.0.0"
+    assert caps["version"].startswith("10.")
     assert caps["created_by"] == "JagX & JRILICENSE"
-    assert len(caps["agents"]) == 5
+    ids = {a["id"] for a in caps["agents"]}
+    assert {"engineer", "researcher", "architect", "creator", "africa", "media"} <= ids
 
 
 def test_router_coding():
@@ -23,6 +24,11 @@ def test_router_research():
 def test_router_africa():
     agents = select_agents("How do I accept Naira payments in Lagos with low fees?")
     assert "africa" in agents
+
+
+def test_router_media():
+    agents = select_agents("Generate an image of a Lagos skyline at sunset")
+    assert "media" in agents
 
 
 def test_router_default():
