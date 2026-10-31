@@ -38,7 +38,7 @@ def _make_key(client) -> str:
 def test_root(client):
     r = client.get("/")
     assert r.status_code == 200
-    assert "8.0" in r.json()["version"]
+    assert r.json()["version"].startswith("10.")
 
 
 def test_health(client):
