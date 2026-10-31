@@ -12,7 +12,7 @@ FastAPI backend with parallel specialists, tools, durable jobs, priority queue, 
 
 | Area | Capability |
 |------|------------|
-| **Chat** | Multi-agent default (`mode=agents\|reason\|fast`), SSE streaming |
+| **Chat** | Multi-agent default (`mode=agents|reason|fast`), SSE streaming |
 | **Agents** | Engineer, Researcher, Architect, Creator, Africa, Media |
 | **Tools** | web_search, fetch_url, browse_research, run_code, calc, PDF/CV, image |
 | **Jobs** | Durable SQLite queue, tier priority, reason/reflect, worker status |
@@ -83,6 +83,24 @@ curl -N -X POST http://localhost:10000/chat \
 
 ---
 
+## Frontend
+
+A modern React chat UI lives in [`frontend/`](frontend/README.md) — streaming chat, agent modes (fast / agents / reason), Reflect toggle, durable jobs panel, billing panel, API-key sign-in.
+
+```bash
+# terminal 1 — backend
+python main.py                # :10000
+
+# terminal 2 — frontend
+cd frontend
+npm install
+npm run dev                   # :5173 (proxies API calls to :10000)
+```
+
+Open http://localhost:5173, paste your `jagx-…` API key and chat. For production, `npm run build` and deploy `frontend/dist` to any static host (Vercel/Netlify). Backend CORS already allows `localhost:5173` and Vercel preview URLs; for a custom domain set `JAGX_CORS_ORIGINS=https://yourdomain.com`.
+
+---
+
 ## Billing (manual OPay)
 
 **Settlement account**
@@ -121,6 +139,7 @@ curl -N -X POST http://localhost:10000/chat \
 | `JAGX_TRAINING_DATA_ENABLED` | Consented SFT logging |
 | `JAGX_JOBS_DB` | Persistent path for durable jobs |
 | `JAGX_DATA_ENCRYPTION_KEY` | Optional Fernet key for memory/conversations |
+| `JAGX_CORS_ORIGINS` | Comma-separated extra CORS origins |
 | `PORT` | Default 10000 |
 
 ---
