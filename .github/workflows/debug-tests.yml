@@ -1,0 +1,33 @@
+name: Debug tests report
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements.txt
+      - name: Run pytest
+        continue-on-error: true
+        run: |
+          set +e
+          python -m pytest -q -rA > pytest_output.txt 2>&1
+          echo "exit_code=$?" | tee -a pytest_output.txt
+      - name: Post output as issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          head -c 60000 pytest_output.txt > issue_body.md
+          echo "" >> issue_body.md
+          echo "Commit: ${GITHUB_SHA}" >> issue_body.md
+          TITLE="CI pytest failure report (${GITHUB_SHA::7})"
+          gh issue create -R "$GITHUB_REPOSITORY" -t "$TITLE" -F issue_body.md || echo "issue create failed"
