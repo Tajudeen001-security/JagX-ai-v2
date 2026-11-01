@@ -1,0 +1,54 @@
+name: Debug evals report
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements.txt
+      - name: Run structural evals
+        continue-on-error: true
+        env:
+          JAGX_OFFLINE_MODE: "true"
+        run: |
+          set +e
+          python - <<'PY' > evals_output.txt 2>&1
+          import json, sys
+          sys.path.insert(0, ".")
+          from evals.run_eval import (
+              _load_cases, eval_router_cases, eval_identity_cases,
+              eval_artifact_cases, eval_preferences,
+              eval_tools_cases, eval_priority_cases,
+          )
+          cases = _load_cases()
+          results = []
+          results.extend(eval_router_cases(cases))
+          results.extend(eval_identity_cases(cases))
+          results.extend(eval_artifact_cases(cases))
+          results.extend(eval_preferences())
+          results.extend(eval_tools_cases(cases))
+          results.extend(eval_priority_cases(cases))
+          total = len(results)
+          passed = sum(1 for r in results if r.get("passed"))
+          print(json.dumps({"total": total, "passed": passed, "results": results}, indent=2))
+          PY
+          echo "exit_code=$?" | tee -a evals_output.txt
+      - name: Post output as issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          head -c 60000 evals_output.txt > issue_body.md
+          echo "" >> issue_body.md
+          echo "Commit: ${GITHUB_SHA}" >> issue_body.md
+          TITLE="CI evals failure report (${GITHUB_SHA::7})"
+          gh issue create -R "$GITHUB_REPOSITORY" -t "$TITLE" -F issue_body.md || echo "issue create failed"
