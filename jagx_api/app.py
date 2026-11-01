@@ -222,6 +222,7 @@ def create_app() -> FastAPI:
                     max_agents=4 if req.mode == "reason" else 3,
                     reason=req.mode == "reason" or req.reflect,
                     reflect=req.reflect,
+                    authorization=request.headers.get("authorization"),
                 )
             except Exception:
                 logger.exception("public multi-agent run failed")
