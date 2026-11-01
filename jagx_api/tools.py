@@ -225,9 +225,27 @@ def attachment_html(filename: str, html: str) -> dict:
     return {"type": "html", "filename": filename, "content_base64": base64.b64encode(raw).decode("ascii"), "size_bytes": len(raw)}
 
 
-def run_tool(name: str, inp: dict) -> tuple:
+def run_tool(name: str, inp: dict, authorization: str | None = None) -> tuple:
     name = (name or "").strip()
     inp = inp if isinstance(inp, dict) else {}
+    if name == "supabase_messages":
+        try:
+            from jagx_api.supabase_tools import list_user_messages, save_user_message, MessageSave
+            action = str(inp.get("action") or "list").lower()
+            if action == "list":
+                result = list_user_messages(authorization=authorization, limit=int(inp.get("limit") or 20))
+                return json.dumps(result, ensure_ascii=False), None
+            if action == "save":
+                chat_id = str(inp.get("chat_id") or "").strip()
+                payload = inp.get("payload")
+                if not chat_id or not isinstance(payload, dict):
+                    return "Save requires chat_id and an object payload.", None
+                result = save_user_message(MessageSave(chat_id=chat_id, payload=payload), authorization=authorization)
+                return json.dumps(result, ensure_ascii=False), None
+            return "Unsupported action. Use list or save.", None
+        except Exception as exc:
+            logger.info("User-scoped Supabase operation failed: %s", type(exc).__name__)
+            return "Supabase operation failed or the session is not authorized.", None
     if name == "web_search":
         return free_web_search(str(inp.get("query") or "")), None
     if name == "run_code":
