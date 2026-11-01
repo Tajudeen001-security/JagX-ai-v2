@@ -43,3 +43,6 @@ In the app's settings (⚙) you can point the frontend at any backend URL (e.g. 
 
 - React 18 + Vite
 - No other dependencies — plain fetch + SSE parsing, custom CSS
+
+
+> CI: a build check runs on every change under `frontend/` (`.github/workflows/frontend-build.yml`).
