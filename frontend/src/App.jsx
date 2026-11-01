@@ -32,11 +32,11 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const scrollRef = useRef(null);
   const abortRef = useRef(null);
-  const chatListRef = useRef([]);
-  useEffect(() => { chatListRef.current = chatList; }, [chatList]);
 
   const chatList = useMemo(() => { try { return JSON.parse(chats) || []; } catch { return []; } }, [chats]);
   const current = chatList.find((c) => c.id === activeChat) || null;
+  const chatListRef = useRef([]);
+  useEffect(() => { chatListRef.current = chatList; }, [chatList]);
 
   useEffect(() => {
     api.setKey(apiKey);
