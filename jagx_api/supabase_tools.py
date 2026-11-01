@@ -24,7 +24,7 @@ def _config() -> tuple[str, str]:
     return url, public_key
 
 
-def _user_context(authorization: str | None) -> tuple[str, str, str]:
+def _user_context(authorization: str | None) -> tuple[str, str, str, str]:
     if not authorization or not authorization.lower().startswith("bearer "):
         raise HTTPException(status_code=401, detail="A signed-in Supabase session is required")
     token = authorization.split(" ", 1)[1].strip()
@@ -45,7 +45,7 @@ def _user_context(authorization: str | None) -> tuple[str, str, str]:
     user_id = user.get("id") if isinstance(user, dict) else None
     if not user_id:
         raise HTTPException(status_code=401, detail="Supabase did not return a valid user")
-    return url, public_key, token
+    return url, public_key, token, str(user_id)
 
 
 class MessageSave(BaseModel):
@@ -56,7 +56,7 @@ class MessageSave(BaseModel):
 
 @router.get("/me")
 def supabase_me(authorization: str | None = Header(default=None)):
-    url, public_key, token = _user_context(authorization)
+    url, public_key, token, _user_id = _user_context(authorization)
     try:
         response = requests.get(
             f"{url}/auth/v1/user",
@@ -73,7 +73,7 @@ def supabase_me(authorization: str | None = Header(default=None)):
 
 @router.get("/messages")
 def list_user_messages(authorization: str | None = Header(default=None), limit: int = 50):
-    url, public_key, token = _user_context(authorization)
+    url, public_key, token, _user_id = _user_context(authorization)
     limit = max(1, min(limit, 100))
     try:
         response = requests.get(
@@ -93,8 +93,8 @@ def list_user_messages(authorization: str | None = Header(default=None), limit: 
 
 @router.put("/messages")
 def save_user_message(body: MessageSave, authorization: str | None = Header(default=None)):
-    url, public_key, token = _user_context(authorization)
-    row = {"chat_id": body.chat_id, "payload": body.payload}
+    url, public_key, token, user_id = _user_context(authorization)
+    row = {"user_id": user_id, "chat_id": body.chat_id, "payload": body.payload}
     if body.updated_at:
         row["updated_at"] = body.updated_at
     try:
