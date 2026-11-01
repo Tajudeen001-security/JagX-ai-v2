@@ -57,12 +57,16 @@ def _parse_content(response) -> str:
     return content.strip()
 
 def chat_completion(messages: list, *, max_tokens: Optional[int]=None,
-                    temperature: Optional[float]=None) -> tuple:
+                    temperature: Optional[float]=None, preferred_provider: Optional[str]=None) -> tuple:
     max_tokens=max_tokens or settings.default_max_tokens
     temperature=settings.temperature if temperature is None else temperature
     if settings.offline_mode:
         return None,None
-    for name,url,key,model,extra in _providers():
+    providers = _providers()
+    # Prefer the specialist's assigned provider, then fall back to all configured providers.
+    if preferred_provider:
+        providers.sort(key=lambda item: 0 if item[0] == preferred_provider else 1)
+    for name,url,key,model,extra in providers:
         if not resilience.allow(name):
             logger.warning("%s circuit open; skipping provider",name)
             continue
