@@ -94,10 +94,10 @@ def _run_specialist(name, msg, history=None, memory=None, search=None, authoriza
             parts = []
             for call in calls[:4]:
                 tn = str(call.get("tool") or "")
-                if tn not in ("run_code", "calc"):
+                if tn not in ("run_code", "calc", "supabase_messages"):
                     continue
                 tin = call.get("input") if isinstance(call.get("input"), dict) else {}
-                out, _ = run_tool(tn, tin)
+                out, _ = run_tool(tn, tin, authorization=authorization)
                 tool_trace.append(f"{tn}: {str(out)[:200]}")
                 parts.append(f"[{tn}]\n{str(out)[:2500]}")
             if not parts:
