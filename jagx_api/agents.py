@@ -9,7 +9,7 @@ import json
 import logging
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
+from datetime import datetime, timezone\nfrom zoneinfo import ZoneInfo
 from typing import Any, Dict, List, Optional
 
 from jagx_api.agent_router import select_agents
@@ -38,7 +38,7 @@ def _agent_completion(name, messages, *, max_tokens):
         preferred_provider=_AGENT_PROVIDER.get(name),
     )
 
-_BASE = """You are JagX Bot — built by JagX & JRILICENSE. Highly capable multi-agent assistant for complex work (code, research, systems, product). Only JagX Bot / JagX AI. Current UTC: {datetime}."""
+_BASE = """You are JagX Bot — built by JagX & JRILICENSE. Highly capable multi-agent assistant for complex work (code, research, systems, product). Only JagX Bot / JagX AI. Current UTC: {datetime}. {local_time}"""
 
 SPECIALIST_PROMPTS = {
     "engineer": _BASE + "\nEngineer specialist. Deliver complete production code. Tools: run_code, calc, and supabase_messages for listing or saving the signed-in user own chat records only when explicitly requested. Example: {\"tool\":\"supabase_messages\",\"input\":{\"action\":\"list\",\"limit\":20}}.",
@@ -49,9 +49,9 @@ SPECIALIST_PROMPTS = {
     "media": _BASE + "\nMedia specialist. Write one clear image prompt.",
 }
 
-THINK_PROMPT = _BASE + "\nInternal plan only (3-8 bullets). No final answer."
-REFLECT_PROMPT = _BASE + "\nCritique draft then output FINAL: improved answer."
-SYNTH_PROMPT = _BASE + "\nMerge specialist outputs. Lead with useful result. Keep code blocks. Prefer complete solutions over shallow summaries."
+THINK_PROMPT = _BASE + "\nInternal plan only (3-8 bullets). No final answer. {local_time}"
+REFLECT_PROMPT = _BASE + "\nCritique draft then output FINAL: improved answer. {local_time}"
+SYNTH_PROMPT = _BASE + "\nMerge specialist outputs. Lead with useful result. Keep code blocks. Prefer complete solutions over shallow summaries. {local_time}"
 
 
 def _dt() -> str:
@@ -87,7 +87,7 @@ def _extract_tool_calls(text: str) -> List[dict]:
 
 
 def _run_specialist(name, msg, history=None, memory=None, search=None, authorization=None):
-    system = SPECIALIST_PROMPTS.get(name, SPECIALIST_PROMPTS["engineer"]).format(datetime=_dt())
+    system = SPECIALIST_PROMPTS.get(name, SPECIALIST_PROMPTS["engineer"]).format(datetime=_dt(), local_time=_local_time_context())
     messages = [{"role": "system", "content": system}]
     if memory:
         messages.append({"role": "system", "content": "Context (use when relevant): " + memory[:4000]})
@@ -164,7 +164,7 @@ def run_multi_agent(
     # task context so the plan guides execution instead of being decorative.
     try:
         msgs = [
-            {"role": "system", "content": THINK_PROMPT.format(datetime=_dt())},
+            {"role": "system", "content": THINK_PROMPT.format(datetime=_dt(), local_time=_local_time_context())},
             {"role": "user", "content": user_message},
         ]
         think_notes, _ = chat_completion(msgs, max_tokens=400, preferred_provider="groq")
@@ -224,13 +224,13 @@ def run_multi_agent(
             parts.append("Plan:\n" + think_notes)
         for r in specialist_results:
             parts.append(f"### {r['agent']}:\n{r['response']}")
-        msgs = [{"role": "system", "content": SYNTH_PROMPT.format(datetime=_dt())}, {"role": "user", "content": f"Request:\n{user_message}\n\n" + "\n\n".join(parts)}]
+        msgs = [{"role": "system", "content": SYNTH_PROMPT.format(datetime=_dt(), local_time=_local_time_context())}, {"role": "user", "content": f"Request:\n{user_message}\n\n" + "\n\n".join(parts)}]
         final, _ = chat_completion(msgs, max_tokens=1500)
         final = sanitize_identity((final or "\n\n".join(r["response"] for r in specialist_results)).strip())
 
     if reflect and final:
         try:
-            msgs = [{"role": "system", "content": REFLECT_PROMPT.format(datetime=_dt())}, {"role": "user", "content": f"Request:\n{user_message}\n\nDraft:\n{final[:5000]}"}]
+            msgs = [{"role": "system", "content": REFLECT_PROMPT.format(datetime=_dt(), local_time=_local_time_context())}, {"role": "user", "content": f"Request:\n{user_message}\n\nDraft:\n{final[:5000]}"}]
             refined, _ = chat_completion(msgs, max_tokens=1500)
             if refined:
                 m = re.search(r"(?i)FINAL:\s*(.*)", refined, re.S)
