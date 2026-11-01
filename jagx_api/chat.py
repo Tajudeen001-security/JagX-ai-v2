@@ -74,6 +74,7 @@ You MUST use a tool when the user explicitly asks you to search the web, researc
 {{\"tool\": \"generate_cv\", \"input\": {{\"name\": \"Ada Lovelace\", \"title\": \"Engineer\", \"summary\": \"...\", \"experience\": [{{\"role\": \"...\", \"company\": \"...\", \"dates\": \"...\", \"bullets\": [\"...\"]}}], \"skills\": [\"Python\"]}}}}
 {{\"tool\": \"generate_portfolio\", \"input\": {{\"name\": \"Name\", \"title\": \"Title\", \"about\": \"...\", \"projects\": [{{\"name\": \"...\", \"description\": \"...\", \"link\": \"https://...\"}}], \"skills\": [], \"contact\": {{\"email\": \"\"}}}}}}
 {{\"tool\": \"generate_image\", \"input\": {{\"prompt\": \"a red robot in a forest\"}}}}
+{{\\"tool\\": \\"fetch_url\\", \\"input\\": {{\\"url\\": \\"https://example.com\\"}}}}\n{{\\"tool\\": \\"browse_research\\", \\"input\\": {{\\"query\\": \\"topic to research\\", \\"max_pages\\": 3}}}}
 
 After tools return, give a clean final answer the user can use immediately.
 """
@@ -91,6 +92,8 @@ _TOOL_HINTS = (
     "search", "google", "news", "look up", "look into", "find online",
     "browse", "research", "sources", "citations", "verify online",
     "current", "latest", "today", "this week", "fetch url", "open this link",
+    "open url", "read this url", "summarize this link", "visit this website",
+    "browse this site", "compare sources", "find sources",
     "run code", "execute", "python code", "run this", "test this code",
     "debug this", "calculate", "compute", "math", "solve",
     "pdf", "document", "cv", "resume", "curriculum",
