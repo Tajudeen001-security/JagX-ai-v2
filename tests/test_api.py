@@ -91,7 +91,7 @@ def test_memory_roundtrip(client):
         json={"action": "recall", "user_id": "u1", "query": "deadline"},
     )
     assert r2.json()["ok"] is True
-    assert len(r2.json()["hits"]) >= 1
+    assert len(r2.json()["memories"]) >= 1
 
 
 def test_keys_me(client):
