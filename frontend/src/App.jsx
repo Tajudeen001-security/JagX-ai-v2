@@ -32,6 +32,8 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const scrollRef = useRef(null);
   const abortRef = useRef(null);
+  const chatListRef = useRef([]);
+  useEffect(() => { chatListRef.current = chatList; }, [chatList]);
 
   const chatList = useMemo(() => { try { return JSON.parse(chats) || []; } catch { return []; } }, [chats]);
   const current = chatList.find((c) => c.id === activeChat) || null;
@@ -60,32 +62,35 @@ export default function App() {
 
   const newChat = () => {
     const c = { id: "c" + Date.now(), title: "New chat", messages: [] };
-    const list = [c, ...chatList];
+    const list = [c, ...chatListRef.current];
+    chatListRef.current = list;
     persist(list);
     setActiveChat(c.id);
   };
 
-  const updateChat = (id, patch) => {
-    const list = chatList.map((c) => (c.id === id ? { ...c, ...patch } : c));
+  const mutate = (fn) => {
+    const list = chatListRef.current.map((c) => ({ ...c, messages: [...(c.messages || [])] }));
+    fn(list);
+    chatListRef.current = list;
     persist(list);
-    return list;
+  };
+
+  const updateChat = (id, patch) => {
+    mutate((list) => { const c = list.find((x) => x.id === id); if (c) Object.assign(c, patch); });
   };
 
   const pushMessage = (id, msg) => {
-    const list = chatList.map((c) => (c.id === id ? { ...c, messages: [...(c.messages || []), msg] } : c));
-    persist(list);
+    mutate((list) => { const c = list.find((x) => x.id === id); if (c) c.messages.push(msg); });
   };
 
   const patchLast = (id, role, patch) => {
-    const list = chatList.map((c) => {
-      if (c.id !== id) return c;
-      const msgs = [...c.messages];
-      for (let i = msgs.length - 1; i >= 0; i--) {
-        if (msgs[i].role === role) { msgs[i] = { ...msgs[i], ...patch }; break; }
+    mutate((list) => {
+      const c = list.find((x) => x.id === id);
+      if (!c) return;
+      for (let i = c.messages.length - 1; i >= 0; i--) {
+        if (c.messages[i].role === role) { c.messages[i] = { ...c.messages[i], ...patch }; break; }
       }
-      return { ...c, messages: msgs };
     });
-    persist(list);
   };
 
   const refreshJobs = async () => {
@@ -104,7 +109,9 @@ export default function App() {
     let chatId = activeChat;
     if (!chatId) {
       const c = { id: "c" + Date.now(), title: text.slice(0, 40), messages: [] };
-      persist([c, ...chatList]);
+      const list0 = [c, ...chatListRef.current];
+      chatListRef.current = list0;
+      persist(list0);
       chatId = c.id;
       setActiveChat(c.id);
     }
@@ -140,13 +147,11 @@ export default function App() {
     }
   };
 
-  const chatListRef = useRef([]);
-  useEffect(() => { chatListRef.current = chatList; }, [chatList]);
-
   const stop = () => abortRef.current?.abort();
 
   const deleteChat = (id) => {
-    const list = chatList.filter((c) => c.id !== id);
+    const list = chatListRef.current.filter((c) => c.id !== id);
+    chatListRef.current = list;
     persist(list);
     if (activeChat === id) setActiveChat(null);
   };
