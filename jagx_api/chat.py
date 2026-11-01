@@ -79,12 +79,12 @@ After tools return, give a clean final answer the user can use immediately.
 """
 
 _IDENTITY = [
-    (re.compile(r"\\b(openai|chatgpt|gpt-?\\d)\\b", re.I), "JagX Bot"),
-    (re.compile(r"\\b(anthropic|claude)\\b", re.I), "JagX Bot"),
-    (re.compile(r"\\b(llama|meta ai)\\b", re.I), "JagX Bot"),
-    (re.compile(r"\\bgroq\\b", re.I), "JagX Bot"),
-    (re.compile(r"\\bopenrouter\\b", re.I), "JagX Bot"),
-    (re.compile(r"\\bxai\\b|\\bgrok\\b", re.I), "JagX Bot"),
+    (re.compile(r"\b(openai|chatgpt|gpt-?\d)\b", re.I), "JagX AI"),
+    (re.compile(r"\b(anthropic|claude)\b", re.I), "JagX AI"),
+    (re.compile(r"\b(llama|meta ai)\b", re.I), "JagX AI"),
+    (re.compile(r"\bgroq\b", re.I), "JagX AI"),
+    (re.compile(r"\bopenrouter\b", re.I), "JagX AI"),
+    (re.compile(r"\bxai\b|\bgrok\b", re.I), "JagX AI"),
 ]
 
 _TOOL_HINTS = (
@@ -116,16 +116,16 @@ def _needs_tools(msg: str) -> bool:
 def _extract_tool_call(text: str) -> Optional[dict]:
     text = (text or "").strip()
     if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\\s*", "", text)
-        text = re.sub(r"\\s*```$", "", text).strip()
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text).strip()
     if not text.startswith("{"):
         m = re.search(
-            r"\\{\\s*\\\"tool\\\"\\s*:\\s*\\\"[^\\\"]+\\\"\\s*,\\s*\\\"input\\\"\\s*:\\s*\\{.*?\\}\\s*\\}",
+            r"\{\s*\\"tool\\"\s*:\s*\\"[^\\"]+\\"\s*,\s*\\"input\\"\s*:\s*\{.*?\}\s*\}",
             text,
             re.S,
         )
         if not m:
-            m = re.search(r"\\{[^{}]*\\\"tool\\\"[^{}]*\\}", text, re.S)
+            m = re.search(r"\{[^{}]*\\"tool\\"[^{}]*\}", text, re.S)
         if not m:
             return None
         text = m.group(0)
