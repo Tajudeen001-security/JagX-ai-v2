@@ -74,7 +74,8 @@ You MUST use a tool when the user explicitly asks you to search the web, researc
 {{\"tool\": \"generate_cv\", \"input\": {{\"name\": \"Ada Lovelace\", \"title\": \"Engineer\", \"summary\": \"...\", \"experience\": [{{\"role\": \"...\", \"company\": \"...\", \"dates\": \"...\", \"bullets\": [\"...\"]}}], \"skills\": [\"Python\"]}}}}
 {{\"tool\": \"generate_portfolio\", \"input\": {{\"name\": \"Name\", \"title\": \"Title\", \"about\": \"...\", \"projects\": [{{\"name\": \"...\", \"description\": \"...\", \"link\": \"https://...\"}}], \"skills\": [], \"contact\": {{\"email\": \"\"}}}}}}
 {{\"tool\": \"generate_image\", \"input\": {{\"prompt\": \"a red robot in a forest\"}}}}
-{{\\"tool\\": \\"fetch_url\\", \\"input\\": {{\\"url\\": \\"https://example.com\\"}}}}\n{{\\"tool\\": \\"browse_research\\", \\"input\\": {{\\"query\\": \\"topic to research\\", \\"max_pages\\": 3}}}}
+{{\"tool\": \"fetch_url\", \"input\": {{\"url\": \"https://example.com\"}}}}
+{{\"tool\": \"browse_research\", \"input\": {{\"query\": \"topic to research\", \"max_pages\": 3}}}}
 
 After tools return, give a clean final answer the user can use immediately.
 """
