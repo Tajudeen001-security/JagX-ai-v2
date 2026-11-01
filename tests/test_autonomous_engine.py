@@ -66,7 +66,7 @@ def test_provider_fallbacks_through_nvidia(monkeypatch):
             return SimpleNamespace(status_code=429,text="rate limited",json=lambda:{})
         return SimpleNamespace(status_code=200,text="",json=lambda:{"choices":[{"message":{"content":"NVIDIA response"}}]})
     monkeypatch.setattr(providers.HTTP,"post",fake_post)
-    result,name=providers.chat_completion([{"role":"user","content":"hi"}}])
+    result,name=providers.chat_completion([{"role":"user","content":"hi"}])
     assert (result,name)==("NVIDIA response","nvidia")
     assert len(calls)==2
 
@@ -81,7 +81,7 @@ def test_provider_fallbacks_reject_malformed_success(monkeypatch):
             return SimpleNamespace(status_code=200,text="",json=lambda:{"unexpected":True})
         return SimpleNamespace(status_code=200,text="",json=lambda:{"choices":[{"message":{"content":"router response"}}]})
     monkeypatch.setattr(providers.HTTP,"post",fake_post)
-    result,name=providers.chat_completion([{"role":"user","content":"hi"}}])
+    result,name=providers.chat_completion([{"role":"user","content":"hi"}])
     assert (result,name)==("router response","openrouter")
 
 
