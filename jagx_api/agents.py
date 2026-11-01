@@ -160,13 +160,22 @@ def run_multi_agent(
     ctx = _merge_context(memory_context, preference_context)
 
     think_notes = None
-    if reason:
-        try:
-            msgs = [{"role": "system", "content": THINK_PROMPT.format(datetime=_dt())}, {"role": "user", "content": user_message}]
-            think_notes, _ = chat_completion(msgs, max_tokens=400)
-            think_notes = (think_notes or "")[:1500]
-        except Exception as e:
-            logger.warning("think failed: %s", e)
+    # Create a short execution plan for every request; specialists receive it as
+    # task context so the plan guides execution instead of being decorative.
+    try:
+        msgs = [
+            {"role": "system", "content": THINK_PROMPT.format(datetime=_dt())},
+            {"role": "user", "content": user_message},
+        ]
+        think_notes, _ = chat_completion(msgs, max_tokens=400, preferred_provider="groq")
+        think_notes = (think_notes or "")[:1500]
+    except Exception as e:
+        logger.warning("planning failed: %s", e)
+
+    specialist_context = ctx
+    if think_notes:
+        plan_context = "Execution plan (follow these steps; verify results and report blockers honestly):\\n" + think_notes
+        specialist_context = (ctx + "\\n\\n" + plan_context) if ctx else plan_context
 
     search_context = None
     if any(h in mlow for h in ("latest", "current", "news", "today")) or "researcher" in agents:
@@ -179,7 +188,7 @@ def run_multi_agent(
 
     def _safe(n):
         try:
-            return _run_specialist(n, user_message, history, ctx, search_context, authorization=authorization)
+            return _run_specialist(n, user_message, history, specialist_context, search_context, authorization=authorization)
         except Exception as e:
             return {"agent": n, "response": f"(error: {e})", "provider": "error", "tool_trace": []}
 
