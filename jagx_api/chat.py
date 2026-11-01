@@ -119,13 +119,7 @@ def _extract_tool_call(text: str) -> Optional[dict]:
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text).strip()
     if not text.startswith("{"):
-        m = re.search(
-            r"\{\s*\\"tool\\"\s*:\s*\\"[^\\"]+\\"\s*,\s*\\"input\\"\s*:\s*\{.*?\}\s*\}",
-            text,
-            re.S,
-        )
-        if not m:
-            m = re.search(r"\{[^{}]*\\"tool\\"[^{}]*\}", text, re.S)
+        m = re.search(r"\{[^{}]*\"tool\"[^{}]*\}", text, re.S)
         if not m:
             return None
         text = m.group(0)
