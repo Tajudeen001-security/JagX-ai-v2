@@ -26,7 +26,7 @@ _RESEARCH_HINTS = (
 )
 
 _ARCHITECT_HINTS = (
-    "architecture", "system design", "scale", "scalability", "infrastructure",
+    "architecture", "system design", "scale", "scalable", "saas", "multi-tenant", "scalability", "infrastructure",
     "microservices", "monolith", "design pattern", "high availability",
     "load balancer", "caching strategy", "database design", "schema",
     "reliability", "fault tolerance", "distributed", "event driven",
