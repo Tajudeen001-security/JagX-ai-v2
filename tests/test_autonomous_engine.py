@@ -97,7 +97,7 @@ def test_offline_mode_never_calls_cloud_provider(monkeypatch):
     def should_not_call(*args,**kwargs):
         raise AssertionError("cloud provider called while offline mode is enabled")
     monkeypatch.setattr(providers.HTTP,"post",should_not_call)
-    result,name=providers.chat_completion([{"role":"user","content":"hello"}}])
+    result,name=providers.chat_completion([{"role":"user","content":"hello"}])
     assert result is None and name is None
 
 
