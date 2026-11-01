@@ -68,7 +68,7 @@ def _extract_tool_calls(text: str) -> List[dict]:
     return []
 
 
-def _run_specialist(name, msg, history=None, memory=None, search=None):
+def _run_specialist(name, msg, history=None, memory=None, search=None, authorization=None):
     system = SPECIALIST_PROMPTS.get(name, SPECIALIST_PROMPTS["engineer"]).format(datetime=_dt())
     messages = [{"role": "system", "content": system}]
     if memory:
@@ -126,6 +126,7 @@ def run_multi_agent(
     max_agents=3,
     reason=False,
     reflect=False,
+    authorization=None,
 ):
     agents = list(force_agents)[:max_agents] if force_agents else select_agents(user_message, max_agents=max_agents)
     if not agents:
@@ -160,7 +161,7 @@ def run_multi_agent(
 
     def _safe(n):
         try:
-            return _run_specialist(n, user_message, history, ctx, search_context)
+            return _run_specialist(n, user_message, history, ctx, search_context, authorization=authorization)
         except Exception as e:
             return {"agent": n, "response": f"(error: {e})", "provider": "error", "tool_trace": []}
 
