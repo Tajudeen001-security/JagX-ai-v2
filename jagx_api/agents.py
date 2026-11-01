@@ -127,7 +127,7 @@ def _run_specialist(name, msg, history=None, memory=None, search=None, authoriza
                 text, provider = chat_completion(messages, max_tokens=1200)
                 text = text or "\n".join(parts)
     if text is None:
-        text, provider = chat_completion(messages, max_tokens=1200)
+        text, provider = _agent_completion(name, messages, max_tokens=1200)
     if not text:
         local = knowledge.match(msg)
         text, provider = (local, "local_brain") if local else (f"(no response from {name})", "fallback")
@@ -174,8 +174,8 @@ def run_multi_agent(
 
     specialist_context = ctx
     if think_notes:
-        plan_context = "Execution plan (follow these steps; verify results and report blockers honestly):\\n" + think_notes
-        specialist_context = (ctx + "\\n\\n" + plan_context) if ctx else plan_context
+        plan_context = "Execution plan (follow these steps; verify results and report blockers honestly):\n" + think_notes
+        specialist_context = (ctx + "\n\n" + plan_context) if ctx else plan_context
 
     search_context = None
     if any(h in mlow for h in ("latest", "current", "news", "today")) or "researcher" in agents:
