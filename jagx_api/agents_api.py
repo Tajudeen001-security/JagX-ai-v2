@@ -143,8 +143,8 @@ def agents_run(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None, a
         )
         return _pack(result)
     except Exception as exc:
-        logger.exception("agents/run failed: %s", exp)
-        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exp
+        logger.exception("agents/run failed: %s", exc)
+        raise HTTPException(status_code=500, detail="Multi-agent run failed") from exc
 
 
 @router.post("/stream")
@@ -176,8 +176,8 @@ def agents_coding(body: AgentsRunRequest, x_api_key: Optional[str] = Header(None
             reason=body.reason, reflect=body.reflect,
         ))
     except Exception as exc:
-        logger.exception("agents/coding failed: %s", exp)
-        raise HTTPException(status_code=500, detail="Coding agent failed") from exp
+        logger.exception("agents/coding failed: %s", exc)
+        raise HTTPException(status_code=500, detail="Coding agent failed") from exc
 
 
 @router.post("/research", response_model=AgentsRunResponse)
@@ -210,8 +210,8 @@ def agents_vision(body: VisionRequest, x_api_key: Optional[str] = Header(None, a
     _key(x_api_key)
     try:
         return describe_image(body.image_base64, body.prompt, mime_type=body.mime_type)
-    except ValueError as exp:
-        raise HTTPException(status_code=400, detail=str(exc)) from exp
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exp:
         logger.exception("agents/vision failed: %s", exp)
         raise HTTPException(status_code=500, detail="Vision failed") from exp
