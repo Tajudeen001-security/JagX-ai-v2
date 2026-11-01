@@ -20,6 +20,24 @@ from jagx_api.tools import free_web_search, run_tool
 
 logger = logging.getLogger("jagx-ai")
 
+# Each specialist prefers a different configured provider. The provider client
+# transparently falls back to the other configured providers when needed.
+_AGENT_PROVIDER = {
+    "engineer": "nvidia",
+    "researcher": "huggingface",
+    "architect": "groq",
+    "creator": "openrouter",
+    "africa": "huggingface",
+    "media": "openrouter",
+}
+
+def _agent_completion(name, messages, *, max_tokens):
+    return chat_completion(
+        messages,
+        max_tokens=max_tokens,
+        preferred_provider=_AGENT_PROVIDER.get(name),
+    )
+
 _BASE = """You are JagX Bot — built by JagX & JRILICENSE. Highly capable multi-agent assistant for complex work (code, research, systems, product). Only JagX Bot / JagX AI. Current UTC: {datetime}."""
 
 SPECIALIST_PROMPTS = {
@@ -84,7 +102,7 @@ def _run_specialist(name, msg, history=None, memory=None, search=None, authoriza
     text, provider = None, None
     if name == "engineer":
         for step in range(3):
-            agent_text, provider = chat_completion(messages, max_tokens=1200)
+            agent_text, provider = _agent_completion(name, messages, max_tokens=1200)
             if not agent_text:
                 break
             calls = _extract_tool_calls(agent_text)
