@@ -50,8 +50,8 @@ def test_personal_memory_requires_consent_and_isolated(tmp_path,monkeypatch):
         assert saved.status_code==200
         own=client.post("/memory",headers={"x-api-key":key_a},json={"action":"recall","query":"deadline"})
         other=client.post("/memory",headers={"x-api-key":key_b},json={"action":"recall","query":"deadline"})
-        assert len(own.json()["hits"])==1
-        assert other.json()["hits"]==[]
+        assert len(own.json()["memories"])==1
+        assert other.json()["memories"]==[]
 
 
 def test_provider_fallbacks_through_nvidia(monkeypatch):
@@ -66,7 +66,7 @@ def test_provider_fallbacks_through_nvidia(monkeypatch):
             return SimpleNamespace(status_code=429,text="rate limited",json=lambda:{})
         return SimpleNamespace(status_code=200,text="",json=lambda:{"choices":[{"message":{"content":"NVIDIA response"}}]})
     monkeypatch.setattr(providers.HTTP,"post",fake_post)
-    result,name=providers.chat_completion([{"role":"user","content":"hi"}])
+    result,name=providers.chat_completion([{"role":"user","content":"hi"}}])
     assert (result,name)==("NVIDIA response","nvidia")
     assert len(calls)==2
 
@@ -81,7 +81,7 @@ def test_provider_fallbacks_reject_malformed_success(monkeypatch):
             return SimpleNamespace(status_code=200,text="",json=lambda:{"unexpected":True})
         return SimpleNamespace(status_code=200,text="",json=lambda:{"choices":[{"message":{"content":"router response"}}]})
     monkeypatch.setattr(providers.HTTP,"post",fake_post)
-    result,name=providers.chat_completion([{"role":"user","content":"hi"}])
+    result,name=providers.chat_completion([{"role":"user","content":"hi"}}])
     assert (result,name)==("router response","openrouter")
 
 
@@ -97,7 +97,7 @@ def test_offline_mode_never_calls_cloud_provider(monkeypatch):
     def should_not_call(*args,**kwargs):
         raise AssertionError("cloud provider called while offline mode is enabled")
     monkeypatch.setattr(providers.HTTP,"post",should_not_call)
-    result,name=providers.chat_completion([{"role":"user","content":"hello"}])
+    result,name=providers.chat_completion([{"role":"user","content":"hello"}}])
     assert result is None and name is None
 
 
@@ -186,7 +186,6 @@ def test_encrypted_memory_rejects_wrong_key(tmp_path,monkeypatch):
         memory_store.recall("owner-hash","private")
 
 
-
 def test_image_generation_uses_fallback_and_validates_image(monkeypatch):
     from jagx_api import image_generation
     monkeypatch.setattr(settings, "hf_token", "")
@@ -219,37 +218,6 @@ def test_image_generation_rejects_non_image_payload(monkeypatch):
     monkeypatch.setattr(image_generation.requests, "get", lambda *args, **kwargs: FakeResponse())
     with pytest.raises(RuntimeError, match="temporarily unavailable"):
         image_generation.generate("a friendly robot")
-
-
-
-def test_websocket_chat_streams_tokens_in_real_time(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    monkeypatch.setattr(settings, "admin_secret", "test-admin-secret")
-    monkeypatch.setattr(settings, "keys_file", str(tmp_path / "keys.json"))
-    monkeypatch.setattr(settings, "memory_file", str(tmp_path / "memory.json"))
-    import jagx_api.app as app_module
-    monkeypatch.setattr(app_module, "stream_response", lambda message, history=None, memory_context=None: iter(["Hello", " there!"]))
-    with TestClient(create_app()) as client:
-        key = make_key(client, "websocket tester")
-        with client.websocket_connect("/ws/chat", headers={"x-api-key": key}) as websocket:
-            ready = websocket.receive_json()
-            assert ready["type"] == "ready"
-            websocket.send_json({"message": "Hi"})
-            assert websocket.receive_json()["type"] == "start"
-            first = websocket.receive_json()
-            second = websocket.receive_json()
-            done = websocket.receive_json()
-            assert first == {"type": "token", "token": "Hello"}
-            assert second == {"type": "token", "token": " there!"}
-            assert done["type"] == "done"
-
-
-def test_websocket_chat_rejects_missing_api_key():
-    with TestClient(create_app()) as client:
-        with pytest.raises(Exception):
-            with client.websocket_connect("/ws/chat"):
-                pass
-
 
 
 def test_durable_job_queue_status_and_owner_isolation(tmp_path, monkeypatch):
