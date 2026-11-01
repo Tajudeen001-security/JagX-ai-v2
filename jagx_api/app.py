@@ -30,6 +30,7 @@ from jagx_api import job_worker
 from jagx_api.config import settings
 from jagx_api.providers import provider_status, provider_health
 from jagx_api.tools import safe_calc, run_tool
+from jagx_api.supabase_tools import router as supabase_tools_router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("jagx-ai")
@@ -130,7 +131,7 @@ def create_app() -> FastAPI:
         allow_origin_regex=r"https://jagx-ai-[a-z0-9-]+-jagxs-projects\.vercel\.app",
         allow_credentials=False,
         allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
-        allow_headers=["Content-Type", "x-api-key", "x-admin-secret"],
+        allow_headers=["Content-Type", "Authorization", "x-api-key", "x-admin-secret"],
     )
     app.add_middleware(GZipMiddleware, minimum_size=1000)
     app.include_router(jobs_router)
@@ -139,6 +140,7 @@ def create_app() -> FastAPI:
     app.include_router(preferences_router)
     app.include_router(training_router)
     app.include_router(billing_router)
+    app.include_router(supabase_tools_router)
 
     @app.on_event("startup")
     def _startup() -> None:
