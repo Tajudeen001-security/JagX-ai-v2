@@ -9,7 +9,8 @@ import json
 import logging
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone\nfrom zoneinfo import ZoneInfo
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from typing import Any, Dict, List, Optional
 
 from jagx_api.agent_router import select_agents
@@ -56,6 +57,24 @@ SYNTH_PROMPT = _BASE + "\nMerge specialist outputs. Lead with useful result. Kee
 
 def _dt() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+def _local_time_context() -> str:
+    """Use Nigeria local time for natural, context-aware greetings."""
+    now = datetime.now(ZoneInfo("Africa/Lagos"))
+    hour = now.hour
+    if 5 <= hour < 12:
+        period, greeting = "morning", "Good morning"
+    elif 12 <= hour < 17:
+        period, greeting = "afternoon", "Good afternoon"
+    elif 17 <= hour < 22:
+        period, greeting = "evening", "Good evening"
+    else:
+        period, greeting = "late night", "You're still up"
+    return (
+        f"User local time: {now.strftime('%A, %d %B %Y, %I:%M %p')} "
+        f"(Africa/Lagos, WAT); time-of-day: {period}; "
+        f"natural greeting if appropriate: {greeting}."
+    )
 
 
 def _merge_context(memory_context: Optional[str], preference_context: Optional[str]) -> Optional[str]:
