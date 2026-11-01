@@ -212,13 +212,27 @@ def create_app() -> FastAPI:
                     yield f"data: {json.dumps({'done': True})}\n\n"
             return StreamingResponse(sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"})
-        result = generate_response(msg, history, use_tools=True, training_consent=False)
+        if req.mode in ("agents", "reason"):
+            try:
+                result = run_multi_agent(
+                    msg,
+                    history=history,
+                    max_agents=4 if req.mode == "reason" else 3,
+                    reason=req.mode == "reason" or req.reflect,
+                    reflect=req.reflect,
+                )
+            except Exception:
+                logger.exception("public multi-agent run failed")
+                raise HTTPException(status_code=503, detail="JagX multi-agent service is temporarily unavailable. Try Fast Chat or retry shortly.")
+        else:
+            result = generate_response(msg, history, use_tools=True, training_consent=False)
         out = {"response": result["response"], "provider": result.get("provider"),
                "local_hit": result.get("local_hit", False),
                "rate_limit": f"{max(0, rpm - len(recent))} guest requests remaining this minute",
                "version": __version__}
-        if result.get("attachment"):
-            out["attachment"] = result["attachment"]
+        for field in ("agents_used", "specialist_results", "thinking_summary", "attachment"):
+            if result.get(field):
+                out[field] = result[field]
         return out
 
     @app.post("/chat")
