@@ -14,7 +14,7 @@ class Settings:
 
     offline_mode: bool = field(default_factory=lambda: os.environ.get("JAGX_OFFLINE_MODE", "false").lower() == "true")
 
-    # Providers — prefer the strongest free/fast models by default
+    # Providers — keep credentials server-side; no provider key is shipped to the browser.
     groq_api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
     openrouter_api_key: str = field(default_factory=lambda: os.environ.get("OPENROUTER_API_KEY", ""))
     hf_token: str = field(default_factory=lambda: os.environ.get("HF_TOKEN", ""))
@@ -24,43 +24,29 @@ class Settings:
         or os.environ.get("NVIDIA_NIM_API_KEY", "")
     )
 
-    # Strong defaults: 70B-class where available
-    groq_model: str = field(
-        default_factory=lambda: os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
-    )
-    openrouter_model: str = field(
-        default_factory=lambda: os.environ.get(
-            "OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct"
-        )
-    )
+    groq_model: str = field(default_factory=lambda: os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"))
+    openrouter_model: str = field(default_factory=lambda: os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct"))
     nvidia_model: str = field(default_factory=lambda: os.environ.get("NVIDIA_MODEL", "meta/llama-3.3-70b-instruct"))
-    hf_model: str = field(
-        default_factory=lambda: os.environ.get("HF_MODEL", "Qwen/Qwen2.5-72B-Instruct")
-    )
+    # NVIDIA's hosted catalog changes. Override this comma-separated list with models enabled for this key.
+    nvidia_models: list = field(default_factory=lambda: [
+        model.strip() for model in os.environ.get(
+            "NVIDIA_MODELS",
+            "meta/llama-3.3-70b-instruct,nvidia/llama-3.3-nemotron-super-49b-v1,meta/llama-3.1-8b-instruct"
+        ).split(",") if model.strip()
+    ])
+    hf_model: str = field(default_factory=lambda: os.environ.get("HF_MODEL", "Qwen/Qwen2.5-72B-Instruct"))
 
     # Auth
-    admin_secret: str = field(
-        default_factory=lambda: os.environ.get("JAGX_ADMIN_SECRET", "")
-    )
+    admin_secret: str = field(default_factory=lambda: os.environ.get("JAGX_ADMIN_SECRET", ""))
     keys_file: str = field(default_factory=lambda: os.environ.get("JAGX_KEYS_FILE", "keys.json"))
     permanent_keys: set = field(default_factory=set)
 
-    # Limits — generous for bot quality
-    tier_hourly: dict = field(
-        default_factory=lambda: {
-            "free": 100,
-            "premium": 400,
-            "premium_plus": 1000,
-            "master": None,
-            "admin": None,
-        }
-    )
-    global_ip_rpm: int = field(
-        default_factory=lambda: int(os.environ.get("JAGX_GLOBAL_IP_RPM", "150"))
-    )
-    public_chat_rpm: int = field(
-        default_factory=lambda: max(1, int(os.environ.get("JAGX_PUBLIC_CHAT_RPM", "20")))
-    )
+    # Limits
+    tier_hourly: dict = field(default_factory=lambda: {
+        "free": 100, "premium": 400, "premium_plus": 1000, "master": None, "admin": None,
+    })
+    global_ip_rpm: int = field(default_factory=lambda: int(os.environ.get("JAGX_GLOBAL_IP_RPM", "150")))
+    public_chat_rpm: int = field(default_factory=lambda: max(1, int(os.environ.get("JAGX_PUBLIC_CHAT_RPM", "20"))))
     max_body_bytes: int = 15 * 1024 * 1024
     max_code_len: int = 16000
     max_history: int = 20
@@ -69,17 +55,9 @@ class Settings:
     temperature: float = 0.5
 
     # Paths
-    memory_file: str = field(
-        default_factory=lambda: os.environ.get("JAGX_MEMORY_FILE", "jagx_memory.json")
-    )
-    training_file: str = field(
-        default_factory=lambda: os.environ.get("JAGX_TRAINING_FILE", "jagx_training_data.jsonl")
-    )
-    training_enabled: bool = field(
-        default_factory=lambda: os.environ.get("JAGX_TRAINING_DATA_ENABLED", "false").lower()
-        == "true"
-    )
-
+    memory_file: str = field(default_factory=lambda: os.environ.get("JAGX_MEMORY_FILE", "jagx_memory.json"))
+    training_file: str = field(default_factory=lambda: os.environ.get("JAGX_TRAINING_FILE", "jagx_training_data.jsonl"))
+    training_enabled: bool = field(default_factory=lambda: os.environ.get("JAGX_TRAINING_DATA_ENABLED", "false").lower() == "true")
     conversation_db: str = field(default_factory=lambda: os.environ.get("JAGX_CONVERSATION_DB", "jagx_conversations.sqlite3"))
     jobs_db: str = field(default_factory=lambda: os.environ.get("JAGX_JOBS_DB", "jagx_jobs.sqlite3"))
     job_poll_seconds: float = field(default_factory=lambda: max(0.5, float(os.environ.get("JAGX_JOB_POLL_SECONDS", "2"))))
