@@ -7,6 +7,7 @@ import html as html_mod
 import json
 import logging
 import operator
+import os
 import re
 from html import escape
 from urllib.parse import quote, urlparse, parse_qs
@@ -225,6 +226,38 @@ def attachment_html(filename: str, html: str) -> dict:
     return {"type": "html", "filename": filename, "content_base64": base64.b64encode(raw).decode("ascii"), "size_bytes": len(raw)}
 
 
+
+def _send_via_jagx_mail(inp: dict) -> str:
+    """Send an email through JagX Mail; credentials remain server-side."""
+    api_url = (os.environ.get("JAGX_MAIL_API_URL") or "").strip()
+    api_key = (os.environ.get("JAGX_MAIL_API_KEY") or "").strip()
+    if not api_url or not api_key:
+        return "JagX Mail is not connected yet. The backend needs JAGX_MAIL_API_URL and JAGX_MAIL_API_KEY configured."
+    to = str(inp.get("to") or "").strip()
+    subject = str(inp.get("subject") or "").strip()
+    text_body = str(inp.get("text") or "")
+    html_body = str(inp.get("html") or "")
+    if not to or not subject or not (text_body.strip() or html_body.strip()):
+        return "To send an email, provide to, subject, and text or html content."
+    try:
+        response = HTTP.post(
+            api_url,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"to": to, "subject": subject, "text": text_body, "html": html_body},
+            timeout=20,
+        )
+        if response.status_code == 202:
+            data = response.json()
+            return json.dumps({"ok": True, "status": data.get("status"), "messageId": data.get("messageId")})
+        if response.status_code in (401, 403):
+            return "JagX Mail rejected the integration credentials. Check the server-side API key configuration."
+        if response.status_code == 503:
+            return "JagX Mail outbound sending is not configured yet."
+        return f"JagX Mail send failed (HTTP {response.status_code})."
+    except Exception as exc:
+        logger.warning("JagX Mail integration failed: %s", type(exc).__name__)
+        return "JagX Mail could not be reached. No successful send was confirmed."
+
 def run_tool(name: str, inp: dict, authorization: str | None = None) -> tuple:
     name = (name or "").strip()
     inp = inp if isinstance(inp, dict) else {}
@@ -246,6 +279,8 @@ def run_tool(name: str, inp: dict, authorization: str | None = None) -> tuple:
         except Exception as exc:
             logger.info("User-scoped Supabase operation failed: %s", type(exc).__name__)
             return "Supabase operation failed or the session is not authorized.", None
+    if name == "jagx_mail_send":
+        return _send_via_jagx_mail(inp), None
     if name == "web_search":
         return free_web_search(str(inp.get("query") or "")), None
     if name == "run_code":
