@@ -131,7 +131,7 @@ def _run_specialist(name, msg, history=None, memory=None, search=None, authoriza
             parts = []
             for call in calls[:4]:
                 tn = str(call.get("tool") or "")
-                if tn not in ("run_code", "calc", "supabase_messages"):
+                if tn not in ("run_code", "calc", "supabase_messages", "jagx_mail_send"):
                     continue
                 tin = call.get("input") if isinstance(call.get("input"), dict) else {}
                 out, _ = run_tool(tn, tin, authorization=authorization)
