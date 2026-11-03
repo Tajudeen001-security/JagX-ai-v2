@@ -205,13 +205,25 @@ def create_app() -> FastAPI:
         if req.stream:
             def sse_gen():
                 try:
-                    for piece in stream_response(msg, history):
-                        yield f"data: {json.dumps({'token': piece}, ensure_ascii=False)}\n\n"
-                    yield f"data: {json.dumps({'done': True})}\n\n"
+                    if req.mode in ("agents", "reason"):
+                        from jagx_api.agent_stream import stream_multi_agent_sse
+                        for event in stream_multi_agent_sse(
+                            msg, history=history,
+                            max_agents=4 if req.mode == "reason" else 3,
+                            reason=req.mode == "reason" or req.reflect,
+                            reflect=req.reflect,
+                            authorization=request.headers.get("authorization"),
+                        ):
+                            yield event
+                    else:
+                        yield f"data: {json.dumps({'event': 'status', 'message': 'Preparing response…'}, ensure_ascii=False)}\\n\\n"
+                        for piece in stream_response(msg, history):
+                            yield f"data: {json.dumps({'event': 'token', 'token': piece}, ensure_ascii=False)}\\n\\n"
+                        yield f"data: {json.dumps({'event': 'done'}, ensure_ascii=False)}\\n\\n"
                 except Exception:
                     logger.exception("public stream failed")
-                    yield f"data: {json.dumps({'error': 'stream failed'})}\n\n"
-                    yield f"data: {json.dumps({'done': True})}\n\n"
+                    yield f"data: {json.dumps({'event': 'error', 'detail': 'stream failed'})}\\n\\n"
+                    yield f"data: {json.dumps({'event': 'done'})}\\n\\n"
             return StreamingResponse(sse_gen(), media_type="text/event-stream; charset=utf-8",
                 headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"})
         if req.mode in ("agents", "reason"):
