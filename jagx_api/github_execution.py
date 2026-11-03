@@ -10,6 +10,7 @@ SUPABASE_URL, SUPABASE_ANON_KEY.
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import os
 import secrets
@@ -33,8 +34,12 @@ def _db():
     db = sqlite3.connect(DB_PATH, timeout=10)
     db.row_factory = sqlite3.Row
     db.execute("""CREATE TABLE IF NOT EXISTS github_oauth_states (
-        state TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires_at INTEGER NOT NULL
+        state TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires_at INTEGER NOT NULL,
+        code_verifier TEXT
     )""")
+    state_columns = {row["name"] for row in db.execute("PRAGMA table_info(github_oauth_states)").fetchall()}
+    if "code_verifier" not in state_columns:
+        db.execute("ALTER TABLE github_oauth_states ADD COLUMN code_verifier TEXT")
     db.execute("""CREATE TABLE IF NOT EXISTS github_user_tokens (
         user_id TEXT PRIMARY KEY, encrypted_token TEXT NOT NULL,
         github_login TEXT NOT NULL, connected_at INTEGER NOT NULL,
@@ -197,13 +202,16 @@ def connect(authorization: Optional[str] = Header(default=None)):
     user_id = _user(authorization)
     client_id, _secret, redirect_uri = _config()
     state = secrets.token_urlsafe(32)
+    code_verifier = secrets.token_urlsafe(64)
+    code_challenge = base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode()).digest()).decode().rstrip("=")
     now = int(time.time())
     with _db() as db:
         db.execute("DELETE FROM github_oauth_states WHERE expires_at < ?", (now,))
-        db.execute("INSERT INTO github_oauth_states(state,user_id,expires_at) VALUES(?,?,?)",
-                   (state, user_id, now + 600))
+        db.execute("INSERT INTO github_oauth_states(state,user_id,expires_at,code_verifier) VALUES(?,?,?,?)",
+                   (state, user_id, now + 600, code_verifier))
         db.commit()
-    params = urlencode({"client_id": client_id, "redirect_uri": redirect_uri, "state": state})
+    params = urlencode({"client_id": client_id, "redirect_uri": redirect_uri, "state": state,
+                        "code_challenge": code_challenge, "code_challenge_method": "S256"})
     slug = os.environ.get("GITHUB_APP_SLUG", "").strip()
     install_url = f"https://github.com/apps/{slug}/installations/new" if slug else None
     return {"authorization_url": "https://github.com/login/oauth/authorize?" + params,
@@ -220,7 +228,7 @@ def callback(code: str = "", state: str = "", error: str = ""):
         return RedirectResponse(frontend + "/#/github?github_error=invalid_callback", status_code=303)
     now = int(time.time())
     with _db() as db:
-        row = db.execute("SELECT user_id,expires_at FROM github_oauth_states WHERE state=?", (state,)).fetchone()
+        row = db.execute("SELECT user_id,expires_at,code_verifier FROM github_oauth_states WHERE state=?", (state,)).fetchone()
         db.execute("DELETE FROM github_oauth_states WHERE state=?", (state,))
         db.commit()
     if not row or int(row["expires_at"]) < now:
@@ -230,7 +238,7 @@ def callback(code: str = "", state: str = "", error: str = ""):
         exchange = requests.post("https://github.com/login/oauth/access_token",
             headers={"Accept": "application/json"},
             json={"client_id": client_id, "client_secret": client_secret, "code": code,
-                  "redirect_uri": redirect_uri}, timeout=12)
+                  "redirect_uri": redirect_uri, "code_verifier": row["code_verifier"]}, timeout=12)
         data = exchange.json() if exchange.ok else {}
     except (requests.RequestException, ValueError):
         return RedirectResponse(frontend + "/#/github?github_error=exchange_failed", status_code=303)
