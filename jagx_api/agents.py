@@ -17,7 +17,8 @@ from jagx_api.agent_router import select_agents
 from jagx_api.providers import chat_completion
 from jagx_api import knowledge
 from jagx_api.chat import sanitize_identity, add_watermark
-from jagx_api.tools import free_web_search, run_tool
+from jagx_api.tools import run_tool
+from jagx_api.browser_agent import browse_research
 
 logger = logging.getLogger("jagx-ai")
 
@@ -199,7 +200,7 @@ def run_multi_agent(
     search_context = None
     if any(h in mlow for h in ("latest", "current", "news", "today")) or "researcher" in agents:
         try:
-            search_context = free_web_search(user_message, max_results=5)
+            search_context = browse_research(user_message, max_pages=3)
         except Exception:
             pass
 
