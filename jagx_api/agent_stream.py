@@ -42,6 +42,9 @@ def stream_multi_agent_sse(
 ) -> Iterator[str]:
     yield _sse({"event": "status", "message": "Routing specialists…"})
     try:
+        mlow = (user_message or "").lower()
+        if any(h in mlow for h in ("latest", "current", "news", "today")):
+            yield _sse({"event": "status", "message": "Searching the web…"})
         if reason:
             yield _sse({"event": "status", "message": "Extended reasoning…"})
         if reflect:
@@ -64,6 +67,8 @@ def stream_multi_agent_sse(
             reflect=reflect,
         )
 
+        if any(h in mlow for h in ("latest", "current", "news", "today")):
+            yield _sse({"event": "status", "message": "Reading search results and specialist findings…"})
         if result.get("thinking_summary"):
             yield _sse({
                 "event": "thinking",
