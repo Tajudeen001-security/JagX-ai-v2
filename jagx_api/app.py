@@ -132,7 +132,7 @@ def create_app() -> FastAPI:
         allow_origins=origins,
         allow_origin_regex=r"https://jagx-ai-[a-z0-9-]+-jagxs-projects\.vercel\.app",
         allow_credentials=False,
-        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Content-Type", "Authorization", "x-api-key", "x-admin-secret"],
     )
     app.add_middleware(GZipMiddleware, minimum_size=1000)
