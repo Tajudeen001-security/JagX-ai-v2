@@ -279,6 +279,19 @@ def status(authorization: Optional[str] = Header(default=None)):
 @router.delete("/disconnect")
 def disconnect(authorization: Optional[str] = Header(default=None)):
     user_id = _user(authorization)
+    # Best-effort server-side revocation; always remove our local encrypted copy.
+    try:
+        client_id, client_secret, _redirect_uri = _config()
+        token = _token(user_id)
+        requests.delete(
+            f"https://api.github.com/applications/{client_id}/grant",
+            auth=(client_id, client_secret),
+            json={"access_token": token},
+            headers={"Accept": "application/vnd.github+json"},
+            timeout=8,
+        )
+    except Exception:
+        pass
     with _db() as db:
         db.execute("DELETE FROM github_user_tokens WHERE user_id=?", (user_id,))
         db.execute("DELETE FROM github_oauth_states WHERE user_id=?", (user_id,))
