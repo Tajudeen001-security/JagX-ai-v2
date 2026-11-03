@@ -37,9 +37,19 @@ def _db():
     )""")
     db.execute("""CREATE TABLE IF NOT EXISTS github_user_tokens (
         user_id TEXT PRIMARY KEY, encrypted_token TEXT NOT NULL,
-        github_login TEXT NOT NULL, connected_at INTEGER NOT NULL
+        github_login TEXT NOT NULL, connected_at INTEGER NOT NULL,
+        encrypted_refresh_token TEXT, expires_at INTEGER
     )""")
+    columns = {row["name"] for row in db.execute("PRAGMA table_info(github_user_tokens)").fetchall()}
+    if "encrypted_refresh_token" not in columns:
+        db.execute("ALTER TABLE github_user_tokens ADD COLUMN encrypted_refresh_token TEXT")
+    if "expires_at" not in columns:
+        db.execute("ALTER TABLE github_user_tokens ADD COLUMN expires_at INTEGER")
     db.commit()
+    try:
+        os.chmod(DB_PATH, 0o600)
+    except OSError:
+        pass
     return db
 
 
@@ -85,15 +95,41 @@ def _user(authorization: Optional[str]) -> str:
 
 
 def _token(user_id: str) -> str:
-    _fernet()
+    cipher = _fernet()
     with _db() as db:
-        row = db.execute("SELECT encrypted_token FROM github_user_tokens WHERE user_id=?", (user_id,)).fetchone()
+        row = db.execute("SELECT encrypted_token,encrypted_refresh_token,expires_at FROM github_user_tokens WHERE user_id=?", (user_id,)).fetchone()
     if not row:
         raise HTTPException(status_code=409, detail="Connect your GitHub account first")
     try:
-        return _fernet().decrypt(row["encrypted_token"].encode()).decode()
-    except (InvalidToken, ValueError):
+        access = cipher.decrypt(row["encrypted_token"].encode()).decode()
+        expires_at = row["expires_at"]
+        if not expires_at or int(expires_at) > int(time.time()) + 60:
+            return access
+        refresh_cipher = row["encrypted_refresh_token"]
+        if not refresh_cipher:
+            raise HTTPException(status_code=401, detail="GitHub session expired; reconnect GitHub")
+        client_id, client_secret, _redirect_uri = _config()
+        refresh = cipher.decrypt(refresh_cipher.encode()).decode()
+        response = requests.post("https://github.com/login/oauth/access_token",
+            headers={"Accept": "application/json"},
+            json={"client_id": client_id, "client_secret": client_secret,
+                  "grant_type": "refresh_token", "refresh_token": refresh}, timeout=12)
+        data = response.json() if response.ok else {}
+        new_access = data.get("access_token")
+        if not new_access:
+            raise HTTPException(status_code=401, detail="GitHub session expired; reconnect GitHub")
+        new_refresh = data.get("refresh_token") or refresh
+        new_expiry = int(time.time()) + int(data.get("expires_in") or 28800)
+        with _db() as db:
+            db.execute("UPDATE github_user_tokens SET encrypted_token=?,encrypted_refresh_token=?,expires_at=? WHERE user_id=?",
+                (cipher.encrypt(new_access.encode()).decode(), cipher.encrypt(new_refresh.encode()).decode(),
+                 new_expiry, user_id))
+            db.commit()
+        return new_access
+    except InvalidToken:
         raise HTTPException(status_code=503, detail="Stored GitHub connection cannot be decrypted; reconnect GitHub")
+    except requests.RequestException:
+        raise HTTPException(status_code=503, detail="Could not refresh GitHub session")
 
 
 def _gh(token: str, method: str, path: str, **kwargs):
@@ -204,13 +240,19 @@ def callback(code: str = "", state: str = "", error: str = ""):
     try:
         account = _gh(access_token, "GET", "/user")
         # A GitHub App user token is limited by the App's granted permissions and installation.
-        encrypted = _fernet().encrypt(access_token.encode()).decode()
+        cipher = _fernet()
+        encrypted = cipher.encrypt(access_token.encode()).decode()
+        refresh_token = data.get("refresh_token")
+        encrypted_refresh = cipher.encrypt(refresh_token.encode()).decode() if refresh_token else None
+        expires_in = data.get("expires_in")
+        expires_at = now + int(expires_in) if expires_in else None
         with _db() as db:
-            db.execute("""INSERT INTO github_user_tokens(user_id,encrypted_token,github_login,connected_at)
-                VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET
+            db.execute("""INSERT INTO github_user_tokens(user_id,encrypted_token,github_login,connected_at,encrypted_refresh_token,expires_at)
+                VALUES(?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET
                 encrypted_token=excluded.encrypted_token, github_login=excluded.github_login,
-                connected_at=excluded.connected_at""",
-                (row["user_id"], encrypted, str(account.get("login") or ""), now))
+                connected_at=excluded.connected_at, encrypted_refresh_token=excluded.encrypted_refresh_token,
+                expires_at=excluded.expires_at""",
+                (row["user_id"], encrypted, str(account.get("login") or ""), now, encrypted_refresh, expires_at))
             db.commit()
     except HTTPException:
         return RedirectResponse(frontend + "/#/github?github_error=storage_not_ready", status_code=303)
