@@ -45,6 +45,7 @@ def stream_multi_agent_sse(
         mlow = (user_message or "").lower()
         if any(h in mlow for h in ("latest", "current", "news", "today")):
             yield _sse({"event": "status", "message": "Searching the web…"})
+            yield _sse({"event": "status", "message": "Opening relevant result pages…"})
         if reason:
             yield _sse({"event": "status", "message": "Extended reasoning…"})
         if reflect:
