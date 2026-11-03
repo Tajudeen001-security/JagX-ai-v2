@@ -170,3 +170,27 @@ JagX AI assists with software and planning. It is **not** a certification author
 ---
 
 Built by **JagX & JRILICENSE**
+
+## Secure GitHub execution
+
+JagX AI now includes a backend-owned GitHub App OAuth flow and user-scoped repository API. Browser clients do **not** receive or store GitHub access tokens. Tokens are encrypted at rest using Fernet and associated with the authenticated Supabase user. Repository browsing and writes are checked against repositories where the JagX AI GitHub App is installed. File updates use an expected SHA to reject stale writes.
+
+### Required setup before enabling it
+
+1. Create a **GitHub App** in GitHub Developer Settings. Set the user authorization callback URL to `https://jagx-ai-v2.onrender.com/github/callback` (or the actual deployed backend URL).
+2. Grant only **Repository permissions → Contents: Read and write** and **Metadata: Read**. Do not grant Actions, administration, secrets, or organization permissions unless a separate reviewed feature requires them.
+3. Enable user authorization for the app and set its homepage to `https://jagxai.name.ng`. Copy the App slug, client ID, and client secret into the backend hosting environment.
+4. Set the variables listed in `.env.example` in the backend host. Generate a unique Fernet key for `GITHUB_TOKEN_ENCRYPTION_KEY`; never commit it. Use a persistent disk for `GITHUB_CONNECTION_DB` or move token/state storage to a managed encrypted database before relying on it across restarts.
+5. Install the GitHub App only on the repositories the user wants JagX AI to access. Users must sign in to JagX AI before connecting GitHub.
+6. Verify OAuth callback, repository allowlisting, read access, stale-file conflict rejection, disconnect, and a test commit on a non-production branch before enabling production use.
+
+### API
+
+- `GET /github/connect` — create short-lived state and return the GitHub authorization URL (requires Supabase bearer token).
+- `GET /github/callback` — validate one-use state, exchange OAuth code, encrypt and store the user token server-side.
+- `GET /github/status`, `GET /github/repos` — check the user's connection and list installed repositories.
+- `GET /github/repo/{owner}/{repo}/contents` — browse/read installed repository files.
+- `PUT /github/repo/{owner}/{repo}/contents/{path}` — write a file only after validating repository installation and expected SHA.
+- `DELETE /github/disconnect` — delete the current user's stored connection.
+
+The GitHub integration is **not operational until the GitHub App and backend environment variables are configured and the deployed end-to-end checks pass**. The SQLite token/state database must use persistent storage; otherwise a host restart can lose connections. Production hardening should add token revocation on disconnect, rate limits, audit records, and a background agent job that plans/tests changes before any confirmed commit.
