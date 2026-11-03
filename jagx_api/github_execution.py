@@ -298,9 +298,10 @@ def contents(owner: str, repo: str, path: str = Query(default=""), ref: str = Qu
     user_id = _user(authorization)
     token = _token(user_id)
     _require_installed_repo(token, owner, repo)
-    encoded_path = "/".join(__import__("urllib.parse", fromlist=["quote"]).quote(part, safe="") for part in path.split("/") if part)
-    endpoint = f"/repos/{owner}/{repo}/contents/{encoded_path}"
     from urllib.parse import quote
+    if any(part in (".", "..") for part in path.split("/")):
+        raise HTTPException(status_code=400, detail="Invalid file path")
+    encoded_path = "/".join(quote(part, safe="") for part in path.split("/") if part)
     endpoint = f"/repos/{quote(owner, safe='')}/{quote(repo, safe='')}/contents" + ("/" + encoded_path if encoded_path else "")
     data = _gh(token, "GET", endpoint + "?ref=" + __import__("urllib.parse", fromlist=["quote"]).quote(ref, safe=""))
     if isinstance(data, list):
