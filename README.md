@@ -173,11 +173,11 @@ Built by **JagX & JRILICENSE**
 
 ## Secure GitHub execution
 
-JagX AI now includes a backend-owned GitHub App OAuth flow and user-scoped repository API. Browser clients do **not** receive or store GitHub access tokens. Tokens are encrypted at rest using Fernet and associated with the authenticated Supabase user. Repository browsing and writes are checked against repositories where the JagX AI GitHub App is installed. File updates use an expected SHA to reject stale writes.
+JagX AI now includes a backend-owned GitHub App OAuth flow and user-scoped repository API. Browser clients do **not** receive or store GitHub access tokens. Tokens are encrypted at rest using Fernet and associated with the authenticated Supabase user. Repository browsing and writes are checked against repositories where the JagX AI GitHub App is installed. File updates use an expected SHA to reject stale writes. OAuth uses short-lived, single-use state plus PKCE; disconnect attempts server-side authorization revocation before deleting the local token.
 
 ### Required setup before enabling it
 
-1. Create a **GitHub App** in GitHub Developer Settings. Set the user authorization callback URL to `https://jagx-ai-v2.onrender.com/github/callback` (or the actual deployed backend URL).
+1. Create a **GitHub App** in GitHub Developer Settings. Set the user authorization callback URL to `https://jagx-ai-v2.onrender.com/github/callback` (or the actual deployed backend URL). Because JagX starts the OAuth flow itself and validates its own state/PKCE, leave **Request user authorization (OAuth) during installation** off.
 2. Grant only **Repository permissions → Contents: Read and write** and **Metadata: Read**. Do not grant Actions, administration, secrets, or organization permissions unless a separate reviewed feature requires them.
 3. Enable user authorization for the app and set its homepage to `https://jagxai.name.ng`. Copy the App slug, client ID, and client secret into the backend hosting environment.
 4. Set the variables listed in `.env.example` in the backend host. Generate a unique Fernet key for `GITHUB_TOKEN_ENCRYPTION_KEY`; never commit it. Use a persistent disk for `GITHUB_CONNECTION_DB` or move token/state storage to a managed encrypted database before relying on it across restarts.
