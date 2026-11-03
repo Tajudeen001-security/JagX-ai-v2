@@ -32,6 +32,7 @@ from jagx_api.providers import provider_status, provider_health
 from jagx_api.tools import safe_calc, run_tool
 from jagx_api.supabase_tools import router as supabase_tools_router
 from jagx_api.mail_api import router as mail_router
+from jagx_api.github_execution import router as github_execution_router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("jagx-ai")
@@ -143,6 +144,7 @@ def create_app() -> FastAPI:
     app.include_router(billing_router)
     app.include_router(supabase_tools_router)
     app.include_router(mail_router)
+    app.include_router(github_execution_router)
 
     @app.on_event("startup")
     def _startup() -> None:
