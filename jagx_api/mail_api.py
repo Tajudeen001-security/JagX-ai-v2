@@ -1,9 +1,9 @@
-"""JagX Mail delivery API — credentials stay server-side."""
+"""JagX Mail delivery API — calls the real JagX Mail server, never Resend directly."""
 from __future__ import annotations
 
+import logging
 import os
 import re
-import logging
 from typing import Optional
 
 import requests
@@ -26,6 +26,7 @@ class SendMailRequest(BaseModel):
 
 @router.post("/send")
 def send_mail(req: SendMailRequest, x_api_key: Optional[str] = Header(None, alias="x-api-key")):
+    # Authenticate the JagX AI caller using its own API key and rate limits.
     key = (x_api_key or "").strip()
     if not auth.is_valid_key(key):
         raise HTTPException(status_code=401, detail="Invalid or missing API key")
@@ -33,34 +34,56 @@ def send_mail(req: SendMailRequest, x_api_key: Optional[str] = Header(None, alia
     if not ok:
         raise HTTPException(status_code=429, detail=info)
 
-    api_key = os.environ.get("RESEND_API_KEY", "").strip()
-    if not api_key:
-        raise HTTPException(status_code=503, detail="Mail delivery is not configured")
-    sender = os.environ.get("JAGX_MAIL_FROM", "JagX AI <no-reply@jagxai.name.ng>").strip()
-    if not re.search(r"@(?:[A-Za-z0-9-]+\.)*jagxai\.name\.ng\s*>?$", sender, re.I):
-        raise HTTPException(status_code=503, detail="Configured sender must use the verified JagX domain")
+    # The JagX Mail service credential is server-only and is never returned to callers.
+    mail_url = os.environ.get(
+        "JAGX_MAIL_API_URL",
+        "https://jagx-mail-jagxs-projects.vercel.app/api/v1/agent/send",
+    ).strip()
+    mail_key = os.environ.get("JAGX_MAIL_API_KEY", "").strip()
+    if not mail_key:
+        raise HTTPException(status_code=503, detail="JagX Mail integration is not configured")
+    if not mail_url.startswith("https://"):
+        raise HTTPException(status_code=503, detail="JagX Mail API URL must use HTTPS")
+
     recipients = [addr.strip() for addr in req.to]
     if any(not EMAIL_RE.fullmatch(addr) for addr in recipients):
         raise HTTPException(status_code=400, detail="One or more recipient addresses are invalid")
 
-    payload = {"from": sender, "to": recipients, "subject": req.subject, "text": req.text}
-    if req.html:
-        payload["html"] = req.html
-    try:
-        response = requests.post(
-            "https://api.resend.com/emails",
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json=payload,
-            timeout=15,
-        )
-    except requests.RequestException:
-        logger.warning("Resend request failed")
-        raise HTTPException(status_code=502, detail="Mail provider could not be reached")
-    if response.status_code >= 400:
-        logger.warning("Resend rejected mail request with status %s", response.status_code)
-        raise HTTPException(status_code=502, detail="Mail provider rejected the message")
-    try:
-        result = response.json()
-    except ValueError:
-        result = {}
-    return {"ok": True, "id": result.get("id"), "provider": "Resend"}
+    sent = []
+    failed = []
+    for recipient in recipients:
+        payload = {"to": recipient, "subject": req.subject, "text": req.text}
+        if req.html:
+            payload["html"] = req.html
+        try:
+            response = requests.post(
+                mail_url,
+                headers={"Authorization": f"Bearer {mail_key}", "Content-Type": "application/json"},
+                json=payload,
+                timeout=20,
+            )
+        except requests.RequestException:
+            logger.warning("JagX Mail request failed")
+            failed.append({"to": recipient, "reason": "JagX Mail could not be reached"})
+            continue
+
+        if response.status_code not in (200, 202):
+            # Do not forward provider details or secrets from the downstream service.
+            failed.append({"to": recipient, "reason": "JagX Mail rejected the message"})
+            continue
+        try:
+            result = response.json()
+        except ValueError:
+            result = {}
+        sent.append({"to": recipient, "messageId": result.get("messageId"), "status": result.get("status", "accepted")})
+
+    if failed and not sent:
+        raise HTTPException(status_code=502, detail={"message": "JagX Mail rejected all messages", "failed": failed})
+    return {
+        "ok": not failed,
+        "provider": "JagX Mail",
+        "accepted": len(sent),
+        "results": sent,
+        "failed": failed,
+        "status": "accepted_by_jagx_mail" if not failed else "partially_accepted",
+    }
