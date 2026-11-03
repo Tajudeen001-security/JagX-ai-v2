@@ -39,6 +39,7 @@ def stream_multi_agent_sse(
     max_agents: int = 3,
     reason: bool = False,
     reflect: bool = False,
+    authorization: Optional[str] = None,
 ) -> Iterator[str]:
     yield _sse({"event": "status", "message": "Routing specialists…"})
     try:
@@ -66,6 +67,7 @@ def stream_multi_agent_sse(
             max_agents=max_a,
             reason=reason,
             reflect=reflect,
+            authorization=authorization,
         )
 
         if any(h in mlow for h in ("latest", "current", "news", "today")):
