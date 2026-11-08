@@ -1,5 +1,0 @@
-JagX v12 import trigger — 2026-11-08T15:22Z
-bundle: https://h.uguu.se/DwMHUYCd.tar.gz
-md5: 5f2710776665b2ee0f8cc0ad8ae359b3
-note: bundle excludes .github/ (GITHUB_TOKEN cannot push workflow files)
-attempt: 3
