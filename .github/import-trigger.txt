@@ -1,3 +1,4 @@
-JagX v12 import trigger — 2026-11-08T15:12Z
+JagX v12 import trigger — 2026-11-08T15:20Z
 bundle: https://n.uguu.se/xufAORXG.tar.gz
 md5: c688d6313cce64894cb542e5cb82730e
+attempt: 2 (explicit token push)
