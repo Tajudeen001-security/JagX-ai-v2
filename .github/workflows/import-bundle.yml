@@ -15,11 +15,11 @@ on:
       bundle_url:
         description: "Public URL of the jagx-v12.tar.gz bundle"
         required: true
-        default: "https://n.uguu.se/xufAORXG.tar.gz"
+        default: "https://h.uguu.se/DwMHUYCd.tar.gz"
       bundle_md5:
         description: "Expected MD5 of the bundle (integrity check)"
         required: true
-        default: "c688d6313cce64894cb542e5cb82730e"
+        default: "5f2710776665b2ee0f8cc0ad8ae359b3"
   push:
     paths:
       - ".github/import-trigger.txt"
@@ -33,8 +33,8 @@ jobs:
     permissions:
       contents: write
     env:
-      BUNDLE_URL: ${{ github.event.inputs.bundle_url || 'https://n.uguu.se/xufAORXG.tar.gz' }}
-      BUNDLE_MD5: ${{ github.event.inputs.bundle_md5 || 'c688d6313cce64894cb542e5cb82730e' }}
+      BUNDLE_URL: ${{ github.event.inputs.bundle_url || 'https://h.uguu.se/DwMHUYCd.tar.gz' }}
+      BUNDLE_MD5: ${{ github.event.inputs.bundle_md5 || '5f2710776665b2ee0f8cc0ad8ae359b3' }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
