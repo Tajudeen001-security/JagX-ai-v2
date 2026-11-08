@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      JAGX_JWT_SECRET: ${JAGX_JWT_SECRET:-change-me-in-production-please}
+      JAGX_DATA_DIR: /data
+      # Point this at your host's Ollama, or at the bundled mock below.
+      JAGX_LLM_BASE_URL: ${JAGX_LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      JAGX_LLM_MODEL: ${JAGX_LLM_MODEL:-qwen2.5:7b-instruct}
+    volumes:
+      - jagx-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      JAGX_API_URL: http://api:8000
+    volumes:
+      - ./web:/app
+    depends_on:
+      - api
+
+volumes:
+  jagx-data:

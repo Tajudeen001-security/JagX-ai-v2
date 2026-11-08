@@ -1,11 +1,37 @@
+# env & secrets
+.env
+.env.local
+*.pem
+
+# python
 __pycache__/
 *.py[cod]
-*$py.class
-.env
 .venv/
 venv/
-keys.json
-keys.json.tmp
-jagx_training_data.jsonl
-*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# data
+data/
+*.db
+*.db-wal
+*.db-shm
+sandbox_work/
+
+# node
+node_modules/
+web/dist/
+.vite/
+
+# training artefacts
+artifacts/
+*.safetensors
+*.gguf
+
+# os / editor
 .DS_Store
+.idea/
+.vscode/
+*.log

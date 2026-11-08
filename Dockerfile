@@ -1,16 +1,27 @@
-FROM python:3.11-slim-bookworm
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 PORT=10000
+# JagX v12 — backend image
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    JAGX_DATA_DIR=/data
+
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl \
-    && rm -rf /var/lib/apt/lists/* && update-ca-certificates
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
-COPY jagx_api ./jagx_api
-COPY main.py app.py ./
-COPY jagx_knowledge.json* ./
-RUN useradd --create-home --shell /bin/bash jagx && chown -R jagx:jagx /app
-USER jagx
-EXPOSE 10000
-HEALTHCHECK --interval=30s --timeout=8s --start-period=25s --retries=3 \
-  CMD curl -fsS "http://127.0.0.1:${PORT:-10000}/health" || exit 1
-CMD ["python", "main.py"]
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY server/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY server/ ./
+COPY scripts/ /scripts/
+
+RUN mkdir -p /data
+VOLUME ["/data"]
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -fsS http://127.0.0.1:8000/api/health || exit 1
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
