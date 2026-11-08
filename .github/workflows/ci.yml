@@ -19,7 +19,7 @@ jobs:
         working-directory: server
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
       - name: Run tests
         working-directory: server
         env:
@@ -61,7 +61,7 @@ jobs:
         working-directory: server
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
       - name: Start mock LLM
         run: |
           nohup python3 scripts/mock_llm.py --port 11434 > /tmp/mock.log 2>&1 &
