@@ -1,4 +1,4 @@
-/** JagX v12 — app shell: auth gate, sidebar, view routing, theme. */
+/** JagX v13 — app shell: auth gate, sidebar, view routing, theme. */
 
 import { useCallback, useEffect, useState } from "react";
 import { api, getToken, setToken } from "./api";
@@ -8,12 +8,13 @@ import { Sidebar } from "./components/Sidebar";
 import { ChatView } from "./views/ChatView";
 import { GoalsView } from "./views/GoalsView";
 import { MemoryView } from "./views/MemoryView";
+import { MediaView } from "./views/MediaView";
 import { ForgeView } from "./views/ForgeView";
 import { ApprovalsView } from "./views/ApprovalsView";
 import { SettingsView } from "./views/SettingsView";
 import { IconMenu, IconMoon, IconSun } from "./icons";
 
-export type View = "chat" | "goals" | "memory" | "forge" | "approvals" | "settings";
+export type View = "chat" | "media" | "goals" | "memory" | "forge" | "approvals" | "settings";
 
 export function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -146,6 +147,7 @@ export function App() {
           <div>
             <div className="topbar-title">
               {view === "chat" ? (activeConv?.title || "New task")
+                : view === "media" ? "Media Studio"
                 : view === "goals" ? "Goals"
                 : view === "memory" ? "Memory"
                 : view === "forge" ? "Self-Improvement"
@@ -182,6 +184,7 @@ export function App() {
               onApprovalsChanged={refreshApprovals}
             />
           )}
+          {view === "media" && <MediaView />}
           {view === "goals" && <GoalsView />}
           {view === "memory" && <MemoryView />}
           {view === "forge" && <ForgeView config={config} />}

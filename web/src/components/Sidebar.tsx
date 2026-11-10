@@ -3,7 +3,7 @@
 import type { Conversation, User } from "../types";
 import type { View } from "../App";
 import {
-  IconBrain, IconChat, IconPlus, IconSettings, IconShield, IconSpark, IconTarget, IconTrash,
+  IconBrain, IconChat, IconImage, IconPlus, IconSettings, IconShield, IconSpark, IconTarget, IconTrash,
 } from "../icons";
 
 interface Props {
@@ -27,6 +27,7 @@ export function Sidebar({
 }: Props) {
   const nav: { key: View; label: string; icon: JSX.Element; badge?: number }[] = [
     { key: "chat", label: "Chat", icon: <IconChat className="icon" /> },
+    { key: "media", label: "Media Studio", icon: <IconImage className="icon" /> },
     { key: "goals", label: "Goals", icon: <IconTarget className="icon" /> },
     { key: "memory", label: "Memory", icon: <IconBrain className="icon" /> },
     { key: "forge", label: "Self-Improvement", icon: <IconSpark className="icon" /> },
@@ -40,7 +41,7 @@ export function Sidebar({
         <div className="brand-mark">J</div>
         <div className="brand-text">
           <span className="brand-name">JagX AI</span>
-          <span className="brand-sub">v{version || "12"} · local-first</span>
+          <span className="brand-sub">v{version || "13"} · local-first</span>
         </div>
       </div>
 
