@@ -1,4 +1,4 @@
-# JagX v12 — backend image
+# JagX v13 — backend image
 FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1 \

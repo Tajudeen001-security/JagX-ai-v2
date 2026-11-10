@@ -1,4 +1,4 @@
-"""JagX v12 — four-layer memory with consolidation.
+"""JagX v13 — four-layer memory with consolidation.
 
 Layers
 ------

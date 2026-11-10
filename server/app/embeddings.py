@@ -1,4 +1,4 @@
-"""JagX v12 — local embeddings.
+"""JagX v13 — local embeddings.
 
 Two backends, both free and offline:
 

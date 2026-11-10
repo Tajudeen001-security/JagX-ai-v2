@@ -1,10 +1,10 @@
 .PHONY: help install test e2e mock api web build docker clean
 
 help:
-	@echo "JagX v12 — common tasks"
+	@echo "JagX v13 — common tasks"
 	@echo ""
 	@echo "  make install   Install backend + frontend dependencies"
-	@echo "  make test      Run the backend test suite (105 tests)"
+	@echo "  make test      Run the backend test suite (156 tests)"
 	@echo "  make e2e       Run the end-to-end checks (needs a running API)"
 	@echo "  make mock      Start the OpenAI-compatible mock LLM on :11434"
 	@echo "  make api       Start the API on :8000"

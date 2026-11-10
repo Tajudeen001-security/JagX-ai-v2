@@ -1,4 +1,4 @@
-"""JagX v12 — OpenAI-compatible LLM client with native tool calling and streaming.
+"""JagX v13 — OpenAI-compatible LLM client with native tool calling and streaming.
 
 **Local-first.** The provider chain in ``config.py`` puts Ollama, llama.cpp and
 vLLM ahead of every hosted endpoint, so a machine with a local runtime never

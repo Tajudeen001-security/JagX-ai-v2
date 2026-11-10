@@ -1,4 +1,4 @@
-"""JagX v12 — FastAPI surface.
+"""JagX v13 — FastAPI surface.
 
 REST + SSE. The chat and council endpoints stream typed events that the UI
 renders as the activity timeline.
@@ -11,12 +11,15 @@ import logging
 import time
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from pydantic import BaseModel, Field
 
-from . import agent, council, db, evals, goals, guard, llm, memory, sandbox, security, selfimprove, tools
+from . import (
+    agent, council, db, evals, goals, guard, llm, memory, sandbox, security,
+    selfimprove, tools,
+)
 from .config import APP_NAME, VERSION, settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -597,6 +600,13 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(router)
+
+    # The multimodal surface lives in its own router (media_api.py) to keep this
+    # module readable; it is mounted here so create_app() always returns the
+    # complete API.
+    from .media_api import router as media_router
+
+    app.include_router(media_router)
 
     @app.get("/")
     def root() -> dict:

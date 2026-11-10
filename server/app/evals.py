@@ -1,4 +1,4 @@
-"""JagX v12 — the eval harness.
+"""JagX v13 — the eval harness.
 
 The measurable half of self-improvement: named suites of cases with a checker,
 scored per prompt variant, so a prompt change is only promoted when it actually

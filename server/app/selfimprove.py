@@ -1,4 +1,4 @@
-"""JagX v12 — JagX Forge: the self-improvement engine.
+"""JagX v13 — JagX Forge: the self-improvement engine.
 
 Four loops, in increasing order of risk and cost:
 

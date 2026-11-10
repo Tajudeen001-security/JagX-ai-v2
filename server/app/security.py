@@ -1,4 +1,4 @@
-"""JagX v12 — password hashing and JWT auth.
+"""JagX v13 — password hashing and JWT auth.
 
 PBKDF2-SHA256 with a per-user salt. No external auth service, no vendor.
 """

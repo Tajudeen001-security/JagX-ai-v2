@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""JagX v12 — free QLoRA fine-tuning pipeline for open-weight models.
+"""JagX v13 — free QLoRA fine-tuning pipeline for open-weight models.
 
 This is the real thing, not a stub. It takes the dataset JagX Forge exports
 (``data/forge/dataset.jsonl``) and fine-tunes a small open-weight model with

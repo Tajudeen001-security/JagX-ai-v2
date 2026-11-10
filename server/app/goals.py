@@ -1,4 +1,4 @@
-"""JagX v12 — JagX Goals: the always-on goal runner.
+"""JagX v13 — JagX Goals: the always-on goal runner.
 
 The unit of work is a **goal**, not a conversation. A goal has an identity, a
 title, a success criterion, a status, a step budget and a checkpoint log. The

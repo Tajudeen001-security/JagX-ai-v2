@@ -79,7 +79,7 @@ def test_council_lane_tools_are_restricted():
 # goals
 # ---------------------------------------------------------------------------
 def test_goal_lifecycle(user, fake_llm):
-    goal = goals.create(user["id"], "Ship the JagX v12 release", success_criterion="Repo pushed and tests green")
+    goal = goals.create(user["id"], "Ship the JagX v13 release", success_criterion="Repo pushed and tests green")
     assert goal["status"] == "active"
 
     fake_llm(script=[

@@ -4,8 +4,7 @@ Every tool returns a plain string (the observation the model sees next turn).
 Tools are small, side-effect-light and timeout-bounded.
 
 **No tool requires a third-party API key.** Web search falls back to keyless
-DuckDuckGo; code runs in the local sandbox; memory is local SQLite; the whole
-multimodal surface runs on this machine.
+DuckDuckGo; code runs in the local sandbox; memory is local SQLite.
 """
 
 from __future__ import annotations
@@ -38,7 +37,7 @@ _OPS = {
     ast.UAdd: operator.pos,
 }
 
-_UA = "Mozilla/5.0 (compatible; JagXAI/13.0; +https://github.com/Tajudeen001-security/JagX-ai-v2)"
+_UA = "Mozilla/5.0 (compatible; JagXAI/12.0; +https://github.com/Tajudeen001-security/JagX-ai-v2)"
 
 
 @dataclass

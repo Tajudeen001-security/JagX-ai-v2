@@ -1,4 +1,4 @@
-"""JagX v12 — the JagX Council.
+"""JagX v13 — the JagX Council.
 
 A coordinator plus parallel specialists plus a critic, for questions that
 deserve more than one pass.

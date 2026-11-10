@@ -118,3 +118,4 @@ export const IconPalette = ({ size = 18, className }: P) => (
 export const IconExpand = ({ size = 18, className }: P) => (
   <svg {...base(size)} className={className}><path d="M9 3H3v6M15 21h6v-6M3 15v6h6M21 9V3h-6" /></svg>
 );
+

@@ -1,13 +1,13 @@
 /** Chat: streaming answers, live activity timeline, council view, composer. */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { api, streamChat } from "../api";
-import type { AgentEvent, AppConfig, Message, Settings, TimelineEntry } from "../types";
+import { api, mediaUrl, streamChat } from "../api";
+import type { AgentEvent, AppConfig, MediaAsset, Message, Settings, TimelineEntry } from "../types";
 import { Markdown } from "../markdown";
 import { Timeline } from "../components/Timeline";
 import {
   IconBolt, IconCalc, IconCode, IconCopy, IconGlobe, IconLayers, IconSearch,
-  IconSend, IconSpark, IconStop, IconUsers,
+  IconSend, IconSpark, IconStop, IconUpload, IconUsers, IconX,
 } from "../icons";
 
 interface Props {
@@ -63,6 +63,9 @@ export function ChatView({ conversationId, config, settings, onConversationCreat
   const [error, setError] = useState("");
   const [meta, setMeta] = useState<{ task_class?: string; variant?: string; run_id?: string }>({});
   const [councilLanes, setCouncilLanes] = useState<{ lane: string; title: string; status: string; finding?: string }[]>([]);
+  const [attachments, setAttachments] = useState<MediaAsset[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const attachRef = useRef<HTMLInputElement>(null);
 
   const abortRef = useRef<(() => void) | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -222,11 +225,19 @@ export function ChatView({ conversationId, config, settings, onConversationCreat
   }, [push, onConversationCreated, onApprovalsChanged]);
 
   const send = useCallback((text?: string) => {
-    const message = (text ?? input).trim();
-    if (!message || running) return;
+    const typed = (text ?? input).trim();
+    if ((!typed && attachments.length === 0) || running) return;
+
+    // Attachments are handed to the agent as asset ids it can read with its
+    // own read_document / understand_image tools.
+    const message = attachments.length
+      ? `${typed || "Please look at the attached file(s)."}\n\n` +
+        attachments.map((a) => `[attached ${a.kind}: ${a.filename || a.id} — asset_id=${a.id}]`).join("\n")
+      : typed;
 
     setError("");
     setInput("");
+    setAttachments([]);
     setStreamText("");
     setTimeline([]);
     setCouncilLanes([]);
@@ -374,6 +385,22 @@ export function ChatView({ conversationId, config, settings, onConversationCreat
       <div className="composer-wrap">
         <div className="composer">
           <div className="composer-box">
+            {attachments.length > 0 && (
+              <div className="attach-strip">
+                {attachments.map((a) => (
+                  <span key={a.id} className="attach-chip">
+                    {a.kind === "image" && <img src={mediaUrl(a.id)} alt="" />}
+                    <span>{a.filename || a.id}</span>
+                    <button
+                      onClick={() => setAttachments((prev) => prev.filter((x) => x.id !== a.id))}
+                      aria-label="Remove attachment"
+                    >
+                      <IconX size={12} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
             <textarea
               ref={textareaRef}
               className="composer-input"
@@ -401,20 +428,57 @@ export function ChatView({ conversationId, config, settings, onConversationCreat
                   Council
                 </button>
               </div>
+              <button
+                className="icon-btn"
+                onClick={() => attachRef.current?.click()}
+                disabled={running || uploading}
+                title="Attach an image or document"
+                aria-label="Attach a file"
+              >
+                {uploading ? <span className="spinner" /> : <IconUpload size={15} />}
+              </button>
+              <input
+                ref={attachRef}
+                type="file"
+                hidden
+                accept="image/*,.pdf,.docx,.xlsx,.csv,.tsv,.txt,.md,.json,.log"
+                onChange={async (e) => {
+                  const f = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!f) return;
+                  setUploading(true);
+                  setError("");
+                  try {
+                    const asset = await api.uploadMedia(f);
+                    setAttachments((prev) => [...prev, asset]);
+                  } catch (err) {
+                    setError((err as Error).message);
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              />
               <div className="composer-spacer" />
               {running ? (
                 <button className="send-btn" onClick={stop} title="Stop" aria-label="Stop">
                   <IconStop size={15} />
                 </button>
               ) : (
-                <button className="send-btn" onClick={() => send()} disabled={!input.trim()} title="Send" aria-label="Send">
+                <button
+                  className="send-btn"
+                  onClick={() => send()}
+                  disabled={!input.trim() && attachments.length === 0}
+                  title="Send"
+                  aria-label="Send"
+                >
                   <IconSend size={15} />
                 </button>
               )}
             </div>
           </div>
           <div className="composer-hint">
-            Enter to send · Shift+Enter for a new line · {settings?.critique ? "self-critique on" : "self-critique off"}
+            Enter to send · Shift+Enter for a new line · attach images or documents for the agent to read ·{" "}
+            {settings?.critique ? "self-critique on" : "self-critique off"}
           </div>
         </div>
       </div>

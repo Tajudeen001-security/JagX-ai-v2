@@ -114,7 +114,7 @@ export function GoalsView() {
         <div className="row wrap" style={{ alignItems: "flex-end" }}>
           <div style={{ flex: "1 1 240px" }}>
             <label className="field-label">New goal</label>
-            <input className="input" placeholder="e.g. Ship the JagX v12 release"
+            <input className="input" placeholder="e.g. Ship the JagX v13 release"
                    value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div style={{ flex: "1 1 240px" }}>

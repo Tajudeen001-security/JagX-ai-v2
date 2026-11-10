@@ -1,5 +1,5 @@
 /* ==========================================================================
-   JagX v12 — design system
+   JagX v13 — design system
    Dark-first, with a light theme. Considered spacing, real typography,
    accessible contrast, and a restrained accent palette.
    ========================================================================== */
@@ -564,3 +564,4 @@ a:hover { text-decoration: underline; }
   .content-inner { padding: var(--space-5) var(--space-4) 130px; }
   .composer-wrap { padding: var(--space-3) var(--space-4) var(--space-4); }
 }
+

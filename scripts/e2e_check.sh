@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# JagX v12 — end-to-end verification against a running server.
+# JagX v13 — end-to-end verification against a running server.
 # Exercises the real HTTP surface: auth, SSE chat, tool calls, guard, audit
 # trail, memory, goals, forge and evals.
 #
@@ -24,7 +24,7 @@ has()  { if printf '%s' "$2" | norm | grep -qF "$(printf '%s' "$3" | norm)"; the
 # eq <label> <actual> <expected>
 eq()   { if [ "$2" = "$3" ]; then ok "$1"; else bad "$1 (got '$2')"; fi; }
 
-echo "=== JagX v12 end-to-end verification ==="
+echo "=== JagX v13 end-to-end verification ==="
 echo
 
 # --- health ---------------------------------------------------------------
@@ -129,13 +129,13 @@ has "consolidation ran" "$CO" '"promoted"'
 echo
 echo "[9] Goals"
 GO=$(curl -s -X POST "$BASE/goals" -H "$AUTH" -H 'Content-Type: application/json' \
-     -d '{"title":"Ship the JagX v12 release","success_criterion":"Repo pushed and tests green"}')
+     -d '{"title":"Ship the JagX v13 release","success_criterion":"Repo pushed and tests green"}')
 GID=$(printf '%s' "$GO" | python3 -c 'import sys,json;print(json.load(sys.stdin).get("id",""))' 2>/dev/null)
 [ -n "$GID" ] && ok "goal created" || bad "goal created"
 ADV=$(curl -s -N -X POST "$BASE/goals/$GID/advance" -H "$AUTH")
 has "goal advanced with a checkpoint" "$ADV" '"type":"goal_checkpoint"'
 GL=$(curl -s "$BASE/goals" -H "$AUTH")
-has "goal listed" "$GL" 'Ship the JagX v12 release'
+has "goal listed" "$GL" 'Ship the JagX v13 release'
 
 # --- forge ----------------------------------------------------------------
 echo

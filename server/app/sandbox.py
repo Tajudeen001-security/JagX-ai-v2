@@ -1,4 +1,4 @@
-"""JagX v12 — local code sandbox.
+"""JagX v13 — local code sandbox.
 
 Runs untrusted code in a subprocess with hard limits, in a scratch directory,
 with network access off by default. **No external service required** — this is

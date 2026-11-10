@@ -1,4 +1,4 @@
-"""JagX v12 — a real OpenAI-compatible mock LLM server.
+"""JagX v13 — a real OpenAI-compatible mock LLM server.
 
 Lets the whole product be exercised end to end for free, with no model and no
 network. It streams a tool call on the first turn and an answer on the second,

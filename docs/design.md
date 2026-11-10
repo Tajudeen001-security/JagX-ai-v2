@@ -1,4 +1,4 @@
-# JagX v12 — Design Document
+# JagX v13 — Design Document
 
 **An autonomous agent in the class of Grok bot, Dots, Muse and Claude Duet — built from open weights, with no third-party company API key required.**
 
@@ -8,7 +8,7 @@ Version 12.0.0 · Status: implemented · License: MIT
 
 ## 0. Executive summary
 
-JagX v12 is a full-stack autonomous agent. It plans, calls tools, browses, writes and runs
+JagX v13 is a full-stack autonomous agent. It plans, calls tools, browses, writes and runs
 code, remembers across sessions, pursues long-running goals in the background, debates hard
 questions with a council of specialist sub-agents, critiques its own output, and improves its
 own prompts and policies from its own run history.
@@ -28,7 +28,7 @@ consolidation), **JagX Forge** (the self-improvement engine), **local-first infe
 (Ollama / vLLM / llama.cpp / llama-server, no key needed) and a **local sandbox** for code
 execution.
 
-**The honest headline:** JagX v12 does not train a frontier model from scratch — nobody can do
+**The honest headline:** JagX v13 does not train a frontier model from scratch — nobody can do
 that for free. What it *does* do, for free, is everything that actually makes an agent improve:
 it reflects on its own runs, replays its own experience, optimises its own prompts and policies
 against a measurable eval harness, and exports a clean LoRA/QLoRA training set from its own
@@ -107,7 +107,7 @@ Every one of the four converged on the same five things:
 
 ## 2. The nine dimensions, compared
 
-| Dimension | Grok bot | Dots | Muse | Claude Duet | **JagX v12** |
+| Dimension | Grok bot | Dots | Muse | Claude Duet | **JagX v13** |
 |---|---|---|---|---|---|
 | **Agent loop** | outer/inner split, agent-with-a-computer | goal-driven, multi-session | orchestration + runtime | proactive loop, periodic checks | **JagX Loop**: plan → act → observe → reflect → answer, step budget + forced synthesis |
 | **Planning** | outer loop assembles context, hands clean prompt | goal decomposed across sessions | swarm plan | brief + task intake | **Planner** emits 2–5 steps for multi-step asks; **Council** re-plans on critique failure |
@@ -121,7 +121,7 @@ Every one of the four converged on the same five things:
 
 ---
 
-## 3. JagX v12 architecture
+## 3. JagX v13 architecture
 
 ### 3.1 Component map
 
@@ -334,7 +334,7 @@ What we deliberately did **not** do:
 
 **What we will not pretend:**
 
-- JagX v12 does not train a frontier model. Training a Grok- or Opus-class model from scratch
+- JagX v13 does not train a frontier model. Training a Grok- or Opus-class model from scratch
   costs tens of millions of dollars. No free path exists to that, and any claim otherwise
   would be false.
 - The closest free path to "a model that is ours" is: take a strong open-weight base
@@ -443,6 +443,6 @@ scaling.
 
 ---
 
-*JagX v12 is an independent implementation. It studies the behaviour of Grok bot, Dots, Muse
+*JagX v13 is an independent implementation. It studies the behaviour of Grok bot, Dots, Muse
 and Claude Duet and re-implements the capabilities in our own architecture, naming and code.
 No proprietary code, weights, prompts or secrets were used.*

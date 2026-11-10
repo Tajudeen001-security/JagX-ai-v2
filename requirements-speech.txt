@@ -1,3 +1,0 @@
-# Optional voice dependencies; these can be large and require internet/model downloads.
-faster-whisper>=1.0.0
-edge-tts>=6.1.0

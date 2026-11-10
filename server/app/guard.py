@@ -1,4 +1,4 @@
-"""JagX v12 — JagX Guard: the control plane.
+"""JagX v13 — JagX Guard: the control plane.
 
 Every action the agent proposes passes through Guard *before* it executes.
 Guard returns one of three verdicts:

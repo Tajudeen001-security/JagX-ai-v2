@@ -26,9 +26,10 @@ router = APIRouter(prefix="/api")
 
 
 # ---------------------------------------------------------------------------
-# auth — self-contained, so this router never depends on api.py
+# auth — imported lazily to avoid a circular import with api.py
 # ---------------------------------------------------------------------------
 def current_user(authorization: str = Header(default="")) -> dict:
+    """Self-contained auth, so this router never depends on api.py."""
     if not authorization.lower().startswith("bearer "):
         raise HTTPException(status_code=401, detail="Missing bearer token.")
     token = authorization.split(" ", 1)[1].strip()

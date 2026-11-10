@@ -1,4 +1,4 @@
-"""JagX v12 — the JagX Loop.
+"""JagX v13 — the JagX Loop.
 
 plan → act (tool calls, gated by Guard) → observe → reflect → answer.
 
