@@ -160,3 +160,80 @@ export interface TimelineEntry {
   tone: "ok" | "warn" | "err" | "run" | "info" | "violet" | "muted";
   time: number;
 }
+
+/** A generated, edited or uploaded image / document. */
+export interface MediaAsset {
+  id: string;
+  kind: "image" | "document" | string;
+  source: "generated" | "edited" | "upload" | string;
+  filename: string;
+  ext: string;
+  mime: string;
+  bytes: number;
+  width: number;
+  height: number;
+  prompt: string;
+  operation: string;
+  backend: string;
+  parent_id: string;
+  meta: Record<string, unknown>;
+  created_at: number;
+}
+
+export interface MediaStats {
+  by_kind: Record<string, { count: number; bytes: number }>;
+  total_count: number;
+  total_bytes: number;
+}
+
+export interface MediaCapabilities {
+  capabilities: {
+    image_generation: string;
+    image_editing: string;
+    vision: string;
+    ocr: boolean;
+    documents: string[];
+    notes: string[];
+    local_only: boolean;
+    requires_api_key: boolean;
+  };
+  operations: {
+    generate: string[];
+    edit: string[];
+    understand: string[];
+    documents: string[];
+  };
+  styles: string[];
+  transforms: string[];
+  honest_limits: string;
+}
+
+export interface UnderstandResult {
+  backend: string;
+  question: string;
+  description: string;
+  ocr_text: string;
+  stats: {
+    width: number;
+    height: number;
+    mode: string;
+    format: string;
+    aspect_ratio: number;
+    orientation: string;
+    mean_rgb: number[];
+    brightness: number;
+    contrast: number;
+    edge_density: number;
+    dominant_colors: { hex: string; share: number }[];
+    has_alpha: boolean;
+    file_bytes: number;
+  };
+}
+
+export interface DocumentResult {
+  kind: string;
+  text: string;
+  meta: Record<string, unknown>;
+  description: string;
+  duration_ms: number;
+}
