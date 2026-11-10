@@ -1,8 +1,9 @@
-"""JagX v12 — central configuration, loaded from environment variables.
+"""JagX v13 — central configuration, loaded from environment variables.
 
 Design rule: **nothing here is required to start the app.** With an empty
 environment JagX runs against a local Ollama on :11434 and needs no API key
-from any company.
+from any company. The multimodal engine follows the same rule: every image,
+vision and document capability has a local, key-free path.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 APP_NAME = "JagX AI"
-VERSION = "12.0.0"
+VERSION = "13.0.0"
 
 
 def _env(name: str, default: str = "") -> str:
@@ -105,6 +106,38 @@ class Settings:
     embedding_backend: str = field(default_factory=lambda: _env("JAGX_EMBEDDING_BACKEND", "auto"))
     embedding_model: str = field(default_factory=lambda: _env("JAGX_EMBEDDING_MODEL", "all-MiniLM-L6-v2"))
 
+    # --- multimodal: image generation (local, free, no API key) --------
+    # Tier 1 is a local diffusers checkpoint or a local ComfyUI server.
+    # Tier 2 is the built-in procedural renderer, which always works.
+    image_model: str = field(default_factory=lambda: _env("JAGX_IMAGE_MODEL", "stabilityai/sd-turbo"))
+    inpaint_model: str = field(default_factory=lambda: _env("JAGX_INPAINT_MODEL", ""))
+    image_negative: str = field(
+        default_factory=lambda: _env("JAGX_IMAGE_NEGATIVE", "blurry, low quality, watermark, text")
+    )
+    image_guidance: float = field(default_factory=lambda: _env_float("JAGX_IMAGE_GUIDANCE", 7.0))
+    image_max_side: int = field(default_factory=lambda: _env_int("JAGX_IMAGE_MAX_SIDE", 1024))
+    image_timeout: float = field(default_factory=lambda: _env_float("JAGX_IMAGE_TIMEOUT", 300.0))
+    enable_diffusion_edit: bool = field(
+        default_factory=lambda: _env_bool("JAGX_ENABLE_DIFFUSION_EDIT", True)
+    )
+    comfyui_url: str = field(default_factory=lambda: _env("JAGX_COMFYUI_URL", ""))
+    comfyui_checkpoint: str = field(
+        default_factory=lambda: _env("JAGX_COMFYUI_CHECKPOINT", "sd_xl_base_1.0.safetensors")
+    )
+
+    # --- multimodal: vision (local VLM on an OpenAI-compatible endpoint)
+    vision_model: str = field(default_factory=lambda: _env("JAGX_VISION_MODEL", ""))
+    vision_base_url: str = field(default_factory=lambda: _env("JAGX_VISION_BASE_URL", ""))
+    vision_timeout: float = field(default_factory=lambda: _env_float("JAGX_VISION_TIMEOUT", 120.0))
+
+    # --- multimodal: documents & OCR -----------------------------------
+    ocr_timeout: float = field(default_factory=lambda: _env_float("JAGX_OCR_TIMEOUT", 60.0))
+    doc_timeout: float = field(default_factory=lambda: _env_float("JAGX_DOC_TIMEOUT", 60.0))
+    doc_max_chars: int = field(default_factory=lambda: _env_int("JAGX_DOC_MAX_CHARS", 40000))
+    doc_max_bytes: int = field(default_factory=lambda: _env_int("JAGX_DOC_MAX_BYTES", 2_000_000))
+    doc_max_rows: int = field(default_factory=lambda: _env_int("JAGX_DOC_MAX_ROWS", 500))
+    upload_max_bytes: int = field(default_factory=lambda: _env_int("JAGX_UPLOAD_MAX_BYTES", 25_000_000))
+
     # --- http ----------------------------------------------------------
     cors_origins: list = field(default_factory=list)
     port: int = field(default_factory=lambda: _env_int("PORT", 8000))
@@ -188,6 +221,10 @@ class Settings:
 
     def local_providers(self) -> list[ProviderConfig]:
         return [p for p in self.providers() if p.local]
+
+    @property
+    def ollama_base_url(self) -> str:
+        return _env("OLLAMA_BASE_URL", "http://localhost:11434/v1")
 
 
 settings = Settings()

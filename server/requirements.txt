@@ -5,9 +5,30 @@ pydantic>=2.7.0
 PyJWT>=2.8.0
 python-multipart>=0.0.9
 
+# --- multimodal core (light, pure-python, no API key) ----------------------
+# These power the always-available local tier: image rendering and editing,
+# vision analysis, and document parsing.
+Pillow>=10.0.0
+numpy>=1.26.0
+pypdf>=4.0.0
+python-docx>=1.1.0
+openpyxl>=3.1.0
+
 # --- optional extras (all free, all local) ---------------------------------
 # Real semantic embeddings instead of the built-in hashed fallback:
 #   pip install sentence-transformers
+#
+# Real diffusion image generation (SD / SDXL / FLUX) instead of the built-in
+# procedural renderer:
+#   pip install torch diffusers accelerate
+#
+# Better background removal:
+#   pip install rembg
+#
+# Local vision-language model (also needs `ollama pull llava`):
+#   pip install ollama
+#
+# OCR needs the system binary:  apt-get install tesseract-ocr
 #
 # LoRA / QLoRA fine-tuning of an open-weight model on your own GPU:
 #   pip install torch transformers peft datasets trl bitsandbytes accelerate
