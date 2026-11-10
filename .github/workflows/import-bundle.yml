@@ -1,0 +1,96 @@
+name: Import JagX v13 bundle
+
+# One-shot importer. Pulls the JagX v13 source bundle and lays it down as a
+# clean tree in the repository using the workflow's own token.
+#
+# Runs manually (workflow_dispatch) or automatically when the marker file
+# .github/import-trigger.txt changes. Pushes made with GITHUB_TOKEN do not
+# re-trigger workflows, so this cannot loop.
+#
+# Delete this file (and the marker) once the import has landed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bundle_url:
+        description: "Public URL of the jagx-v13.tar.gz bundle"
+        required: true
+        default: "https://d.uguu.se/cZEFrmTE.tar.gz"
+      bundle_md5:
+        description: "Expected MD5 of the bundle (integrity check)"
+        required: true
+        default: "80fddb4381ed974c8cd77936d27d0dbd"
+  push:
+    paths:
+      - ".github/import-trigger.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      BUNDLE_URL: ${{ github.event.inputs.bundle_url || 'https://d.uguu.se/cZEFrmTE.tar.gz' }}
+      BUNDLE_MD5: ${{ github.event.inputs.bundle_md5 || '80fddb4381ed974c8cd77936d27d0dbd' }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download bundle
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 2 -o /tmp/jagx-v13.tar.gz "$BUNDLE_URL"
+          echo "downloaded $(stat -c%s /tmp/jagx-v13.tar.gz) bytes"
+
+      - name: Verify integrity
+        run: |
+          set -euo pipefail
+          actual=$(md5sum /tmp/jagx-v13.tar.gz | awk '{print $1}')
+          echo "md5=$actual expected=$BUNDLE_MD5"
+          if [ "$actual" != "$BUNDLE_MD5" ]; then
+            echo "::error::MD5 mismatch - refusing to import"
+            exit 1
+          fi
+
+      - name: Extract
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/extract
+          tar -xzf /tmp/jagx-v13.tar.gz -C /tmp/extract
+          test -f /tmp/extract/jagx-v13/README.md
+          echo "--- bundle tree (top) ---"
+          find /tmp/extract/jagx-v13 -maxdepth 2 | sort | head -60
+
+      - name: Lay down a clean v13 tree
+        run: |
+          set -euo pipefail
+          # Remove every legacy top-level entry except .git and .github
+          find . -mindepth 1 -maxdepth 1 \
+            -not -name '.git' -not -name '.github' \
+            -exec rm -rf {} +
+          cp -a /tmp/extract/jagx-v13/. ./
+          echo "--- imported tree ---"
+          find . -maxdepth 2 -not -path './.git/*' | sort | head -80
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name  "JagX Importer"
+          git config user.email "jagx-importer@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          git commit -m "feat: JagX v13 - multimodal autonomous agent (backend + frontend + docs)"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          echo "pushing to ${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "push ok"
