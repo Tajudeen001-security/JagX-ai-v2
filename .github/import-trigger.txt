@@ -1,0 +1,6 @@
+JagX v13 import trigger — 2026-11-10T06:28Z
+bundle: https://d.uguu.se/cZEFrmTE.tar.gz
+md5: 80fddb4381ed974c8cd77936d27d0dbd
+note: bundle excludes .github/ (GITHUB_TOKEN cannot push workflow files)
+note: importer now lays down a clean tree (removes legacy top-level entries)
+attempt: 1
