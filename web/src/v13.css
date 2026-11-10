@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Media Studio (v13)
+   ========================================================================== */
+
+.media-banner { border-left: 3px solid var(--border-strong); }
+.media-banner.ok { border-left-color: var(--ok); }
+
+.media-tabs {
+  display: flex; align-items: center; gap: var(--space-2);
+  margin: var(--space-4) 0; flex-wrap: wrap;
+}
+.media-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px; font-size: 12.5px; font-weight: 550;
+  background: var(--bg-elev); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 999px;
+  cursor: pointer; transition: all var(--dur-fast) var(--ease);
+}
+.media-tab:hover { background: var(--bg-hover); color: var(--text); }
+.media-tab.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-color: var(--accent);
+}
+
+.media-layout {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-4); align-items: start;
+}
+@media (max-width: 1100px) { .media-layout { grid-template-columns: 1fr; } }
+
+.media-panel, .media-preview { min-width: 0; }
+.media-preview { position: sticky; top: var(--space-4); }
+
+/* --- gallery grid -------------------------------------------------------- */
+.media-grid {
+  display: grid; gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+}
+.media-tile {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 0; background: transparent; border: none; cursor: pointer;
+  text-align: left;
+}
+.media-tile-frame {
+  position: relative; aspect-ratio: 1 / 1; overflow: hidden;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-elev-2);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.media-tile:hover .media-tile-frame { border-color: var(--accent); transform: translateY(-2px); }
+.media-tile-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media-tile-doc {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px;
+  color: var(--text-faint); font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+}
+.media-tile-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+/* --- preview stage ------------------------------------------------------- */
+.media-stage {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 220px; max-height: 460px; overflow: hidden;
+  background: var(--bg-elev-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: var(--space-3);
+}
+.media-stage img {
+  max-width: 100%; max-height: 430px; object-fit: contain;
+  border-radius: var(--radius-sm); display: block;
+}
+.media-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; min-height: 200px; color: var(--text-faint); font-size: 12.5px;
+}
+
+/* --- readouts ------------------------------------------------------------ */
+.media-readout {
+  font-size: 13px; line-height: 1.65; color: var(--text-dim);
+  background: var(--bg-elev-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: var(--space-4);
+  white-space: pre-wrap; word-break: break-word;
+}
+.media-pre {
+  font-family: var(--font-mono); font-size: 11.5px; line-height: 1.6;
+  background: var(--bg-elev-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: var(--space-4);
+  max-height: 320px; overflow: auto; white-space: pre-wrap;
+  word-break: break-word; margin: 0; color: var(--text-dim);
+}
+
+/* --- colour swatches ----------------------------------------------------- */
+.swatch { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.swatch span {
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong); display: block;
+}
+.swatch em { font-size: 9.5px; font-style: normal; color: var(--text-faint); font-family: var(--font-mono); }
+
+/* --- range inputs -------------------------------------------------------- */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none; height: 4px;
+  background: var(--bg-active); border-radius: 999px; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
+}
+
+/* --- chat attachments ---------------------------------------------------- */
+.attach-strip { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-2); }
+.attach-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 9px; font-size: 11.5px;
+  background: var(--bg-elev-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-dim);
+}
+.attach-chip img { width: 26px; height: 26px; object-fit: cover; border-radius: 4px; display: block; }
+.attach-chip button {
+  background: none; border: none; color: var(--text-faint);
+  cursor: pointer; padding: 0; display: flex;
+}
+.attach-chip button:hover { color: var(--danger); }
