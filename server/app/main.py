@@ -1,4 +1,4 @@
-"""JagX v12 — server entrypoint.
+"""JagX v13 — server entrypoint.
 
     uvicorn app.main:app --reload --port 8000
 """
@@ -9,11 +9,13 @@ import logging
 
 from .api import create_app
 from .config import APP_NAME, VERSION, settings
+from .media_api import router as media_router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("jagx")
 
 app = create_app()
+app.include_router(media_router)
 
 
 @app.on_event("startup")
