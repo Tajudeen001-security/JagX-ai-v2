@@ -1,8 +1,9 @@
-/** JagX v12 — API client. Token in localStorage, SSE via fetch + ReadableStream. */
+/** JagX v13 — API client. Token in localStorage, SSE via fetch + ReadableStream. */
 
 import type {
-  AgentEvent, AppConfig, Approval, Conversation, EvalSuite, ForgeStats,
-  Goal, Lesson, Memory, Message, Settings, User, Variant,
+  AgentEvent, AppConfig, Approval, Conversation, DocumentResult, EvalSuite, ForgeStats,
+  Goal, Lesson, MediaAsset, MediaCapabilities, MediaStats, Memory, Message, Settings,
+  UnderstandResult, User, Variant,
 } from "./types";
 
 const TOKEN_KEY = "jagx_token";
@@ -127,7 +128,57 @@ export const api = {
   settings: () => request<Settings>("/settings"),
   saveSettings: (values: Partial<Settings>) =>
     request<Settings>("/settings", { method: "PUT", body: JSON.stringify(values) }),
+
+  // --- multimodal ---------------------------------------------------------
+  mediaCapabilities: () => request<MediaCapabilities>("/media/capabilities"),
+  media: (kind = "") =>
+    request<{ media: MediaAsset[]; stats: MediaStats }>(`/media${kind ? `?kind=${kind}` : ""}`),
+  mediaDetail: (id: string) => request<MediaAsset>(`/media/${id}`),
+  generateImage: (body: {
+    prompt: string; width?: number; height?: number; steps?: number;
+    seed?: number | null; style?: string; negative?: string;
+  }) => request<MediaAsset>("/media/generate", { method: "POST", body: JSON.stringify(body) }),
+  editImage: (id: string, body: {
+    operation: string; prompt?: string; box?: number[] | null; direction?: string;
+    amount?: number; factor?: number; style?: string; tolerance?: number;
+    degrees?: number; width?: number; height?: number;
+  }) => request<MediaAsset>(`/media/${id}/edit`, { method: "POST", body: JSON.stringify(body) }),
+  understandImage: (id: string, question = "") =>
+    request<UnderstandResult>(`/media/${id}/understand`, { method: "POST", body: JSON.stringify({ question }) }),
+  readDocument: (id: string) => request<DocumentResult>(`/media/${id}/read`, { method: "POST" }),
+  deleteMedia: (id: string) => request<{ ok: boolean }>(`/media/${id}`, { method: "DELETE" }),
+
+  /** Multipart upload — bypasses the JSON request helper. */
+  uploadMedia: async (file: File): Promise<MediaAsset> => {
+    const token = getToken();
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch("/api/media/upload", {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: form,
+    });
+    if (!res.ok) {
+      let detail = `Upload failed (${res.status})`;
+      try {
+        const body = await res.json();
+        if (body?.detail) detail = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail);
+      } catch { /* keep default */ }
+      throw new ApiError(detail, res.status);
+    }
+    return (await res.json()) as MediaAsset;
+  },
 };
+
+/** Absolute URL for an asset's raw bytes (used in <img src>). */
+export function mediaUrl(id: string): string {
+  return `/api/media/${id}/raw`;
+}
+
+/** Absolute URL for an asset's thumbnail. */
+export function mediaThumbUrl(id: string): string {
+  return `/api/media/${id}/thumb`;
+}
 
 /**
  * Stream an agent run. Calls `onEvent` for every SSE event.

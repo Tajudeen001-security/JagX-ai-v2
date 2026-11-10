@@ -91,3 +91,30 @@ export const IconChart = ({ size = 18, className }: P) => (
 export const IconCopy = ({ size = 15, className }: P) => (
   <svg {...base(size)} className={className}><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
 );
+export const IconImage = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9.5" r="1.6" /><path d="m4 17 5-5 4 4 3-3 4 4" /></svg>
+);
+export const IconUpload = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M12 16V4M7 9l5-5 5 5" /><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>
+);
+export const IconWand = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="m4 20 10-10" /><path d="M14 4v3M18.5 5.5 16.4 7.6M20 10h-3M18.5 14.5l-2.1-2.1" /><path d="m13 7 4 4" /></svg>
+);
+export const IconEye = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z" /><circle cx="12" cy="12" r="2.8" /></svg>
+);
+export const IconFile = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /></svg>
+);
+export const IconDownload = ({ size = 16, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M12 4v12M7 11l5 5 5-5" /><path d="M4 20h16" /></svg>
+);
+export const IconCrop = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M6 2v14a2 2 0 0 0 2 2h14" /><path d="M2 6h14a2 2 0 0 1 2 2v14" /></svg>
+);
+export const IconPalette = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.1 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.3-9-7.3Z" /><circle cx="7.5" cy="11.5" r="1.2" /><circle cx="10.5" cy="7.5" r="1.2" /><circle cx="15" cy="8.5" r="1.2" /></svg>
+);
+export const IconExpand = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}><path d="M9 3H3v6M15 21h6v-6M3 15v6h6M21 9V3h-6" /></svg>
+);
